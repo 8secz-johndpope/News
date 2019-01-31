@@ -1,0 +1,9 @@
+include ':app',  /*':video',*/ ':data',
+        ':service',
+        ':base',
+        ':theme',
+        ':model'
+
+
+
+/*, ':apt', ':plugin'，':data'*/

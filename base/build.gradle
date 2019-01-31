@@ -1,0 +1,57 @@
+apply plugin: 'com.android.library'
+android {
+    compileSdkVersion build_info.target_sdk
+
+    defaultConfig {
+        minSdkVersion               build_info.min_sdk
+        targetSdkVersion            build_info.target_sdk
+        versionCode                 app.versionCode
+        versionName                 app.versionName
+    }
+
+
+    lintOptions {
+        abortOnError false
+        quiet true
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'
+        //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+repositories {
+    flatDir { dirs 'libs' }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api uiDep.design
+    api uiDep.percent
+    api uiDep.constraint
+    api uiDep.recyclerView
+    api uiDep.cardview
+    api uiDep.glide
+    api uiDep.androidAnnotations
+    api uiDep.support
+
+    api uiDep.styleableToast
+
+    api 'com.github.todou:appbarspring:1.0.3'
+    api project(':theme')
+
+    api project(':service')
+    api project(':model')
+
+}

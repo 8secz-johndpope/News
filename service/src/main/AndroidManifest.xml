@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.heaven.service">
+
+    <application
+        android:allowBackup="true"
+        android:persistent="true"
+        android:supportsRtl="true"
+        >
+        <service
+            android:name=".myservice.WorkerService"
+            android:permission="true"
+            android:process="com.heaven.service"
+            >
+            <intent-filter android:priority="1000">
+                <action android:name="com.heaven.workerService"/>
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

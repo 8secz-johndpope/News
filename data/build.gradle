@@ -1,0 +1,59 @@
+apply plugin: 'com.android.library'
+apply plugin: 'realm-android'
+android {
+    compileSdkVersion build_info.target_sdk
+    defaultConfig {
+        minSdkVersion               build_info.min_sdk
+        targetSdkVersion            build_info.target_sdk
+        versionCode                 app.versionCode
+        versionName                 app.versionName
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'  // Some libraries have issues with this
+        disable 'OldTargetApi'
+        // Due to Robolectric that modifies the manifest when running tests
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    api netDep.rxJavaAdapter
+    api netDep.rxAndroid
+    api netDep.retrofit
+    api netDep.logger
+    api netDep.loggingInterceptor
+    api netDep.protostuffcore
+    api netDep.protostuffruntime
+    api(netDep.converterxml)
+            {
+                exclude module: 'stax'
+                exclude module: 'stax-api'
+                exclude module: 'xpp3'
+            }
+    api netDep.convertergson
+}
