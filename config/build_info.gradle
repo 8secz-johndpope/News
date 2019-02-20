@@ -6,7 +6,7 @@ ext.deps = [:]
 
 /*应用编译sdk相关版本*/
 def build_info = [:]
-build_info.min_sdk = 16
+build_info.min_sdk = 15
 build_info.target_sdk = 28
 build_info.build_tools = "26.0.2"
 build_info.grandle = 'com.android.tools.build:gradle:3.2.1'
@@ -32,6 +32,7 @@ versions.glideVersion = "3.7.0"
 versions.styleableToastVersion = "1.0.6"
 versions.daggerVersion = '2.11'
 versions.butterKnifeVersion = '7.0.1'
+versions.lifecycle = '1.0.0'
 /*********************uiversion*******************/
 
 /*********************otherversion*******************/
@@ -80,6 +81,11 @@ uiDep.dagger = "com.google.dagger:dagger:$versions.daggerVersion"
 uiDep.butterKnife = "com.jakewharton:butterknife:$versions.butterKnifeVersion"
 uiDep.styleableToast = "com.muddzdev:styleabletoast:$versions.styleableToastVersion"
 uiDep.exoplayer = 'com.google.android.exoplayer:exoplayer:2.8.0'
+
+def archDep = [:]
+archDep.extensions = "android.arch.lifecycle:extensions:$versions.lifecycle"
+archDep.compiler = "android.arch.lifecycle:compiler:$versions.lifecycle"
+
 
 def uiTestDep = [:]
 uiTestDep.mockito = "org.mockito:mockito-core:$versions.mockitoVersion"
