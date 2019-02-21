@@ -18,7 +18,7 @@ import io.protostuff.runtime.RuntimeSchema;
  * email: heavenisme@aliyun.com
  * date: 2018-12-04 21:13
  *
- * @version V1.0 TODO <描述当前版本功能>
+ * @version V1.0 proto协议工具类
  */
 public class ProtoStuffUtil {
     private static Map<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<Class<?>, Schema<?>>();
