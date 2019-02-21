@@ -25,6 +25,7 @@ ext.app = app
 /*应用版本*/
 
 def versions = [:]
+
 /*********************uiversion*******************/
 versions.viewExtraVersion = "28.0.0"
 versions.constraintVersion = "1.0.2"

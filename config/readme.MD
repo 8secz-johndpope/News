@@ -29,3 +29,7 @@ com.novoda.gradle.release.AndroidLibrary$LibraryUsage.getDependencyConstraints()
 
 2.升级bintray 插件版本 。先前是0.5  改为0.8    classpath 'com.novoda:bintray-release:0.8.0'
 3.降级gradle 版本。   显示是3.2.1 改为 3.0.3  classpath 'com.android.tools.build:gradle:3.0.1'
+
+通过android studio 工具上传binary
+clean build generatePomFileForReleasePublication releaseAndroidJavadocs releaseAndroidJavadocsJar releaseAndroidSourcesJar publishReleasePublicationToMavenLocal
+ bintrayUpload -PbintrayUser=heavenisme -PbintrayKey=7cc9544665f4481cd5dc9290148f12f638f2963a -PdryRun=false
