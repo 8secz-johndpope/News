@@ -9,10 +9,16 @@ def build_info = [:]
 build_info.min_sdk = 15
 build_info.target_sdk = 28
 build_info.build_tools = "26.0.2"
-build_info.grandle = 'com.android.tools.build:gradle:3.2.1'
 build_info.isModel = false //是否组件化编译
 ext.build_info = build_info
 /*应用编译sdk相关版本*/
+
+build_info.grandle = 'com.android.tools.build:gradle:3.3.1'
+build_info.realm = 'io.realm:realm-gradle-plugin:5.9.0'
+build_info.retrolambda = 'me.tatarka:gradle-retrolambda:3.7.0'
+build_info.bintray = 'com.novoda:bintray-release:0.9'
+//格式为-->group:module:version
+build_info.heaven = 'com.heaven.plugin:heaven:1.0.2'
 
 /*应用版本*/
 def app = [:]
