@@ -1,4 +1,7 @@
-include ':app',  /*':video',*/ ':data',
+include ':app',
+        ':baseui',
+        /*':video',*/
+        ':data',
         ':service',
         ':base',
         ':theme',

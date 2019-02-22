@@ -20,7 +20,6 @@
 .idea/vcs.xml
 app/libs/
 data/libs/
-gradle.properties
 gradle/
 gradlew
 gradlew.bat

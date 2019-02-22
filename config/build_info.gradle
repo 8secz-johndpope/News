@@ -33,7 +33,7 @@ versions.glideVersion = "3.7.0"
 versions.styleableToastVersion = "1.0.6"
 versions.daggerVersion = '2.11'
 versions.butterKnifeVersion = '7.0.1'
-versions.lifecycle = '1.0.0'
+versions.lifecycle = '1.1.1'
 /*********************uiversion*******************/
 
 /*********************otherversion*******************/
@@ -140,6 +140,7 @@ netTestDep.robolectric = "org.robolectric:robolectric:$versions.robolectricVersi
 def developmentDep = [:]
 developmentDep.leakCanary = "com.squareup.leakcanary:leakcanary-android:$versions.leakCanaryVersion"
 
+ext.archDep = archDep
 ext.uiDep = uiDep
 ext.uiTestDep = uiTestDep
 ext.domainDep = domainDep
