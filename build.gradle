@@ -3,10 +3,6 @@ apply from: 'config/ci.gradle'
 buildscript {
     apply from: 'config/build_info.gradle'
     addRepos(repositories)
-//    repositories {
-//        google()
-//        jcenter()
-//    }
     dependencies {
         classpath build_info.grandle
         classpath build_info.realm
@@ -16,6 +12,10 @@ buildscript {
         classpath build_info.heaven
         // NOTE: Do not place your application dependen／cies here; they belong
         // in the individual module build.gradle files
+        classpath('com.stanfy.spoon:spoon-gradle-plugin:1.2.2') {
+            exclude module: 'guava'
+        }
+        classpath 'com.google.guava:guava:18.0'
     }
     repositories {
         google()
@@ -41,4 +41,22 @@ task clean(type: Delete) {
 // 指定javadoc UTF-8格式
 task javadoc(type: Javadoc) {
     options.encoding = "utf-8"
+}
+
+task compileJava {}
+
+task runDomainUnitTests(dependsOn: [':model:test']) {
+    description 'Run unit tests for the domain layer.'
+}
+
+task runDataUnitTests(dependsOn: [':data:cleanTestDebugUnitTest', ':data:testDebugUnitTest']) {
+    description 'Run unit tests for the data layer.'
+}
+
+task runUnitTests(dependsOn: ['runModelUnitTests', 'runDataUnitTests']) {
+    description 'Run unit tests for both domain and data layers.'
+}
+
+task runAcceptanceTests(dependsOn: [':app:connectedAndroidTest']) {
+    description 'Run application acceptance tests.'
 }
