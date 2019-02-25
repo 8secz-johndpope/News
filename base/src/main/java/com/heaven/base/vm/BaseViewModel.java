@@ -1,18 +1,28 @@
 package com.heaven.base.vm;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import android.support.annotation.NonNull;
+
+import com.heaven.base.presenter.BasePresenter;
 
 /**
  * FileName: com.heaven.base.vm.BaseViewModel.java
  * author: Heaven
  * email: heavenisme@aliyun.com
- * date: 2019-02-01 13:13
+ * date: 2019-02-25 13:56
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class BaseViewModel<T> extends ViewModel {
-    LiveData<T> liveData = new MutableLiveData<>();
-    SingleLiveEvent<T>  singleLiveEvent = new SingleLiveEvent<>();
+public class BaseViewModel<P extends BasePresenter> extends AndroidViewModel {
+   protected P mPresenter;
+
+
+    public BaseViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public void setPresenter(P presenter) {
+        this.mPresenter = presenter;
+    }
 }

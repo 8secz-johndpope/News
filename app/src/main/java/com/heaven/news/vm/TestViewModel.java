@@ -3,7 +3,7 @@ package com.heaven.news.vm;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
-import com.heaven.base.ui.activity.BaseViewModel;
+import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.pt.TestPt;
 
 /**

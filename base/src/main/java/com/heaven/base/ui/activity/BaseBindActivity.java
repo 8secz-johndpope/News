@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -13,9 +12,9 @@ import android.view.View;
 
 import com.heaven.base.R;
 import com.heaven.base.presenter.BasePresenter;
-import com.heaven.base.presenter.IView;
 import com.heaven.base.ui.SpUtil;
 import com.heaven.base.ui.view.widget.SwipeBackLayout;
+import com.heaven.base.vm.BaseViewModel;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
