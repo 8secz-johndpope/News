@@ -15,7 +15,7 @@ import com.heaven.base.presenter.BasePresenter;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class BaseViewModel<P extends BasePresenter> extends AndroidViewModel {
-    P mPresenter;
+   protected P mPresenter;
 
     public BaseViewModel(@NonNull Application application) {
         super(application);
