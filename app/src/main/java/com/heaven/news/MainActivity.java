@@ -3,11 +3,26 @@ package com.heaven.news;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.heaven.base.ui.activity.BaseBindActivity;
+import com.heaven.news.databinding.ActivityMainBinding;
+import com.heaven.news.pt.TestPt;
+import com.heaven.news.vm.TestViewModel;
+
+public class MainActivity extends BaseBindActivity<TestPt,TestViewModel, ActivityMainBinding> {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
     }
+
+    @Override
+    public int initLayoutResId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
 }

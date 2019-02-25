@@ -54,7 +54,7 @@ public abstract class BaseBindActivity<P extends BasePresenter, VM extends BaseV
      */
     private void analyseGenerics() {
         Type type = this.getClass().getGenericSuperclass();
-        if (this instanceof IView && type instanceof ParameterizedType) {
+        if (type instanceof ParameterizedType) {
             Type[] typeArr = ((ParameterizedType) type).getActualTypeArguments();
             if (typeArr.length > 0) {
                 for (Type clazzType : typeArr) {
@@ -108,5 +108,11 @@ public abstract class BaseBindActivity<P extends BasePresenter, VM extends BaseV
         AppCompatDelegate.setDefaultNightMode(SpUtil.isNight() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
         recreate();
+    }
+
+
+    @Override
+    public void onInitPresenters() {
+
     }
 }
