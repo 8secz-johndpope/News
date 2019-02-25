@@ -14,6 +14,8 @@ public interface IBaseActivity {
      */
     int initLayoutResId();
 
+    Class initViewModel();
+
     void initView();
 
     void onInitVm();

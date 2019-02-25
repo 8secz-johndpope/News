@@ -1,5 +1,4 @@
 include ':app',
-        ':baseui',
         /*':video',*/
         ':data',
         ':service',

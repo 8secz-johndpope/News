@@ -8,9 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.heaven.base.vm.BaseContextViewModel;
 import com.heaven.base.vm.BaseViewModel;
-import android.arch.lifecycle.Observer;
+
 import android.view.View;
 
 import java.lang.reflect.ParameterizedType;
@@ -24,7 +23,7 @@ import java.lang.reflect.Type;
  *
  * @version V1.0 viewbind基础类
  */
-public abstract class BaseBindActivity<VM extends BaseContextViewModel, VB extends ViewDataBinding> extends AppCompatActivity implements IBaseActivity {
+public abstract class BaseBindActivity<VM extends BaseViewModel, VB extends ViewDataBinding> extends AppCompatActivity implements IBaseActivity {
     protected VM mViewModel;
     protected VB mViewBind;
 
@@ -38,7 +37,6 @@ public abstract class BaseBindActivity<VM extends BaseContextViewModel, VB exten
                         .getGenericSuperclass())).getActualTypeArguments()[1];
                 ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication());
                 mViewModel = (VM) ViewModelProviders.of(this, factory).get(viewModel);
-//                mViewModel.liveData.observe(this,this);
             }
         }
     }
@@ -48,8 +46,6 @@ public abstract class BaseBindActivity<VM extends BaseContextViewModel, VB exten
         super.onCreate(savedInstanceState);
         View rootView = getLayoutInflater().inflate(this.initLayoutResId(), null, false);
         mViewBind = DataBindingUtil.bind(rootView);
-
-//        ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())
     }
 
 
