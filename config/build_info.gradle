@@ -13,14 +13,16 @@ build_info.isModel = false //是否组件化编译
 ext.build_info = build_info
 /*应用编译sdk相关版本*/
 
+/*插件信息*/
 build_info.grandle = 'com.android.tools.build:gradle:3.3.1'
 build_info.realm = 'io.realm:realm-gradle-plugin:5.9.0'
 build_info.retrolambda = 'me.tatarka:gradle-retrolambda:3.7.0'
 build_info.bintray = 'com.novoda:bintray-release:0.9'
 //格式为-->group:module:version
 build_info.heaven = 'com.heaven.plugin:heaven:1.0.2'
+/*插件信息*/
 
-/*应用版本*/
+/*应用信息*/
 def app = [:]
 app.applicationId = "com.heaven.news"
 app.testApplicationId = "com.heaven.news.test"
@@ -28,10 +30,10 @@ app.versionCode = 1
 app.versionName = "1.0.1"
 app.test = "android.support.test.runner.AndroidJUnitRunner"
 ext.app = app
-/*应用版本*/
+/*应用信息*/
 
+/*依赖版本信息*/
 def versions = [:]
-
 /*********************uiversion*******************/
 versions.viewExtraVersion = "28.0.0"
 versions.constraintVersion = "1.0.2"
