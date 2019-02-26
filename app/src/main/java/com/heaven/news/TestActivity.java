@@ -9,6 +9,7 @@ import com.heaven.news.pt.TestPt;
  * email: heavenisme@aliyun.com
  * date: 2019-02-25 17:42
  *
+ * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class TestActivity extends BaseBindActivity {
