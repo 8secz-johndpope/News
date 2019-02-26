@@ -1,52 +1,276 @@
 apply plugin: 'com.android.application'
+apply plugin: 'heaven'
+apply plugin: 'realm-android'
+//apply from: '../config/quality.gradle'
+def fileArray = []
 android {
     compileSdkVersion build_info.target_sdk
+
     defaultConfig {
-        applicationId app.applicationId
-        minSdkVersion build_info.min_sdk
-        targetSdkVersion build_info.target_sdk
-        versionCode app.versionCode
-        versionName app.versionName
-        testInstrumentationRunner app.test
+        resValue "string", "build_time", buildTime()
+        resValue "string", "build_host", hostName()
+        resValue "string", "build_revision", revision()
+
+        minSdkVersion               build_info.min_sdk
+        targetSdkVersion            build_info.target_sdk
+
+        applicationId               app.applicationId
+        testApplicationId           app.testApplicationId
+        versionCode                 app.versionCode
+        versionName                 app.versionName
+        testInstrumentationRunner   app.test
+
+        renderscriptTargetApi build_info.target_sdk
+        renderscriptSupportModeEnabled true
+        vectorDrawables.useSupportLibrary = true
+
+        multiDexEnabled true
+
+        ndk {
+            //设置支持的SO库架构
+            abiFilters "armeabi","armeabi-v7a", "x86", "mips"
+        }
     }
 
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    splits {
+        // Split apks on build target ABI, view all options for the splits here:
+        // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+        // 按屏幕尺寸
+//        density {
+//            enable false
+//
+//            // 默认包含全部分辨率, 这里是剔除一些我们不要的
+//            exclude "ldpi", "mdpi", "xxxhdpi", "400dpi", "560dpi", "tvdpi"
+//        }
+
+        abi {
+            enable false
+            reset() //使用 `reset()` 后, 我们就相当于不包含任何架构,这种情况下我们就可以通过 `include` 指定想要使用的架构
+            include /*'armeabi', */'armeabi-v7a', 'arm64-v8a'/*, 'mips', 'x86', 'x86_64'*/
+            universalApk true
+        }
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     packagingOptions {
-        exclude 'LICENSE.txt'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
     }
 
+    dexOptions {
+        preDexLibraries = false
+
+        javaMaxHeapSize "2g"
+        //加快编译速度
+//        incremental true
+    }
+
+//    task wrapper(wx_type: Wrapper) {
+//        gradleVersion = '2.4'
+//    }
+
     lintOptions {
-        quiet true
         abortOnError false
+        quiet true
         ignoreWarnings true
-        disable 'InvalidPackage'  // Some libraries have issues with this
+        disable 'InvalidPackage'            //Some libraries have issues with this.
         disable 'OldTargetApi'
-        // Due to Robolectric that modifies the manifest when running tests
+        //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('config/secret.properties').newDataInputStream())
+    signingConfigs {
+        debug {
+            keyAlias properties.getProperty("DEBUG_KEYALIAS")
+            keyPassword properties.getProperty("DEBUG_KEYPASSWORD")
+            storePassword properties.getProperty("DEBUG_STOREPASSWORD")
+            storeFile file(properties.getProperty("DEBUG_STORE_FILE"))
+        }
+        release {
+            keyAlias properties.getProperty("RELEASE_KEYALIAS")
+            keyPassword properties.getProperty("RELEASE_KEYPASSWORD")
+            storePassword properties.getProperty("RELEASE_STOREPASSWORD")
+            storeFile file(properties.getProperty("RELEASE_STORE_FILE"))
+        }
     }
 
     buildTypes {
         release {
+            buildConfigField "String", "ROOT_URL", '"http://localhost/"'
+            buildConfigField "String", "CHAT_ROOT_URL", '"http://ifilmo.me:8080/"'
+            buildConfigField "String", "QQ_APP_ID", '""'
+            buildConfigField "String", "WX_APP_ID", '"wxce1a7065bfc5d09e"'
+            buildConfigField "String", "WX_APP_SECRET", '"66811ce8142dd4a803a5c8e5020b6675"'
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+//            buildConfigField "String", "ROOT_URL", '"http://api.ifilmo.com/ifilmo-toc/"'
+//            buildConfigField "String", "ROOT_URL", '"http://120.76.211.202:9098/ifilmo-toc/"'
+//            buildConfigField "String", "CHAT_ROOT_URL", '"http://ifilmo.me:8080/"'
+            versionNameSuffix "release"
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+//            proguardFiles '../config/proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+//            applicationIdSuffix ".test"
+//            http://mobile.shenzhenair.com/szairMobileWS/
+//            http://m.shenzhenair.com/develop/szairMobileWS/
+//            buildConfigField "String", "ROOT_URL", '"http://47.90.2.202:8090/ifilmo-toc/"'
+            buildConfigField "String", "ROOT_URL", '"http://localhost/"'
+            buildConfigField "String", "QQ_APP_ID", '""'
+            buildConfigField "String", "WX_APP_ID", '"wxce1a7065bfc5d09e"'
+            buildConfigField "String", "WX_APP_SECRET", '"66811ce8142dd4a803a5c8e5020b6675"'
+//            buildConfigField "String", "ROOT_URL", '"http://www.webxml.com.cn/WebServices/"'
+//            buildConfigField "String", "ROOT_URL", '" http://m.shenzhenair.com/develop/szairMobileWS/services/"'
+            buildConfigField "String", "CHAT_ROOT_URL", '"http://47.89.42.150:8080/"'
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            versionNameSuffix "debug"
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+            shrinkResources false
+            signingConfig signingConfigs.debug
+
+//            project.rootProject.file('config/secret.properties')
+//            proguardFiles  '../config/proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding {
-        enabled = true
+    flavorDimensions "versionCode"
+    productFlavors {
+        xiaomi {
+            dimension "versionCode"
+        }
+        baidu {
+            dimension "versionCode"
+        }
+    }
+
+
+    //遍历输出文件
+    android.applicationVariants.all { variant ->
+        fileArray.clear()
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            println outputFile.name
+            outputFile.setReadable(true)
+            outputFile.setWritable(true)
+            if (outputFile != null && outputFile.name.endsWith('release.apk')) {
+                def fileName = rootProject.getName() + "_v${defaultConfig.versionName}.${defaultConfig.versionCode}" +
+                        "_${variant.productFlavors[0].name}_${buildTime()}_relsase.apk"
+                outputFileName = fileName
+                def filePath = outputFile.parentFile.absolutePath + File.separator+"build" + File.separator + "outputs" + File.separator + "apk"
+//                outputFile.canonicalPath = filePath
+                //往数组添加输出的文件路径
+                fileArray.add(filePath + File.separator + fileName)
+                println fileName + filePath
+            } else {
+                def fileName = rootProject.getName() + "_v${defaultConfig.versionName}.${defaultConfig.versionCode}" +
+                        "_${variant.productFlavors[0].name}_${buildTime()}_debug.apk"
+                outputFileName = fileName
+                def filePath = outputFile.parentFile.absolutePath + File.separator+"build" + File.separator + "outputs" + File.separator + "apk"
+//                outputFile.absolutePath = filePath
+                //往数组添加输出的文件路径
+                fileArray.add(filePath + File.separator + fileName)
+                println fileName + filePath
+            }
+        }
     }
 }
 
+//build {
+//    doLast() {
+//        //遍历文件数组并进行操作
+//        forEachFile(fileArray)
+//        println 'doLast'
+//    }
+//}
+//
+////assembleRelease命令加入这段代码
+//project.afterEvaluate {
+//
+//    tasks.getByName("assembleRelease").doLast {
+//        println 'forEachFile assembleRelease'
+//        forEachFile(fileArray)
+//    }
+//
+//    tasks.getByName("assembleDebug").doLast {
+//        println 'assembleDebug assembleRelease'
+//        forEachFile(fileArray)
+//    }
+//    assembleRelease.doLast {
+//        //遍历文件数组并进行操作
+//        forEachFile(fileArray)
+//    }
+//}
+
+def forEachFile(fileArray) {
+    println 'forEachFile'
+    fileArray.forEach { file ->
+        //遍历进行文件操作
+        rename_andd_moveout_apk(file)
+    }
+}
+
+
+def rename_andd_moveout_apk(orignalFile) {
+    def intoFile = rootDir.parentFile.getAbsolutePath()+File.separator+"apk"
+    copy {
+        from orignalFile
+        into intoCodeFile
+        rename("${android.defaultConfig.versionName}_${android.defaultConfig.versionCode}_", "")
+    }
+}
+
+static def buildTime() {
+    return new Date().format("yyyy_MM_dd_HHmm", TimeZone.getTimeZone("UTC"))
+}
+
+static def hostName() {
+    return System.getProperty("user.name") + "@" + InetAddress.localHost.hostName
+}
+
+def revision() {
+    def code = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = code
+    }
+    return code.toString()
+}
+
+repositories {
+    flatDir { dirs 'libs' }
+}
+
+
 dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
     api project(':base')
 //    api project(':video')
     annotationProcessor uiDep.daggerCompiler
     api uiDep.dagger
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //Development
+//    compile developmentDependencies.leakCanary
 }

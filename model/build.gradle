@@ -33,7 +33,7 @@ android {
     }
 
     dependencies {
-        implementation(netDep.converterxml)
+        api(netDep.converterxml)
                 {
                     exclude module: 'stax'
                     exclude module: 'stax-api'

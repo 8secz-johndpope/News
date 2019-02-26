@@ -41,5 +41,5 @@ android {
 dependencies {
 //    api 'com.heaven.data:datasource:1.0.1'
     api project(':data')
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
 }
