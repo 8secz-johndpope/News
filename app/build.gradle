@@ -174,9 +174,9 @@ android {
                 def fileName
                 if (variant.buildType.name == "release") {
                     // 输出apk名称为
-                    fileName = rootProject.getName() + "_vcode_${defaultConfig.versionCode}" + "_vname${defaultConfig.versionName}" + "_${variant.productFlavors[0].name}_${releaseTime()}_&${hostName()}_${revision()}_relsase.apk"
+                    fileName = rootProject.getName() + "_vcode_${defaultConfig.versionCode}" + "_vname${defaultConfig.versionName}" + "_${variant.productFlavors[0].name}_${releaseTime}_&${hostName}_${revision}_relsase.apk"
                 } else {
-                    fileName = rootProject.getName()+ "_vcode${defaultConfig.versionCode}"+ "_vname${defaultConfig.versionName}" + "_${variant.productFlavors[0].name}_${buildTime()}_&${hostName()}_${revision()}_debug.apk"
+                    fileName = rootProject.getName()+ "_vcode${defaultConfig.versionCode}"+ "_vname${defaultConfig.versionName}" + "_${variant.productFlavors[0].name}_${buildTime}_&${hostName}_${revision}_debug.apk"
                 }
                 outputFileName = fileName
             }
@@ -184,28 +184,6 @@ android {
         }
     }
 
-}
-
-//获取编译时间
-static def releaseTime() {
-    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("UTC"))
-}
-
-static def buildTime() {
-    return new Date().format("yyyy_MM_dd_HHmm", TimeZone.getTimeZone("UTC"))
-}
-
-static def hostName() {
-    return System.getProperty("user.name") + "@" + InetAddress.localHost.hostName
-}
-
-def revision() {
-    def code = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'rev-parse', '--short', 'HEAD'
-        standardOutput = code
-    }
-    return code.toString()
 }
 
 repositories {

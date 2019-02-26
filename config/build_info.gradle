@@ -173,6 +173,9 @@ def static addRepos(RepositoryHandler handler) {
 
 }
 
+static def releaseTime() {
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("UTC"))
+}
 static def buildTime() {
     return new Date().format("yyyy_MM_dd_HHmm", TimeZone.getTimeZone("UTC"))
 }
@@ -181,7 +184,7 @@ static def hostName() {
     return System.getProperty("user.name") + "@" + InetAddress.localHost.hostName
 }
 
-static def revision() {
+def revision() {
     def code = new ByteArrayOutputStream()
     exec {
         commandLine 'git', 'rev-parse', '--short', 'HEAD'
@@ -191,6 +194,7 @@ static def revision() {
 }
 
 ext.addRepos = this.&addRepos
+ext.releaseTime = this.&releaseTime
 ext.buildTime = this.&buildTime
 ext.hostName = this.&hostName
 ext.revision = this.&revision
