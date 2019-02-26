@@ -10,6 +10,7 @@ build_info.min_sdk = 15
 build_info.target_sdk = 28
 build_info.build_tools = "26.0.2"
 build_info.isModel = false //是否组件化编译
+build_info.proguard = '../config/proguard-rules.pro'
 ext.build_info = build_info
 /*应用编译sdk相关版本*/
 
