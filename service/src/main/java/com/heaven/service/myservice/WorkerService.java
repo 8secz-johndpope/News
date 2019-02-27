@@ -23,6 +23,7 @@ import com.heaven.service.aidl.MediaFolder;
 import com.heaven.service.media.MediaManager;
 import com.orhanobut.logger.Logger;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +62,13 @@ public class WorkerService extends Service implements MediaManager.LocalMediaLoa
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent != null) {
             String baseNetUrl = intent.getStringExtra("url");
-            dataSource = DataSource.getInstance(this,baseNetUrl);
+            DataSource.Builder builder = new DataSource.Builder();
+            try {
+                builder.addNetRepo(this,baseNetUrl);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            dataSource = builder.build();
             Logger.i("onStartCommand---" + baseNetUrl);
         }
         return START_STICKY;

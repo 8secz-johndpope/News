@@ -41,6 +41,10 @@ import static com.heaven.data.net.NetGlobalConfig.PROTOTYPE.*;
  */
 
 public class NetGlobalConfig {
+    public static String HTTPS = "https";
+    public static String HTTP = "http";
+
+
     public static Headers HEADERS;
 
     public static String BASETURL;
@@ -86,6 +90,7 @@ public class NetGlobalConfig {
         WIRE,
         SCALARS
     }
+
 
     static {
         Headers.Builder headerBuilder = new Headers.Builder();

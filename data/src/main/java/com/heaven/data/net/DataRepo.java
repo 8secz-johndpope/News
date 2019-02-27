@@ -97,7 +97,6 @@ public class DataRepo {
     }
 
     public static final class Builder {
-        public Retrofit retrofit;
         Context context;
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder();
