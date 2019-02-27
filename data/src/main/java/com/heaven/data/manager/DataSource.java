@@ -57,8 +57,7 @@ public class DataSource {
 
     private void initNetConfig(String baseNetUrl) {
         NetGlobalConfig.BASETURL = baseNetUrl;
-        NetGlobalConfig.PROTOCOL = NetGlobalConfig.PROTOCOLTYPE.JSON;
-        NetGlobalConfig.BASETURL = baseNetUrl;
+        NetGlobalConfig.PROTOCOL = NetGlobalConfig.PROTOTYPE.JSON;
     }
 
     /**

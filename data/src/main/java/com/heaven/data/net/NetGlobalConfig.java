@@ -1,5 +1,6 @@
 package com.heaven.data.net;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -31,7 +32,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
-import static com.heaven.data.net.NetGlobalConfig.PROTOCOLTYPE.*;
+import static com.heaven.data.net.NetGlobalConfig.PROTOTYPE.*;
 
 /**
  * 作者:Heaven
@@ -55,7 +56,7 @@ public class NetGlobalConfig {
     public static int MAX_STALE = 60 * 60 * 24;
     public static int TIMEOUT = 20;
 
-    public static PROTOCOLTYPE PROTOCOL = JSON;
+    public static PROTOTYPE PROTOCOL = JSON;
 
     public static boolean CACHE_ABLE = true;
     public static int CACHEMAXAGE = Integer.MAX_VALUE / 2;
@@ -70,8 +71,20 @@ public class NetGlobalConfig {
      */
     private String tokenKey = "token";
 
-    public enum PROTOCOLTYPE {
-        JSON, XML, PROTOBUF, JACKSON, MOSHI, WIRE, SCALARS
+    public enum PROTOTYPE {
+        /**
+         * json协议
+         * xml协议
+         * proto协议
+         * jackson协议
+         */
+        JSON,
+        XML,
+        PROTOBUF,
+        JACKSON,
+        MOSHI,
+        WIRE,
+        SCALARS
     }
 
     static {
@@ -163,6 +176,7 @@ public class NetGlobalConfig {
         }
     }
 
+    @SuppressLint("CheckResult")
     public static void addExtraHeader(HashMap<String, String> extraHeaders) {
         Headers.Builder builder = HEADERS.newBuilder();
         Flowable.fromIterable(extraHeaders.entrySet()).subscribe(stringStringEntry -> {
@@ -178,6 +192,7 @@ public class NetGlobalConfig {
         HEADERS = builder.build();
     }
 
+    @SuppressLint("CheckResult")
     public static void removeExtraHeader(HashMap<String, String> extraHeaders) {
         Headers.Builder builder = HEADERS.newBuilder();
         Flowable.fromIterable(extraHeaders.entrySet()).subscribe(stringStringEntry -> {

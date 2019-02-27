@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.ArrayMap;
 import android.util.SparseArray;
 
+import com.heaven.data.net.DataRepo;
 import com.heaven.data.net.NetGlobalConfig;
 import com.orhanobut.logger.Logger;
 
@@ -32,6 +33,8 @@ import retrofit2.Retrofit;
     }
 
     private void initNetClient(Context context) {
+        DataRepo.Builder repoBuilder = new DataRepo.Builder();
+
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
         Retrofit.Builder     retrofitBuilder = new Retrofit.Builder();
 
