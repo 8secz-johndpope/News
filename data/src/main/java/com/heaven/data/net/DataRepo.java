@@ -115,8 +115,12 @@ public class DataRepo {
         boolean isRetryFailure = true;
         boolean isLogInterceptor = false;
 
-        public Builder baseUrl(Context context, String baseUrl) {
-            return this.baseUrl(context, baseUrl, prototype);
+        public Builder(Context context) {
+            this.context = context;
+        }
+
+        public Builder baseUrl(String baseUrl) {
+            return this.baseUrl(baseUrl, prototype);
         }
 
         /**
@@ -129,8 +133,7 @@ public class DataRepo {
          *
          * @return builder
          */
-        public Builder baseUrl(Context context, String baseUrl, NetGlobalConfig.PROTOTYPE protocoltype) {
-            this.context = context;
+        public Builder baseUrl(String baseUrl, NetGlobalConfig.PROTOTYPE protocoltype) {
             this.baseUrl = baseUrl;
             this.prototype = protocoltype;
             this.initProtoCovert(protocoltype);

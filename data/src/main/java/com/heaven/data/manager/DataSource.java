@@ -109,8 +109,8 @@ public class DataSource {
             this.context = context;
             URI uri = new URI(baseUrl);
             String scheme = uri.getScheme();
-            DataRepo.Builder repoBuilder = new DataRepo.Builder();
-            repoBuilder.baseUrl(context,baseUrl,prototype);
+            DataRepo.Builder repoBuilder = new DataRepo.Builder(context);
+            repoBuilder.baseUrl(baseUrl,prototype);
             if (NetGlobalConfig.HTTPS.equals(scheme)) {
                 if(certificates != null && certificates.length > 0) {
                     repoBuilder.netHttps(certificates);
