@@ -50,6 +50,8 @@ dependencies {
     api netDep.loggingInterceptor
     api netDep.protostuffcore
     api netDep.protostuffruntime
+    api developmentDep.stetho
+    api developmentDep.stethoOkhttp
     api(netDep.converterxml)
             {
                 exclude module: 'stax'

@@ -2,7 +2,9 @@ package com.heaven.news;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
+import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.news.databinding.ActivityMainBinding;
 import com.heaven.news.pt.TestPt;
@@ -18,6 +20,17 @@ public class MainActivity extends BaseBindActivity<TestPt,TestViewModel, Activit
     @Override
     public int initLayoutResId() {
         return R.layout.activity_main;
+    }
+
+    @TraceTime
+    public void loginAction(View view) {
+        String name = mViewBinding.name.getEditText().getText().toString();
+        String password = mViewBinding.password.getEditText().getText().toString();
+        mViewModel.mPresenter.login(name,password);
+//        startVideo();
+//        virtualApk();
+//        mPresenter.login(name,password);
+//        getWeatherbyCityName(name);
     }
 
     @Override

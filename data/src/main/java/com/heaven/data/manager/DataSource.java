@@ -74,11 +74,8 @@ public class DataSource {
          *         url
          *
          * @return Builder
-         *
-         * @throws URISyntaxException
-         *         uri异常
          */
-        public Builder addNetRepo(String baseUrl) throws URISyntaxException {
+        public Builder addNetRepo(String baseUrl) {
             return addNetRepo(baseUrl, prototype, null);
         }
 
@@ -91,11 +88,8 @@ public class DataSource {
          *         协议类型
          *
          * @return Builder
-         *
-         * @throws URISyntaxException
-         *         uri异常
          */
-        public Builder addNetRepo(String baseUrl, NetGlobalConfig.PROTOTYPE prototype) throws URISyntaxException {
+        public Builder addNetRepo(String baseUrl, NetGlobalConfig.PROTOTYPE prototype) {
             return addNetRepo(baseUrl, prototype, null);
         }
 
@@ -108,11 +102,8 @@ public class DataSource {
          *         证书
          *
          * @return Builder
-         *
-         * @throws URISyntaxException
-         *         uri异常
          */
-        public Builder addNetRepo(String baseUrl, int[] certificates) throws URISyntaxException {
+        public Builder addNetRepo(String baseUrl, int[] certificates) {
             return addNetRepo(baseUrl, prototype, certificates);
         }
 
@@ -128,27 +119,29 @@ public class DataSource {
          *         证书
          *
          * @return Builder
-         *
-         * @throws URISyntaxException
-         *         uri异常
          */
-        public Builder addNetRepo(String baseUrl, NetGlobalConfig.PROTOTYPE prototype, int[] certificates) throws URISyntaxException {
-            URI uri = new URI(baseUrl);
-            String scheme = uri.getScheme();
-            DataRepo.Builder repoBuilder = new DataRepo.Builder(context);
-            repoBuilder.baseUrl(baseUrl, prototype);
-            if (NetGlobalConfig.HTTPS.equals(scheme)) {
-                if (certificates != null && certificates.length > 0) {
-                    repoBuilder.netHttps(certificates);
-                } else {
-                    repoBuilder.netHttps(true);
+        public Builder addNetRepo(String baseUrl, NetGlobalConfig.PROTOTYPE prototype, int[] certificates) {
+            URI uri = null;
+            try {
+                uri = new URI(baseUrl);
+                String scheme = uri.getScheme();
+                DataRepo.Builder repoBuilder = new DataRepo.Builder(context);
+                repoBuilder.baseUrl(baseUrl, prototype);
+                if (NetGlobalConfig.HTTPS.equals(scheme)) {
+                    if (certificates != null && certificates.length > 0) {
+                        repoBuilder.netHttps(certificates);
+                    } else {
+                        repoBuilder.netHttps(true);
+                    }
                 }
-            }
-            if (repos.size() == 0) {
-                mainRepo = repoBuilder.build();
-            } else {
-                DataRepo repo = repoBuilder.build();
-                repos.put(repo.repoIdentify, repo);
+                if (repos.size() == 0) {
+                    mainRepo = repoBuilder.build();
+                } else {
+                    DataRepo repo = repoBuilder.build();
+                    repos.put(repo.repoIdentify, repo);
+                }
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
             }
             return this;
         }
@@ -262,21 +255,6 @@ public class DataSource {
     /**
      * 添加请求头
      *
-     * @param key
-     *         key
-     * @param value
-     *         value
-     */
-    public void removeExtraHeader(String key, String value) {
-        if (mainRepo != null) {
-            mainRepo.removeExtraHeader(key, value);
-        }
-    }
-
-
-    /**
-     * 添加请求头
-     *
      * @param baseUrl
      *         url
      * @param key
@@ -318,6 +296,31 @@ public class DataSource {
         }
     }
 
+    /**
+     * 添加请求头
+     *
+     * @param key
+     *         key
+     * @param value
+     *         value
+     */
+    public void removeExtraHeader(String key, String value) {
+        if (mainRepo != null) {
+            mainRepo.removeExtraHeader(key, value);
+        }
+    }
+
+    /**
+     * 删除请求头
+     *
+     * @param extraHeaders
+     *         请求头
+     */
+    public void removeExtraHeader(HashMap<String, String> extraHeaders) {
+        if (mainRepo != null) {
+            mainRepo.removeExtraHeader(extraHeaders);
+        }
+    }
 
     /**
      * 添加请求头

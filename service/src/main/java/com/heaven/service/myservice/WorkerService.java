@@ -48,6 +48,7 @@ public class WorkerService extends Service implements MediaManager.LocalMediaLoa
 
     private DataSource dataSource;
     private MediaManager mediaManager;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -60,15 +61,11 @@ public class WorkerService extends Service implements MediaManager.LocalMediaLoa
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent != null) {
+        if (intent != null) {
             String baseNetUrl = intent.getStringExtra("url");
             DataSource.Builder builder = new DataSource.Builder(this);
-            try {
-                builder.addNetRepo(baseNetUrl);
-                dataSource = builder.build();
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
+            builder.addNetRepo(baseNetUrl);
+            dataSource = builder.build();
             Logger.i("onStartCommand---" + baseNetUrl);
         }
         return START_STICKY;
@@ -98,7 +95,7 @@ public class WorkerService extends Service implements MediaManager.LocalMediaLoa
         this.startForeground(1, notification);
     }
 
-    private IRemoteService.Stub mRemoteBinder = new IRemoteService.Stub(){
+    private IRemoteService.Stub mRemoteBinder = new IRemoteService.Stub() {
 
         @Override
         public void join(IBinder token, String name) throws RemoteException {
@@ -147,7 +144,7 @@ public class WorkerService extends Service implements MediaManager.LocalMediaLoa
 
         @Override
         public List<MediaFolder> getMediaFolder() throws RemoteException {
-            return mediaManager != null? mediaManager.getFolders() : null;
+            return mediaManager != null ? mediaManager.getFolders() : null;
         }
 
         @Override
@@ -186,12 +183,12 @@ public class WorkerService extends Service implements MediaManager.LocalMediaLoa
                 if (i != PackageManager.PERMISSION_GRANTED) {
                     // 如果没有授予该权限，就去提示用户请求
                 } else {
-                    if(dataSource != null) {
+                    if (dataSource != null) {
                         dataSource.runWorkThread(() -> mediaManager.startScan(true));
                     }
                 }
             } else {
-                if(dataSource != null) {
+                if (dataSource != null) {
                     dataSource.runWorkThread(() -> mediaManager.startScan(true));
                 }
             }
@@ -233,21 +230,21 @@ public class WorkerService extends Service implements MediaManager.LocalMediaLoa
     @Override
     public void loadComplete(final List<MediaFolder> folders) {
         Logger.i("loadComplete:" + folders.size());
-        if(mRemoteBinder != null) {
-            if(folders.size() > 0) {
+        if (mRemoteBinder != null) {
+            if (folders.size() > 0) {
                 int count = mMediaCalls.beginBroadcast();
-                for(int i=0; i<count; i++) {
-                        Logger.i("CallbackCount:" + count);
-                        final IMediaCallBack callBack = mMediaCalls.getBroadcastItem(i);
-                        if(callBack != null) {
-                            mainThread.post(() -> {
-                                try {
-                                    callBack.updateMediaAllFolders(folders);
-                                } catch (RemoteException e) {
-                                    e.printStackTrace();
-                                }
-                            });
-                        }
+                for (int i = 0; i < count; i++) {
+                    Logger.i("CallbackCount:" + count);
+                    final IMediaCallBack callBack = mMediaCalls.getBroadcastItem(i);
+                    if (callBack != null) {
+                        mainThread.post(() -> {
+                            try {
+                                callBack.updateMediaAllFolders(folders);
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
                 }
                 mMediaCalls.finishBroadcast();
             }
