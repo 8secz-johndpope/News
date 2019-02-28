@@ -65,10 +65,10 @@ public class WorkerService extends Service implements MediaManager.LocalMediaLoa
             DataSource.Builder builder = new DataSource.Builder();
             try {
                 builder.addNetRepo(this,baseNetUrl);
+                dataSource = builder.build();
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
-            dataSource = builder.build();
             Logger.i("onStartCommand---" + baseNetUrl);
         }
         return START_STICKY;
