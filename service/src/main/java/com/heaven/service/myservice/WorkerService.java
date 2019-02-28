@@ -62,9 +62,9 @@ public class WorkerService extends Service implements MediaManager.LocalMediaLoa
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent != null) {
             String baseNetUrl = intent.getStringExtra("url");
-            DataSource.Builder builder = new DataSource.Builder();
+            DataSource.Builder builder = new DataSource.Builder(this);
             try {
-                builder.addNetRepo(this,baseNetUrl);
+                builder.addNetRepo(baseNetUrl);
                 dataSource = builder.build();
             } catch (URISyntaxException e) {
                 e.printStackTrace();

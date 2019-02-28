@@ -60,53 +60,52 @@ public class DataSource {
         NetGlobalConfig.PROTOTYPE prototype = JSON;
         Map<String, DataRepo> repos = new HashMap<>();
 
-        /**
-         * 根据baseurl添加网络请求对象
-         * @param context 上下文
-         * @param baseUrl url
-         * @return Builder
-         * @throws URISyntaxException uri异常
-         */
-        public Builder addNetRepo(Context context, String baseUrl) throws URISyntaxException {
-            return addNetRepo(context,baseUrl,prototype,null);
-        }
-
-        /**
-         * 根据baseurl添加网络请求对象
-         * @param context 上下文
-         * @param baseUrl url
-         * @param prototype 协议类型
-         * @return Builder
-         * @throws URISyntaxException uri异常
-         */
-        public Builder addNetRepo(Context context, String baseUrl,NetGlobalConfig.PROTOTYPE prototype) throws URISyntaxException {
-            return addNetRepo(context,baseUrl,prototype,null);
-        }
-
-        /**
-         * 根据baseurl添加网络请求对象
-         * @param context 上下文
-         * @param baseUrl url
-         * @param certificates 证书
-         * @return Builder
-         * @throws URISyntaxException uri异常
-         */
-        public Builder addNetRepo(Context context, String baseUrl,int[] certificates) throws URISyntaxException {
-            return addNetRepo(context,baseUrl,prototype,certificates);
-        }
-
-
-        /**
-         * 根据baseurl添加网络请求对象
-         * @param context 上下文
-         * @param baseUrl url
-         * @param prototype 协议类型
-         * @param certificates 证书
-         * @return Builder
-         * @throws URISyntaxException uri异常
-         */
-        public Builder addNetRepo(Context context, String baseUrl, NetGlobalConfig.PROTOTYPE prototype, int[] certificates) throws URISyntaxException {
+        public Builder(Context context) {
             this.context = context;
+        }
+
+        /**
+         * 根据baseurl添加网络请求对象
+         * @param baseUrl url
+         * @return Builder
+         * @throws URISyntaxException uri异常
+         */
+        public Builder addNetRepo(String baseUrl) throws URISyntaxException {
+            return addNetRepo(baseUrl,prototype,null);
+        }
+
+        /**
+         * 根据baseurl添加网络请求对象
+         * @param baseUrl url
+         * @param prototype 协议类型
+         * @return Builder
+         * @throws URISyntaxException uri异常
+         */
+        public Builder addNetRepo(String baseUrl,NetGlobalConfig.PROTOTYPE prototype) throws URISyntaxException {
+            return addNetRepo(baseUrl,prototype,null);
+        }
+
+        /**
+         * 根据baseurl添加网络请求对象
+         * @param baseUrl url
+         * @param certificates 证书
+         * @return Builder
+         * @throws URISyntaxException uri异常
+         */
+        public Builder addNetRepo(String baseUrl,int[] certificates) throws URISyntaxException {
+            return addNetRepo(baseUrl,prototype,certificates);
+        }
+
+
+        /**
+         * 根据baseurl添加网络请求对象
+         * @param baseUrl url
+         * @param prototype 协议类型
+         * @param certificates 证书
+         * @return Builder
+         * @throws URISyntaxException uri异常
+         */
+        public Builder addNetRepo(String baseUrl, NetGlobalConfig.PROTOTYPE prototype, int[] certificates) throws URISyntaxException {
             URI uri = new URI(baseUrl);
             String scheme = uri.getScheme();
             DataRepo.Builder repoBuilder = new DataRepo.Builder(context);
