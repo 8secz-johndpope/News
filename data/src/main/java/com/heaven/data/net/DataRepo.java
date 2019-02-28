@@ -444,9 +444,11 @@ public class DataRepo {
             switch (protocol) {
                 case JSON:
                     converterFactory = GsonConverterFactory.create();
+                    addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEJSON);
                     break;
                 case XML:
                     converterFactory = SimpleXmlConverterFactory.create();
+                    addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
                     break;
                 case PROTOBUF:
                     break;

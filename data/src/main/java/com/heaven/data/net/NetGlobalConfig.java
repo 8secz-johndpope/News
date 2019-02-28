@@ -13,18 +13,6 @@ public class NetGlobalConfig {
     public static String HTTP = "http";
 
 
-    public static Headers HEADERS;
-
-    public static String BASETURL;
-
-    public static int[] CERTIFICATES;
-    public static boolean IS_HTTPS = false;
-    public static boolean IS_COOKIES = true;
-    public static boolean IS_REDIRECT = true;
-    public static boolean IS_SSL_REDIRECTS = true;
-    public static boolean IS_RETRY_FAILURE = true;
-    public static boolean LOGGING_INTERCEPTOR = false;
-
     public static int MAX_STALE = 60 * 60 * 24;
     public static int TIMEOUT = 20;
 
@@ -32,6 +20,10 @@ public class NetGlobalConfig {
     public static int CACHEMAXAGE = Integer.MAX_VALUE / 2;
 
     public static int MULTPARTSIZE = 50 * 1024 * 1024;
+
+    public static String CONTENTTYPE = "Content-Type";
+    public static String CONTENTTYPEJSON = "application/json";
+    public static String CONTENTTYPEXML = "application/xml";
 
 //    private static Context mContext;
     /**
@@ -56,17 +48,5 @@ public class NetGlobalConfig {
     }
 
 
-    static {
-        Headers.Builder headerBuilder = new Headers.Builder();
-        //请求头部
-        headerBuilder.add("User-Agent", "Android");
-        headerBuilder.add("APP-Key", "");//应用的key值
-        headerBuilder.add("APP-Secret", "");//应用的密钥
-        headerBuilder.add("Charset", "UTF-8");//字符编码格式
-        headerBuilder.add("Accept", "*/*");//能够接受的数据格式
-        headerBuilder.add("Accept-Language", "zh-cn");//接受的语言
-        headerBuilder.add("Content-Type", "application/json");//内容数据格式application/json text/xml
-        HEADERS = headerBuilder.build();
-    }
 
 }
