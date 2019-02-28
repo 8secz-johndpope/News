@@ -22,20 +22,22 @@ public class MainActivity extends BaseBindActivity<TestPt,TestViewModel, Activit
         return R.layout.activity_main;
     }
 
+
+    @Override
+    public void initView() {
+        mViewBinding.setViewmodel(mViewModel);
+    }
+
+
     @TraceTime
     public void loginAction(View view) {
         String name = mViewBinding.name.getEditText().getText().toString();
         String password = mViewBinding.password.getEditText().getText().toString();
-        mViewModel.mPresenter.login(name,password);
+        mViewModel.login(name,password);
 //        startVideo();
 //        virtualApk();
 //        mPresenter.login(name,password);
 //        getWeatherbyCityName(name);
-    }
-
-    @Override
-    public void initView() {
-
     }
 
 }

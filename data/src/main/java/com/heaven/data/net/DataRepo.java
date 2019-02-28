@@ -190,7 +190,6 @@ public class DataRepo {
                     .retryOnConnectionFailure(isRetryFailure)//连接失败后是否重新连接
                     .connectTimeout(timeOut, TimeUnit.SECONDS);//超时时间15S
             retrofitBuilder
-                    .baseUrl(baseUrl)
                     .addConverterFactory(converterFactory)
                     .addCallAdapterFactory(adapterFactory);
         }
@@ -213,6 +212,8 @@ public class DataRepo {
             this.baseUrl = baseUrl;
             this.prototype = protocoltype;
             this.initProtoCovert(protocoltype);
+            retrofitBuilder
+                    .baseUrl(baseUrl);
             return this;
         }
 

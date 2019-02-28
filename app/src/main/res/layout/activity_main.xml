@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+    >
 
     <data>
         <variable
-            name="LoginHandlers"
-            type="com.heaven.news.MainActivity" />
+            name="viewmodel"
+            type="com.heaven.news.vm.TestViewModel" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,7 +71,7 @@
                 android:layout_gravity="end|bottom"
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/ic_done"
-                android:onClick="@{LoginHandlers::loginAction}"/>
+                />
         </LinearLayout>
     </LinearLayout>
 </layout>
