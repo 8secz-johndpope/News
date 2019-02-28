@@ -160,12 +160,12 @@ public class DataRepo {
 
     public static final class Builder {
         Context context;
-        OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
-        Retrofit.Builder retrofitBuilder = new Retrofit.Builder();
+        OkHttpClient.Builder okHttpBuilder;
+        Retrofit.Builder retrofitBuilder;
         Headers headers;
         String baseUrl;
         NetGlobalConfig.PROTOTYPE prototype = JSON;
-        Converter.Factory converterFactory = GsonConverterFactory.create();
+        Converter.Factory converterFactory;
         CallAdapter.Factory adapterFactory = RxJava2CallAdapterFactory.create();
         HeaderInterceptor headerInterceptor;
         int[] certificates;
@@ -185,13 +185,12 @@ public class DataRepo {
             this.retrofitBuilder = new Retrofit.Builder();
             this.headerInterceptor = new HeaderInterceptor(headers);
             okHttpBuilder.addInterceptor(new NetInterceptor())
+                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .addInterceptor(headerInterceptor)
                     .followRedirects(isRedirect)
                     .retryOnConnectionFailure(isRetryFailure)//连接失败后是否重新连接
                     .connectTimeout(timeOut, TimeUnit.SECONDS);//超时时间15S
-            retrofitBuilder
-                    .addConverterFactory(converterFactory)
-                    .addCallAdapterFactory(adapterFactory);
+            retrofitBuilder.addCallAdapterFactory(adapterFactory);
         }
 
         public Builder baseUrl(String baseUrl) {
@@ -468,6 +467,11 @@ public class DataRepo {
 
 
         public DataRepo build() {
+            if(converterFactory == null) {
+                converterFactory = GsonConverterFactory.create();
+            }
+            retrofitBuilder
+                    .addConverterFactory(converterFactory);
             return new DataRepo(this);
         }
     }

@@ -64,11 +64,11 @@ public class TestViewModel extends BaseViewModel<TestPt> {
         String AES_KEY = "szair-";
         String password = null;
         String key = AES_KEY + new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        byte[] passwordByte = CryptUtility.encrypt(passwordObserve.get().getBytes(), key.getBytes());
+        byte[] passwordByte = CryptUtility.encrypt(passwords.getBytes(), key.getBytes());
         password = CryptUtility.base64Encode(passwordByte);
         password = password.replaceAll("\n", "");
 
-        login._USER_NAME = userCount.get();
+        login._USER_NAME = count;
         login.PASSWORD = password;
 
         Call<LoginResponse> call = ApiManager.getApi(LoginApi.class).login(baseRequest);

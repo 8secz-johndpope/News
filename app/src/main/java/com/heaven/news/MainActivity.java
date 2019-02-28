@@ -25,7 +25,7 @@ public class MainActivity extends BaseBindActivity<TestPt,TestViewModel, Activit
 
     @Override
     public void initView() {
-        mViewBinding.setViewmodel(mViewModel);
+        mViewBinding.setLoginHandlers(this);
     }
 
 
