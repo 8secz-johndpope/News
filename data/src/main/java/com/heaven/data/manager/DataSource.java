@@ -23,6 +23,9 @@ import java.util.concurrent.ExecutorService;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.reactivex.Flowable;
+import io.reactivex.disposables.Disposable;
+import okhttp3.Headers;
 import retrofit2.Retrofit;
 
 import static com.heaven.data.net.NetGlobalConfig.PROTOTYPE.JSON;
@@ -35,8 +38,8 @@ import static com.heaven.data.net.NetGlobalConfig.PROTOTYPE.JSON;
 
 public class DataSource {
     private DataRepo mainRepo;
-    private Map<String, DataRepo> repos = new HashMap<>();
-    private HashMap<String,Object> apiMap = new HashMap<>();
+    private Map<String, DataRepo> repos;
+    private HashMap<String, Object> apiMap = new HashMap<>();
     private CacheManager cacheManager;
     private ExecutorService executorService;
     private FileUpDownManager fileUpDownManager;
@@ -46,7 +49,7 @@ public class DataSource {
     public static final int DB = 2;
     public static final int DISK = 3;
 
-    private DataSource(Builder builder){
+    private DataSource(Builder builder) {
         this.mainRepo = builder.mainRepo;
         this.repos = builder.repos;
         executorService = new PriorityExecutor(5, false);
@@ -66,52 +69,76 @@ public class DataSource {
 
         /**
          * 根据baseurl添加网络请求对象
-         * @param baseUrl url
+         *
+         * @param baseUrl
+         *         url
+         *
          * @return Builder
-         * @throws URISyntaxException uri异常
+         *
+         * @throws URISyntaxException
+         *         uri异常
          */
         public Builder addNetRepo(String baseUrl) throws URISyntaxException {
-            return addNetRepo(baseUrl,prototype,null);
+            return addNetRepo(baseUrl, prototype, null);
         }
 
         /**
          * 根据baseurl添加网络请求对象
-         * @param baseUrl url
-         * @param prototype 协议类型
+         *
+         * @param baseUrl
+         *         url
+         * @param prototype
+         *         协议类型
+         *
          * @return Builder
-         * @throws URISyntaxException uri异常
+         *
+         * @throws URISyntaxException
+         *         uri异常
          */
-        public Builder addNetRepo(String baseUrl,NetGlobalConfig.PROTOTYPE prototype) throws URISyntaxException {
-            return addNetRepo(baseUrl,prototype,null);
+        public Builder addNetRepo(String baseUrl, NetGlobalConfig.PROTOTYPE prototype) throws URISyntaxException {
+            return addNetRepo(baseUrl, prototype, null);
         }
 
         /**
          * 根据baseurl添加网络请求对象
-         * @param baseUrl url
-         * @param certificates 证书
+         *
+         * @param baseUrl
+         *         url
+         * @param certificates
+         *         证书
+         *
          * @return Builder
-         * @throws URISyntaxException uri异常
+         *
+         * @throws URISyntaxException
+         *         uri异常
          */
-        public Builder addNetRepo(String baseUrl,int[] certificates) throws URISyntaxException {
-            return addNetRepo(baseUrl,prototype,certificates);
+        public Builder addNetRepo(String baseUrl, int[] certificates) throws URISyntaxException {
+            return addNetRepo(baseUrl, prototype, certificates);
         }
 
 
         /**
          * 根据baseurl添加网络请求对象
-         * @param baseUrl url
-         * @param prototype 协议类型
-         * @param certificates 证书
+         *
+         * @param baseUrl
+         *         url
+         * @param prototype
+         *         协议类型
+         * @param certificates
+         *         证书
+         *
          * @return Builder
-         * @throws URISyntaxException uri异常
+         *
+         * @throws URISyntaxException
+         *         uri异常
          */
         public Builder addNetRepo(String baseUrl, NetGlobalConfig.PROTOTYPE prototype, int[] certificates) throws URISyntaxException {
             URI uri = new URI(baseUrl);
             String scheme = uri.getScheme();
             DataRepo.Builder repoBuilder = new DataRepo.Builder(context);
-            repoBuilder.baseUrl(baseUrl,prototype);
+            repoBuilder.baseUrl(baseUrl, prototype);
             if (NetGlobalConfig.HTTPS.equals(scheme)) {
-                if(certificates != null && certificates.length > 0) {
+                if (certificates != null && certificates.length > 0) {
                     repoBuilder.netHttps(certificates);
                 } else {
                     repoBuilder.netHttps(true);
@@ -134,20 +161,24 @@ public class DataSource {
 
     /**
      * 获取apiclass
-     * @param apiClass api接口
-     * @param <T> 范型
+     *
+     * @param apiClass
+     *         api接口
+     * @param <T>
+     *         范型
+     *
      * @return api接口
      */
     @SuppressWarnings("unchecked")
-    public  <T> T getNetApi(Class<T> apiClass) {
+    public <T> T getNetApi(Class<T> apiClass) {
         T api = null;
-        try{
-            if(apiMap.containsKey(apiClass.getName())) {
+        try {
+            if (apiMap.containsKey(apiClass.getName())) {
                 api = (T) apiMap.get(apiClass.getName());
             } else {
-                if(mainRepo != null && mainRepo.retrofit != null) {
+                if (mainRepo != null && mainRepo.retrofit != null) {
                     api = mainRepo.retrofit.create(apiClass);
-                    apiMap.put(apiClass.getName(),api);
+                    apiMap.put(apiClass.getName(), api);
                 } else {
                     Logger.i("apiClassException:null");
                 }
@@ -160,27 +191,34 @@ public class DataSource {
 
     /**
      * 根据baseurl来获取不同协议的apiclass
-     * @param baseUrl url
-     * @param apiClass api接口
-     * @param <T> api类型
+     *
+     * @param baseUrl
+     *         url
+     * @param apiClass
+     *         api接口
+     * @param <T>
+     *         api类型
+     *
      * @return api接口
-     * @throws Exception 异常
+     *
+     * @throws Exception
+     *         异常
      */
     @SuppressWarnings("unchecked")
     public <T> T getNetApi(@Nonnull String baseUrl, Class<T> apiClass) throws Exception {
         T api = null;
-        if(!TextUtils.isEmpty(baseUrl) && apiClass != null) {
-            try{
-                if(apiMap.containsKey(apiClass.getName())) {
+        if (!TextUtils.isEmpty(baseUrl) && apiClass != null) {
+            try {
+                if (apiMap.containsKey(apiClass.getName())) {
                     api = (T) apiMap.get(apiClass.getName());
                 } else {
-                    if(repos != null && repos.size() > 0) {
+                    if (repos != null && repos.size() > 0) {
                         String identify = MD5Utils.getMd5Value(baseUrl);
-                        if(repos.containsKey(identify)) {
+                        if (repos.containsKey(identify)) {
                             DataRepo repo = repos.get(identify);
-                            if(repo != null && repo.retrofit != null) {
+                            if (repo != null && repo.retrofit != null) {
                                 api = repo.retrofit.create(apiClass);
-                                apiMap.put(apiClass.getName(),api);
+                                apiMap.put(apiClass.getName(), api);
                             }
                         }
                     }
@@ -192,6 +230,156 @@ public class DataSource {
             throw new Exception("baseUrl is null or apiClass is null");
         }
         return api;
+    }
+
+    /**
+     * 添加请求头
+     *
+     * @param key
+     *         key
+     * @param value
+     *         value
+     */
+    public void addHeader(String key, String value) {
+        if (mainRepo != null) {
+            mainRepo.addHeader(key, value);
+        }
+    }
+
+    /**
+     * 添加请求头
+     *
+     * @param extraHeaders
+     *         请求头
+     */
+    public void addExtraHeader(HashMap<String, String> extraHeaders) {
+        if (mainRepo != null) {
+            mainRepo.addExtraHeader(extraHeaders);
+        }
+    }
+
+
+    /**
+     * 添加请求头
+     *
+     * @param key
+     *         key
+     * @param value
+     *         value
+     */
+    public void removeExtraHeader(String key, String value) {
+        if (mainRepo != null) {
+            mainRepo.removeExtraHeader(key, value);
+        }
+    }
+
+
+    /**
+     * 添加请求头
+     *
+     * @param baseUrl
+     *         url
+     * @param key
+     *         key
+     * @param value
+     *         value
+     */
+    public void addHeader(String baseUrl, String key, String value) {
+        if (TextUtils.isEmpty(baseUrl)) {
+            if (mainRepo != null) {
+                mainRepo.addHeader(key, value);
+            }
+        } else {
+            DataRepo repo = getRepo(baseUrl);
+            if (repo != null) {
+                repo.addHeader(key, value);
+            }
+        }
+    }
+
+    /**
+     * 添加请求头
+     *
+     * @param baseUrl
+     *         url
+     * @param extraHeaders
+     *         请求头
+     */
+    public void addExtraHeader(String baseUrl, HashMap<String, String> extraHeaders) {
+        if (TextUtils.isEmpty(baseUrl)) {
+            if (mainRepo != null) {
+                mainRepo.addExtraHeader(extraHeaders);
+            }
+        } else {
+            DataRepo repo = getRepo(baseUrl);
+            if (repo != null) {
+                repo.addExtraHeader(extraHeaders);
+            }
+        }
+    }
+
+
+    /**
+     * 添加请求头
+     *
+     * @param baseUrl
+     *         url
+     * @param key
+     *         key
+     * @param value
+     *         value
+     */
+    public void removeExtraHeader(String baseUrl, String key, String value) {
+        if (TextUtils.isEmpty(baseUrl)) {
+            if (mainRepo != null) {
+                mainRepo.removeExtraHeader(key, value);
+            }
+        } else {
+            DataRepo repo = getRepo(baseUrl);
+            if (repo != null) {
+                repo.removeExtraHeader(key, value);
+            }
+        }
+    }
+
+    /**
+     * 删除请求头
+     *
+     * @param baseUrl
+     *         url
+     * @param extraHeaders
+     *         请求头
+     */
+    public void removeExtraHeader(String baseUrl, HashMap<String, String> extraHeaders) {
+        if (TextUtils.isEmpty(baseUrl)) {
+            if (mainRepo != null) {
+                mainRepo.removeExtraHeader(extraHeaders);
+            }
+        } else {
+            DataRepo repo = getRepo(baseUrl);
+            if (repo != null) {
+                repo.removeExtraHeader(extraHeaders);
+            }
+        }
+    }
+
+    /**
+     * 取得网络数据源
+     *
+     * @param baseUrl
+     *         url
+     *
+     * @return 数据源
+     */
+    private DataRepo getRepo(String baseUrl) {
+        DataRepo repo = mainRepo;
+        if (!TextUtils.isEmpty(baseUrl)) {
+            String identify = MD5Utils.getMd5Value(baseUrl);
+            if (repos.containsKey(identify)) {
+                repo = repos.get(identify);
+            }
+        }
+        return repo;
     }
 
     /**

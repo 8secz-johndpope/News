@@ -50,13 +50,10 @@ public class DataRepo {
     public String repoIdentify;
     public Retrofit retrofit;
     final Context context;
-    OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
-    Retrofit.Builder retrofitBuilder = new Retrofit.Builder();
-    final Headers headers;
+    Headers headers;
     final String baseUrl;
     NetGlobalConfig.PROTOTYPE prototype = JSON;
-    Converter.Factory converterFactory = GsonConverterFactory.create();
-    CallAdapter.Factory adapterFactory = RxJava2CallAdapterFactory.create();
+    HeaderInterceptor headerInterceptor;
     final int[] certificates;
     int timeOut = 20;
     boolean isCacheable = false;
@@ -74,13 +71,10 @@ public class DataRepo {
     private DataRepo(Builder builder) {
         this.repoIdentify = MD5Utils.getMd5Value(builder.baseUrl);
         this.context = builder.context;
-        this.okHttpBuilder = builder.okHttpBuilder;
-        this.retrofitBuilder = builder.retrofitBuilder;
+        this.headerInterceptor = builder.headerInterceptor;
         this.headers = builder.headers;
         this.baseUrl = builder.baseUrl;
         this.prototype = builder.prototype;
-        this.converterFactory = builder.converterFactory;
-        this.adapterFactory = builder.adapterFactory;
         this.certificates = builder.certificates;
         this.timeOut = builder.timeOut;
         this.isCacheable = builder.isCacheable;
@@ -92,8 +86,76 @@ public class DataRepo {
         this.isRetryFailure = builder.isRetryFailure;
         this.isLogInterceptor = builder.isLogInterceptor;
 
-        OkHttpClient client = okHttpBuilder.build();
-        retrofit = retrofitBuilder.callFactory(client).build();
+        OkHttpClient client =  builder.okHttpBuilder.build();
+        retrofit = builder.retrofitBuilder.callFactory(client).build();
+    }
+
+    /**
+     * 添加请求头
+     * @param key key
+     * @param value value
+     */
+    public void addHeader(String key, String value) {
+        if (TextUtils.isEmpty(headers.get(key))) {
+            headers = headers.newBuilder().add(key, value).build();
+        } else {
+            headers = headers.newBuilder().set(key, value).build();
+        }
+        updateHeaders(headers);
+    }
+
+    /**
+     * 添加请求头
+     * @param extraHeaders 请求头
+     */
+    public void addExtraHeader(HashMap<String, String> extraHeaders) {
+        Headers.Builder builder = headers.newBuilder();
+        Disposable subscribe = Flowable.fromIterable(extraHeaders.entrySet()).subscribe(stringStringEntry -> {
+            String key = stringStringEntry.getKey();
+            String value = stringStringEntry.getValue();
+            if (!TextUtils.isEmpty(headers.get(key))) {
+                builder.set(key, value);
+            } else {
+                builder.add(key, value);
+            }
+
+        });
+        headers = builder.build();
+        updateHeaders(headers);
+    }
+
+    /**
+     * 删除请求头
+     * @param key key
+     * @param value value
+     */
+    public void removeExtraHeader(String key, String value) {
+        Headers.Builder builder = headers.newBuilder();
+        builder.removeAll(key);
+        headers = builder.build();
+        updateHeaders(headers);
+    }
+
+    /**
+     * 删除请求头
+     * @param extraHeaders 请求头
+     */
+    public void removeExtraHeader(HashMap<String, String> extraHeaders) {
+        Headers.Builder builder = headers.newBuilder();
+        Disposable subscribe = Flowable.fromIterable(extraHeaders.entrySet()).subscribe(stringStringEntry -> {
+            String key = stringStringEntry.getKey();
+            builder.removeAll(key);
+        });
+        headers = builder.build();
+        updateHeaders(headers);
+    }
+
+    /**
+     * 更新请求头信息
+     * @param headers 请求头信息
+     */
+    private void updateHeaders(Headers headers) {
+        headerInterceptor.setHeaders(headers);
     }
 
     public static final class Builder {
@@ -105,6 +167,7 @@ public class DataRepo {
         NetGlobalConfig.PROTOTYPE prototype = JSON;
         Converter.Factory converterFactory = GsonConverterFactory.create();
         CallAdapter.Factory adapterFactory = RxJava2CallAdapterFactory.create();
+        HeaderInterceptor headerInterceptor;
         int[] certificates;
         int timeOut = 20;
         boolean isCacheable = false;
@@ -117,6 +180,19 @@ public class DataRepo {
 
         public Builder(Context context) {
             this.context = context;
+            this.initDefaultHeader();
+            this.okHttpBuilder = new OkHttpClient.Builder();
+            this.retrofitBuilder = new Retrofit.Builder();
+            this.headerInterceptor = new HeaderInterceptor(headers);
+            okHttpBuilder.addInterceptor(new NetInterceptor())
+                    .addInterceptor(headerInterceptor)
+                    .followRedirects(isRedirect)
+                    .retryOnConnectionFailure(isRetryFailure)//连接失败后是否重新连接
+                    .connectTimeout(timeOut, TimeUnit.SECONDS);//超时时间15S
+            retrofitBuilder
+                    .baseUrl(baseUrl)
+                    .addConverterFactory(converterFactory)
+                    .addCallAdapterFactory(adapterFactory);
         }
 
         public Builder baseUrl(String baseUrl) {
@@ -137,14 +213,20 @@ public class DataRepo {
             this.baseUrl = baseUrl;
             this.prototype = protocoltype;
             this.initProtoCovert(protocoltype);
-            this.okHttpBuilder = new OkHttpClient.Builder();
-            this.retrofitBuilder = new Retrofit.Builder();
-            this.initDefaultHeader();
-            retrofitBuilder
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(converterFactory)
-                    .addCallAdapterFactory(adapterFactory);
             return this;
+        }
+
+        /**
+         * 添加请求头
+         * @param key key
+         * @param value value
+         */
+        public void addHeader(String key, String value) {
+            if (TextUtils.isEmpty(headers.get(key))) {
+                headers = headers.newBuilder().add(key, value).build();
+            } else {
+                headers = headers.newBuilder().set(key, value).build();
+            }
         }
 
         private void initDefaultHeader() {
@@ -232,8 +314,6 @@ public class DataRepo {
             }
 
             okHttpBuilder
-                    .addInterceptor(new NetInterceptor())
-                    .addInterceptor(new HeaderInterceptor())
                     .followRedirects(isRedirect)
                     .retryOnConnectionFailure(isRetryFailure)//连接失败后是否重新连接
                     .connectTimeout(timeOut, TimeUnit.SECONDS);//超时时间15S
@@ -353,58 +433,6 @@ public class DataRepo {
                 e.printStackTrace();
             }
         }
-
-        /**
-         * 添加请求头
-         * @param key key
-         * @param value value
-         * @return Builder
-         */
-        public Builder addHeader(String key, String value) {
-            if (TextUtils.isEmpty(headers.get(key))) {
-                headers = headers.newBuilder().add(key, value).build();
-            } else {
-                headers = headers.newBuilder().set(key, value).build();
-            }
-            return this;
-        }
-
-        /**
-         * 添加请求头
-         * @param extraHeaders 请求头
-         * @return Builder
-         */
-        public Builder addExtraHeader(HashMap<String, String> extraHeaders) {
-            Headers.Builder builder = headers.newBuilder();
-            Disposable subscribe = Flowable.fromIterable(extraHeaders.entrySet()).subscribe(stringStringEntry -> {
-                String key = stringStringEntry.getKey();
-                String value = stringStringEntry.getValue();
-                if (!TextUtils.isEmpty(headers.get(key))) {
-                    builder.set(key, value);
-                } else {
-                    builder.add(key, value);
-                }
-
-            });
-            headers = builder.build();
-            return this;
-        }
-
-        /**
-         * 删除请求头
-         * @param extraHeaders 请求头
-         * @return Builder
-         */
-        public Builder removeExtraHeader(HashMap<String, String> extraHeaders) {
-            Headers.Builder builder = headers.newBuilder();
-            Disposable subscribe = Flowable.fromIterable(extraHeaders.entrySet()).subscribe(stringStringEntry -> {
-                String key = stringStringEntry.getKey();
-                builder.removeAll(key);
-            });
-            headers = builder.build();
-            return this;
-        }
-
 
         /**
          * 初始化convert

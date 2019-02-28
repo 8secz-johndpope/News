@@ -2,6 +2,7 @@ package com.heaven.data.net;
 
 import java.io.IOException;
 
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -13,11 +14,21 @@ import okhttp3.Response;
  */
 
 public class HeaderInterceptor implements Interceptor {
+    private Headers headers;
+
+    public HeaderInterceptor(Headers headers) {
+        this.headers = headers;
+    }
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request.Builder builder =  chain.request().newBuilder();
-        Request request = builder.headers(NetGlobalConfig.HEADERS).build();
+        Request request = builder.headers(headers).build();
 
         return chain.proceed(request);
+    }
+
+    public void setHeaders(Headers headers) {
+        this.headers = headers;
     }
 }
