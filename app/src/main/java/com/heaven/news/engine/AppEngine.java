@@ -24,7 +24,10 @@ import com.heaven.news.di.components.EngineComponent;
 import com.heaven.news.di.modules.EngineModule;
 import com.heaven.news.utils.CrashHandler;
 import com.heaven.news.utils.SystemUtil;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.PrettyFormatStrategy;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.smtt.sdk.QbSdk;
@@ -113,8 +116,25 @@ public final class AppEngine {
         //初始化异常捕获类 CrashHandler
         CrashHandler.getInstance().init(appDelegate.context());
         initX5Core(appDelegate.context());
+        initLogger();
         initAppOptimizeTool(appDelegate.context());
 //        Logger.init("heaven");
+    }
+
+    private void initLogger() {
+        FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
+                .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
+                .methodCount(0)         // (Optional) How many method line to show. Default 2
+                .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
+//                .logStrategy(customLog) // (Optional) Changes the log strategy to print out. Default LogCat
+                .tag("heaven")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
+                .build();
+
+        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy){
+            @Override public boolean isLoggable(int priority, String tag) {
+                return BuildConfig.DEBUG;
+            }
+        });
     }
 
     private void initAppOptimizeTool(Context context) {

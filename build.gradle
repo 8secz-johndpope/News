@@ -11,10 +11,6 @@ buildscript {
         classpath build_info.heaven
         // NOTE: Do not place your application dependen／cies here; they belong
         // in the individual module build.gradle files
-        classpath('com.stanfy.spoon:spoon-gradle-plugin:1.2.2') {
-            exclude module: 'guava'
-        }
-        classpath 'com.google.guava:guava:18.0'
     }
     repositories {
         google()

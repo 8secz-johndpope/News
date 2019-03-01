@@ -59,6 +59,7 @@ dependencies {
                 exclude module: 'xpp3'
             }
     api netDep.convertergson
+    api 'com.google.guava:guava:27.0.1-android'
 }
 
 //添加

@@ -21,6 +21,8 @@ build_info.retrolambda = 'me.tatarka:gradle-retrolambda:3.7.0'
 build_info.bintray = 'com.novoda:bintray-release:0.9'
 //格式为-->group:module:version
 build_info.heaven = 'com.heaven.plugin:heaven:1.0.2'
+//Google Guava提供 实用工具类
+build_info.guava = 'com.google.guava:guava:18.0'
 /*插件信息*/
 
 /*应用信息*/
@@ -59,7 +61,7 @@ versions.javaxInjectVersion = '1'
 versions.gsonVersion = '2.3'
 versions.arrowVersion = '1.0.0'
 
-versions.loggerVersion = '2.1.1'
+versions.loggerVersion = '2.2.0'
 /*********************otherversion*******************/
 
 /*********************TestingVersion******************/

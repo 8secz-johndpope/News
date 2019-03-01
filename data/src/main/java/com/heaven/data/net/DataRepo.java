@@ -184,9 +184,10 @@ public class DataRepo {
             this.okHttpBuilder = new OkHttpClient.Builder();
             this.retrofitBuilder = new Retrofit.Builder();
             this.headerInterceptor = new HeaderInterceptor(headers);
-            okHttpBuilder.addInterceptor(new NetInterceptor())
-                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            okHttpBuilder
                     .addInterceptor(headerInterceptor)
+                    .addInterceptor(new NetInterceptor())
+//                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .followRedirects(isRedirect)
                     .retryOnConnectionFailure(isRetryFailure)//连接失败后是否重新连接
                     .connectTimeout(timeOut, TimeUnit.SECONDS);//超时时间15S

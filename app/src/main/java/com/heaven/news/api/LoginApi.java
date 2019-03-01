@@ -18,8 +18,7 @@ import retrofit2.http.POST;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public interface LoginApi {
-    @Headers({"Content-Type:text/xml; charset=utf-8",
-            "SOAPAction:http://WebXml.com.cn/getSupportCity" })
+    @Headers({"Content-Type:text/xml; charset=utf-8"})
     @POST("memberLoginWebService?wsdl")
     Call<LoginResponse> login(@Body BaseRequest requestEnvelope);
 }

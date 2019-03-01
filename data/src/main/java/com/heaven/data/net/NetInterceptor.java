@@ -1,7 +1,9 @@
 package com.heaven.data.net;
 
 
+import android.text.TextUtils;
 
+import com.google.common.io.ByteStreams;
 import com.heaven.data.BuildConfig;
 import com.orhanobut.logger.Logger;
 
@@ -10,8 +12,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Locale;
+import java.util.zip.GZIPInputStream;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -49,9 +53,8 @@ public class NetInterceptor implements Interceptor {
 
 
     private void printLog(Request request, Response response, long startReqTime, long endReqTime) throws IOException {
-        StringBuilder requestLog = new StringBuilder();
-
-       String contentType = response.header("Content-Type");
+        String contentType = response.header("Content-Type");
+        String contectEncode = response.header("Content-Encoding");
         ResponseBody responseBody = response.body();
         long contentLength = responseBody.contentLength();
         String bodySize = contentLength != -1 ? contentLength + "-byte" : "unknown-length";
@@ -61,16 +64,18 @@ public class NetInterceptor implements Interceptor {
         if (contentLength != 0) {
             String responseBodySize = "\n" + "bodySize:" + bodySize + "\n";
 
-            if(contentLength < 102400) {
+            if (contentLength < 102400) {
                 Buffer buffer = source.buffer();
                 source.request(Long.MAX_VALUE); // Buffer the entire body.
-                responseBodyStr = responseBodySize + formatJson(buffer.clone().readString(UTF8));
+                responseBodyStr = getResponseBody(contentType, contectEncode, buffer.clone());
             } else {
                 responseBodyStr = responseBodySize;
             }
 
         }
-
+        StringBuilder requestLog = new StringBuilder();
+        StringBuilder responseLog = new StringBuilder();
+        StringBuilder traceTime = new StringBuilder();
         requestLog
                 .append("******************************************\n")
                 .append("RequestHeader:\n")
@@ -79,8 +84,10 @@ public class NetInterceptor implements Interceptor {
                 .append(request.url())
                 .append("\n")
                 .append("******************************************\n")
-                .append("RequestBody:\n")
-                .append(formatJson(printReqBody(request.body())))
+                .append("RequestBody:\n");
+        Logger.i(requestLog.toString());
+        Logger.i(formatJson(printReqBody(request.body())));
+        responseLog
                 .append("\n")
                 .append("******************************************\n")
                 .append("ResponseHeader:\n")
@@ -88,19 +95,47 @@ public class NetInterceptor implements Interceptor {
                 .append("\n")
                 .append("******************************************\n")
                 .append("ResponseBody:\n")
-                .append(responseBodyStr)
+                .append("bodySize:")
+                .append(bodySize);
+
+        Logger.i(responseLog.toString());
+        if (!TextUtils.isEmpty(contentType)) {
+            if (contentType.contains("json")) {
+                Logger.json(responseBodyStr);
+            } else if (contentType.contains("xml")) {
+                Logger.xml(responseBodyStr);
+            } else {
+                Logger.i(responseBodyStr);
+            }
+        } else {
+            Logger.i(responseBodyStr);
+        }
+        traceTime
                 .append("\n")
                 .append("******************************************\n")
                 .append(String.format(Locale.getDefault(), "Received response for %s in %.1fms%n",
                         response.request().url(), (endReqTime - startReqTime) / 1e6d));
-        Logger.i(requestLog.toString());
+        Logger.i(traceTime.toString());
+    }
+
+    private String getResponseBody(String protoType, String repEncodeType, Buffer repBuffer) {
+        String repBody = "";
+        if (!TextUtils.isEmpty(repEncodeType) && repEncodeType.contains("gzip")) {
+            try {
+                repBody = new String(ByteStreams.toByteArray(new GZIPInputStream(repBuffer.inputStream())));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            repBody = repBuffer.readString(UTF8);
+        }
+        return repBody;
     }
 
 
-
     private String printReqBody(RequestBody requestBody) throws IOException {
-        String requestJson = "" ;
-        if(requestBody != null) {
+        String requestJson = "";
+        if (requestBody != null) {
             Buffer buffer = new Buffer();
             requestBody.writeTo(buffer);
 
