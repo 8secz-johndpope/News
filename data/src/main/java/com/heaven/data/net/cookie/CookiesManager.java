@@ -5,6 +5,8 @@ import android.content.Context;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
@@ -33,7 +35,7 @@ public class CookiesManager implements CookieJar {
 
 
     @Override
-    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+    public void saveFromResponse(@Nonnull HttpUrl url, @Nonnull List<Cookie> cookies) {
         if (cookies != null && cookies.size() > 0) {
             for (Cookie item : cookies) {
                 cookieStore.add(url, item);
@@ -42,9 +44,8 @@ public class CookiesManager implements CookieJar {
     }
 
     @Override
-    public List<Cookie> loadForRequest(HttpUrl url) {
-        List<Cookie> cookies =cookieStore.get(url);
-        return cookies;
+    public List<Cookie> loadForRequest(@Nonnull HttpUrl url) {
+        return cookieStore.get(url);
     }
 
     static class Customer {

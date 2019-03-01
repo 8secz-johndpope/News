@@ -185,6 +185,7 @@ public class DataRepo {
             this.retrofitBuilder = new Retrofit.Builder();
             this.headerInterceptor = new HeaderInterceptor(headers);
             okHttpBuilder
+                    .cookieJar(new CookiesManager(context))
                     .addInterceptor(headerInterceptor)
                     .addInterceptor(new NetInterceptor())
 //                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -406,12 +407,12 @@ public class DataRepo {
             X509TrustManager xtm = new X509TrustManager() {
                 @Override
                 public void checkClientTrusted(X509Certificate[] chain, String authType) {
-                    Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType );
+//                    Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType );
                 }
 
                 @Override
                 public void checkServerTrusted(X509Certificate[] chain, String authType) {
-                    Logger.i("checkServerTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType );
+//                    Logger.i("checkServerTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType );
                 }
 
                 @Override
