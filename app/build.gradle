@@ -137,7 +137,7 @@ android {
 //            http://mobile.shenzhenair.com/szairMobileWS/
 //            http://m.shenzhenair.com/develop/szairMobileWS/
 //            buildConfigField "String", "ROOT_URL", '"http://47.90.2.202:8090/ifilmo-toc/"'
-            buildConfigField "String", "ROOT_URL", '"https://mobile.shenzhenair.com/szairMobileWS/services/"'
+            buildConfigField "String", "ROOT_URL", '"https://mobile.shenzhenair.com/develop/szairMobileWS/services/"'
             buildConfigField "String", "QQ_APP_ID", '""'
             buildConfigField "String", "WX_APP_ID", '"wxce1a7065bfc5d09e"'
             buildConfigField "String", "WX_APP_SECRET", '"66811ce8142dd4a803a5c8e5020b6675"'
