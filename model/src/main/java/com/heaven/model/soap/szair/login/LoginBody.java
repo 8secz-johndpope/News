@@ -12,6 +12,6 @@ import org.simpleframework.xml.Root;
  */
 @Root(name = "soap:Body", strict = false)
 public class LoginBody {
-    @Element(name = "login")
+    @Element(name = "loginNew")
     public LoginAction action;
 }

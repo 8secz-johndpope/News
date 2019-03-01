@@ -5,6 +5,7 @@ import com.heaven.model.soap.szair.login.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
@@ -16,6 +17,8 @@ import retrofit2.http.POST;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public interface LoginApi {
+    @Headers({"Content-Type:text/xml; charset=utf-8",
+            "SOAPAction:http://WebXml.com.cn/getSupportCity" })
     @POST("memberLoginWebService?wsdl")
     Call<LoginResponse> login(@Body BaseRequest requestEnvelope);
 }
