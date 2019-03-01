@@ -11,7 +11,7 @@ package com.heaven.news.engine;
 public class AppInfo {
     public static final String APP_ID = "5";
     public String APP_IP = "127.0.0.1";
-    public final String DEVICE_TYPE = "android";
+    public final String DEVICE_TYPE = "ANDROID";
     // 移动设备相关属性
     public String MOBILE_MODEL = android.os.Build.MODEL;// 手机型号
     public int MOBILE_SDK = android.os.Build.VERSION.SDK_INT;// SDK版本

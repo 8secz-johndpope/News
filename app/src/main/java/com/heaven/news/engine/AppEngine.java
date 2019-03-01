@@ -143,12 +143,12 @@ public final class AppEngine {
     /* 初始化应用信息 */
     private void initAppInfo() {
         appConfig = new AppInfo();
-        PackageManager pkManager = App.getAppDelegate().context().getPackageManager();
-        appConfig.packageName = App.getAppDelegate().context().getPackageName();
+        PackageManager pkManager = App.getAppDelegate().app().getPackageManager();
+        appConfig.packageName = App.getAppDelegate().app().getPackageName();
         PackageInfo info = null;
         if (pkManager != null) {
             try {
-                info = pkManager.getPackageInfo(appConfig.packageName, PackageManager.GET_SIGNATURES);
+                info = pkManager.getPackageInfo(appConfig.packageName, 0);
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
@@ -299,8 +299,9 @@ public final class AppEngine {
             this.userInfo = userInfo;
             HashMap<String,String> headerMap = new HashMap<>();
             headerMap.put("userId", userInfo.getUserId());
-            headerMap.put("User-Agent", "android(heaven)" + appConfig.verName);
+            headerMap.put("User-Agent", "android(shenzhenair)" + appConfig.verName);
             headerMap.put("X-SZAIR-META", getSzairMeta(userInfo.getUserId()));
+            headerMap.put("X-SZAIR-LANGUAG","zh_CN");
             getDataSource().addExtraHeader(headerMap);
         }
     }
@@ -310,8 +311,13 @@ public final class AppEngine {
      */
     public void initCommonHeader() {
         HashMap<String,String> headerMap = new HashMap<>();
-        headerMap.put("User-Agent", "android(heaven)" + appConfig.verName);
-        headerMap.put("X-SZAIR-META", getSzairMeta(""));
+        if(userInfo != null) {
+            headerMap.put("userId", userInfo.getUserId());
+        }
+        headerMap.put("User-Agent", "android(shenzhenair)" + "5.1.0");
+        headerMap.put("X-SZAIR-META", getSzairMeta(userInfo == null ? "" : userInfo.getUserId()));
+        headerMap.put("X-SZAIR-LANGUAG","zh_CN");
+        headerMap.put("Accept-Encoding","gzip,deflate");
         getDataSource().addExtraHeader(headerMap);
     }
 
@@ -334,7 +340,7 @@ public final class AppEngine {
     private String getSzairMeta(String userId){
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("app_version", appConfig.verName);
+            jsonObject.put("app_version", "5.1.0"/*appConfig.verName*/);
             jsonObject.put("system_name", appConfig.DEVICE_TYPE);
             jsonObject.put("MOBILE_MODEL", appConfig.MOBILE_MODEL);
             jsonObject.put("MOBILE_SDK", appConfig.MOBILE_SDK);
