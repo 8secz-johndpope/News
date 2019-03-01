@@ -42,6 +42,9 @@ public class NetInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         //获取原始Request
         Request request = chain.request();
+
+        Logger.i(printReqBody(request.body()));
+
         long startReqTime = System.nanoTime();
         Response response = chain.proceed(request);
         long endReqTime = System.nanoTime();

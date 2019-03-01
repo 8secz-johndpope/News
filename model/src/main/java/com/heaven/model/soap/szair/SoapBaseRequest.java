@@ -1,5 +1,6 @@
 package com.heaven.model.soap.szair;
 
+import com.heaven.model.soap.request.RequestBody;
 import com.heaven.model.soap.szair.encrypt.KeyGenerator;
 
 import org.simpleframework.xml.Attribute;
@@ -14,10 +15,15 @@ import org.simpleframework.xml.Root;
  * 时间: on 2017/7/7 15:34
  * 邮箱:heavenisme@aliyun.com
  */
-@Root()
+@Root(name = "soap:Envelope")
 @NamespaceList({
-        @Namespace(reference = "?xml version='1.0' encoding='UTF-8' standalone='yes' ?"),
+        @Namespace(reference = "http://schemas.xmlsoap.org/soap/envelope/", prefix = "soap"),
 })
-public class BaseXmlRequest {
-   public BaseRequest baseRequest = new BaseRequest();
+public class SoapBaseRequest {
+
+    @Attribute(name = "MOBILE_TYPE")
+    @Path("soap:Header")
+    public String MOBILE_TYPE = new KeyGenerator().getKey();
+    @Element(name = "soap:Body", required = false)
+    public Object body;
 }

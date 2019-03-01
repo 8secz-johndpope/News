@@ -7,8 +7,7 @@ import android.view.View;
 
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.base.vm.BaseViewModel;
-import com.heaven.model.soap.szair.BaseRequest;
-import com.heaven.model.soap.szair.BaseXmlRequest;
+import com.heaven.model.soap.szair.SoapBaseRequest;
 import com.heaven.model.soap.szair.login.LoginAction;
 import com.heaven.model.soap.szair.login.LoginBody;
 import com.heaven.model.soap.szair.login.LoginParam;
@@ -55,7 +54,7 @@ public class TestViewModel extends BaseViewModel<TestPt> {
 //        requestEnvelop.body = requestBody;
 
 //        BaseXmlRequest baseRequest = new BaseXmlRequest();
-        BaseRequest baseRequest = new BaseRequest();
+        SoapBaseRequest baseRequest = new SoapBaseRequest();
 
         LoginBody body = new LoginBody();
         LoginAction action = new LoginAction();

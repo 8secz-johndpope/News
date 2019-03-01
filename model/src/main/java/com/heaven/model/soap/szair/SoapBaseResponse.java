@@ -5,6 +5,7 @@ import com.heaven.model.soap.szair.login.LoginResBody;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Namespace;
 import org.simpleframework.xml.NamespaceList;
+import org.simpleframework.xml.Path;
 import org.simpleframework.xml.Root;
 
 /**
@@ -16,7 +17,7 @@ import org.simpleframework.xml.Root;
 @NamespaceList({
         @Namespace(reference = "http://schemas.xmlsoap.org/soap/envelope/", prefix = "soap"),
 })
-public class BaseResponse {
-    @Element(name = "soap:Body", required = false)
+public class SoapBaseResponse<T> {
+    @Path("soap:Body")
     public LoginResBody body;
 }
