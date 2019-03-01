@@ -41,51 +41,6 @@ import retrofit2.Response;
  */
 public class TestPt extends BasePresenter {
 
-    public void login(String count,String passwords) {
-        AppEngine.getInstance().getDataSource().addHeader("Content-Type", "text/xml;charset=UTF-8");
-//        RequestEnvelope requestEnvelop = new RequestEnvelope();
-//        RequestBody requestBody = new RequestBody();
-//        RequestModel requestModel = new RequestModel();
-//        requestModel.theCityName = cityName;
-//        requestModel.cityNameAttribute = "http://WebXml.com.cn/";
-//        requestBody.getWeatherbyCityName = requestModel;
-//        requestEnvelop.body = requestBody;
-
-        BaseRequest baseRequest = new BaseRequest();
-        LoginBody body = new LoginBody();
-        LoginAction action = new LoginAction();
-        LoginParam login = new LoginParam();
-        action.LOGIN_PARAM = login;
-        body.action = action;
-        baseRequest.body = body;
-
-        String AES_KEY = "szair-";
-        String password = null;
-        String key = AES_KEY + new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        byte[] passwordByte = CryptUtility.encrypt(passwords.getBytes(), key.getBytes());
-        password = CryptUtility.base64Encode(passwordByte);
-        password = password.replaceAll("\n", "");
-
-        login._USER_NAME = count;
-        login.PASSWORD = password;
-
-        Call<LoginResponse> call = ApiManager.getApi(LoginApi.class).login(baseRequest);
-        call.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-//                Logger.i(response.body());
-                LoginResponse responseEnvelope = response.body();
-//                if (responseEnvelope != null ) {
-//                    List<String> weatherResult = responseEnvelope.body.getWeatherbyCityNameResponse.result;
-//                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-
-            }
-        });
-    }
 
     @Override
     public void initInject() {

@@ -12,7 +12,7 @@ import org.simpleframework.xml.Root;
  * 邮箱:heavenisme@aliyun.com
  */
 @Root(name = "login",strict = false)
-@Namespace(reference = "http://com/szcares/member/webservice/login",prefix = "ns0")
+@Namespace(reference = "http://com/szcares/member/webservice/login",prefix = "ns2")
 public class LoginAction {
     @Element(name="LOGIN_PARAM",required = false)
     public LoginParam LOGIN_PARAM;

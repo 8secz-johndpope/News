@@ -1,6 +1,7 @@
 package com.heaven.news.api;
 
 import com.heaven.model.soap.szair.BaseRequest;
+import com.heaven.model.soap.szair.BaseXmlRequest;
 import com.heaven.model.soap.szair.login.LoginResponse;
 
 import retrofit2.Call;
