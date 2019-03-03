@@ -21,6 +21,8 @@ import org.simpleframework.xml.Root;
         @Namespace(reference = "http://schemas.xmlsoap.org/soap/envelope/", prefix = "soap"),
 })
 public class LoginRequest extends SoapBaseRequest {
-    @Element(name = "soap:Body", required = false)
+    @Path("soap:Body")
+    @Element(name = "loginNew")
+    @Namespace(reference = "http://com/szcares/member/webservice/login",prefix = "ns2")
     public Object body;
 }

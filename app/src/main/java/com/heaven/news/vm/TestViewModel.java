@@ -58,12 +58,12 @@ public class TestViewModel extends BaseViewModel<TestPt> {
 //        BaseXmlRequest baseRequest = new BaseXmlRequest();
         LoginRequest baseRequest = new LoginRequest();
 
-        LoginBody body = new LoginBody();
+//        LoginBody body = new LoginBody();
         LoginAction action = new LoginAction();
         LoginParam login = new LoginParam();
         action.LOGIN_PARAM = login;
-        body.action = action;
-        baseRequest.body = body;
+//        body.action = action;
+        baseRequest.body = action;
 
 
 
