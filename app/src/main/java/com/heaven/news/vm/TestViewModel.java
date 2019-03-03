@@ -10,7 +10,9 @@ import com.heaven.base.vm.BaseViewModel;
 import com.heaven.model.soap.szair.SoapBaseRequest;
 import com.heaven.model.soap.szair.login.LoginAction;
 import com.heaven.model.soap.szair.login.LoginBody;
+import com.heaven.model.soap.szair.login.LoginMethod;
 import com.heaven.model.soap.szair.login.LoginParam;
+import com.heaven.model.soap.szair.login.LoginRequest;
 import com.heaven.model.soap.szair.login.LoginResponse;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.engine.ApiManager;
@@ -54,7 +56,7 @@ public class TestViewModel extends BaseViewModel<TestPt> {
 //        requestEnvelop.body = requestBody;
 
 //        BaseXmlRequest baseRequest = new BaseXmlRequest();
-        SoapBaseRequest baseRequest = new SoapBaseRequest();
+        LoginRequest baseRequest = new LoginRequest();
 
         LoginBody body = new LoginBody();
         LoginAction action = new LoginAction();
@@ -62,6 +64,8 @@ public class TestViewModel extends BaseViewModel<TestPt> {
         action.LOGIN_PARAM = login;
         body.action = action;
         baseRequest.body = body;
+
+
 
         String AES_KEY = "szair-";
         String password = null;

@@ -10,8 +10,6 @@ import org.simpleframework.xml.Root;
  * 时间: on 2017/7/8 11:05
  * 邮箱:heavenisme@aliyun.com
  */
-@Root(name = "soap:Body", strict = false)
-@Namespace(reference = "")
 public class LoginBody {
     @Element(name = "loginNew")
     @Namespace(reference = "http://com/szcares/member/webservice/login",prefix = "ns2")

@@ -24,6 +24,4 @@ public class SoapBaseRequest {
     @Attribute(name = "MOBILE_TYPE")
     @Path("soap:Header")
     public String MOBILE_TYPE = new KeyGenerator().getKey();
-    @Element(name = "soap:Body", required = false)
-    public Object body;
 }
