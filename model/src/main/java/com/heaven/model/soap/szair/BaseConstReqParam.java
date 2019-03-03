@@ -1,5 +1,6 @@
 package com.heaven.model.soap.szair;
 
+import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
 
 /**
@@ -7,7 +8,7 @@ import org.simpleframework.xml.Element;
  * 时间: on 2017/7/7 15:30
  * 邮箱:heavenisme@aliyun.com
  */
-
+@Default
 public class BaseConstReqParam {
     @Element(name = "APP_ID", required = false)
     public String APP_ID = "5";

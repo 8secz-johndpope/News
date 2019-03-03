@@ -10,7 +10,6 @@ import org.simpleframework.xml.Root;
  * 时间: on 2017/7/7 15:31
  * 邮箱:heavenisme@aliyun.com
  */
-@Root(name="LOGIN_PARAM",strict = false)
 public class LoginParam extends BaseConstReqParam {
     @Element(name = "DEVICE_NUMBER", required = false)
     public String DEVICE_NUMBER;
