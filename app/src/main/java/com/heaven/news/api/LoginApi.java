@@ -1,8 +1,9 @@
 package com.heaven.news.api;
 
-import com.heaven.model.soap.szair.SoapBaseRequest;
-import com.heaven.model.soap.szair.login.LoginResponse;
+import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
+import com.neusoft.szair.model.memberbase.loginNewResponse;
 
+import io.reactivex.Flowable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
@@ -19,5 +20,5 @@ import retrofit2.http.POST;
 public interface LoginApi {
     @Headers({"Content-Type:text/xml; charset=utf-8"})
     @POST("memberLoginWebService?wsdl")
-    Call<LoginResponse> login(@Body SoapBaseRequest requestEnvelope);
+    Flowable<loginNewResponse> login(@Body MemberLoginWebServiceImplServiceSoapBinding requestEnvelope);
 }

@@ -50,8 +50,5 @@ dependencies {
 
     api 'com.github.todou:appbarspring:1.0.3'
     api project(':theme')
-
     api project(':service')
-    api project(':model')
-
 }

@@ -60,6 +60,8 @@ dependencies {
             }
     api netDep.convertergson
     api 'com.google.guava:guava:27.0.1-android'
+    compile 'com.squareup.retrofit2:converter-jaxb:2.5.0'
+    api project(':model')
 }
 
 //添加

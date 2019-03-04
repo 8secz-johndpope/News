@@ -3,17 +3,15 @@ package com.heaven.data.net;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.heaven.data.convert.szair.SzAirConvertFactory;
 import com.heaven.data.net.cookie.CookiesManager;
-import com.heaven.data.util.MD5Util;
 import com.heaven.data.util.MD5Utils;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -449,7 +447,9 @@ public class DataRepo {
                     addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEJSON);
                     break;
                 case XML:
-                    converterFactory = SimpleXmlConverterFactory.create();
+//                    converterFactory = JaxbConverterFactory.create();
+//                    converterFactory = SimpleXmlConverterFactory.create();
+                    converterFactory = SzAirConvertFactory.create();
                     addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
                     break;
                 case PROTOBUF:

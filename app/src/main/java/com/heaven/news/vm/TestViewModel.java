@@ -3,26 +3,26 @@ package com.heaven.news.vm;
 import android.app.Application;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
-import android.view.View;
 
-import com.heaven.annotation.aspect.TraceTime;
+import com.heaven.base.utils.RxSchedulers;
 import com.heaven.base.vm.BaseViewModel;
-import com.heaven.model.soap.szair.SoapBaseRequest;
-import com.heaven.model.soap.szair.login.LoginAction;
-import com.heaven.model.soap.szair.login.LoginBody;
-import com.heaven.model.soap.szair.login.LoginMethod;
-import com.heaven.model.soap.szair.login.LoginParam;
-import com.heaven.model.soap.szair.login.LoginRequest;
-import com.heaven.model.soap.szair.login.LoginResponse;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.pt.TestPt;
 import com.heaven.news.utils.CryptUtility;
+import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
+import com.neusoft.szair.model.memberbase.loginNew;
+import com.neusoft.szair.model.memberbase.loginNewResponse;
+import com.neusoft.szair.model.memberbase.loginReqVO;
+import com.neusoft.szair.model.soap.SOAPConstants;
+import com.orhanobut.logger.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import io.reactivex.Flowable;
+import io.reactivex.functions.Consumer;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,15 +56,6 @@ public class TestViewModel extends BaseViewModel<TestPt> {
 //        requestEnvelop.body = requestBody;
 
 //        BaseXmlRequest baseRequest = new BaseXmlRequest();
-        LoginRequest baseRequest = new LoginRequest();
-
-//        LoginBody body = new LoginBody();
-        LoginAction action = new LoginAction();
-        LoginParam login = new LoginParam();
-        action.LOGIN_PARAM = login;
-//        body.action = action;
-        baseRequest.body = action;
-
 
 
         String AES_KEY = "szair-";
@@ -74,24 +65,41 @@ public class TestViewModel extends BaseViewModel<TestPt> {
         password = CryptUtility.base64Encode(passwordByte);
         password = password.replaceAll("\n", "");
 
-        login._USER_NAME = count;
-        login.PASSWORD = password;
+        loginReqVO loginreqvo = new loginReqVO();
+        loginreqvo._USER_NAME = count;
+        loginreqvo._PASSWORD = password;
 
-        Call<LoginResponse> call = ApiManager.getApi(LoginApi.class).login(baseRequest);
-        call.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-//                Logger.i(response.body());
-                LoginResponse responseEnvelope = response.body();
-//                if (responseEnvelope != null ) {
-//                    List<String> weatherResult = responseEnvelope.body.getWeatherbyCityNameResponse.result;
-//                }
-            }
+        loginreqvo._APP_ID = SOAPConstants.APP_ID;
+        loginreqvo._APP_IP = SOAPConstants.APP_IP;
+        loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
 
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+        loginreqvo._DEVICE_TOKEN = "";
+        loginNew login = new loginNew();
+        login._LOGIN_PARAM = loginreqvo;
 
-            }
-        });
+        MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
+
+        Flowable<loginNewResponse> call =  ApiManager.getApi(LoginApi.class).login(bind);
+
+        call.compose(RxSchedulers.io_main())
+                .subscribe(o -> {
+                    Logger.i(o.toString());
+                });
+                ;
+//        call.enqueue(new Callback<loginNewResponse>() {
+//            @Override
+//            public void onResponse(Call<loginNewResponse> call, Response<loginNewResponse> response) {
+////                Logger.i(response.body());
+////                loginNewResponse responseEnvelope = response.body();
+////                if (responseEnvelope != null ) {
+////                    List<String> weatherResult = responseEnvelope.body.getWeatherbyCityNameResponse.result;
+////                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<loginNewResponse> call, Throwable t) {
+//
+//            }
+//        });
     }
 }
