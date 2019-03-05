@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import io.reactivex.Flowable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -84,6 +85,6 @@ public class TestViewModel extends BaseViewModel<TestPt> {
 
         Flowable<DataResponse<loginNewResponse>> call =  ApiManager.getApi(LoginApi.class).login(bind);
 
-        call.compose(RxSchedulers.io_main()).subscribe(o -> Logger.i("heaven---" + o.toString()));
+        call.compose(RxSchedulers.io_main()).subscribe(o -> Logger.i("heaven---" + o.toString()))
     }
 }
