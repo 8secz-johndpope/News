@@ -1,5 +1,7 @@
 package com.heaven.news;
 
+import android.arch.lifecycle.Observer;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,6 +40,9 @@ public class MainActivity extends BaseBindActivity<TestPt,TestViewModel, Activit
 //        virtualApk();
 //        mPresenter.login(name,password);
 //        getWeatherbyCityName(name);
+        mViewModel.getUserName().observe(this, s -> {
+            mViewBinding.userName.setText(s);
+        });
     }
 
 }

@@ -2,6 +2,7 @@ package com.heaven.news.vm;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.arch.lifecycle.MutableLiveData;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
@@ -39,7 +40,7 @@ import retrofit2.Response;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class TestViewModel extends BaseViewModel<TestPt> {
-    public final ObservableField<String> userCount = new ObservableField<>();
+    public final MutableLiveData<String> userName = new MutableLiveData<>();
 
     public final ObservableField<String> passwordObserve = new ObservableField<>();
 
@@ -81,10 +82,21 @@ public class TestViewModel extends BaseViewModel<TestPt> {
         loginNew login = new loginNew();
         login._LOGIN_PARAM = loginreqvo;
 
+
         MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
 
         Flowable<DataResponse<loginNewResponse>> call =  ApiManager.getApi(LoginApi.class).login(bind);
 
-        call.compose(RxSchedulers.io_main()).subscribe(o -> Logger.i("heaven---" + o.toString()))
+        Disposable disposable = call.compose(RxSchedulers.io_main()).subscribe(o -> {
+            userName.postValue(o.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
+            Logger.i("heaven---" + o.toString());
+        });
+
     }
+
+
+    public MutableLiveData<String> getUserName() {
+        return userName;
+    }
+
 }
