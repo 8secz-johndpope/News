@@ -33,7 +33,7 @@ public class MD5Util {
 			resultString = byteArrayToHexString(md.digest(resultString
 					.getBytes()));
 
-		} catch (Exception exception) { 
+		} catch (Exception exception) {
 		    exception.printStackTrace();
 		}
 		return resultString;
