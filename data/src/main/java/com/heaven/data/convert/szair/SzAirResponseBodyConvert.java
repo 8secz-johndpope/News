@@ -25,35 +25,38 @@ import retrofit2.Converter;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class SzAirResponseBodyConvert <T> implements Converter<ResponseBody, T> {
+public class SzAirResponseBodyConvert<T> implements Converter<ResponseBody, T> {
     SzAirRequestBodyConvert requestBodyConvert;
 
 
-     SzAirResponseBodyConvert() {
+    SzAirResponseBodyConvert() {
     }
 
-    public void setBinding(SzAirRequestBodyConvert requestBodyConvert) {
+    void setBinding(SzAirRequestBodyConvert requestBodyConvert) {
         this.requestBodyConvert = requestBodyConvert;
     }
 
-    @Override public T convert(ResponseBody value) throws IOException {
+    @Override
+    public T convert(ResponseBody value) throws IOException {
+        DataResponse response = new DataResponse();
         try {
-
-//           String repBody = new String(ByteStreams.toByteArray(new GZIPInputStream(value.byteStream())));
-            SOAPEnvelope soapEnvelope = requestBodyConvert.getBinding().makeResponse(new GZIPInputStream(value.byteStream()));
-            DataResponse response = new DataResponse();
-            response.code = 0;
-            if(soapEnvelope.bodyElements.size() == 1) {
-             Object  result = soapEnvelope.bodyElements.get(0);
-                if(result instanceof SOAPFault) {
-                    SOAPFault fault = (SOAPFault)result;
-                    response.code = 9;
-                    response.reason = fault.getfaultstring();
-                } else {
-                    response.data = result;
+            SOAPBinding binding = requestBodyConvert.getBinding();
+            if (binding != null) {
+                SOAPEnvelope soapEnvelope = binding.makeResponse(new GZIPInputStream(value.byteStream()));
+                response.code = 0;
+                if (soapEnvelope.bodyElements.size() == 1) {
+                    Object result = soapEnvelope.bodyElements.get(0);
+                    if (result instanceof SOAPFault) {
+                        SOAPFault fault = (SOAPFault) result;
+                        response.code = 9;
+                        response.reason = fault.getfaultstring();
+                    } else {
+                        response.data = result;
+                    }
                 }
+                return (T) response;
             }
-            return (T) response;
+
         } catch (RuntimeException | IOException e) {
             throw e;
         } catch (Exception e) {
@@ -61,6 +64,7 @@ public class SzAirResponseBodyConvert <T> implements Converter<ResponseBody, T> 
         } finally {
             value.close();
         }
+        return (T) response;
     }
 
 }

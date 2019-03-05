@@ -36,7 +36,6 @@ public class SzAirRequestBodyConvert<T> implements Converter<T, RequestBody> {
     }
 
     @Override public RequestBody convert(T value) throws IOException {
-        Buffer buffer = new Buffer();
         String requestStr = "";
         if(value instanceof SOAPBinding) {
             binding = (SOAPBinding) value;
