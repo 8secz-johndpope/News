@@ -83,7 +83,7 @@ public class TestViewModel extends BaseViewModel<TestPt> {
 
         call.compose(RxSchedulers.io_main())
                 .subscribe(o -> {
-                    Logger.i(o.toString());
+                    Logger.i("heaven---" + o.toString());
                 });
                 ;
 //        call.enqueue(new Callback<loginNewResponse>() {

@@ -45,29 +45,9 @@ public class SzAirRequestBodyConvert<T> implements Converter<T, RequestBody> {
             requestStr = binding.makeRequest();
         }
         return RequestBody.create(MEDIA_TYPE, ByteString.encodeUtf8(requestStr));
-//        try {
-//            OutputStreamWriter osw = new OutputStreamWriter(buffer.outputStream(), CHARSET);
-//            serializer.write(value, osw);
-//            osw.flush();
-//        } catch (RuntimeException | IOException e) {
-//            throw e;
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        return RequestBody.create(MEDIA_TYPE, buffer.readByteString());
     }
 
     public SOAPBinding getBinding() {
         return binding;
     }
-
-    //    @Nullable
-//    @Override
-//    public RequestBody convert(T value) throws IOException {
-//        String requestStr = "";
-//        if(value instanceof SOAPBinding) {
-//            requestStr = ((SOAPBinding) value).makeRequest();
-//        }
-//        return RequestBody.create(MEDIA_TYPE, ByteString.encodeUtf8(requestStr));
-//    }
 }
