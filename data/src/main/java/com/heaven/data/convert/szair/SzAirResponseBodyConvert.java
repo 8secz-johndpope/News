@@ -26,14 +26,10 @@ import retrofit2.Converter;
  */
 public class SzAirResponseBodyConvert <T> implements Converter<ResponseBody, T> {
     private final Class<T> cls;
-    private final Serializer serializer;
-    private final boolean strict;
     SzAirRequestBodyConvert requestBodyConvert;
 
-    SzAirResponseBodyConvert(Class<T> cls, Serializer serializer, boolean strict) {
+    SzAirResponseBodyConvert(Class<T> cls) {
         this.cls = cls;
-        this.serializer = serializer;
-        this.strict = strict;
     }
 
     public void setBinding(SzAirRequestBodyConvert requestBodyConvert) {

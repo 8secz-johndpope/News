@@ -27,43 +27,20 @@ public class SzAirConvertFactory extends Converter.Factory{
 
     /** Create an instance using a default {@link Persister} instance for conversion. */
     public static SzAirConvertFactory create() {
-        return create(new Persister());
+        return createInstance();
     }
 
     /** Create an instance using {@code serializer} for conversion. */
-    public static SzAirConvertFactory create(Serializer serializer) {
-        return new SzAirConvertFactory(serializer, true);
+    public static SzAirConvertFactory createInstance() {
+        return new SzAirConvertFactory();
     }
 
-    /** Create an instance using a default {@link Persister} instance for non-strict conversion. */
-    public static SzAirConvertFactory createNonStrict() {
-        return createNonStrict(new Persister());
-    }
 
-    /** Create an instance using {@code serializer} for non-strict conversion. */
-    @SuppressWarnings("ConstantConditions") // Guarding public API nullability.
-    public static SzAirConvertFactory createNonStrict(Serializer serializer) {
-        if (serializer == null) {
-            throw new NullPointerException("serializer == null");
-        }
-        return new SzAirConvertFactory(serializer, false);
-    }
 
-    private final Serializer serializer;
-    private final boolean strict;
+    private SzAirRequestBodyConvert requestBodyConvert;
 
-    private SOAPBinding binding;
-    SzAirRequestBodyConvert requestBodyConvert;
-    SzAirResponseBodyConvert responseBodyConvert;
-
-    private SzAirConvertFactory(Serializer serializer, boolean strict) {
-        this.serializer = serializer;
-        this.strict = strict;
-        requestBodyConvert = new SzAirRequestBodyConvert<>(serializer);
-    }
-
-    public boolean isStrict() {
-        return strict;
+    private SzAirConvertFactory() {
+        requestBodyConvert = new SzAirRequestBodyConvert<>();
     }
 
 
@@ -74,7 +51,7 @@ public class SzAirConvertFactory extends Converter.Factory{
             return null;
         }
         Class<?> cls = (Class<?>) type;
-        responseBodyConvert = new SzAirResponseBodyConvert<>(cls, serializer, strict);
+        SzAirResponseBodyConvert responseBodyConvert = new SzAirResponseBodyConvert<>(cls);
         responseBodyConvert.setBinding(requestBodyConvert);
         return responseBodyConvert;
     }

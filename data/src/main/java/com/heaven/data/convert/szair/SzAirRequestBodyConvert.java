@@ -29,12 +29,10 @@ public class SzAirRequestBodyConvert<T> implements Converter<T, RequestBody> {
     private static final MediaType MEDIA_TYPE = MediaType.get("text/xml; charset=UTF-8");
     private static final String CHARSET = "UTF-8";
 
-    private final Serializer serializer;
 
     private SOAPBinding binding;
 
-    SzAirRequestBodyConvert(Serializer serializer) {
-        this.serializer = serializer;
+    SzAirRequestBodyConvert() {
     }
 
     @Override public RequestBody convert(T value) throws IOException {
