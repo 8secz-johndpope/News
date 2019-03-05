@@ -1,11 +1,13 @@
 package com.heaven.news.vm;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
 import com.heaven.base.utils.RxSchedulers;
 import com.heaven.base.vm.BaseViewModel;
+import com.heaven.data.net.DataResponse;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
@@ -45,7 +47,8 @@ public class TestViewModel extends BaseViewModel<TestPt> {
     }
 
 
-    public void login(String count,String passwords) {
+    @SuppressLint("CheckResult")
+    public void login(String count, String passwords) {
         AppEngine.getInstance().getDataSource().addHeader("Content-Type", "text/xml;charset=UTF-8");
 //        RequestEnvelope requestEnvelop = new RequestEnvelope();
 //        RequestBody requestBody = new RequestBody();
@@ -79,27 +82,8 @@ public class TestViewModel extends BaseViewModel<TestPt> {
 
         MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
 
-        Flowable<loginNewResponse> call =  ApiManager.getApi(LoginApi.class).login(bind);
+        Flowable<DataResponse<loginNewResponse>> call =  ApiManager.getApi(LoginApi.class).login(bind);
 
-        call.compose(RxSchedulers.io_main())
-                .subscribe(o -> {
-                    Logger.i("heaven---" + o.toString());
-                });
-                ;
-//        call.enqueue(new Callback<loginNewResponse>() {
-//            @Override
-//            public void onResponse(Call<loginNewResponse> call, Response<loginNewResponse> response) {
-////                Logger.i(response.body());
-////                loginNewResponse responseEnvelope = response.body();
-////                if (responseEnvelope != null ) {
-////                    List<String> weatherResult = responseEnvelope.body.getWeatherbyCityNameResponse.result;
-////                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<loginNewResponse> call, Throwable t) {
-//
-//            }
-//        });
+        call.compose(RxSchedulers.io_main()).subscribe(o -> Logger.i("heaven---" + o.toString()));
     }
 }

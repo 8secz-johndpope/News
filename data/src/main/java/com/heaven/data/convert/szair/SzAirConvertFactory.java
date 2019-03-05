@@ -1,11 +1,14 @@
 package com.heaven.data.convert.szair;
 
+import com.heaven.data.net.DataResponse;
 import com.neusoft.szair.model.soap.SOAPBinding;
+import com.orhanobut.logger.Logger;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import javax.annotation.Nullable;
@@ -23,7 +26,7 @@ import retrofit2.Retrofit;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class SzAirConvertFactory extends Converter.Factory{
+public class SzAirConvertFactory extends Converter.Factory {
 
     /** Create an instance using a default {@link Persister} instance for conversion. */
     public static SzAirConvertFactory create() {
@@ -36,7 +39,6 @@ public class SzAirConvertFactory extends Converter.Factory{
     }
 
 
-
     private SzAirRequestBodyConvert requestBodyConvert;
 
     private SzAirConvertFactory() {
@@ -47,11 +49,7 @@ public class SzAirConvertFactory extends Converter.Factory{
     @Nullable
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        if (!(type instanceof Class)) {
-            return null;
-        }
-        Class<?> cls = (Class<?>) type;
-        SzAirResponseBodyConvert responseBodyConvert = new SzAirResponseBodyConvert<>(cls);
+        SzAirResponseBodyConvert responseBodyConvert = new SzAirResponseBodyConvert<>();
         responseBodyConvert.setBinding(requestBodyConvert);
         return responseBodyConvert;
     }

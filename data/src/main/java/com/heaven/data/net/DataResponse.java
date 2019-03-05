@@ -18,4 +18,17 @@ public class DataResponse<T> {
     public Object detail;
 
     public T data;
+
+    @Override
+    public String toString() {
+        return "DataResponse{" +
+                "reason='" + reason + '\'' +
+                ", sessionID='" + sessionID + '\'' +
+                ", code=" + code +
+                ", error_code=" + error_code +
+                ", resultcode='" + resultcode + '\'' +
+                ", detail=" + detail +
+                ", data=" + data +
+                '}';
+    }
 }
