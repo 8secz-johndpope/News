@@ -52,16 +52,6 @@ public class TestViewModel extends BaseViewModel<TestPt> {
     @SuppressLint("CheckResult")
     public void login(String count, String passwords) {
         AppEngine.getInstance().getDataSource().addHeader("Content-Type", "text/xml;charset=UTF-8");
-//        RequestEnvelope requestEnvelop = new RequestEnvelope();
-//        RequestBody requestBody = new RequestBody();
-//        RequestModel requestModel = new RequestModel();
-//        requestModel.theCityName = cityName;
-//        requestModel.cityNameAttribute = "http://WebXml.com.cn/";
-//        requestBody.getWeatherbyCityName = requestModel;
-//        requestEnvelop.body = requestBody;
-
-//        BaseXmlRequest baseRequest = new BaseXmlRequest();
-
 
         String AES_KEY = "szair-";
         String password = null;
@@ -70,6 +60,7 @@ public class TestViewModel extends BaseViewModel<TestPt> {
         password = CryptUtility.base64Encode(passwordByte);
         password = password.replaceAll("\n", "");
 
+        loginNew login = new loginNew();
         loginReqVO loginreqvo = new loginReqVO();
         loginreqvo._USER_NAME = count;
         loginreqvo._PASSWORD = password;
@@ -79,7 +70,6 @@ public class TestViewModel extends BaseViewModel<TestPt> {
         loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
 
         loginreqvo._DEVICE_TOKEN = "";
-        loginNew login = new loginNew();
         login._LOGIN_PARAM = loginreqvo;
 
 
