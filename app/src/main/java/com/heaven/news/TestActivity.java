@@ -1,7 +1,6 @@
 package com.heaven.news;
 
 import com.heaven.base.ui.activity.BaseBindActivity;
-import com.heaven.news.pt.TestPt;
 
 /**
  * FileName: com.heaven.news.TestActivity.java

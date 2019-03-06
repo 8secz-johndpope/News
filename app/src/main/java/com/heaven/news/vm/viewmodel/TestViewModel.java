@@ -1,4 +1,4 @@
-package com.heaven.news.vm;
+package com.heaven.news.vm.viewmodel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
@@ -8,15 +8,13 @@ import android.support.annotation.NonNull;
 
 import com.heaven.base.utils.RxSchedulers;
 import com.heaven.base.vm.BaseViewModel;
-import com.heaven.data.net.DataResponse;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.pt.TestPt;
+import com.heaven.news.vm.present.TestPt;
 import com.heaven.news.utils.CryptUtility;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
-import com.neusoft.szair.model.memberbase.loginNewResponse;
 import com.neusoft.szair.model.memberbase.loginReqVO;
 import com.neusoft.szair.model.soap.SOAPConstants;
 import com.orhanobut.logger.Logger;
@@ -24,15 +22,8 @@ import com.orhanobut.logger.Logger;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import io.reactivex.Flowable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /**
- * FileName: com.heaven.news.vm.TestViewModel.java
+ * FileName: com.heaven.news.vm.viewmodel.TestViewModel.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-02-25 16:45

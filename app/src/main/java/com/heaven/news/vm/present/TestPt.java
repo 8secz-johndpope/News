@@ -1,9 +1,9 @@
-package com.heaven.news.pt;
+package com.heaven.news.vm.present;
 
 import com.heaven.base.presenter.BasePresenter;
 
 /**
- * FileName: com.heaven.news.pt.TestPt.java
+ * FileName: com.heaven.news.vm.present.TestPt.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-02-25 16:43

@@ -1,16 +1,13 @@
 package com.heaven.news;
 
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.news.databinding.ActivityMainBinding;
-import com.heaven.news.pt.TestPt;
-import com.heaven.news.vm.TestViewModel;
+import com.heaven.news.vm.present.TestPt;
+import com.heaven.news.vm.viewmodel.TestViewModel;
 
 public class MainActivity extends BaseBindActivity<TestPt,TestViewModel, ActivityMainBinding> {
 
