@@ -25,9 +25,9 @@ public class SpUtil {
 
     public static void setNight(Context context, boolean isNight) {
         prefs.edit().putBoolean("isNight", isNight).apply();
-        if (context instanceof BaseActivity)
+        if (context instanceof BaseActivity) {
             ((BaseActivity) context).reload();
-        else if(context instanceof BasePtActivity) {
+        } else if(context instanceof BasePtActivity) {
             ((BasePtActivity) context).reload();
         }
     }

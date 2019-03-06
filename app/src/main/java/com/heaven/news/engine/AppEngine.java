@@ -103,22 +103,34 @@ public final class AppEngine {
      */
     private void init() {
         store = new Stack<>();
+        //上下文代理
         appDelegate = App.getAppDelegate();
+        //启动后台服务
         ServiceCore.getInstance(appDelegate.context());
+        //白天黑夜切换
         SpUtil.init(appDelegate.app());
         int type = SpUtil.isNight() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
         AppCompatDelegate.setDefaultNightMode(type);
+        //数据源和后台服务依赖注入
         initializeInjector(appDelegate.context());
+        //activity声明周期检测
         SwitchBackgroundCallbacks callbacks = new SwitchBackgroundCallbacks();
         appDelegate.app().registerActivityLifecycleCallbacks(callbacks);
+        //耗时初始化在线程中
+        getDataSource().runWorkThread(this::initInThread);
+    }
 
+    private void initInThread() {
+        //微信相关分享
         initShare(appDelegate.context());
         //初始化异常捕获类 CrashHandler
         CrashHandler.getInstance().init(appDelegate.context());
+        //qq X5浏览器内核初始化
         initX5Core(appDelegate.context());
+        //日志组件初始化
         initLogger();
+        //应用优化组件初始化
         initAppOptimizeTool(appDelegate.context());
-//        Logger.init("heaven");
     }
 
     private void initLogger() {
