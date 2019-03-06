@@ -85,13 +85,12 @@ public class TestViewModel extends BaseViewModel<TestPt> {
 
         MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
 
-        Flowable<DataResponse<loginNewResponse>> call =  ApiManager.getApi(LoginApi.class).login(bind);
+//        Flowable<DataResponse<loginNewResponse>> call =  ApiManager.getApi(LoginApi.class).login(bind);
 
-        Disposable disposable = call.compose(RxSchedulers.io_main()).subscribe(o -> {
-            userName.postValue(o.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
-            Logger.i("heaven---" + o.toString());
+        RxSchedulers.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
+            userName.postValue(loginNewResponseDataResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
+            Logger.i("heaven---" + loginNewResponseDataResponse.toString());
         });
-
     }
 
 
