@@ -78,8 +78,10 @@ public class TestViewModel extends BaseViewModel<TestPt> {
 //        Flowable<DataResponse<loginNewResponse>> call =  ApiManager.getApi(LoginApi.class).login(bind);
 
         RxSchedulers.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
-            userName.postValue(loginNewResponseDataResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
             Logger.i("heaven---" + loginNewResponseDataResponse.toString());
+            if(loginNewResponseDataResponse.code == 0) {
+                userName.postValue(loginNewResponseDataResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
+            }
         });
     }
 
