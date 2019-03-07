@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 import retrofit2.HttpException;
 
@@ -72,8 +73,15 @@ public class ExceptionHandle {
             ex.code = ERROR.SSL_ERROR;
             ex.reason = "证书验证失败";
             return ex;
+        } else if(e instanceof SocketTimeoutException) {
+            SocketTimeoutException timeoutException = (SocketTimeoutException) e;
+            ex = new DataResponse();
+            ex.code = ERROR.TIME_OUT;
+            ex.reason = timeoutException.getMessage();
+            return ex;
         } else if(e instanceof Exception) {
             ex = new DataResponse();
+            ex.code = ERROR.UNKNOWN;
             ex.reason = e.getMessage();
             return ex;
         } else {
@@ -109,6 +117,11 @@ public class ExceptionHandle {
          * 证书出错
          */
         static final int SSL_ERROR = 1005;
+
+        /**
+         * 超时
+         */
+        static final int TIME_OUT = 1006;
     }
 
     public class ServerException extends RuntimeException {
