@@ -40,7 +40,6 @@ public class TestViewModel extends BaseViewModel<TestPt> {
     }
 
 
-    @SuppressLint("CheckResult")
     public void login(String count, String passwords) {
         AppEngine.getInstance().getDataSource().addHeader("Content-Type", "text/xml;charset=UTF-8");
 
