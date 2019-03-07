@@ -66,7 +66,7 @@ public final class AppEngine {
     /**
      * 后台服务中心
      */
-    private ServiceCore mServiceCore;
+//    private ServiceCore mServiceCore;
 
     /**
      * 当前activity存储栈.
@@ -106,7 +106,7 @@ public final class AppEngine {
         //上下文代理
         appDelegate = App.getAppDelegate();
         //启动后台服务
-        ServiceCore.getInstance(appDelegate.context());
+//        ServiceCore.getInstance(appDelegate.context());
         //白天黑夜切换
         SpUtil.init(appDelegate.app());
         int type = SpUtil.isNight() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
@@ -235,7 +235,7 @@ public final class AppEngine {
     private void initializeInjector(final Context context) {
         engineComponent = DaggerEngineComponent.builder().engineModule(new EngineModule(context)).build();
         mDataSource = engineComponent.dataSource();
-        mServiceCore = engineComponent.serviceCore();
+//        mServiceCore = engineComponent.serviceCore();
     }
 
     /**

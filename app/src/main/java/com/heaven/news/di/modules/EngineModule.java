@@ -29,7 +29,7 @@ public class EngineModule {
         builder.addNetRepo(BuildConfig.ROOT_URL, NetGlobalConfig.PROTOTYPE.XML);
         dataSource = builder.build();
         dataSource.addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
-        ServiceCore.initServiceCore(mContext);
+//        ServiceCore.initServiceCore(mContext);
     }
 
     @Provides
@@ -47,6 +47,6 @@ public class EngineModule {
     @Provides
     @Singleton
     ServiceCore providerServiceCore() {
-        return ServiceCore.getInstance(mContext);
+        return null;//ServiceCore.getInstance(mContext);
     }
 }
