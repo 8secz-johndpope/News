@@ -65,8 +65,6 @@ public class TestViewModel extends BaseViewModel<TestPt> {
 
         MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
 
-//        Flowable<DataResponse<loginNewResponse>> call =  ApiManager.getApi(LoginApi.class).login(bind);
-
         RxSchedulers.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
             Logger.i("heaven---" + loginNewResponseDataResponse.toString());
             if(loginNewResponseDataResponse.code == 0) {
