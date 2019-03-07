@@ -1,10 +1,11 @@
-package com.heaven.news;
+package com.heaven.news.ui;
 
 import android.os.Bundle;
 import android.view.View;
 
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.base.ui.activity.BaseBindActivity;
+import com.heaven.news.R;
 import com.heaven.news.databinding.ActivityMainBinding;
 import com.heaven.news.vm.present.TestPt;
 import com.heaven.news.vm.viewmodel.TestViewModel;

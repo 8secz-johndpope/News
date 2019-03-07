@@ -4,7 +4,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 
-import com.heaven.news.MainActivity;
+import com.heaven.news.ui.MainActivity;
 import com.heaven.news.engine.AppEngine;
 
 import org.aspectj.lang.ProceedingJoinPoint;

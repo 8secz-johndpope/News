@@ -1,9 +1,9 @@
-package com.heaven.news;
+package com.heaven.news.ui;
 
 import com.heaven.base.ui.activity.BaseBindActivity;
 
 /**
- * FileName: com.heaven.news.TestActivity.java
+ * FileName: com.heaven.news.ui.TestActivity.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-02-25 17:42
