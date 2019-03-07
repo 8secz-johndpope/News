@@ -27,6 +27,7 @@ public class EngineModule {
         this.mContext = context;
         DataSource.Builder builder = new DataSource.Builder(context);
         builder.addNetRepo(BuildConfig.ROOT_URL, NetGlobalConfig.PROTOTYPE.XML);
+        builder.addNetRepo(BuildConfig.CONFIG_URL,NetGlobalConfig.PROTOTYPE.JSON);
         dataSource = builder.build();
         dataSource.addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
 //        ServiceCore.initServiceCore(mContext);

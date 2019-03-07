@@ -25,4 +25,14 @@ public class ApiManager {
     public static <T> T getApi(Class<T> apiClass){
         return AppEngine.getInstance().getNetApi(apiClass);
     }
+
+    public static <T> T getApi(String url,Class<T> apiClass){
+        T targetApi = null;
+        try {
+            targetApi = AppEngine.getInstance().getNetApi(url,apiClass);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return targetApi;
+    }
 }

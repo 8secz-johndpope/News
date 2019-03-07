@@ -419,6 +419,16 @@ public final class AppEngine {
         return engineComponent.dataSource().getNetApi(apiClass);
     }
 
+    /**
+     * 取得网络数据源的api
+     * @param apiClass api接口
+     * @param <T> 泛型
+     * @return api
+     */
+    <T> T getNetApi(String url,Class<T> apiClass) throws Exception {
+        return engineComponent.dataSource().getNetApi(url,apiClass);
+    }
+
     public ServiceCore getServiceCore() {
         return engineComponent.serviceCore();
     }

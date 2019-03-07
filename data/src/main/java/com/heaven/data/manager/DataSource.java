@@ -136,6 +136,7 @@ public class DataSource {
                 }
                 if (repos.size() == 0) {
                     mainRepo = repoBuilder.build();
+                    repos.put(mainRepo.repoIdentify, mainRepo);
                 } else {
                     DataRepo repo = repoBuilder.build();
                     repos.put(repo.repoIdentify, repo);

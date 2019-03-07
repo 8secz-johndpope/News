@@ -8,9 +8,12 @@ import android.support.annotation.NonNull;
 
 import com.heaven.base.utils.RxSchedulers;
 import com.heaven.base.vm.BaseViewModel;
+import com.heaven.news.BuildConfig;
+import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.utils.RxRepUtils;
 import com.heaven.news.vm.present.TestPt;
 import com.heaven.news.utils.CryptUtility;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
@@ -63,13 +66,16 @@ public class TestViewModel extends BaseViewModel<TestPt> {
         login._LOGIN_PARAM = loginreqvo;
 
 
-        MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
-
-        RxSchedulers.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
-            Logger.i("heaven---" + loginNewResponseDataResponse.toString());
-            if(loginNewResponseDataResponse.code == 0) {
-                userName.postValue(loginNewResponseDataResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
-            }
+//        MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
+//
+//        RxSchedulers.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
+//            Logger.i("heaven---" + loginNewResponseDataResponse.toString());
+//            if(loginNewResponseDataResponse.code == 0) {
+//                userName.postValue(loginNewResponseDataResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
+//            }
+//        });
+        RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL,ConfigApi.class).getConfig(), configData -> {
+            Logger.i("heaven---" + configData.toString());
         });
     }
 
