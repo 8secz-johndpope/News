@@ -28,6 +28,11 @@ public class MainActivity extends BaseBindActivity<TestPt,TestViewModel, Activit
         mViewBinding.setLoginHandlers(this);
     }
 
+    @Override
+    public void bindModel() {
+
+    }
+
 
     @TraceTime
     public void loginAction(View view) {

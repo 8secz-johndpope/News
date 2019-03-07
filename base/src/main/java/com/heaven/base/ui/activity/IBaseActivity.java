@@ -17,4 +17,6 @@ public interface IBaseActivity {
     void initView();
 
     void onInitPresenters();
+
+    void bindModel();
 }

@@ -7,6 +7,8 @@ import java.util.List;
 
 public class ConfigData implements Serializable {
 	public int netCode = 0;
+	public Version androidversion;
+	public Version androidversionnew;
 	public String message;
 	public String wx_start;	//微信活动开始日期
 	public String wx_end;		//微信活动结束日期

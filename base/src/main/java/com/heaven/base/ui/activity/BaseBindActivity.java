@@ -42,6 +42,7 @@ public abstract class BaseBindActivity<P extends BasePresenter, VM extends BaseV
         this.makeContentView(rootView);
         init();
         initView();
+        bindModel();
     }
 
     private void init() {

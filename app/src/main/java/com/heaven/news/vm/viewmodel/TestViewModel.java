@@ -84,4 +84,8 @@ public class TestViewModel extends BaseViewModel<TestPt> {
         return userName;
     }
 
+    @Override
+    public void initModel() {
+
+    }
 }

@@ -17,4 +17,9 @@ public class TestActivity extends BaseBindActivity {
         return 0;
     }
 
+    @Override
+    public void bindModel() {
+
+    }
+
 }
