@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
 import com.heaven.news.databinding.WelcomeBinding;

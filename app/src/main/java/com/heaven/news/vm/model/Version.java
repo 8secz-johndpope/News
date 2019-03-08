@@ -1,5 +1,7 @@
 package com.heaven.news.vm.model;
 
+import java.io.Serializable;
+
 /**
  * FileName: com.heaven.news.vm.model.Version.java
  * author: Heaven
@@ -8,7 +10,7 @@ package com.heaven.news.vm.model;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class Version {
+public class Version implements Serializable {
     public String url;
     public int fversion;
     public int cversion;

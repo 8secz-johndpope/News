@@ -23,4 +23,8 @@ public interface ConfigApi {
     @Headers({"Content-Type:Application/json; charset=utf-8"})
     @GET("config.json")
     Flowable<ConfigData> getConfig();
+
+    @Headers({"Content-Type:Application/json; charset=utf-8"})
+    @GET("config.json")
+    Flowable<ConfigData> getAdInfo();
 }

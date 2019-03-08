@@ -7,7 +7,7 @@ import com.heaven.news.BR;
 import com.orhanobut.logger.Logger;
 
 /**
- * FileName: com.heaven.news.ui.UserInfoWrapper.java
+ * FileName: com.heaven.news.ui.UserInfo.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-08 19:43
@@ -42,7 +42,7 @@ public class UserInfoWrapper extends BaseObservable {
 
     @Override
     public String toString() {
-        return "UserInfoWrapper{" +
+        return "UserInfo{" +
                 "count='" + count + '\'' +
                 ", password='" + password + '\'' +
                 '}';

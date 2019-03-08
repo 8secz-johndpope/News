@@ -1,6 +1,7 @@
 package com.heaven.data.manager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
 
@@ -18,6 +19,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
 import javax.annotation.Nonnull;
@@ -43,11 +45,11 @@ public class DataSource {
     private CacheManager cacheManager;
     private ExecutorService executorService;
     private FileUpDownManager fileUpDownManager;
-    private static DataSource instance;
     public static final int ALL = 0;
     public static final int MEMORY = 1;
     public static final int DB = 2;
     public static final int DISK = 3;
+    public static final int SHARE = 3;
 
     private DataSource(Builder builder) {
         this.mainRepo = builder.mainRepo;
@@ -199,7 +201,7 @@ public class DataSource {
      *         异常
      */
     @SuppressWarnings("unchecked")
-    public <T> T getNetApi(@Nonnull String baseUrl, Class<T> apiClass) throws Exception {
+    public <T> T getNetApi(@Nonnull String baseUrl, Class<T> apiClass){
         T api = null;
         if (!TextUtils.isEmpty(baseUrl) && apiClass != null) {
             try {
@@ -220,8 +222,6 @@ public class DataSource {
             } catch (ClassCastException e) {
                 Logger.i("ClassCastException:" + e.getMessage());
             }
-        } else {
-            throw new Exception("baseUrl is null or apiClass is null");
         }
         return api;
     }
@@ -544,6 +544,60 @@ public class DataSource {
         }
 
         return cacheData;
+    }
+
+    /**
+     * sharepre boolean
+     * @param key key
+     * @param value value
+     */
+    public void setSharePreBoolean(String key,boolean value) {
+        cacheManager.setSharePreBoolean(key,value);
+    }
+
+    /**
+     * sharepre string
+     * @param key key
+     * @param value value
+     */
+    public void setSharePreString(String key,String value) {
+        cacheManager.setSharePreString(key,value);
+    }
+
+    /**
+     * sharepre set
+     * @param key key
+     * @param value value
+     */
+    public void setSharePreSet(String key, Set<String> value) {
+        cacheManager.setSharePreSet(key,value);
+    }
+
+    /**
+     * get boolean
+     * @param key key
+     * @return value
+     */
+    public boolean getSharePreBoolean(String key) {
+        return cacheManager.getSharePreBoolean(key);
+    }
+
+    /**
+     * get string
+     * @param key key
+     * @return value
+     */
+    public String getSharePreString(String key) {
+        return cacheManager.getSharePreString(key);
+    }
+
+    /**
+     * get string set
+     * @param key key
+     * @return set
+     */
+    public Set<String> getSharePreSet(String key) {
+        return cacheManager.getSharePreSet(key);
     }
 
     public void downLoadFile(DownEntity downEntity) {

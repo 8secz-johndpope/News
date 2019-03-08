@@ -13,17 +13,30 @@ import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 
 import com.heaven.base.ui.SpUtil;
+import com.heaven.base.utils.RxSchedulers;
 import com.heaven.data.dbentity.DownEntity;
 import com.heaven.data.fileworker.DownLoadWorker;
 import com.heaven.data.manager.DataSource;
-import com.heaven.model.ifilm.UserInfo;
+import com.heaven.data.net.DataResponse;
 import com.heaven.news.BuildConfig;
+import com.heaven.news.api.ConfigApi;
+import com.heaven.news.api.LoginApi;
+import com.heaven.news.constant.Constants;
 import com.heaven.news.di.components.AppComponent;
 import com.heaven.news.di.components.DaggerEngineComponent;
 import com.heaven.news.di.components.EngineComponent;
 import com.heaven.news.di.modules.EngineModule;
 import com.heaven.news.utils.CrashHandler;
+import com.heaven.news.utils.RxRepUtils;
 import com.heaven.news.utils.SystemUtil;
+import com.heaven.news.vm.model.ConfigData;
+import com.heaven.news.vm.model.UserLoginInfo;
+import com.heaven.news.vm.viewmodel.LoginViewModel;
+import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
+import com.neusoft.szair.model.memberbase.loginNew;
+import com.neusoft.szair.model.memberbase.loginNewResponse;
+import com.neusoft.szair.model.memberbase.loginReqVO;
+import com.neusoft.szair.model.soap.SOAPConstants;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -38,6 +51,11 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Stack;
+
+import io.reactivex.Flowable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 //import com.netease.nimlib.sdk.NIMClient;
 //import com.netease.nimlib.sdk.SDKOptions;
@@ -82,7 +100,7 @@ public final class AppEngine {
      */
     private EngineComponent engineComponent;
 
-    private UserInfo userInfo;
+    private com.heaven.model.ifilm.UserInfo userInfo;
 
     private AppInfo appConfig;
 
@@ -118,6 +136,7 @@ public final class AppEngine {
         appDelegate.app().registerActivityLifecycleCallbacks(callbacks);
         //耗时初始化在线程中
         getDataSource().runWorkThread(this::initInThread);
+
     }
 
     private void initInThread() {
@@ -133,6 +152,7 @@ public final class AppEngine {
         initAppOptimizeTool(appDelegate.context());
     }
 
+
     private void initLogger() {
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
@@ -142,8 +162,9 @@ public final class AppEngine {
                 .tag("heaven")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
                 .build();
 
-        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy){
-            @Override public boolean isLoggable(int priority, String tag) {
+        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
+            @Override
+            public boolean isLoggable(int priority, String tag) {
                 return BuildConfig.DEBUG;
             }
         });
@@ -171,7 +192,7 @@ public final class AppEngine {
             }
         };
         //x5内核初始化接口
-        QbSdk.initX5Environment(context,  cb);
+        QbSdk.initX5Environment(context, cb);
     }
 
     /* 初始化应用信息 */
@@ -232,7 +253,8 @@ public final class AppEngine {
     /**
      * 初始化依赖注入器.
      *
-     * @param context 上下文
+     * @param context
+     *         上下文
      */
     private void initializeInjector(final Context context) {
         engineComponent = DaggerEngineComponent.builder().engineModule(new EngineModule(context)).build();
@@ -263,20 +285,25 @@ public final class AppEngine {
 
     /**
      * 取得数据源
+     *
      * @return 数据源
      */
     public DataSource getDataSource() {
-        if(mDataSource == null) {
-            mDataSource = engineComponent.dataSource();
+        mDataSource = engineComponent.dataSource();
+        if (mDataSource == null) {
         }
         return mDataSource;
     }
 
     /**
      * 缓存数据
-     * @param type 缓存类型
-     * @param key  键值
-     * @param entity 数据
+     *
+     * @param type
+     *         缓存类型
+     * @param key
+     *         键值
+     * @param entity
+     *         数据
      */
     public void cacheData(int type, String key, Object entity) {
         getDataSource().cacheData(type, key, entity);
@@ -284,17 +311,23 @@ public final class AppEngine {
 
     /**
      * 删除头数据
-     * @param hashMap 头数据
+     *
+     * @param hashMap
+     *         头数据
      */
-    public void removeHeaderData(HashMap<String,String> hashMap) {
+    public void removeHeaderData(HashMap<String, String> hashMap) {
         getDataSource().removeExtraHeader(hashMap);
     }
 
 
     /**
      * 取得缓存数据
-     * @param key 键值
-     * @param <E> 泛型
+     *
+     * @param key
+     *         键值
+     * @param <E>
+     *         泛型
+     *
      * @return 缓存数据
      */
     public <E> E getCacheData(String key) {
@@ -303,9 +336,14 @@ public final class AppEngine {
 
     /**
      * 取得缓存数据
-     * @param type 缓存类型（MEMORY:1 DB:2 DISK:3）
-     * @param key 键值
-     * @param <E> 泛型
+     *
+     * @param type
+     *         缓存类型（MEMORY:1 DB:2 DISK:3）
+     * @param key
+     *         键值
+     * @param <E>
+     *         泛型
+     *
      * @return 缓存数据
      */
     public <E> E getCacheData(int type, String key) {
@@ -314,9 +352,10 @@ public final class AppEngine {
 
     /**
      * 取得登录的用户信息
+     *
      * @return 用户信息
      */
-    public UserInfo getUserInfo() {
+    public com.heaven.model.ifilm.UserInfo getUserInfo() {
         if (userInfo == null) {
             userInfo = getCacheData(DataSource.DB, "userinfo");
         }
@@ -325,17 +364,19 @@ public final class AppEngine {
 
     /**
      * 保存用户信息
-     * @param userInfo 用户信息
+     *
+     * @param userInfo
+     *         用户信息
      */
-    public void setUserInfo(UserInfo userInfo) {
-        if(userInfo != null) {
+    public void setUserInfo(com.heaven.model.ifilm.UserInfo userInfo) {
+        if (userInfo != null) {
             cacheData(DataSource.DB, "userinfo", userInfo);
             this.userInfo = userInfo;
-            HashMap<String,String> headerMap = new HashMap<>();
+            HashMap<String, String> headerMap = new HashMap<>();
             headerMap.put("userId", userInfo.getUserId());
             headerMap.put("User-Agent", "android(shenzhenair)" + appConfig.verName);
             headerMap.put("X-SZAIR-META", getSzairMeta(userInfo.getUserId()));
-            headerMap.put("X-SZAIR-LANGUAG","zh_CN");
+            headerMap.put("X-SZAIR-LANGUAG", "zh_CN");
             getDataSource().addExtraHeader(headerMap);
         }
     }
@@ -344,14 +385,14 @@ public final class AppEngine {
      * 初始化请求头信息
      */
     public void initCommonHeader() {
-        HashMap<String,String> headerMap = new HashMap<>();
-        if(userInfo != null) {
+        HashMap<String, String> headerMap = new HashMap<>();
+        if (userInfo != null) {
             headerMap.put("userId", userInfo.getUserId());
         }
         headerMap.put("User-Agent", "android(shenzhenair)" + "5.1.0");
         headerMap.put("X-SZAIR-META", getSzairMeta(userInfo == null ? "" : userInfo.getUserId()));
-        headerMap.put("X-SZAIR-LANGUAG","zh_CN");
-        headerMap.put("Accept-Encoding","gzip,deflate");
+        headerMap.put("X-SZAIR-LANGUAG", "zh_CN");
+        headerMap.put("Accept-Encoding", "gzip,deflate");
         getDataSource().addExtraHeader(headerMap);
     }
 
@@ -359,7 +400,7 @@ public final class AppEngine {
      * 退出登录
      */
     public void quite() {
-        HashMap<String,String> headerMap = new HashMap<>();
+        HashMap<String, String> headerMap = new HashMap<>();
         headerMap.put("userId", "0");
         headerMap.put("User-Agent", "android(heaven)" + appConfig.verName);
         headerMap.put("X-SZAIR-META", getSzairMeta("0"));
@@ -368,10 +409,13 @@ public final class AppEngine {
 
     /**
      * 生成请求定制信息
-     * @param userId 用户id
+     *
+     * @param userId
+     *         用户id
+     *
      * @return 信息
      */
-    private String getSzairMeta(String userId){
+    private String getSzairMeta(String userId) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("app_version", "5.1.0"/*appConfig.verName*/);
@@ -379,7 +423,7 @@ public final class AppEngine {
             jsonObject.put("MOBILE_MODEL", appConfig.MOBILE_MODEL);
             jsonObject.put("MOBILE_SDK", appConfig.MOBILE_SDK);
             jsonObject.put("MOBILE_RELEASE", appConfig.MOBILE_RELEASE);
-            if(!TextUtils.isEmpty(userId)){
+            if (!TextUtils.isEmpty(userId)) {
                 jsonObject.put("member_id", userId);
             }
 
@@ -401,6 +445,7 @@ public final class AppEngine {
 
     /**
      * 取得用户id
+     *
      * @return 用户id
      */
     public String getUserId() {
@@ -413,8 +458,12 @@ public final class AppEngine {
 
     /**
      * 取得网络数据源的api
-     * @param apiClass api接口
-     * @param <T> 泛型
+     *
+     * @param apiClass
+     *         api接口
+     * @param <T>
+     *         泛型
+     *
      * @return api
      */
     <T> T getNetApi(Class<T> apiClass) {
@@ -423,12 +472,16 @@ public final class AppEngine {
 
     /**
      * 取得网络数据源的api
-     * @param apiClass api接口
-     * @param <T> 泛型
+     *
+     * @param apiClass
+     *         api接口
+     * @param <T>
+     *         泛型
+     *
      * @return api
      */
-    <T> T getNetApi(String url,Class<T> apiClass) throws Exception {
-        return engineComponent.dataSource().getNetApi(url,apiClass);
+    <T> T getNetApi(String url, Class<T> apiClass) throws Exception {
+        return engineComponent.dataSource().getNetApi(url, apiClass);
     }
 
     public ServiceCore getServiceCore() {
@@ -464,6 +517,7 @@ public final class AppEngine {
 
 
     private int activityCount;//activity的数量
+
     /**
      * activity生命周期监控管理
      */
@@ -506,29 +560,29 @@ public final class AppEngine {
     }
 
     public static void Router(@NonNull Class clazz) {
-        if(store.lastElement() != null) {
-            Intent intent = new Intent(store.lastElement(),clazz);
+        if (store.lastElement() != null) {
+            Intent intent = new Intent(store.lastElement(), clazz);
             store.lastElement().startActivity(intent);
         }
     }
 
     public static void Router(@NonNull Intent intent) {
-        if(store.lastElement() != null) {
+        if (store.lastElement() != null) {
             store.lastElement().startActivity(intent);
         }
     }
 
     public static void RouterExtra(@NonNull Class clazz, @NonNull Intent intent) {
-        if(store.lastElement() != null) {
-            intent.setClass(store.lastElement(),clazz);
+        if (store.lastElement() != null) {
+            intent.setClass(store.lastElement(), clazz);
             store.lastElement().startActivity(intent);
         }
     }
 
     public static void RouterForResult(@NonNull Class clazz, @NonNull Intent intent, int requestCode) {
-        if(store.lastElement() != null) {
-            intent.setClass(store.lastElement(),clazz);
-            store.lastElement().startActivityForResult(intent,requestCode);
+        if (store.lastElement() != null) {
+            intent.setClass(store.lastElement(), clazz);
+            store.lastElement().startActivityForResult(intent, requestCode);
         }
     }
 
@@ -601,13 +655,17 @@ public final class AppEngine {
 
     /**
      * 下载文件
-     * @param url 地址
-     * @param folderPath 保存文件夹
-     * @param listener 监听
+     *
+     * @param url
+     *         地址
+     * @param folderPath
+     *         保存文件夹
+     * @param listener
+     *         监听
      */
     public void downLoadFile(String url, String folderPath, DownLoadWorker.DownLoadListener listener) {
-        if(mDataSource != null) {
-            DownEntity entity = new DownEntity(true,-1, url, folderPath,0,0);
+        if (mDataSource != null) {
+            DownEntity entity = new DownEntity(true, -1, url, folderPath, 0, 0);
             entity.listener = listener;
             mDataSource.downLoadFile(entity);
         }

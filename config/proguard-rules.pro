@@ -307,6 +307,18 @@ public void *(***);
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
 -keep class com.alipay.mobilesecuritysdk.*
 -keep class com.ut.*
+
+
+#glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+# for DexGuard only
+-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 #-------------------------------------------------------------------------
 
 #---------------------------------3.与js互相调用的类------------------------

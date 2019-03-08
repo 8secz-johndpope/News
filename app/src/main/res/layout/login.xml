@@ -9,8 +9,8 @@
             type="com.heaven.news.vm.viewmodel.LoginViewModel" />
 
         <variable
-            name="userInfoWrapper"
-            type="com.heaven.news.vm.viewmodel.LoginViewModel.UserInfoWrapper" />
+            name="userInfo"
+            type="com.heaven.news.vm.viewmodel.LoginViewModel.UserInfo" />
 
         <variable
             name="loginHandlers"
@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Username"
-                    android:text="@={userInfoWrapper.count}"
+                    android:text="@={userInfo.count}"
                     />
             </android.support.design.widget.TextInputLayout>
 
@@ -73,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password"
-                    android:text="@={userInfoWrapper.password}"
+                    android:text="@={userInfo.password}"
                     />
             </android.support.design.widget.TextInputLayout>
 

@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.heaven.base.ui.SpUtil;
-import com.heaven.base.ui.activity.GlideCircleTransform;
 import com.heaven.news.R;
 
 /**
@@ -39,7 +38,7 @@ public class DataBindUtil {
         Glide.with(v.getContext())
                 .load(getFuckUrl(url))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .transform(new GlideCircleTransform(v.getContext()))
+//                .transform(new GlideCircleTransform(v.getContext()))
                 .error(R.mipmap.ic_launcher)
                 .into(v);
     }
@@ -69,7 +68,7 @@ public class DataBindUtil {
         Glide.with(v.getContext())
                 .load(getFuckUrl(url))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .transform(new GlideCircleTransform(v.getContext()))
+//                .transform(new GlideCircleTransform(v.getContext()))
                 .error(R.mipmap.ic_launcher)
                 .into(v);
         im_header.setColorFilter(v.getContext().getResources().getColor(SpUtil.isNight() ? R.color.CoverColor : R.color.colorWhite), PorterDuff.Mode.MULTIPLY);

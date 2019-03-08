@@ -1,6 +1,7 @@
 package com.heaven.data.manager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
 import io.realm.Realm;
@@ -49,6 +51,8 @@ class CacheManager {
     private Realm secondCache;
     private ACache thirdAcache;
     private DiskLruCache thirdDiskCache;
+    private SharedPreferences sharedPre;
+    private SharedPreferences.Editor editor;
     private MemoryCache.EntryRemovedListener<String, Object> stringSecondListener = new MemoryCache.EntryRemovedListener<String, Object>() {
         @Override
         public void entryRemoved(String key, Object oldValue, Object newValue) {
@@ -71,6 +75,7 @@ class CacheManager {
     }
 
     private void init(Context context) {
+        sharedPre = context.getSharedPreferences("heaven", Context.MODE_PRIVATE);
         long maxMemory = Runtime.getRuntime().maxMemory();
         executorService = new PriorityExecutor(10, false);
         memoryCache = new MemoryCache<>((int) maxMemory / 6, stringSecondListener);
@@ -437,5 +442,65 @@ class CacheManager {
             e.printStackTrace();
         }
         return bo.toByteArray();
+    }
+
+    /**
+     * sharepre boolean
+     * @param key key
+     * @param value value
+     */
+    public void setSharePreBoolean(String key,boolean value) {
+       SharedPreferences.Editor editor =  sharedPre.edit();
+        editor.putBoolean(key,value);
+        editor.apply();
+    }
+
+    /**
+     * sharepre string
+     * @param key key
+     * @param value value
+     */
+    public void setSharePreString(String key,String value) {
+        SharedPreferences.Editor editor =  sharedPre.edit();
+        editor.putString(key,value);
+        editor.apply();
+    }
+
+    /**
+     * sharepre set
+     * @param key key
+     * @param value value
+     */
+    public void setSharePreSet(String key, Set<String> value) {
+        SharedPreferences.Editor editor =  sharedPre.edit();
+        editor.putStringSet(key,value);
+        editor.apply();
+    }
+
+    /**
+     * get boolean
+     * @param key key
+     * @return value
+     */
+    public boolean getSharePreBoolean(String key) {
+        return sharedPre.getBoolean(key,false);
+    }
+
+    /**
+     * get string
+     * @param key key
+     * @return value
+     */
+    public String getSharePreString(String key) {
+        return sharedPre.getString(key,"");
+    }
+
+    /**
+     * get string set
+     * @param key key
+     * @return set
+     */
+    public Set<String> getSharePreSet(String key) {
+        return sharedPre.getStringSet(key,null);
     }
 }

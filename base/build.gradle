@@ -43,6 +43,8 @@ dependencies {
     api uiDep.recyclerView
     api uiDep.cardview
     api uiDep.glide
+    annotationProcessor uiDep.glideannotion
+    api uiDep.glideokhttp
     api uiDep.androidAnnotations
     api uiDep.support
     api archDep.extensions

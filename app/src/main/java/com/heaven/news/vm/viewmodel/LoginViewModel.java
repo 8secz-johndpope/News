@@ -1,28 +1,30 @@
 package com.heaven.news.vm.viewmodel;
 
-import android.Manifest;
 import android.arch.lifecycle.MutableLiveData;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
-import android.widget.Toast;
 
-import com.heaven.annotation.aspect.Permission;
 import com.heaven.base.utils.RxSchedulers;
 import com.heaven.base.vm.BaseViewModel;
+import com.heaven.data.manager.DataSource;
 import com.heaven.news.BR;
 import com.heaven.news.api.LoginApi;
+import com.heaven.news.constant.Constants;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.utils.CryptUtility;
+import com.heaven.news.vm.model.ConfigData;
+import com.heaven.news.vm.model.UserLoginInfo;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
 import com.neusoft.szair.model.memberbase.loginReqVO;
 import com.neusoft.szair.model.soap.SOAPConstants;
 import com.orhanobut.logger.Logger;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -36,7 +38,7 @@ import java.util.Calendar;
  */
 public class LoginViewModel extends BaseViewModel {
 
-    public UserInfoWrapper userInfoWrapper;
+    public UserInfo userInfo;
 
     public final MutableLiveData<String> userName = new MutableLiveData<>();
 
@@ -47,24 +49,19 @@ public class LoginViewModel extends BaseViewModel {
     //    @Permission(value = Manifest.permission.READ_CONTACTS)
 //    @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void login() {
-        Logger.i("login_action-----------" + userInfoWrapper.toString());
+      ConfigData configData =  AppEngine.getInstance().getCacheData(DataSource.DB, Constants.ADINFO);
+        Logger.i("login_action-----------" + userInfo.toString() + "configData--" + configData.toString());
         AppEngine.getInstance().getDataSource().addHeader("Content-Type", "text/xml;charset=UTF-8");
-        String count = userInfoWrapper.count;
-        String passwords = userInfoWrapper.password;
+        String count = userInfo.count;
+        String passwords = userInfo.password;
         if(TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {
             return;
         }
-        String AES_KEY = "szair-";
-        String password = null;
-        String key = AES_KEY + new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        byte[] passwordByte = CryptUtility.encrypt(passwords.getBytes(), key.getBytes());
-        password = CryptUtility.base64Encode(passwordByte);
-        password = password.replaceAll("\n", "");
 
         loginNew login = new loginNew();
         loginReqVO loginreqvo = new loginReqVO();
         loginreqvo._USER_NAME = count;
-        loginreqvo._PASSWORD = password;
+        loginreqvo._PASSWORD = Constants.getPassword(passwords);
 
         loginreqvo._APP_ID = SOAPConstants.APP_ID;
         loginreqvo._APP_IP = SOAPConstants.APP_IP;
@@ -79,6 +76,11 @@ public class LoginViewModel extends BaseViewModel {
         RxSchedulers.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
             Logger.i("heaven---" + loginNewResponseDataResponse.toString());
             if(loginNewResponseDataResponse.code == 0) {
+                UserLoginInfo loginInfo = new UserLoginInfo();
+                loginInfo.userCount = userInfo.count;
+                loginInfo.userPwd = Constants.getPassword(passwords);
+                AppEngine.getInstance().getDataSource().cacheData(DataSource.DB,Constants.LOGININFO,loginInfo);
+                AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN,true);
                 userName.postValue(loginNewResponseDataResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
             }
         });
@@ -87,7 +89,7 @@ public class LoginViewModel extends BaseViewModel {
 //        });
     }
 
-    public static class UserInfoWrapper extends BaseObservable {
+    public static class UserInfo extends BaseObservable implements Serializable {
       private  String count;
       private  String password;
 
@@ -117,7 +119,7 @@ public class LoginViewModel extends BaseViewModel {
 
         @Override
         public String toString() {
-            return "UserInfoWrapper{" +
+            return "UserInfo{" +
                     "count='" + count + '\'' +
                     ", password='" + password + '\'' +
                     '}';
@@ -126,8 +128,8 @@ public class LoginViewModel extends BaseViewModel {
 
     @Override
     public void initModel() {
-        userInfoWrapper = new UserInfoWrapper();
-        userInfoWrapper.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        userInfo = new UserInfo();
+        userInfo.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 if(BR.count == propertyId) {
