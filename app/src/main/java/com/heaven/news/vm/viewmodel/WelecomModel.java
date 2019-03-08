@@ -61,11 +61,11 @@ public class WelecomModel extends BaseViewModel {
     }
 
     public static class UpdateInfo {
-        boolean isMaintaiService;
-        boolean needUpdate;
-        boolean isForceUpdate;
-        String updateUrl;
-        String updateMessage;
+        public  boolean isMaintaiService;
+        public  boolean needUpdate;
+        public  boolean isForceUpdate;
+        public  String updateUrl;
+        public  String updateMessage;
 
         @Override
         public String toString() {

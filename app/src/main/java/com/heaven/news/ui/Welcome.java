@@ -1,6 +1,7 @@
 package com.heaven.news.ui;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
@@ -37,6 +38,16 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     }
 
     private void processNext(WelecomModel.UpdateInfo updateInfo) {
+        if(updateInfo.isMaintaiService) {
+
+        } else if(updateInfo.isForceUpdate) {
+
+        } else if(updateInfo.needUpdate) {
+
+        } else {
+            startActivity(new Intent(this,MainActivity.class));
+            finish();
+        }
         Logger.i("test---------" + updateInfo.toString());
     }
 
