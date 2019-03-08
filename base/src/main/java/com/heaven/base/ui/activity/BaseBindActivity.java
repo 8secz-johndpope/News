@@ -41,8 +41,8 @@ public abstract class BaseBindActivity<P extends BasePresenter, VM extends BaseV
         mViewBinding = DataBindingUtil.bind(rootView);
         this.makeContentView(rootView);
         init();
-        initView();
         bindModel();
+        initView();
     }
 
     private void init() {
@@ -71,6 +71,7 @@ public abstract class BaseBindActivity<P extends BasePresenter, VM extends BaseV
                     } else if (clazzName.equals(baseViewModelName)) {
                         ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication());
                         mViewModel = (VM) ViewModelProviders.of(this, factory).get(clazz);
+                        mViewModel.application = getApplication();
                         mViewModel.setPresenter(mPresenter);
                     }
                 }

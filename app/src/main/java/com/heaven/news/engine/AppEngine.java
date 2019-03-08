@@ -125,10 +125,10 @@ public final class AppEngine {
         initShare(appDelegate.context());
         //初始化异常捕获类 CrashHandler
         CrashHandler.getInstance().init(appDelegate.context());
-        //qq X5浏览器内核初始化
-        initX5Core(appDelegate.context());
         //日志组件初始化
         initLogger();
+        //qq X5浏览器内核初始化
+        initX5Core(appDelegate.context());
         //应用优化组件初始化
         initAppOptimizeTool(appDelegate.context());
     }
@@ -154,6 +154,8 @@ public final class AppEngine {
     }
 
     private void initX5Core(Context context) {
+        //搜集本地tbs内核信息并上报服务器，服务器返回结果决定使用哪个内核。
+
         QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
 
             @Override
