@@ -12,7 +12,6 @@ import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.AppInfo;
 import com.heaven.news.utils.RxRepUtils;
 import com.heaven.news.vm.model.Version;
-import com.orhanobut.logger.Logger;
 
 /**
  * FileName: com.heaven.news.vm.viewmodel.WelecomModel.java
@@ -20,7 +19,7 @@ import com.orhanobut.logger.Logger;
  * email: heavenisme@aliyun.com
  * date: 2019-03-07 15:22
  *
- * @version V1.0 TODO <描述当前版本功能>
+ * @version V1.0 欢迎页版本检查
  */
 public class WelecomModel extends BaseViewModel {
     public MutableLiveData<UpdateInfo> versionLive = new MutableLiveData<>();
@@ -40,7 +39,6 @@ public class WelecomModel extends BaseViewModel {
             if (configData.netCode == 0 && configData.androidversion != null) {
                 checkVersion(configData.androidversion);
             }
-            Logger.i("heaven---" + configData.toString());
         });
     }
 
@@ -68,5 +66,16 @@ public class WelecomModel extends BaseViewModel {
         boolean isForceUpdate;
         String updateUrl;
         String updateMessage;
+
+        @Override
+        public String toString() {
+            return "UpdateInfo{" +
+                    "isMaintaiService=" + isMaintaiService +
+                    ", needUpdate=" + needUpdate +
+                    ", isForceUpdate=" + isForceUpdate +
+                    ", updateUrl='" + updateUrl + '\'' +
+                    ", updateMessage='" + updateMessage + '\'' +
+                    '}';
+        }
     }
 }

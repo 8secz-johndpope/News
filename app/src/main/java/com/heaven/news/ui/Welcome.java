@@ -32,13 +32,12 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         mViewModel.versionLive.observe(this, updateInfo -> {
             if(updateInfo != null) {
                 processNext(updateInfo);
-                Logger.i("test---------" + updateInfo.toString());
             }
         });
     }
 
     private void processNext(WelecomModel.UpdateInfo updateInfo) {
-
+        Logger.i("test---------" + updateInfo.toString());
     }
 
 }
