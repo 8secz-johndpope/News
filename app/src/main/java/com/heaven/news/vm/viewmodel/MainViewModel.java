@@ -1,21 +1,16 @@
 package com.heaven.news.vm.viewmodel;
 
 import android.Manifest;
-import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 import android.databinding.ObservableField;
-import android.support.annotation.NonNull;
 
 import com.heaven.annotation.aspect.Permission;
 import com.heaven.base.utils.RxSchedulers;
 import com.heaven.base.vm.BaseViewModel;
-import com.heaven.news.BuildConfig;
-import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.utils.RxRepUtils;
-import com.heaven.news.vm.present.TestPt;
+import com.heaven.news.vm.present.MainPt;
 import com.heaven.news.utils.CryptUtility;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
@@ -27,14 +22,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * FileName: com.heaven.news.vm.viewmodel.TestContextViewModel.java
+ * FileName: com.heaven.news.vm.viewmodel.MainViewModel.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-02-25 16:45
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class TestContextViewModel extends BaseViewModel<TestPt> {
+public class MainViewModel extends BaseViewModel<MainPt> {
     public final MutableLiveData<String> userName = new MutableLiveData<>();
 
     public final ObservableField<String> passwordObserve = new ObservableField<>();

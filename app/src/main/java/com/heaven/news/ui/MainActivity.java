@@ -1,18 +1,16 @@
 package com.heaven.news.ui;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
 
-import com.heaven.annotation.aspect.Permission;
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.news.R;
 import com.heaven.news.databinding.ActivityMainBinding;
-import com.heaven.news.vm.present.TestPt;
-import com.heaven.news.vm.viewmodel.TestContextViewModel;
+import com.heaven.news.vm.present.MainPt;
+import com.heaven.news.vm.viewmodel.MainViewModel;
 
-public class MainActivity extends BaseBindActivity<TestPt, TestContextViewModel, ActivityMainBinding> {
+public class MainActivity extends BaseBindActivity<MainPt, MainViewModel, ActivityMainBinding> {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.heaven.news.vm.viewmodel.TestContextViewModel" />
+            type="com.heaven.news.vm.viewmodel.MainViewModel" />
 
         <variable
             name="LoginHandlers"
