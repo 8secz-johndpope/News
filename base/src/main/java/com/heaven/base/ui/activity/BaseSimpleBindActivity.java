@@ -43,8 +43,8 @@ public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends
         analyseGenerics();
         initView();
         if(mViewModel != null) {
-            bindModel();
             mViewModel.initModel();
+            bindModel();
         }
     }
 

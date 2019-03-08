@@ -49,35 +49,33 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--<android.support.design.widget.TextInputLayout
+            <android.support.design.widget.TextInputLayout
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp">-->
+                android:layout_margin="20dp">
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/name"
                     android:hint="Username"
                     android:text="@={userInfoWrapper.count}"
                     />
-            <!--</android.support.design.widget.TextInputLayout>-->
+            </android.support.design.widget.TextInputLayout>
 
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:id="@+id/password"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="20dp">-->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp">
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/password"
                     android:hint="Password"
                     android:text="@={userInfoWrapper.password}"
                     />
-            <!--</android.support.design.widget.TextInputLayout>-->
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
                 android:id="@+id/sign"

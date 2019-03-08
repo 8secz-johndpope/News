@@ -131,10 +131,8 @@ public class LoginViewModel extends BaseViewModel {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 if(BR.count == propertyId) {
-                    userInfoWrapper.count = sender.toString();
                     Logger.i("sonPropertyChanged count--" + password);
                 } else if(BR.password == propertyId) {
-                    userInfoWrapper.password = sender.toString();
                     Logger.i("sonPropertyChanged password--" + password);
                 }
             }
