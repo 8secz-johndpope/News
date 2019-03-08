@@ -1,18 +1,23 @@
 package com.heaven.news.vm.viewmodel;
 
+import android.Manifest;
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
+import com.heaven.annotation.aspect.Permission;
+import com.heaven.base.utils.RxSchedulers;
 import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
+import com.heaven.news.api.LoginApi;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.utils.RxRepUtils;
 import com.heaven.news.vm.present.TestPt;
 import com.heaven.news.utils.CryptUtility;
+import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
 import com.neusoft.szair.model.memberbase.loginReqVO;
 import com.neusoft.szair.model.soap.SOAPConstants;
@@ -34,6 +39,7 @@ public class TestContextViewModel extends BaseViewModel<TestPt> {
 
     public final ObservableField<String> passwordObserve = new ObservableField<>();
 
+    @Permission(value = Manifest.permission.READ_CONTACTS)
     public void login(String count, String passwords) {
         AppEngine.getInstance().getDataSource().addHeader("Content-Type", "text/xml;charset=UTF-8");
 
@@ -57,17 +63,17 @@ public class TestContextViewModel extends BaseViewModel<TestPt> {
         login._LOGIN_PARAM = loginreqvo;
 
 
-//        MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
-//
-//        RxSchedulers.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
-//            Logger.i("heaven---" + loginNewResponseDataResponse.toString());
-//            if(loginNewResponseDataResponse.code == 0) {
-//                userName.postValue(loginNewResponseDataResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
-//            }
-//        });
-        RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL,ConfigApi.class).getConfig(), configData -> {
-            Logger.i("heaven---" + configData.toString());
+        MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
+
+        RxSchedulers.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
+            Logger.i("heaven---" + loginNewResponseDataResponse.toString());
+            if(loginNewResponseDataResponse.code == 0) {
+                userName.postValue(loginNewResponseDataResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
+            }
         });
+//        RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL,ConfigApi.class).getConfig(), configData -> {
+//            Logger.i("heaven---" + configData.toString());
+//        });
     }
 
 

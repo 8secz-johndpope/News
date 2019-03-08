@@ -1,7 +1,10 @@
 package com.heaven.news.ui;
 
+import android.Manifest;
 import android.content.Intent;
 
+import com.heaven.annotation.aspect.Permission;
+import com.heaven.annotation.aspect.Share;
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
 import com.heaven.news.databinding.WelcomeBinding;

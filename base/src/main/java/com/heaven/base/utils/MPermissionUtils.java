@@ -99,11 +99,13 @@ public class MPermissionUtils {
     public static void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (mRequestCode != -1 && requestCode == mRequestCode) {
             if (verifyPermissions(grantResults)) {
-                if (mOnPermissionListener != null)
+                if (mOnPermissionListener != null) {
                     mOnPermissionListener.onPermissionGranted();
+                }
             } else {
-                if (mOnPermissionListener != null)
+                if (mOnPermissionListener != null) {
                     mOnPermissionListener.onPermissionDenied();
+                }
             }
         }
     }

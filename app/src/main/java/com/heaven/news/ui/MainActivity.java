@@ -1,8 +1,10 @@
 package com.heaven.news.ui;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
 
+import com.heaven.annotation.aspect.Permission;
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.news.R;
@@ -46,6 +48,12 @@ public class MainActivity extends BaseBindActivity<TestPt, TestContextViewModel,
         mViewModel.getUserName().observe(this, s -> {
             mViewBinding.userName.setText(s);
         });
+        requestPermission();
+    }
+
+    @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE},force = true)
+    private void requestPermission() {
+
     }
 
 }

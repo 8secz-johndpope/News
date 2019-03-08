@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -14,6 +15,7 @@ import com.heaven.base.R;
 import com.heaven.base.presenter.BasePresenter;
 import com.heaven.base.ui.SpUtil;
 import com.heaven.base.ui.view.widget.SwipeBackLayout;
+import com.heaven.base.utils.MPermissionUtils;
 import com.heaven.base.vm.BaseViewModel;
 
 import java.lang.reflect.ParameterizedType;
@@ -109,6 +111,12 @@ public abstract class BaseBindActivity<P extends BasePresenter, VM extends BaseV
         AppCompatDelegate.setDefaultNightMode(SpUtil.isNight() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
         recreate();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 
