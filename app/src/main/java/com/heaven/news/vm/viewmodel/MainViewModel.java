@@ -73,10 +73,6 @@ public class MainViewModel extends BaseViewModel<MainPt> {
     }
 
 
-    public MutableLiveData<String> getUserName() {
-        return userName;
-    }
-
     @Override
     public void initModel() {
 

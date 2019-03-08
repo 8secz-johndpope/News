@@ -13,24 +13,15 @@ import com.heaven.news.vm.viewmodel.MainViewModel;
 public class MainActivity extends BaseBindActivity<MainPt, MainViewModel, ActivityMainBinding> {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public int initLayoutResId() {
         return R.layout.activity_main;
     }
 
 
     @Override
-    public void initView() {
-        mViewBinding.setLoginHandlers(this);
-    }
-
-    @Override
     public void bindModel() {
-
+        mViewBinding.setLoginHandlers(this);
+        mViewBinding.setViewmodel(mViewModel);
     }
 
 
@@ -39,11 +30,7 @@ public class MainActivity extends BaseBindActivity<MainPt, MainViewModel, Activi
         String name = mViewBinding.name.getEditText().getText().toString();
         String password = mViewBinding.password.getEditText().getText().toString();
         mViewModel.login(name,password);
-//        startVideo();
-//        virtualApk();
-//        mPresenter.login(name,password);
-//        getWeatherbyCityName(name);
-        mViewModel.getUserName().observe(this, s -> {
+        mViewModel.userName.observe(this, s -> {
             mViewBinding.userName.setText(s);
         });
     }

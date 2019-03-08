@@ -42,13 +42,13 @@ public abstract class BaseBindActivity<P extends BasePresenter, VM extends BaseV
         View rootView = getLayoutInflater().inflate(this.initLayoutResId(), null, false);
         mViewBinding = DataBindingUtil.bind(rootView);
         this.makeContentView(rootView);
-        init();
+        analyseGenerics();
         bindModel();
         initView();
-    }
-
-    private void init() {
-        analyseGenerics();
+        if(mViewModel != null) {
+            bindModel();
+            mViewModel.initModel();
+        }
     }
 
     /**

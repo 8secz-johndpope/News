@@ -41,11 +41,12 @@ public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends
         mViewBinding = DataBindingUtil.bind(rootView);
         this.makeContentView(rootView);
         analyseGenerics();
+        bindModel();
+        initView();
         if(mViewModel != null) {
             bindModel();
             mViewModel.initModel();
         }
-        initView();
     }
 
     /**
