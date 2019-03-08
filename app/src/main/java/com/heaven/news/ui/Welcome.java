@@ -1,14 +1,11 @@
 package com.heaven.news.ui;
 
-import android.arch.lifecycle.Observer;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
 import com.heaven.news.databinding.WelcomeBinding;
-import com.heaven.news.vm.model.Version;
-import com.heaven.news.vm.viewmodel.WelecomModel;
+import com.heaven.news.vm.viewmodel.WelecomModelContext;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -20,7 +17,7 @@ import com.orhanobut.logger.Logger;
  * @author heaven
  * @version V1.0 欢迎页
  */
-public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding> {
+public class Welcome extends BaseSimpleBindActivity<WelecomModelContext, WelcomeBinding> {
 
     @Override
     public int initLayoutResId() {
@@ -37,7 +34,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         });
     }
 
-    private void processNext(WelecomModel.UpdateInfo updateInfo) {
+    private void processNext(WelecomModelContext.UpdateInfo updateInfo) {
         if(updateInfo.isMaintaiService) {
 
         } else if(updateInfo.isForceUpdate) {

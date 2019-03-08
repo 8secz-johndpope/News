@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.heaven.base.presenter.BasePresenter;
 import com.heaven.base.vm.BaseViewModel;
 
 import java.lang.reflect.ParameterizedType;

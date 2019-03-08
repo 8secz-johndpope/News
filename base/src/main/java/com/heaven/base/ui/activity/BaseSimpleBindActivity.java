@@ -65,6 +65,7 @@ public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends
                     if (clazzName.equals(baseViewModelName)) {
                         ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication());
                         mViewModel = (VM) ViewModelProviders.of(this, factory).get(clazz);
+                        mViewModel.application = this.getApplication();
                     }
                 }
             }

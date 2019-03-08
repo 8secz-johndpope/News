@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="viewmodel"
-            type="com.heaven.news.vm.viewmodel.WelecomModelContext" />
+            name="GuideNew"
+            type="com.heaven.news.ui.GuideNewActivity" />
 
     </data>
 

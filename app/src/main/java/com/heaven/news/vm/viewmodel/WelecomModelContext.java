@@ -14,19 +14,15 @@ import com.heaven.news.utils.RxRepUtils;
 import com.heaven.news.vm.model.Version;
 
 /**
- * FileName: com.heaven.news.vm.viewmodel.WelecomModel.java
+ * FileName: com.heaven.news.vm.viewmodel.WelecomModelContext.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-07 15:22
  *
  * @version V1.0 欢迎页版本检查
  */
-public class WelecomModel extends BaseViewModel {
+public class WelecomModelContext extends BaseViewModel {
     public MutableLiveData<UpdateInfo> versionLive = new MutableLiveData<>();
-
-    public WelecomModel(@NonNull Application application) {
-        super(application);
-    }
 
     @Override
     public void initModel() {

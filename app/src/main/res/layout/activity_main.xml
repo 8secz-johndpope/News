@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.heaven.news.vm.viewmodel.TestViewModel" />
+            type="com.heaven.news.vm.viewmodel.TestContextViewModel" />
 
         <variable
             name="LoginHandlers"
@@ -54,7 +54,9 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Username" />
+                    android:hint="Username"
+                    android:text="058006129832"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -66,7 +68,9 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password" />
+                    android:hint="Password"
+                    android:text="840704"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <TextView
