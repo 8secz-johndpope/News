@@ -3,6 +3,7 @@ package com.heaven.base.vm;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.ViewModel;
+import android.databinding.BaseObservable;
 import android.support.annotation.NonNull;
 
 import com.heaven.base.presenter.BasePresenter;

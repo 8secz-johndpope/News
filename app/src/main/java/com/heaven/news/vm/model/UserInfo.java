@@ -1,5 +1,7 @@
 package com.heaven.news.vm.model;
 
+import android.databinding.BaseObservable;
+
 /**
  * FileName: com.heaven.news.vm.model.UserInfo.java
  * author: Heaven
@@ -8,7 +10,7 @@ package com.heaven.news.vm.model;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class UserInfo {
+public class UserInfo extends BaseObservable {
     String count;
     String password;
 

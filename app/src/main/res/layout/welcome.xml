@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.heaven.news.vm.viewmodel.WelecomModelContext" />
+            type="com.heaven.news.vm.viewmodel.WelecomModel" />
 
     </data>
 

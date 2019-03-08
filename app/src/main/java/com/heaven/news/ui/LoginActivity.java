@@ -1,36 +1,41 @@
 package com.heaven.news.ui;
 
-import android.os.Bundle;
 import android.view.View;
 
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.base.ui.activity.BaseBindActivity;
+import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
 import com.heaven.news.databinding.ActivityMainBinding;
-import com.heaven.news.engine.AppEngine;
+import com.heaven.news.databinding.LoginBinding;
 import com.heaven.news.vm.present.MainPt;
+import com.heaven.news.vm.viewmodel.LoginViewModel;
 import com.heaven.news.vm.viewmodel.MainViewModel;
 
-public class MainActivity extends BaseBindActivity<MainPt, MainViewModel, ActivityMainBinding> {
+/**
+ * @author heaven
+ */
+public class LoginActivity extends BaseSimpleBindActivity<LoginViewModel, LoginBinding> {
 
     @Override
     public int initLayoutResId() {
-        return R.layout.activity_main;
+        return R.layout.login;
     }
 
 
     @Override
     public void bindModel() {
         mViewBinding.setLoginHandlers(this);
-        mViewBinding.setViewmodel(mViewModel);
+        mViewBinding.setViewModel(mViewModel);
+        mViewBinding.setUserInfoWrapper(mViewModel.userInfoWrapper);
     }
 
 
     @TraceTime
     public void loginAction(View view) {
-        String name = mViewBinding.name.getEditText().getText().toString();
-        String password = mViewBinding.password.getEditText().getText().toString();
-        mViewModel.login(name,password);
+        String name = mViewBinding.name.getText().toString();
+        String password = mViewBinding.password.getText().toString();
+        mViewModel.login();
         mViewModel.userName.observe(this, s -> {
             mViewBinding.userName.setText(s);
         });

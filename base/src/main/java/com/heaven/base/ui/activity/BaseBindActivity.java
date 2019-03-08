@@ -43,7 +43,6 @@ public abstract class BaseBindActivity<P extends BasePresenter, VM extends BaseV
         mViewBinding = DataBindingUtil.bind(rootView);
         this.makeContentView(rootView);
         analyseGenerics();
-        bindModel();
         initView();
         if(mViewModel != null) {
             bindModel();
