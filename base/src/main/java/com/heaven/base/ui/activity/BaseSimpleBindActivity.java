@@ -39,13 +39,13 @@ public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends
         super.onCreate(savedInstanceState);
         View rootView = getLayoutInflater().inflate(this.initLayoutResId(), null, false);
         mViewBinding = DataBindingUtil.bind(rootView);
+        initView(rootView);
         this.makeContentView(rootView);
         analyseGenerics();
         if(mViewModel != null) {
             mViewModel.initModel();
             bindModel();
         }
-        initView();
     }
 
     /**
@@ -110,7 +110,7 @@ public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends
     }
 
     @Override
-    public void initView() {
+    public void initView(View rootView) {
 
     }
 }

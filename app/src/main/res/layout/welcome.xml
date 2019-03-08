@@ -10,11 +10,18 @@
 
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/welcome_img"
+            android:src="@mipmap/splash_bg"
+            />
 
-    </LinearLayout>
+    </FrameLayout>
 
 </layout>

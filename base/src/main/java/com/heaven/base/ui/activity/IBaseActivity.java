@@ -1,5 +1,7 @@
 package com.heaven.base.ui.activity;
 
+import android.view.View;
+
 /**
  * 作者:Heaven
  * 时间: on 2017/8/30 16:53
@@ -14,7 +16,7 @@ public interface IBaseActivity {
      */
     int initLayoutResId();
 
-    void initView();
+    void initView(View rootView);
 
     void onInitPresenters();
 

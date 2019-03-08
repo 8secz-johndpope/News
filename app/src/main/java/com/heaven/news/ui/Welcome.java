@@ -1,6 +1,8 @@
 package com.heaven.news.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.view.View;
 
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
@@ -22,6 +24,22 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public int initLayoutResId() {
         return R.layout.welcome;
+    }
+
+    @SuppressLint("InlinedApi")
+    @Override
+    public void initView(View rootView) {
+        rootView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    @Override
+    public void makeContentView(View rootView) {
+        setContentView(rootView);
     }
 
     @Override

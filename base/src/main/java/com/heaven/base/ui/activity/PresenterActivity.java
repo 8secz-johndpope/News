@@ -28,7 +28,7 @@ public abstract class PresenterActivity extends AppCompatActivity  implements IB
         View rootView = getLayoutInflater().inflate(this.initLayoutResId(), null, false);
         this.makeContentView(rootView);
         init();
-        initView();
+        initView(rootView);
     }
 
     private void init() {

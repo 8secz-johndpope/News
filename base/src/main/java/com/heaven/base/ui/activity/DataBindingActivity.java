@@ -32,7 +32,7 @@ public abstract class DataBindingActivity<B extends ViewDataBinding> extends App
         mViewBinding = DataBindingUtil.bind(rootView);
         this.makeContentView(rootView);
         init();
-        initView();
+        initView(rootView);
     }
 
     private void init() {
