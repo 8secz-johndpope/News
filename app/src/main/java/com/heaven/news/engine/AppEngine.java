@@ -615,4 +615,7 @@ public final class AppEngine {
         return true;//BuildConfig.FLAVOR.equals("withExtensions");
     }
 
+    public AppInfo getAppConfig() {
+        return appConfig;
+    }
 }

@@ -172,7 +172,7 @@ public class DataRepo {
         boolean isCacheable = false;
         boolean isTrustAll = false;
         boolean isCookie = false;
-        boolean isRedirect = false;
+        boolean isRedirect = true;
         boolean isSslRedirect = false;
         boolean isRetryFailure = true;
         boolean isLogInterceptor = false;

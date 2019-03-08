@@ -29,11 +29,16 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public void bindModel() {
         mViewBinding.setViewmodel(mViewModel);
-        mViewModel.version.observe(this, version -> {
-            if(version != null) {
-                Logger.i("test---------" + version.toString());
+        mViewModel.versionLive.observe(this, updateInfo -> {
+            if(updateInfo != null) {
+                processNext(updateInfo);
+                Logger.i("test---------" + updateInfo.toString());
             }
         });
+    }
+
+    private void processNext(WelecomModel.UpdateInfo updateInfo) {
+
     }
 
 }

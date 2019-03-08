@@ -8,6 +8,8 @@ import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.engine.ApiManager;
+import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.AppInfo;
 import com.heaven.news.utils.RxRepUtils;
 import com.heaven.news.vm.model.Version;
 import com.orhanobut.logger.Logger;
@@ -21,23 +23,50 @@ import com.orhanobut.logger.Logger;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class WelecomModel extends BaseViewModel {
-    public MutableLiveData<Version> version = new MutableLiveData<>();
+    public MutableLiveData<UpdateInfo> versionLive = new MutableLiveData<>();
 
     public WelecomModel(@NonNull Application application) {
         super(application);
     }
 
-    private void checkVersion() {
+    @Override
+    public void initModel() {
+        requestVersion();
+    }
+
+
+    private void requestVersion() {
         RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
-            if(configData.netCode == 0 && configData.androidversion != null) {
-                version.setValue(configData.androidversion);
+            if (configData.netCode == 0 && configData.androidversion != null) {
+                checkVersion(configData.androidversion);
             }
             Logger.i("heaven---" + configData.toString());
         });
     }
 
-    @Override
-    public void initModel() {
-        checkVersion();
+    private void checkVersion(Version version) {
+        AppInfo appInfo = AppEngine.getInstance().getAppConfig();
+        UpdateInfo updateInfo = new UpdateInfo();
+        updateInfo.updateUrl = version.url;
+        updateInfo.updateMessage = version.txt;
+        if (version.cversion > 65534) {
+            updateInfo.isMaintaiService = true;
+        } else {
+            if (appInfo.verCode < version.cversion) {
+                updateInfo.needUpdate = true;
+                if (appInfo.verCode < version.fversion) {
+                    updateInfo.isForceUpdate = true;
+                }
+            }
+        }
+        versionLive.setValue(updateInfo);
+    }
+
+    public static class UpdateInfo {
+        boolean isMaintaiService;
+        boolean needUpdate;
+        boolean isForceUpdate;
+        String updateUrl;
+        String updateMessage;
     }
 }

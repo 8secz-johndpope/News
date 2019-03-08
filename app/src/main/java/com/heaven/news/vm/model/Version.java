@@ -10,8 +10,8 @@ package com.heaven.news.vm.model;
  */
 public class Version {
     public String url;
-    public String fversion;
-    public String cversion;
+    public int fversion;
+    public int cversion;
     public String txt;
 
 
