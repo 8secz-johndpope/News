@@ -48,12 +48,6 @@ public class MainActivity extends BaseBindActivity<TestPt, TestContextViewModel,
         mViewModel.getUserName().observe(this, s -> {
             mViewBinding.userName.setText(s);
         });
-        requestPermission();
-    }
-
-    @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE},force = true)
-    private void requestPermission() {
-
     }
 
 }

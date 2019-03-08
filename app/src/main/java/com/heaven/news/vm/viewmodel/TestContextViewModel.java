@@ -39,7 +39,8 @@ public class TestContextViewModel extends BaseViewModel<TestPt> {
 
     public final ObservableField<String> passwordObserve = new ObservableField<>();
 
-    @Permission(value = Manifest.permission.READ_CONTACTS)
+//    @Permission(value = Manifest.permission.READ_CONTACTS)
+    @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void login(String count, String passwords) {
         AppEngine.getInstance().getDataSource().addHeader("Content-Type", "text/xml;charset=UTF-8");
 
