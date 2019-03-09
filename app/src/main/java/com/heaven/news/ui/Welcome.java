@@ -2,12 +2,14 @@ package com.heaven.news.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
+import com.heaven.news.constant.Constants;
 import com.heaven.news.databinding.WelcomeBinding;
+import com.heaven.news.engine.AppEngine;
 import com.heaven.news.vm.viewmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
 
@@ -47,24 +49,65 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     public void bindModel() {
         mViewBinding.setViewmodel(mViewModel);
         mViewModel.versionLive.observe(this, updateInfo -> {
-            if(updateInfo != null) {
+            if (updateInfo != null) {
                 processNext(updateInfo);
             }
         });
     }
 
     private void processNext(WelecomModel.UpdateInfo updateInfo) {
-        if(updateInfo.isMaintaiService) {
-
-        } else if(updateInfo.isForceUpdate) {
-
-        } else if(updateInfo.needUpdate) {
-
+        if (updateInfo.isNetError) {
+            toNextPage(updateInfo);
         } else {
-            startActivity(new Intent(this,LoginActivity.class));
-            finish();
+            if (updateInfo.isMaintaiService) {
+
+            } else if (updateInfo.isForceUpdate) {
+
+            } else if (updateInfo.needUpdate) {
+
+            } else {
+                toNextPage(updateInfo);
+            }
         }
         Logger.i("test---------" + updateInfo.toString());
+    }
+
+
+    private void toNextPage(WelecomModel.UpdateInfo updateInfo) {
+        boolean isOldUser = AppEngine.getInstance().getDataSource().getSharePreBoolean(Constants.ISOLDUSER);
+        if (isOldUser) {
+            toMainPage(updateInfo);
+        } else {
+            toGuidePage(updateInfo);
+        }
+    }
+
+    private void toMainPage(WelecomModel.UpdateInfo updateInfo) {
+        AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISOLDUSER, true);
+        if (updateInfo.requestTime > 3000) {
+            startActivity(new Intent(Welcome.this, LoginActivity.class));
+            finish();
+        } else {
+            new Handler().postDelayed(() -> {
+                startActivity(new Intent(Welcome.this, LoginActivity.class));
+                finish();
+            }, 3000);
+        }
+
+
+    }
+
+    private void toGuidePage(WelecomModel.UpdateInfo updateInfo) {
+        AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISOLDUSER, true);
+        if (updateInfo.requestTime > 3000) {
+            startActivity(new Intent(Welcome.this, GuideActivity.class));
+            finish();
+        } else {
+            new Handler().postDelayed(() -> {
+                startActivity(new Intent(Welcome.this, GuideActivity.class));
+                finish();
+            }, 3000);
+        }
     }
 
 }

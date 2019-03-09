@@ -30,28 +30,34 @@ public class WelecomModel extends BaseViewModel {
 
     @Override
     public void initModel() {
-       ConfigData configData =  AppEngine.getInstance().getDataSource().getCacheEntity(DataSource.DISK, Constants.ADINFO);
-       if(configData != null && configData.androidversion != null) {
-           Logger.i("initModel---cache configData---" + configData.toString());
-           checkVersion(configData.androidversion);
-       } else {
-           requestVersion();
-       }
+        requestVersion();
     }
 
 
     private void requestVersion() {
+        Logger.i("---------------------requestVersion start---------------------");
+        long startTime = System.currentTimeMillis();
         RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
+            Logger.i("---------------------requestVersion end---------------------" + configData.toString());
+            long endTime = System.currentTimeMillis();
+            long requestTime = endTime - startTime;
             if (configData.netCode == 0 && configData.androidversion != null) {
                 AppEngine.getInstance().cacheData(DataSource.DB, Constants.ADINFO, configData);
-                checkVersion(configData.androidversion);
+                checkVersion(configData.androidversion,requestTime);
+            } else {
+                UpdateInfo updateInfo = new UpdateInfo();
+                updateInfo.requestTime = requestTime;
+                updateInfo.isNetError = true;
+                updateInfo.reason = configData.message;
+                versionLive.setValue(updateInfo);
             }
         });
     }
 
-    private void checkVersion(Version version) {
+    private void checkVersion(Version version,long requestTime) {
         AppInfo appInfo = AppEngine.getInstance().getAppConfig();
         UpdateInfo updateInfo = new UpdateInfo();
+        updateInfo.requestTime = requestTime;
         updateInfo.updateUrl = version.url;
         updateInfo.updateMessage = version.txt;
         if (version.cversion > 65534) {
@@ -68,16 +74,21 @@ public class WelecomModel extends BaseViewModel {
     }
 
     public static class UpdateInfo {
-        public  boolean isMaintaiService;
-        public  boolean needUpdate;
-        public  boolean isForceUpdate;
-        public  String updateUrl;
-        public  String updateMessage;
+        public boolean isNetError;
+        public String reason;
+        public long requestTime;
+        public boolean isMaintaiService;
+        public boolean needUpdate;
+        public boolean isForceUpdate;
+        public String updateUrl;
+        public String updateMessage;
 
         @Override
         public String toString() {
             return "UpdateInfo{" +
-                    "isMaintaiService=" + isMaintaiService +
+                    "isNetError=" + isNetError +
+                    ", reason='" + reason + '\'' +
+                    ", isMaintaiService=" + isMaintaiService +
                     ", needUpdate=" + needUpdate +
                     ", isForceUpdate=" + isForceUpdate +
                     ", updateUrl='" + updateUrl + '\'' +
