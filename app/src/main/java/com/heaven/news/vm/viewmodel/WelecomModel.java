@@ -49,7 +49,7 @@ public class WelecomModel extends BaseViewModel {
                 updateInfo.requestTime = requestTime;
                 updateInfo.isNetError = true;
                 updateInfo.reason = configData.message;
-                versionLive.setValue(updateInfo);
+                processNextStep(updateInfo);
             }
         });
     }
@@ -70,6 +70,16 @@ public class WelecomModel extends BaseViewModel {
                 }
             }
         }
+        processNextStep(updateInfo);
+    }
+
+    private void processNextStep(UpdateInfo updateInfo) {
+        boolean isOldUser = AppEngine.getInstance().getDataSource().getSharePreBoolean(Constants.ISOLDUSER);
+        if (isOldUser) {
+            updateInfo.nextGuidePage = false;
+        } else {
+            updateInfo.nextGuidePage = true;
+        }
         versionLive.setValue(updateInfo);
     }
 
@@ -82,17 +92,20 @@ public class WelecomModel extends BaseViewModel {
         public boolean isForceUpdate;
         public String updateUrl;
         public String updateMessage;
+        public boolean nextGuidePage = false;
 
         @Override
         public String toString() {
             return "UpdateInfo{" +
                     "isNetError=" + isNetError +
                     ", reason='" + reason + '\'' +
+                    ", requestTime=" + requestTime +
                     ", isMaintaiService=" + isMaintaiService +
                     ", needUpdate=" + needUpdate +
                     ", isForceUpdate=" + isForceUpdate +
                     ", updateUrl='" + updateUrl + '\'' +
                     ", updateMessage='" + updateMessage + '\'' +
+                    ", nextGuidePage=" + nextGuidePage +
                     '}';
         }
     }

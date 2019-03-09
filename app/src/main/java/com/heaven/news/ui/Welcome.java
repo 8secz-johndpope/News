@@ -74,11 +74,10 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
 
 
     private void toNextPage(WelecomModel.UpdateInfo updateInfo) {
-        boolean isOldUser = AppEngine.getInstance().getDataSource().getSharePreBoolean(Constants.ISOLDUSER);
-        if (isOldUser) {
-            toMainPage(updateInfo);
-        } else {
+        if(updateInfo.nextGuidePage) {
             toGuidePage(updateInfo);
+        } else {
+            toMainPage(updateInfo);
         }
     }
 

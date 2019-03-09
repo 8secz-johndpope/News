@@ -77,7 +77,7 @@ public class ExceptionHandle {
             SocketTimeoutException timeoutException = (SocketTimeoutException) e;
             ex = new DataResponse();
             ex.code = ERROR.TIME_OUT;
-            ex.reason = timeoutException.getMessage();
+            ex.reason = "连接超时SocketTimeoutException";
             return ex;
         } else if(e instanceof Exception) {
             ex = new DataResponse();
