@@ -13,12 +13,9 @@ import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 
 import com.heaven.base.ui.SpUtil;
-import com.heaven.base.utils.RxSchedulers;
 import com.heaven.data.dbentity.DownEntity;
 import com.heaven.data.fileworker.DownLoadWorker;
 import com.heaven.data.manager.DataSource;
-import com.heaven.data.net.DataResponse;
-import com.heaven.model.entity.login.User;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
@@ -30,12 +27,9 @@ import com.heaven.news.di.modules.EngineModule;
 import com.heaven.news.utils.CrashHandler;
 import com.heaven.news.utils.RxRepUtils;
 import com.heaven.news.utils.SystemUtil;
-import com.heaven.news.vm.model.ConfigData;
 import com.heaven.news.vm.model.UserLoginInfo;
-import com.heaven.news.vm.viewmodel.LoginViewModel;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
-import com.neusoft.szair.model.memberbase.loginNewResponse;
 import com.neusoft.szair.model.memberbase.loginReqVO;
 import com.neusoft.szair.model.soap.SOAPConstants;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -53,9 +47,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Stack;
 
-import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 //import com.netease.nimlib.sdk.NIMClient;
@@ -101,7 +93,7 @@ public final class AppEngine {
      */
     private EngineComponent engineComponent;
 
-    private com.heaven.model.ifilm.UserInfo userInfo;
+    private UserLoginInfo userInfo;
 
     private AppInfo appConfig;
 
@@ -405,7 +397,7 @@ public final class AppEngine {
      *
      * @return 用户信息
      */
-    public com.heaven.model.ifilm.UserInfo getUserInfo() {
+    public UserLoginInfo getUserInfo() {
         if (userInfo == null) {
             userInfo = getCacheData(DataSource.DB, "userinfo");
         }
@@ -418,14 +410,14 @@ public final class AppEngine {
      * @param userInfo
      *         用户信息
      */
-    public void setUserInfo(com.heaven.model.ifilm.UserInfo userInfo) {
+    public void setUserInfo(UserLoginInfo userInfo) {
         if (userInfo != null) {
             cacheData(DataSource.DB, "userinfo", userInfo);
             this.userInfo = userInfo;
             HashMap<String, String> headerMap = new HashMap<>();
-            headerMap.put("userId", userInfo.getUserId());
+            headerMap.put("userId", userInfo.userId);
             headerMap.put("User-Agent", "android(shenzhenair)" + appConfig.verName);
-            headerMap.put("X-SZAIR-META", getSzairMeta(userInfo.getUserId()));
+            headerMap.put("X-SZAIR-META", getSzairMeta(userInfo.userId));
             headerMap.put("X-SZAIR-LANGUAG", "zh_CN");
             getDataSource().addExtraHeader(headerMap);
         }
@@ -437,10 +429,10 @@ public final class AppEngine {
     public void initCommonHeader() {
         HashMap<String, String> headerMap = new HashMap<>();
         if (userInfo != null) {
-            headerMap.put("userId", userInfo.getUserId());
+            headerMap.put("userId", userInfo.userId);
         }
         headerMap.put("User-Agent", "android(shenzhenair)" + "5.1.0");
-        headerMap.put("X-SZAIR-META", getSzairMeta(userInfo == null ? "" : userInfo.getUserId()));
+        headerMap.put("X-SZAIR-META", getSzairMeta(userInfo == null ? "" : userInfo.userId));
         headerMap.put("X-SZAIR-LANGUAG", "zh_CN");
         headerMap.put("Accept-Encoding", "gzip,deflate");
         getDataSource().addExtraHeader(headerMap);
@@ -501,7 +493,7 @@ public final class AppEngine {
     public String getUserId() {
         String userId = "0";
         if (userInfo != null) {
-            userId = String.valueOf(userInfo.getUserId());
+            userId = String.valueOf(userInfo.userId);
         }
         return userId;
     }
