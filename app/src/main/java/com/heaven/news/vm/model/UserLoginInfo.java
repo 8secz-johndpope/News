@@ -1,5 +1,7 @@
 package com.heaven.news.vm.model;
 
+import java.io.Serializable;
+
 /**
  * FileName: com.heaven.news.vm.model.UserLoginInfo.java
  * author: Heaven
@@ -8,7 +10,7 @@ package com.heaven.news.vm.model;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class UserLoginInfo {
+public class UserLoginInfo implements Serializable {
     public String userCount;
     public String userPwd;
     public String userId;                       //用户
@@ -20,4 +22,20 @@ public class UserLoginInfo {
     public String idNumber;                    //证件号码
     public String identifyType;                //用户认证类型
     public String _CLKCRM_ID;                   //凤凰知音认证
+
+    @Override
+    public String toString() {
+        return "UserLoginInfo{" +
+                "userCount='" + userCount + '\'' +
+                ", userPwd='" + userPwd + '\'' +
+                ", userId='" + userId + '\'' +
+                ", giftType='" + giftType + '\'' +
+                ", CRM_CARD_NUMBER='" + CRM_CARD_NUMBER + '\'' +
+                ", groupCode='" + groupCode + '\'' +
+                ", _group_flag='" + _group_flag + '\'' +
+                ", idNumber='" + idNumber + '\'' +
+                ", identifyType='" + identifyType + '\'' +
+                ", _CLKCRM_ID='" + _CLKCRM_ID + '\'' +
+                '}';
+    }
 }

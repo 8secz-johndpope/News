@@ -18,6 +18,7 @@ import com.heaven.data.dbentity.DownEntity;
 import com.heaven.data.fileworker.DownLoadWorker;
 import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.DataResponse;
+import com.heaven.model.entity.login.User;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
@@ -140,6 +141,8 @@ public final class AppEngine {
     }
 
     private void initInThread() {
+        //自动登录
+        autoLogin();
         //微信相关分享
         initShare(appDelegate.context());
         //初始化异常捕获类 CrashHandler
@@ -152,6 +155,53 @@ public final class AppEngine {
         initAppOptimizeTool(appDelegate.context());
     }
 
+
+    //获取广告信息
+    private void getAdInfo() {
+        try {
+            RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getAdInfo(), configData -> {
+                if(configData.netCode == 0) {
+                    getDataSource().cacheData(DataSource.DISK, Constants.ADINFO, configData);
+                }
+            });
+        } catch (Exception e) {
+            Logger.i("getAdInfo:" + e.getMessage());
+        }
+    }
+
+    //自动登录
+    private void autoLogin() {
+        boolean isAutoLogin = getDataSource().getSharePreBoolean(Constants.ISAUTOLOGIN);
+        if(isAutoLogin) {
+            UserLoginInfo userInfo = getDataSource().getCacheEntity(DataSource.DISK,Constants.USERINFO);
+            if(userInfo != null && !TextUtils.isEmpty(userInfo.userCount) && !TextUtils.isEmpty(userInfo.userPwd)) {
+                loginNew login = new loginNew();
+                loginReqVO loginreqvo = new loginReqVO();
+                loginreqvo._USER_NAME = userInfo.userCount;
+                loginreqvo._PASSWORD = Constants.getPassword(userInfo.userPwd);
+
+                loginreqvo._APP_ID = SOAPConstants.APP_ID;
+                loginreqvo._APP_IP = SOAPConstants.APP_IP;
+                loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
+
+                loginreqvo._DEVICE_TOKEN = "";
+                login._LOGIN_PARAM = loginreqvo;
+
+
+                MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
+
+                Disposable disposable = ApiManager.getApi(LoginApi.class).login(bind).subscribeOn(Schedulers.io()).subscribe(loginNewResponseDataResponse -> {
+                    if (loginNewResponseDataResponse.code == 0) {
+                        UserLoginInfo userLoginInfo = new UserLoginInfo();
+                        userLoginInfo.userCount = userInfo.userCount;
+                        userLoginInfo.userPwd = userInfo.userPwd;
+                        getDataSource().cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
+                    }
+                });
+            }
+        }
+
+    }
 
     private void initLogger() {
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()

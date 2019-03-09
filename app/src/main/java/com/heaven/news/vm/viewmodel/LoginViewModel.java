@@ -49,8 +49,10 @@ public class LoginViewModel extends BaseViewModel {
     //    @Permission(value = Manifest.permission.READ_CONTACTS)
 //    @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void login() {
-      ConfigData configData =  AppEngine.getInstance().getCacheData(DataSource.DB, Constants.ADINFO);
-        Logger.i("login_action-----------" + userInfo.toString() + "configData--" + configData.toString());
+        UserLoginInfo userLoginInfo =  AppEngine.getInstance().getCacheData(DataSource.DISK, Constants.USERINFO);
+        if(userLoginInfo != null) {
+            Logger.i("login_action-----------" + "userLoginInfo--" + userLoginInfo.toString());
+        }
         AppEngine.getInstance().getDataSource().addHeader("Content-Type", "text/xml;charset=UTF-8");
         String count = userInfo.count;
         String passwords = userInfo.password;
@@ -79,7 +81,7 @@ public class LoginViewModel extends BaseViewModel {
                 UserLoginInfo loginInfo = new UserLoginInfo();
                 loginInfo.userCount = userInfo.count;
                 loginInfo.userPwd = Constants.getPassword(passwords);
-                AppEngine.getInstance().getDataSource().cacheData(DataSource.DB,Constants.LOGININFO,loginInfo);
+                AppEngine.getInstance().getDataSource().cacheData(DataSource.DISK,Constants.USERINFO,loginInfo);
                 AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN,true);
                 userName.postValue(loginNewResponseDataResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
             }

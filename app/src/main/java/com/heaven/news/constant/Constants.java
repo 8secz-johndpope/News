@@ -15,7 +15,6 @@ import java.util.Calendar;
  */
 public class Constants {
     public static String ADINFO = "adinfo";//广告信息
-    public static String LOGININFO = "logininfo";//登录信息
     public static String ISAUTOLOGIN = "isautologin";//是否自动登录
     public static String USERINFO = "userinfo";//登录用户信息
 
