@@ -30,6 +30,7 @@ public class EngineModule {
         builder.addNetRepo(BuildConfig.CONFIG_URL,NetGlobalConfig.PROTOTYPE.JSON);
         dataSource = builder.build();
         dataSource.addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
+        dataSource.addHeader("Connection", "close");
 //        ServiceCore.initServiceCore(mContext);
     }
 

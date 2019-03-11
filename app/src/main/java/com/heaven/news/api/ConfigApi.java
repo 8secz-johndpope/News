@@ -20,11 +20,10 @@ import retrofit2.http.POST;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public interface ConfigApi {
-    @Headers({"Content-Type:Application/json; charset=utf-8"})
+    @Headers({"Content-Type:Application/json; charset=utf-8","Connection:close"})
     @GET("config.json")
     Flowable<ConfigData> getConfig();
 
-    @Headers({"Content-Type:Application/json; charset=utf-8"})
     @GET("config.json")
     Flowable<ConfigData> getAdInfo();
 }

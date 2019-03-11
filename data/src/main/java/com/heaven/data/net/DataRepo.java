@@ -168,7 +168,7 @@ public class DataRepo {
         CallAdapter.Factory adapterFactory = RxJava2CallAdapterFactory.create();
         HeaderInterceptor headerInterceptor;
         int[] certificates;
-        int timeOut = 10;
+        int timeOut = 100;
         boolean isCacheable = false;
         boolean isTrustAll = false;
         boolean isCookie = false;
@@ -191,7 +191,9 @@ public class DataRepo {
 //                    .addInterceptor(new StethoInterceptor())
                     .followRedirects(isRedirect)
                     .retryOnConnectionFailure(isRetryFailure)//连接失败后是否重新连接
-                    .connectTimeout(timeOut, TimeUnit.SECONDS);//超时时间15S
+                    .connectTimeout(timeOut, TimeUnit.SECONDS)//超时时间15S
+                    .readTimeout(20, TimeUnit.SECONDS)
+                    .writeTimeout(20, TimeUnit.SECONDS);
             retrofitBuilder.addCallAdapterFactory(adapterFactory);
         }
 
