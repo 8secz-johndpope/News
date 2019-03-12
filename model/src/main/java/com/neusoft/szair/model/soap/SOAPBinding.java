@@ -10,11 +10,18 @@ import com.heaven.model.soap.szair.encrypt.MD5Util;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.zip.GZIPInputStream;
 
 public abstract class SOAPBinding {
     public static final String PROTOFUL = "PROTOFUL";
@@ -60,6 +67,13 @@ public abstract class SOAPBinding {
     public String makeRequest()
             throws IOException {
         return buildEnvelope(bodyElements);
+    }
+
+    public SOAPEnvelope makeRequest(Map<String, SOAPObject> bodyElements)
+            throws IOException {
+        String envelope = buildEnvelope(bodyElements);
+
+        return new SOAPEnvelope();
     }
 
     public SOAPEnvelope makeResponse(InputStream response) {
