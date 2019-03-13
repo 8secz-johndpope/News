@@ -2,7 +2,7 @@ package com.heaven.news.ui;
 
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
-import com.heaven.news.databinding.GuideNewBinding;
+import com.heaven.news.databinding.GuideBinding;
 import com.heaven.news.ui.vm.viewmodel.GuideNewModel;
 
 /**
@@ -14,10 +14,10 @@ import com.heaven.news.ui.vm.viewmodel.GuideNewModel;
  * @author heaven
  * @version V1.0 新用户首次进入的引导页
  */
-public class GuideActivity extends BaseSimpleBindActivity<GuideNewModel, GuideNewBinding> {
+public class GuideActivity extends BaseSimpleBindActivity<GuideNewModel, GuideBinding> {
     @Override
     public int initLayoutResId() {
-        return R.layout.guide_new;
+        return R.layout.guide;
     }
 
     @Override

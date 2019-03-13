@@ -5,15 +5,15 @@ import android.view.View;
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.news.R;
-import com.heaven.news.databinding.ActivityMainBinding;
+import com.heaven.news.databinding.MainBinding;
 import com.heaven.news.ui.vm.present.MainPt;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
-public class MainActivity extends BaseBindActivity<MainPt, MainViewModel, ActivityMainBinding> {
+public class MainActivity extends BaseBindActivity<MainPt, MainViewModel, MainBinding> {
 
     @Override
     public int initLayoutResId() {
-        return R.layout.activity_main;
+        return R.layout.main;
     }
 
 
