@@ -1,4 +1,4 @@
-package com.heaven.news.vm.viewmodel;
+package com.heaven.news.ui.vm.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.databinding.BaseObservable;
@@ -15,9 +15,7 @@ import com.heaven.news.api.LoginApi;
 import com.heaven.news.constant.Constants;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.utils.CryptUtility;
-import com.heaven.news.vm.model.ConfigData;
-import com.heaven.news.vm.model.UserLoginInfo;
+import com.heaven.news.ui.vm.model.UserLoginInfo;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
 import com.neusoft.szair.model.memberbase.loginReqVO;
@@ -25,11 +23,9 @@ import com.neusoft.szair.model.soap.SOAPConstants;
 import com.orhanobut.logger.Logger;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 /**
- * FileName: com.heaven.news.vm.viewmodel.LoginViewModel.java
+ * FileName: com.heaven.news.ui.vm.viewmodel.LoginViewModel.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-08 15:45

@@ -1,15 +1,13 @@
 package com.heaven.news.ui;
 
-import android.os.Bundle;
 import android.view.View;
 
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.news.R;
 import com.heaven.news.databinding.ActivityMainBinding;
-import com.heaven.news.engine.AppEngine;
-import com.heaven.news.vm.present.MainPt;
-import com.heaven.news.vm.viewmodel.MainViewModel;
+import com.heaven.news.ui.vm.present.MainPt;
+import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 public class MainActivity extends BaseBindActivity<MainPt, MainViewModel, ActivityMainBinding> {
 

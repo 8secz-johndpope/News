@@ -1,6 +1,4 @@
-package com.heaven.news.vm.model;
-
-import android.text.TextUtils;
+package com.heaven.news.ui.vm.model;
 
 import java.io.Serializable;
 import java.util.List;

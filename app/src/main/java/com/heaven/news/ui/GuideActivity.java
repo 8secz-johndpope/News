@@ -3,7 +3,7 @@ package com.heaven.news.ui;
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
 import com.heaven.news.databinding.GuideNewBinding;
-import com.heaven.news.vm.viewmodel.GuideNewModel;
+import com.heaven.news.ui.vm.viewmodel.GuideNewModel;
 
 /**
  * FileName: com.heaven.news.ui.GuideActivity.java

@@ -1,8 +1,6 @@
-package com.heaven.news.vm.viewmodel;
+package com.heaven.news.ui.vm.viewmodel;
 
-import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
 
 import com.heaven.base.vm.BaseViewModel;
 import com.heaven.data.manager.DataSource;
@@ -13,12 +11,11 @@ import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.AppInfo;
 import com.heaven.news.utils.RxRepUtils;
-import com.heaven.news.vm.model.ConfigData;
-import com.heaven.news.vm.model.Version;
+import com.heaven.news.ui.vm.model.Version;
 import com.orhanobut.logger.Logger;
 
 /**
- * FileName: com.heaven.news.vm.viewmodel.WelecomModel.java
+ * FileName: com.heaven.news.ui.vm.viewmodel.WelecomModel.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-07 15:22

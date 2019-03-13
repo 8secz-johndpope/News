@@ -1,15 +1,10 @@
 package com.heaven.news.api;
 
-import com.heaven.data.net.DataResponse;
-import com.heaven.news.vm.model.ConfigData;
-import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
-import com.neusoft.szair.model.memberbase.loginNewResponse;
+import com.heaven.news.ui.vm.model.ConfigData;
 
 import io.reactivex.Flowable;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.POST;
 
 /**
  * FileName: com.heaven.news.api.LoginApi.java

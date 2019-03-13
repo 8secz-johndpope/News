@@ -16,7 +16,6 @@ import com.heaven.base.ui.SpUtil;
 import com.heaven.data.dbentity.DownEntity;
 import com.heaven.data.fileworker.DownLoadWorker;
 import com.heaven.data.manager.DataSource;
-import com.heaven.data.net.DataResponse;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
@@ -28,10 +27,9 @@ import com.heaven.news.di.modules.EngineModule;
 import com.heaven.news.utils.CrashHandler;
 import com.heaven.news.utils.RxRepUtils;
 import com.heaven.news.utils.SystemUtil;
-import com.heaven.news.vm.model.UserLoginInfo;
+import com.heaven.news.ui.vm.model.UserLoginInfo;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
-import com.neusoft.szair.model.memberbase.loginNewResponse;
 import com.neusoft.szair.model.memberbase.loginReqVO;
 import com.neusoft.szair.model.soap.SOAPConstants;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -48,10 +46,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Stack;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 //import com.netease.nimlib.sdk.NIMClient;
 //import com.netease.nimlib.sdk.SDKOptions;

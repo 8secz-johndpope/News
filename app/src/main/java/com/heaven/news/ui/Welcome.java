@@ -10,7 +10,7 @@ import com.heaven.news.R;
 import com.heaven.news.constant.Constants;
 import com.heaven.news.databinding.WelcomeBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.vm.viewmodel.WelecomModel;
+import com.heaven.news.ui.vm.viewmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
 
 /**

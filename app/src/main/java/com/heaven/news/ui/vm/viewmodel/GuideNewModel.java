@@ -1,12 +1,9 @@
-package com.heaven.news.vm.viewmodel;
-
-import android.app.Application;
-import android.support.annotation.NonNull;
+package com.heaven.news.ui.vm.viewmodel;
 
 import com.heaven.base.vm.BaseViewModel;
 
 /**
- * FileName: com.heaven.news.vm.viewmodel.GuideNewModel.java
+ * FileName: com.heaven.news.ui.vm.viewmodel.GuideNewModel.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-08 11:31

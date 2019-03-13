@@ -3,7 +3,7 @@ package com.heaven.news.utils;
 
 import com.heaven.data.net.DataResponse;
 import com.heaven.data.net.ExceptionHandle;
-import com.heaven.news.vm.model.ConfigData;
+import com.heaven.news.ui.vm.model.ConfigData;
 
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;

@@ -1,4 +1,4 @@
-package com.heaven.news.vm.viewmodel;
+package com.heaven.news.ui.vm.viewmodel;
 
 import android.Manifest;
 import android.arch.lifecycle.MutableLiveData;
@@ -10,7 +10,7 @@ import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.vm.present.MainPt;
+import com.heaven.news.ui.vm.present.MainPt;
 import com.heaven.news.utils.CryptUtility;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * FileName: com.heaven.news.vm.viewmodel.MainViewModel.java
+ * FileName: com.heaven.news.ui.vm.viewmodel.MainViewModel.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-02-25 16:45
