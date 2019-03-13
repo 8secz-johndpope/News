@@ -32,7 +32,7 @@ public class SzAirRequestBodyConvert<T> implements Converter<T, RequestBody> {
 
     private SOAPBinding binding;
 
-    SzAirRequestBodyConvert() {
+    public SzAirRequestBodyConvert() {
     }
 
     @Override public RequestBody convert(T value) throws IOException {

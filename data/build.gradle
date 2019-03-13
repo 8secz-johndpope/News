@@ -52,15 +52,15 @@ dependencies {
     api netDep.protostuffruntime
     api developmentDep.stetho
     api developmentDep.stethoOkhttp
-    api(netDep.converterxml)
-            {
-                exclude module: 'stax'
-                exclude module: 'stax-api'
-                exclude module: 'xpp3'
-            }
+//    api(netDep.converterxml)
+//            {
+//                exclude module: 'stax'
+//                exclude module: 'stax-api'
+//                exclude module: 'xpp3'
+//            }
     api netDep.convertergson
     api 'com.google.guava:guava:27.0.1-android'
-    compile 'com.squareup.retrofit2:converter-jaxb:2.5.0'
+//    compile 'com.squareup.retrofit2:converter-jaxb:2.5.0'
     api project(':model')
 }
 

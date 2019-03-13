@@ -29,7 +29,7 @@ import java.lang.reflect.Type;
  * @version V1.0 TODO <描述当前版本功能>
  */
 @SuppressWarnings("unchecked")
-public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends ViewDataBinding> extends AppCompatActivity implements IBaseActivity {
+public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends ViewDataBinding>  extends BaseActivity  implements IBaseActivity {
     public B mViewBinding;
     public VM mViewModel;
 
@@ -91,23 +91,12 @@ public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends
     }
 
 
-    public void reload() {
-        AppCompatDelegate.setDefaultNightMode(SpUtil.isNight() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-        getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
-        recreate();
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         MPermissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-
-    @Override
-    public void onInitPresenters() {
-
-    }
 
     @Override
     public void initView(View rootView) {

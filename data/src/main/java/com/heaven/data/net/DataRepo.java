@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.heaven.data.convert.normal.ProtoStuffConvertFactory;
 import com.heaven.data.convert.szair.SzAirConvertFactory;
 import com.heaven.data.net.cookie.CookiesManager;
 import com.heaven.data.util.MD5Utils;
@@ -25,6 +26,7 @@ import javax.net.ssl.X509TrustManager;
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import okhttp3.Cache;
+import okhttp3.ConnectionPool;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -189,6 +191,7 @@ public class DataRepo {
                     .addInterceptor(new NetInterceptor())
 //                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
 //                    .addInterceptor(new StethoInterceptor())
+                    .connectionPool(new ConnectionPool(5, 5, TimeUnit.MINUTES))
                     .followRedirects(isRedirect)
                     .retryOnConnectionFailure(isRetryFailure)//连接失败后是否重新连接
                     .connectTimeout(timeOut, TimeUnit.SECONDS)//超时时间15S
@@ -457,6 +460,7 @@ public class DataRepo {
                     addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
                     break;
                 case PROTOBUF:
+                    converterFactory = ProtoStuffConvertFactory.create();
                     break;
                 case JACKSON:
                     break;

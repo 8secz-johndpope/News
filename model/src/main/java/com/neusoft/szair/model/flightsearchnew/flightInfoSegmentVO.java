@@ -1,0 +1,128 @@
+package com.neusoft.szair.model.flightsearchnew;
+
+
+import com.neusoft.szair.model.soap.SOAPBinding;
+import com.neusoft.szair.model.soap.SOAPObject;
+import com.neusoft.szair.model.soap.UnknownSOAPObject;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.IOException;
+import java.io.Serializable;
+
+public class flightInfoSegmentVO implements SOAPObject, Serializable
+{
+
+    public String _DST_CITY = null;
+    public java.util.List<flightInfoSegmentSubVO> _FLIGHT_INFO_SEGMENT_SUB_LIST = null;
+    public String _INDEX = null;
+    public String _ORG_CITY = null;
+    
+    private java.lang.Exception _exception = null;
+
+    public void setexception(java.lang.Exception _exception){
+    	this._exception = _exception;
+    }
+
+    public java.lang.Exception getexception(){
+    	return this._exception;
+    }
+    
+	public void toXml(XmlSerializer xml, String name, String namespace) throws IOException {
+        String ns = null;
+        if(namespace != null && namespace.length() > 0) {
+            ns = namespace;
+        }
+        else {
+            ns = getNamespace();
+        }
+
+        xml.startTag(ns, name);
+        addAttributesToNode(xml);
+		addElementsToNode(xml);
+        xml.endTag(ns, name);
+    }
+
+    public String getNamespace() {
+        return "http://com/shenzhenair/mobilewebservice/booking";
+    }
+
+    public void addAttributesToNode(XmlSerializer xml) throws IOException {
+    }
+
+    public void addElementsToNode(XmlSerializer xml) throws IOException
+    {
+        if(_DST_CITY != null) {
+            xml.startTag(null, "DST_CITY");
+            xml.text(_DST_CITY);
+            xml.endTag(null, "DST_CITY");
+        }
+        if(_FLIGHT_INFO_SEGMENT_SUB_LIST != null) {
+        	if(_FLIGHT_INFO_SEGMENT_SUB_LIST.size()>0){
+        		for(int i=0,len=_FLIGHT_INFO_SEGMENT_SUB_LIST.size();i<len;i++){
+                    xml.startTag(null, "FLIGHT_INFO_SEGMENT_SUB_LIST");
+                    _FLIGHT_INFO_SEGMENT_SUB_LIST.get(i).addElementsToNode(xml);
+                    xml.endTag(null, "FLIGHT_INFO_SEGMENT_SUB_LIST");
+        		}
+        	}
+        }
+        if(_INDEX != null) {
+            xml.startTag(null, "INDEX");
+            xml.text(_INDEX);
+            xml.endTag(null, "INDEX");
+        }
+        if(_ORG_CITY != null) {
+            xml.startTag(null, "ORG_CITY");
+            xml.text(_ORG_CITY);
+            xml.endTag(null, "ORG_CITY");
+        }
+    }
+    
+    public void parse(SOAPBinding binding, XmlPullParser parser)
+    {
+    	int event = 0;
+		try {
+			event = parser.next();
+
+	        while(event!= XmlPullParser.END_TAG){
+	            switch(event){  
+	            case XmlPullParser.START_TAG://判断当前事件是否是标签元素开始事件
+	            	if("DST_CITY".equals(parser.getName())){
+	            		_DST_CITY = parser.nextText();
+	            		break;
+	            	}
+	            	else if("FLIGHT_INFO_SEGMENT_SUB_LIST".equals(parser.getName())){
+	            		if(_FLIGHT_INFO_SEGMENT_SUB_LIST==null){
+	            			_FLIGHT_INFO_SEGMENT_SUB_LIST = new java.util.ArrayList<flightInfoSegmentSubVO>();
+	            		}
+	            		flightInfoSegmentSubVO soapObject = new flightInfoSegmentSubVO();
+	                    soapObject.parse(binding, parser);
+	                    _FLIGHT_INFO_SEGMENT_SUB_LIST.add(soapObject);
+	            		break;
+	            	}
+	            	else if("INDEX".equals(parser.getName())){
+	            		_INDEX = parser.nextText();
+	            		break;
+	            	}
+	            	else if("ORG_CITY".equals(parser.getName())){
+	            		_ORG_CITY = parser.nextText();
+	            		break;
+	            	}
+	            	else{
+	        			UnknownSOAPObject soapObject = new UnknownSOAPObject();
+	                    soapObject.parse(binding, parser);
+	            		break;
+	            	}
+	            }  
+            	event = parser.next();
+	        }//end while 
+		} catch (XmlPullParserException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+    }
+	
+}
