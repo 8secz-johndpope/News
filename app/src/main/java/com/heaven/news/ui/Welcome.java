@@ -10,6 +10,7 @@ import com.heaven.news.R;
 import com.heaven.news.constant.Constants;
 import com.heaven.news.databinding.WelcomeBinding;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.ui.vm.model.AdInfo;
 import com.heaven.news.ui.vm.viewmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
 
@@ -29,15 +30,8 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         return R.layout.welcome;
     }
 
-    @SuppressLint("InlinedApi")
     @Override
     public void initView(View rootView) {
-        rootView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
     @Override
@@ -59,7 +53,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         if (updateInfo.isNetError) {
             toNextPage(updateInfo);
         } else {
-            if (updateInfo.isMaintaiService) {
+            if (updateInfo.isServiceMainta) {
 
             } else if (updateInfo.isForceUpdate) {
 
@@ -74,39 +68,33 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
 
 
     private void toNextPage(WelecomModel.UpdateInfo updateInfo) {
-        if(updateInfo.nextGuidePage) {
-            toGuidePage(updateInfo);
+        if (updateInfo.nextGuidePage) {
+            toGuidePage();
+        } else if (updateInfo.isShowAd) {
+            if(updateInfo.adInfo != null) {
+                toAdPage();
+            } else {
+                toMainPage();
+            }
         } else {
-            toMainPage(updateInfo);
+            toMainPage();
         }
     }
 
-    private void toMainPage(WelecomModel.UpdateInfo updateInfo) {
-        AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISOLDUSER, true);
-        if (updateInfo.requestTime > 3000) {
-            startActivity(new Intent(Welcome.this, LoginActivity.class));
-            finish();
-        } else {
-            new Handler().postDelayed(() -> {
-                startActivity(new Intent(Welcome.this, LoginActivity.class));
-                finish();
-            }, 3000);
-        }
-
-
+    private void toAdPage() {
+        Intent intent = new Intent(Welcome.this, AdActivity.class);
+        startActivity(intent);
+        finish();
     }
 
-    private void toGuidePage(WelecomModel.UpdateInfo updateInfo) {
-        AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISOLDUSER, true);
-        if (updateInfo.requestTime > 3000) {
-            startActivity(new Intent(Welcome.this, GuideActivity.class));
-            finish();
-        } else {
-            new Handler().postDelayed(() -> {
-                startActivity(new Intent(Welcome.this, GuideActivity.class));
-                finish();
-            }, 3000);
-        }
+    private void toMainPage() {
+        startActivity(new Intent(Welcome.this, LoginActivity.class));
+        finish();
+    }
+
+    private void toGuidePage() {
+        startActivity(new Intent(Welcome.this, GuideActivity.class));
+        finish();
     }
 
 }

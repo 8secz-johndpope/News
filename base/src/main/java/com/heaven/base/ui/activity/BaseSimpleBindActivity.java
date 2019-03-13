@@ -29,18 +29,12 @@ import java.lang.reflect.Type;
  * @version V1.0 TODO <描述当前版本功能>
  */
 @SuppressWarnings("unchecked")
-public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends ViewDataBinding>  extends BaseActivity  implements IBaseActivity {
-    public B mViewBinding;
+public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends ViewDataBinding>  extends BaseActivity<B>  {
     public VM mViewModel;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View rootView = getLayoutInflater().inflate(this.initLayoutResId(), null, false);
-        mViewBinding = DataBindingUtil.bind(rootView);
-        initView(rootView);
-        this.makeContentView(rootView);
         analyseGenerics();
         if(mViewModel != null) {
             mViewModel.initModel();
@@ -72,29 +66,6 @@ public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends
                 }
             }
         }
-    }
-
-
-    public void makeContentView(View rootView) {
-        super.setContentView(getContainer(rootView));
-    }
-
-    private View getContainer(View rootView) {
-        rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.alpha_white));
-        View container = getLayoutInflater().inflate(R.layout.activity_base, null, false);
-        SwipeBackLayout swipeBackLayout = container.findViewById(R.id.swipeBackLayout);
-        swipeBackLayout.setDragEdge(SwipeBackLayout.DragEdge.LEFT);
-        View ivShadow = container.findViewById(R.id.iv_shadow);
-        swipeBackLayout.addView(rootView);
-        swipeBackLayout.setOnSwipeBackListener((fa, fs) -> ivShadow.setAlpha(1 - fs));
-        return container;
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        MPermissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 

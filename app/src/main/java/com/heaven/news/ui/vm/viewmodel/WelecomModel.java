@@ -10,6 +10,7 @@ import com.heaven.news.constant.Constants;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.AppInfo;
+import com.heaven.news.ui.vm.model.AdInfo;
 import com.heaven.news.utils.RxRepUtils;
 import com.heaven.news.ui.vm.model.Version;
 import com.orhanobut.logger.Logger;
@@ -39,7 +40,6 @@ public class WelecomModel extends BaseViewModel {
             long endTime = System.currentTimeMillis();
             long requestTime = endTime - startTime;
             if (configData.netCode == 0 && configData.androidversion != null) {
-                AppEngine.getInstance().cacheData(DataSource.DB, Constants.ADINFO, configData);
                 checkVersion(configData.androidversion,requestTime);
             } else {
                 UpdateInfo updateInfo = new UpdateInfo();
@@ -58,7 +58,7 @@ public class WelecomModel extends BaseViewModel {
         updateInfo.updateUrl = version.url;
         updateInfo.updateMessage = version.txt;
         if (version.cversion > 65534) {
-            updateInfo.isMaintaiService = true;
+            updateInfo.isServiceMainta = true;
         } else {
             if (appInfo.verCode < version.cversion) {
                 updateInfo.needUpdate = true;
@@ -67,8 +67,20 @@ public class WelecomModel extends BaseViewModel {
                 }
             }
         }
+        checkAdInfo(updateInfo);
         processNextStep(updateInfo);
     }
+
+    private void checkAdInfo(UpdateInfo updateInfo) {
+        updateInfo.adInfo = getTestAdInfoData();
+        updateInfo.isShowAd = true;
+        if(updateInfo.isShowAd && updateInfo.adInfo != null) {
+            AppEngine.getInstance().cacheData(DataSource.DB, Constants.ADINFO, updateInfo.adInfo );
+        } else {
+            updateInfo.isShowAd = false;
+        }
+    }
+
 
     private void processNextStep(UpdateInfo updateInfo) {
         boolean isOldUser = AppEngine.getInstance().getDataSource().getSharePreBoolean(Constants.ISOLDUSER);
@@ -78,18 +90,21 @@ public class WelecomModel extends BaseViewModel {
             updateInfo.nextGuidePage = true;
         }
         versionLive.setValue(updateInfo);
+        AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISOLDUSER, true);
     }
 
     public static class UpdateInfo {
         public boolean isNetError;
         public String reason;
         public long requestTime;
-        public boolean isMaintaiService;
+        public boolean isServiceMainta;
         public boolean needUpdate;
         public boolean isForceUpdate;
         public String updateUrl;
         public String updateMessage;
         public boolean nextGuidePage = false;
+        public boolean isShowAd = false;
+        public AdInfo adInfo;
 
         @Override
         public String toString() {
@@ -97,13 +112,25 @@ public class WelecomModel extends BaseViewModel {
                     "isNetError=" + isNetError +
                     ", reason='" + reason + '\'' +
                     ", requestTime=" + requestTime +
-                    ", isMaintaiService=" + isMaintaiService +
+                    ", isServiceMainta=" + isServiceMainta +
                     ", needUpdate=" + needUpdate +
                     ", isForceUpdate=" + isForceUpdate +
                     ", updateUrl='" + updateUrl + '\'' +
                     ", updateMessage='" + updateMessage + '\'' +
                     ", nextGuidePage=" + nextGuidePage +
+                    ", isShowAd=" + isShowAd +
+                    ", adInfo=" + adInfo +
                     '}';
         }
+    }
+
+    private AdInfo getTestAdInfoData() {
+        AdInfo adInfo = new AdInfo();
+        adInfo.isVideo = false;
+        adInfo.urlImage = "http://img0.imgtn.bdimg.com/it/u=1344159241,3681424911&fm=26&gp=0.jpg";
+        adInfo.urlVideo = "";
+        adInfo.content = "百思不得姐减肥肯定是怕几点睡激动是怕";
+
+        return adInfo;
     }
 }
