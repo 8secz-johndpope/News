@@ -23,35 +23,12 @@ import java.lang.reflect.Type;
  * {@link BaseFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public abstract class BaseFragment<P extends BasePresenter, B extends ViewDataBinding> extends Fragment {
-    public P mPresenter;
+public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     public B mViewBinding;
     private OnFragmentInteractionListener mListener;
 
     protected abstract void initView();
 
-    //初始化presenters，
-    private void onInitPresenters() {
-        Type type = this.getClass().getGenericSuperclass();
-        if (this instanceof IView && type instanceof ParameterizedType) {
-            Type[] typeArr = ((ParameterizedType) type).getActualTypeArguments();
-            if (typeArr.length > 0) {
-                mPresenter = getInstance(typeArr[0].getClass());
-                if (mPresenter != null) {
-                    mPresenter.setView(this,getContext());
-                }
-            }
-        }
-    }
-
-    protected P getInstance(Class<?> clazz) {
-        try {
-            return (P)clazz.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /**
      * 获取layout的id，具体由子类实现
@@ -63,10 +40,6 @@ public abstract class BaseFragment<P extends BasePresenter, B extends ViewDataBi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onInitPresenters();
-        if (getArguments() != null) {
-            parseBundleArgument(getArguments());
-        }
     }
 
     @Override
@@ -76,8 +49,6 @@ public abstract class BaseFragment<P extends BasePresenter, B extends ViewDataBi
 
         return mViewBinding.getRoot();
     }
-
-    protected abstract void parseBundleArgument(Bundle paramBundle);
 
     @Override
     public void onAttach(Context context) {

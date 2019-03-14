@@ -16,6 +16,8 @@ public interface IBaseActivity {
      */
     int initLayoutResId();
 
+    int initToolBarResId();
+
     void initView(View rootView);
 
     void bindModel();

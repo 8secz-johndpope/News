@@ -73,7 +73,7 @@ public class WelecomModel extends BaseViewModel {
 
     private void checkAdInfo(UpdateInfo updateInfo) {
         updateInfo.adInfo = getTestAdInfoData();
-        updateInfo.isShowAd = true;
+//        updateInfo.isShowAd = true;
         if(updateInfo.isShowAd && updateInfo.adInfo != null) {
             AppEngine.getInstance().cacheData(DataSource.DB, Constants.ADINFO, updateInfo.adInfo );
         } else {

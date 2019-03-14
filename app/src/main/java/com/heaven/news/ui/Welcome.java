@@ -10,6 +10,7 @@ import com.heaven.news.R;
 import com.heaven.news.constant.Constants;
 import com.heaven.news.databinding.WelcomeBinding;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.ui.home.MainActivity;
 import com.heaven.news.ui.vm.model.AdInfo;
 import com.heaven.news.ui.vm.viewmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
@@ -88,7 +89,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     }
 
     private void toMainPage() {
-        startActivity(new Intent(Welcome.this, LoginActivity.class));
+        startActivity(new Intent(Welcome.this, MainActivity.class));
         finish();
     }
 

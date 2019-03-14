@@ -25,8 +25,7 @@ import java.lang.reflect.Type;
  * @version V1.0 TODO <描述当前版本功能>
  */
 @SuppressWarnings("unchecked")
-public abstract class BaseSimpleBindFragment<VM extends BaseViewModel, B extends ViewDataBinding> extends Fragment {
-    protected B mViewBinding;
+public abstract class BaseSimpleBindFragment<VM extends BaseViewModel, B extends ViewDataBinding> extends BaseFragment<B> {
     protected VM mViewModel;
     private BaseFragment.OnFragmentInteractionListener mListener;
 
@@ -41,13 +40,6 @@ public abstract class BaseSimpleBindFragment<VM extends BaseViewModel, B extends
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mViewBinding = DataBindingUtil.inflate(inflater,initLayoutResId(), container, false);
-        return mViewBinding.getRoot();
     }
 
 

@@ -4,8 +4,8 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 
-import com.heaven.news.ui.MainActivity;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.ui.LoginActivity;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -32,7 +32,7 @@ public class CheckLoginAspect {
                     .setAction("登录", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            AppEngine.Router(MainActivity.class);
+                            AppEngine.Router(LoginActivity.class);
                         }
                     }).show();
             return;

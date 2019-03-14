@@ -48,6 +48,7 @@ dependencies {
     api uiDep.androidAnnotations
     api uiDep.support
     api archDep.extensions
+    api 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 //    api uiDep.styleableToast
 
     api 'com.github.todou:appbarspring:1.0.3'

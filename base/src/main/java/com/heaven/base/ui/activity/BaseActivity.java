@@ -1,7 +1,10 @@
 package com.heaven.base.ui.activity;
 
+import android.annotation.TargetApi;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,11 +12,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.heaven.base.R;
 import com.heaven.base.ui.SpUtil;
 import com.heaven.base.ui.view.widget.SwipeBackLayout;
 import com.heaven.base.utils.MPermissionUtils;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
  * FileName: com.heaven.base.ui.activity.BaseActivity.java
@@ -29,10 +36,64 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View rootView = getLayoutInflater().inflate(this.initLayoutResId(), null, false);
-        mViewBinding = DataBindingUtil.bind(rootView);
-        initView(rootView);
-        this.makeContentView(rootView);
+
+        if(initLayoutResId() > 0) {
+            LinearLayout contentContainer = null;
+            View rootView = null;
+            if(initToolBarResId() > 0) {
+                rootView = getLayoutInflater().inflate(R.layout.base, null);
+                contentContainer = rootView.findViewById(R.id.content_container);
+                View tooBarView = getLayoutInflater().inflate(initToolBarResId(), null);
+                contentContainer.addView(tooBarView);
+            }
+
+            View mainView = getLayoutInflater().inflate(this.initLayoutResId(), null);
+            mViewBinding = DataBindingUtil.bind(mainView);
+
+            if(contentContainer != null) {
+                contentContainer.addView(mainView);
+                initView(rootView);
+                this.makeContentView(rootView);
+            } else {
+                initView(mainView);
+                this.makeContentView(mainView);
+            }
+            initTitleBar();
+        }
+
+    }
+
+    private void initTitleBar() {
+        // 4.4及以上版本开启
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+        }
+        // create our manager instance after the content view is set
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        // enable status bar tint
+        tintManager.setStatusBarTintEnabled(true);
+        // enable navigation bar tint
+        tintManager.setNavigationBarTintEnabled(true);
+        // 自定义颜色
+//        tintManager.setTintColor(Color.parseColor("#24b7a4"));
+    }
+
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
+    @Override
+    public int initToolBarResId() {
+        return 0;
     }
 
     @Override
@@ -46,7 +107,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
 
     private View getContainer(View rootView) {
         rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.alpha_white));
-        View container = getLayoutInflater().inflate(R.layout.activity_base, null, false);
+        View container = getLayoutInflater().inflate(R.layout.swipback_base, null, false);
         SwipeBackLayout swipeBackLayout = container.findViewById(R.id.swipeBackLayout);
         swipeBackLayout.setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         View ivShadow = container.findViewById(R.id.iv_shadow);
