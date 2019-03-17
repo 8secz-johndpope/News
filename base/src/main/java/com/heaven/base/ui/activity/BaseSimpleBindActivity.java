@@ -67,10 +67,4 @@ public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends
             }
         }
     }
-
-
-    @Override
-    public void initView(View rootView) {
-
-    }
 }

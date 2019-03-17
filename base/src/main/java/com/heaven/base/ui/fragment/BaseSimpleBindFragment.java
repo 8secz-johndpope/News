@@ -34,6 +34,7 @@ public abstract class BaseSimpleBindFragment<VM extends BaseViewModel, B extends
      *
      * @return 布局id
      */
+    @Override
     protected abstract int initLayoutResId();
 
     @Override

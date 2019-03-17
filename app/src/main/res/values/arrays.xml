@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources tools:ignore="MissingTranslation" xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="bottom_bar_name">
+        <item>首页</item>
+        <item>我的订单</item>
+        <item>剪辑沟通</item>
+        <item>我的</item>
+    </string-array>
+
+    <string-array name="home_item_name">
+        <item>样片</item>
+        <item>最新</item>
+    </string-array>
+
+    <string-array name="bottom_bar_img">
+        <item>@drawable/tab_home</item>
+        <item>@drawable/tab_order</item>
+        <item>@drawable/tab_chat</item>
+        <item>@drawable/tab_mine</item>
+    </string-array>
+</resources>
