@@ -1,6 +1,7 @@
 package com.heaven.news.api;
 
 import com.heaven.news.ui.vm.model.ConfigData;
+import com.heaven.news.ui.vm.model.HomeImageInfo;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
@@ -21,4 +22,8 @@ public interface ConfigApi {
 
     @GET("config.json")
     Flowable<ConfigData> getAdInfo();
+
+    @Headers({"Content-Type:Application/json; charset=utf-8","Connection:close"})
+    @GET("carousel.json")
+    Flowable<HomeImageInfo> getImageConfig();
 }
