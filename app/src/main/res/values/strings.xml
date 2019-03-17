@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">News</string>
+
+    <string name="toobar_home">首页</string>
+    <string name="toobar_route">行程</string>
+    <string name="toobar_easygo">深航易行</string>
+    <string name="toobar_phoenix">凤凰知音</string>
+    <string name="toobar_mine">我</string>
 </resources>

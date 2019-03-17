@@ -18,6 +18,7 @@ import com.heaven.news.ui.base.BaseToolBarSimpleActivity;
 import com.heaven.news.ui.fragment.EasyGo;
 import com.heaven.news.ui.fragment.Home;
 import com.heaven.news.ui.fragment.Mine;
+import com.heaven.news.ui.fragment.Phoenix;
 import com.heaven.news.ui.fragment.Route;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
@@ -62,6 +63,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         mainList.add(Home.newInstance(paramBundle));
         mainList.add(Route.newInstance(paramBundle));
         mainList.add(EasyGo.newInstance(null));
+        mainList.add(Phoenix.newInstance(null));
         mainList.add(Mine.newInstance(null));
         mViewBinding.viewpager.setOffscreenPageLimit(4);
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(this,getSupportFragmentManager());
