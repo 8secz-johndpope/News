@@ -12,12 +12,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.heaven.base.R;
 import com.heaven.base.ui.SpUtil;
+import com.heaven.base.ui.view.widget.BaseView;
 import com.heaven.base.ui.view.widget.SwipeBackLayout;
 import com.heaven.base.utils.MPermissionUtils;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -38,29 +40,17 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         super.onCreate(savedInstanceState);
 
         if(initLayoutResId() > 0) {
-            LinearLayout contentContainer = null;
-            View rootView = null;
+            LinearLayout rootView = (LinearLayout) getLayoutInflater().inflate(R.layout.base, null);
             if(initToolBarResId() > 0) {
-                rootView = getLayoutInflater().inflate(R.layout.base, null);
-                contentContainer = rootView.findViewById(R.id.content_container);
-                View tooBarView = getLayoutInflater().inflate(initToolBarResId(), null);
-                contentContainer.addView(tooBarView);
+                getLayoutInflater().inflate(initToolBarResId(), rootView);
             }
-
             View mainView = getLayoutInflater().inflate(this.initLayoutResId(), null);
             mViewBinding = DataBindingUtil.bind(mainView);
-
-            if(contentContainer != null) {
-                contentContainer.addView(mainView);
-                initView(rootView);
-                this.makeContentView(rootView);
-            } else {
-                initView(mainView);
-                this.makeContentView(mainView);
-            }
-            initTitleBar();
+            rootView.addView(mainView);
+            initView(rootView);
+            this.makeContentView(rootView);
+//            initTitleBar();
         }
-
     }
 
     private void initTitleBar() {

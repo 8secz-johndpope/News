@@ -2,6 +2,7 @@ package com.heaven.base.ui.view.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 
 /**
@@ -17,31 +18,78 @@ public class BaseView extends LinearLayout {
         super(context);
     }
 
-    public BaseView(Context context, @androidx.annotation.Nullable AttributeSet attrs) {
+    public BaseView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public BaseView(Context context, @androidx.annotation.Nullable AttributeSet attrs, int defStyleAttr) {
+    public BaseView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //先取出BaseView的父view 对SimpleFlowLayout 的测量限制 这一步很重要噢。
-        //你只有知道自己的宽高 才能限制你子view的宽高
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (getChildCount() == 1) {
+            int measureWidth = MeasureSpec.makeMeasureSpec(getMeasuredWidth() - getPaddingLeft() - getPaddingRight(), MeasureSpec.EXACTLY);
+            int measureHeight = MeasureSpec.makeMeasureSpec(getMeasuredHeight() - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY);
+            getChildAt(0).measure(measureWidth, measureHeight);
+        } else if (getChildCount() == 2) {
+            int measureWidth = MeasureSpec.makeMeasureSpec(getMeasuredWidth() - getPaddingLeft() - getPaddingRight(), MeasureSpec.EXACTLY);
+            int measureHeight = MeasureSpec.makeMeasureSpec(getMeasuredHeight() - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY);
+            measureChildren(measureWidth,measureHeight);
+            View childTitle = getChildAt(0);
+            View childBody = getChildAt(1);
 
-        for (int i = 0; i < getChildCount(); i++) {
+            int childTitleHeight = childTitle.getMeasuredHeight();
+            int childBodyHeight = childBody.getMeasuredHeight();
 
+
+            childTitle.measure(measureWidth, measureHeight);
+        } else {
+            throw new IllegalStateException("BaseView must contains only one or two direct child.");
         }
     }
 
+
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
+    protected void onLayout(boolean changed, int left, int t, int right, int b) {
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
+        if (getChildCount() == 0) {
+            return;
+        }
+
+        if(getChildCount() == 1) {
+            View child = getChildAt(0);
+            View childTwo = getChildAt(1);
+            int childWidth = width - getPaddingLeft() - getPaddingRight();
+            int childHeight = height - getPaddingTop() - getPaddingBottom();
+            int childLeft = getPaddingLeft();
+            int childTop = getPaddingTop();
+            int childRight = childLeft + childWidth;
+            int childBottom = childTop + childHeight;
+            child.layout(childLeft, childTop, childRight, childBottom);
+        } else if(getChildCount() == 2) {
+            View child = getChildAt(0);
+            View childTwo = getChildAt(1);
+            int childWidth = width - getPaddingLeft() - getPaddingRight();
+            int childHeight = height - getPaddingTop() - getPaddingBottom();
+            int childLeft = getPaddingLeft();
+            int childTop = getPaddingTop();
+            int childRight = childLeft + childWidth;
+
+
+            int childBodyTop = childTop + child.getMeasuredHeight();
+
+            int childTitleBottom = childTop + child.getMeasuredHeight();
+            int childBodyBottom = childTitleBottom + childTwo.getMeasuredHeight();
+
+            child.layout(childLeft, childTop, childRight, childTitleBottom);
+
+            childTwo.layout(childLeft, childBodyTop, childRight, childBodyBottom);
+        }
+
+
     }
 }
