@@ -16,9 +16,9 @@
 
     <string-array name="bottom_bar_img">
         <item>@drawable/tab_home</item>
-        <item>@drawable/tab_order</item>
-        <item>@drawable/tab_chat</item>
-        <item>@drawable/tab_mine</item>
+        <item>@drawable/tab_route</item>
+        <item>@drawable/tab_easygo</item>
+        <item>@drawable/tab_phoenix</item>
         <item>@drawable/tab_mine</item>
     </string-array>
 </resources>
