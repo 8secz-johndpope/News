@@ -49,6 +49,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
             rootView.addView(mainView);
             initView(rootView);
             this.makeContentView(rootView);
+            getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
             initTitleBar();
         }
     }
