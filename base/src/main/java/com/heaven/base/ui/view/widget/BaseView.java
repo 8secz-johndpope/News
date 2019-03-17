@@ -36,16 +36,18 @@ public class BaseView extends LinearLayout {
             getChildAt(0).measure(measureWidth, measureHeight);
         } else if (getChildCount() == 2) {
             int measureWidth = MeasureSpec.makeMeasureSpec(getMeasuredWidth() - getPaddingLeft() - getPaddingRight(), MeasureSpec.EXACTLY);
-            int measureHeight = MeasureSpec.makeMeasureSpec(getMeasuredHeight() - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY);
-            measureChildren(measureWidth,measureHeight);
+
+            int measureTitleHeight = MeasureSpec.makeMeasureSpec(getMeasuredHeight() - getPaddingTop() - getPaddingBottom(), MeasureSpec.AT_MOST);
+            int measureBodyHeight = MeasureSpec.makeMeasureSpec(getMeasuredHeight() - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY);
+
             View childTitle = getChildAt(0);
             View childBody = getChildAt(1);
 
+            childTitle.measure(measureWidth,measureTitleHeight);
+            childBody.measure(measureWidth,measureBodyHeight);
+
             int childTitleHeight = childTitle.getMeasuredHeight();
             int childBodyHeight = childBody.getMeasuredHeight();
-
-
-            childTitle.measure(measureWidth, measureHeight);
         } else {
             throw new IllegalStateException("BaseView must contains only one or two direct child.");
         }
@@ -71,8 +73,8 @@ public class BaseView extends LinearLayout {
             int childBottom = childTop + childHeight;
             child.layout(childLeft, childTop, childRight, childBottom);
         } else if(getChildCount() == 2) {
-            View child = getChildAt(0);
-            View childTwo = getChildAt(1);
+            View childTitle = getChildAt(0);
+            View childBody = getChildAt(1);
             int childWidth = width - getPaddingLeft() - getPaddingRight();
             int childHeight = height - getPaddingTop() - getPaddingBottom();
             int childLeft = getPaddingLeft();
@@ -80,14 +82,11 @@ public class BaseView extends LinearLayout {
             int childRight = childLeft + childWidth;
 
 
-            int childBodyTop = childTop + child.getMeasuredHeight();
-
-            int childTitleBottom = childTop + child.getMeasuredHeight();
-            int childBodyBottom = childTitleBottom + childTwo.getMeasuredHeight();
-
-            child.layout(childLeft, childTop, childRight, childTitleBottom);
-
-            childTwo.layout(childLeft, childBodyTop, childRight, childBodyBottom);
+            int childBodyTop = childTop + childTitle.getMeasuredHeight();
+            int childTitleBottom = childTop + childTitle.getMeasuredHeight();
+            int childBodyBottom = childTitleBottom + childBody.getMeasuredHeight();
+            childTitle.layout(childLeft, childTop, childRight, childTitleBottom);
+            childBody.layout(childLeft, childBodyTop, childRight, childBodyBottom);
         }
 
 
