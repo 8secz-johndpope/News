@@ -13,16 +13,16 @@ import android.widget.LinearLayout;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class BaseView extends LinearLayout {
-    public BaseView(Context context) {
+public class BaseTestView extends LinearLayout {
+    public BaseTestView(Context context) {
         super(context);
     }
 
-    public BaseView(Context context, AttributeSet attrs) {
+    public BaseTestView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public BaseView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BaseTestView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -49,6 +49,7 @@ public class BaseView extends LinearLayout {
 
             int measureBodyHeight = MeasureSpec.makeMeasureSpec(getMeasuredHeight()- childTitleHeight - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY);
             childBody.measure(measureWidth,measureBodyHeight);
+        } else {
             throw new IllegalStateException("BaseView must contains only one or two direct child.");
         }
     }
@@ -88,7 +89,5 @@ public class BaseView extends LinearLayout {
             childTitle.layout(childLeft, childTop, childRight, childTitleBottom);
             childBody.layout(childLeft, childBodyTop, childRight, childBodyBottom);
         }
-
-
     }
 }
