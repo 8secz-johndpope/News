@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/tools"
     >
 
     <data>
@@ -19,7 +20,7 @@
         android:orientation="vertical">
 
 
-        <!--<android.support.v4.view.ViewPager
+        <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -40,6 +41,6 @@
             app:tabIndicatorColor="@color/app_main_color"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/app_main_color"
-            app:tabTextColor="@color/app_sub_font_color"/>-->
+            app:tabTextColor="@color/app_sub_font_color"/>
     </LinearLayout>
 </layout>

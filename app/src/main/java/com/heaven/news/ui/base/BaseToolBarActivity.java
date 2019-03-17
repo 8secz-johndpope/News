@@ -14,7 +14,7 @@ import com.heaven.base.vm.BaseViewModel;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public abstract class BaseToolBarActivity<P extends BasePresenter, VM extends BaseViewModel<P>, B extends ViewDataBinding> extends BaseSimpleBindActivity {
+public abstract class BaseToolBarActivity<P extends BasePresenter, VM extends BaseViewModel<P>, B extends ViewDataBinding> extends BaseSimpleBindActivity<VM,B> {
 
     @Override
     public int initToolBarResId() {

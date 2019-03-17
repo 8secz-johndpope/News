@@ -15,7 +15,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B extends ViewDataBinding> extends BaseSimpleBindActivity {
+public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B extends ViewDataBinding> extends BaseSimpleBindActivity<VM,B> {
 
     @Override
     public int initToolBarResId() {
