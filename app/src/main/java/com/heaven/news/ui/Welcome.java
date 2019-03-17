@@ -14,6 +14,7 @@ import com.heaven.news.ui.home.MainActivity;
 import com.heaven.news.ui.vm.model.AdInfo;
 import com.heaven.news.ui.vm.viewmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
  * FileName: com.heaven.news.ui.Welcome.java
@@ -29,6 +30,15 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public int initLayoutResId() {
         return R.layout.welcome;
+    }
+
+    @Override
+    protected void initTitleBar() {
+    }
+
+    @Override
+    protected void setBarColor(SystemBarTintManager tintManager) {
+        super.setBarColor(tintManager);
     }
 
     @Override

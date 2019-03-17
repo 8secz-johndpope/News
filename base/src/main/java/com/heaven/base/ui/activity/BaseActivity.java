@@ -49,11 +49,11 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
             rootView.addView(mainView);
             initView(rootView);
             this.makeContentView(rootView);
-//            initTitleBar();
+            initTitleBar();
         }
     }
 
-    private void initTitleBar() {
+    protected void initTitleBar() {
         // 4.4及以上版本开启
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus(true);
@@ -64,8 +64,12 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         tintManager.setStatusBarTintEnabled(true);
         // enable navigation bar tint
         tintManager.setNavigationBarTintEnabled(true);
-        // 自定义颜色
-//        tintManager.setTintColor(Color.parseColor("#24b7a4"));
+        setBarColor(tintManager);
+    }
+
+    // 自定义颜色
+    protected void setBarColor(SystemBarTintManager tintManager) {
+
     }
 
     @TargetApi(19)

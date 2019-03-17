@@ -5,6 +5,7 @@ import android.databinding.ViewDataBinding;
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.R;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
  * FileName: com.heaven.news.ui.base.BaseToolBarActivity.java
@@ -19,5 +20,10 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
     @Override
     public int initToolBarResId() {
         return R.layout.title_bar;
+    }
+
+    @Override
+    protected void setBarColor(SystemBarTintManager tintManager) {
+        tintManager.setStatusBarTintResource(R.mipmap.toolbar_bg);
     }
 }
