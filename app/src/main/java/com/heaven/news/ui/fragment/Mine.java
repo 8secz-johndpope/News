@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.heaven.base.ui.fragment.BaseFragment;
 import com.heaven.news.R;
+import com.heaven.news.databinding.MineBinding;
 
 /**
  * FileName: com.heaven.news.ui.fragment.Home.java
@@ -13,7 +14,7 @@ import com.heaven.news.R;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class Mine extends BaseFragment {
+public class Mine extends BaseFragment<MineBinding> {
     @Override
     protected void initView() {
 
@@ -21,7 +22,7 @@ public class Mine extends BaseFragment {
 
     @Override
     protected int initLayoutResId() {
-        return R.layout.home;
+        return R.layout.mine;
     }
 
     public static  BaseFragment newInstance(Bundle paramBundle) {

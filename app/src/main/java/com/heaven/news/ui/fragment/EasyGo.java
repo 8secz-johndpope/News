@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.heaven.base.ui.fragment.BaseFragment;
 import com.heaven.news.R;
+import com.heaven.news.databinding.EasygoBinding;
 
 /**
  * FileName: com.heaven.news.ui.fragment.Home.java
@@ -13,7 +14,7 @@ import com.heaven.news.R;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class EasyGo extends BaseFragment {
+public class EasyGo extends BaseFragment<EasygoBinding> {
     @Override
     protected void initView() {
 
@@ -21,7 +22,7 @@ public class EasyGo extends BaseFragment {
 
     @Override
     protected int initLayoutResId() {
-        return R.layout.home;
+        return R.layout.easygo;
     }
 
     public static  BaseFragment newInstance(Bundle paramBundle) {

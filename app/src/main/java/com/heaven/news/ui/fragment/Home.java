@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.heaven.base.ui.fragment.BaseFragment;
 import com.heaven.news.R;
+import com.heaven.news.databinding.HomeBinding;
 
 /**
  * FileName: com.heaven.news.ui.fragment.Home.java
@@ -13,7 +14,7 @@ import com.heaven.news.R;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class Home extends BaseFragment {
+public class Home extends BaseFragment<HomeBinding> {
     @Override
     protected void initView() {
 
