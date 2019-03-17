@@ -82,8 +82,8 @@ public class BaseView extends LinearLayout {
             int childRight = childLeft + childWidth;
 
 
-            int childBodyTop = childTop + childTitle.getMeasuredHeight();
             int childTitleBottom = childTop + childTitle.getMeasuredHeight();
+            int childBodyTop = childTop + childTitle.getMeasuredHeight();
             int childBodyBottom = childTitleBottom + childBody.getMeasuredHeight();
             childTitle.layout(childLeft, childTop, childRight, childTitleBottom);
             childBody.layout(childLeft, childBodyTop, childRight, childBodyBottom);
