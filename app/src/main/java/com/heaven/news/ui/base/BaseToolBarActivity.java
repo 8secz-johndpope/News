@@ -17,7 +17,7 @@ import com.heaven.base.vm.BaseViewModel;
 public abstract class BaseToolBarActivity<P extends BasePresenter, VM extends BaseViewModel<P>, B extends ViewDataBinding> extends BaseSimpleBindActivity<VM,B> {
 
     @Override
-    public int initToolBarResId() {
-        return super.initToolBarResId();
+    public int iniTitleBarResId() {
+        return super.iniTitleBarResId();
     }
 }

@@ -33,7 +33,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     }
 
     @Override
-    protected void initTitleBar() {
+    protected void initMmersionTitleBar() {
     }
 
     @Override

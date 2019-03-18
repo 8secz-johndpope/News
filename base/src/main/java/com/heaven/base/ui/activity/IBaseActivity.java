@@ -16,7 +16,11 @@ public interface IBaseActivity {
      */
     int initLayoutResId();
 
-    int initToolBarResId();
+    int iniTitleBarResId();
+
+    void setTitle(String title);
+
+    void setTitle(int titleRes);
 
     void initView(View rootView);
 

@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/_15dp"
     android:background="@mipmap/toolbar_bg"
-    android:weightSum="3"
     >
 
     <LinearLayout
@@ -43,9 +42,8 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
         android:gravity="center"
         android:maxLines="1"
@@ -77,6 +75,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/_10dp"
             android:src="@drawable/toolbar_phone"/>
+
 
     </LinearLayout>
 

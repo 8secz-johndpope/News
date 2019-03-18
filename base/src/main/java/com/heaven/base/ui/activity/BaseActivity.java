@@ -3,7 +3,6 @@ package com.heaven.base.ui.activity;
 import android.annotation.TargetApi;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,14 +11,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.heaven.base.R;
 import com.heaven.base.ui.SpUtil;
-import com.heaven.base.ui.view.widget.BaseView;
 import com.heaven.base.ui.view.widget.SwipeBackLayout;
 import com.heaven.base.utils.MPermissionUtils;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -34,6 +31,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
  */
 public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity implements IBaseActivity{
     public B mViewBinding;
+    public View titleBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,8 +39,9 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
 
         if(initLayoutResId() > 0) {
             LinearLayout rootView = (LinearLayout) getLayoutInflater().inflate(R.layout.base, null);
-            if(initToolBarResId() > 0) {
-                getLayoutInflater().inflate(initToolBarResId(), rootView);
+            if(iniTitleBarResId() > 0) {
+                titleBar = getLayoutInflater().inflate(iniTitleBarResId(),null);
+                rootView.addView(titleBar);
             }
             View mainView = getLayoutInflater().inflate(this.initLayoutResId(), null);
             mViewBinding = DataBindingUtil.bind(mainView);
@@ -50,11 +49,11 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
             initView(rootView);
             this.makeContentView(rootView);
             getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
-            initTitleBar();
+            initMmersionTitleBar();
         }
     }
 
-    protected void initTitleBar() {
+    protected void initMmersionTitleBar() {
         // 4.4及以上版本开启
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus(true);
@@ -66,6 +65,15 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         // enable navigation bar tint
         tintManager.setNavigationBarTintEnabled(true);
         setBarColor(tintManager);
+    }
+
+    @Override
+    public void setTitle(String title) {
+    }
+
+    @Override
+    public void setTitle(int titleId) {
+        super.setTitle(titleId);
     }
 
     // 自定义颜色
@@ -87,7 +95,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     }
 
     @Override
-    public int initToolBarResId() {
+    public int iniTitleBarResId() {
         return 0;
     }
 
