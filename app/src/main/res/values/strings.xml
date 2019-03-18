@@ -6,4 +6,7 @@
     <string name="toobar_easygo">深航易行</string>
     <string name="toobar_phoenix">凤凰知音</string>
     <string name="toobar_mine">我</string>
+
+    <string name="login_regist">登录/注册</string>
+
 </resources>
