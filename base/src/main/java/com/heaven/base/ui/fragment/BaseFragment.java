@@ -11,12 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.heaven.base.presenter.BasePresenter;
-import com.heaven.base.presenter.IView;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the

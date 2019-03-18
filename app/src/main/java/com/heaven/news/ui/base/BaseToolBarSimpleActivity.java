@@ -4,7 +4,6 @@ import android.databinding.ViewDataBinding;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
