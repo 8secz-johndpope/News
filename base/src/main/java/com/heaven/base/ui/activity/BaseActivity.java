@@ -42,14 +42,15 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
             if(iniTitleBarResId() > 0) {
                 titleBar = getLayoutInflater().inflate(iniTitleBarResId(),null);
                 rootView.addView(titleBar);
+                initTitle(titleBar);
             }
             View mainView = getLayoutInflater().inflate(this.initLayoutResId(), null);
             mViewBinding = DataBindingUtil.bind(mainView);
             rootView.addView(mainView);
-            initView(rootView);
             this.makeContentView(rootView);
             getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
             initMmersionTitleBar();
+            initView(rootView);
         }
     }
 
@@ -65,6 +66,10 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         // enable navigation bar tint
         tintManager.setNavigationBarTintEnabled(true);
         setBarColor(tintManager);
+    }
+
+    @Override
+    public void initTitle(View titleView) {
     }
 
     @Override

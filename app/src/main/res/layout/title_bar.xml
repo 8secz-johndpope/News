@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,9 +10,12 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/title_left_area"
+        android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
         android:orientation="horizontal"
+        android:visibility="visible"
         >
         <ImageView
             android:id="@+id/home_online_help"
@@ -40,25 +43,16 @@
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_17sp"
-        android:text="首页"
-        />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/title_right_area"
         android:layout_gravity="center_vertical"
-        android:gravity="right"
         android:orientation="horizontal"
+        android:visibility="visible"
         >
 
         <ImageView
@@ -72,11 +66,49 @@
             android:id="@+id/toolbar_phone_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/_10dp"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/toolbar_phone"/>
 
+        <ImageView
+            android:id="@+id/mine_message_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_10dp"
+            android:src="@drawable/mine_message" />
 
+        <ImageView
+            android:id="@+id/extra_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_10dp"
+            />
+
+        <TextView
+            android:id="@+id/extra_function"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_10dp"
+            android:visibility="gone"
+            />
     </LinearLayout>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/title_right_area"
+        android:layout_toRightOf="@+id/title_left_area"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_17sp"
+        />
+
+</RelativeLayout>

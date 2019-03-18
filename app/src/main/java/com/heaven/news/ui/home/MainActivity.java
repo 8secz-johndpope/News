@@ -51,8 +51,11 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
 
     @Override
     public void initView(View rootView) {
+        super.initView(rootView);
+        setTitle("首页");
         initViewPager();
         initBottomTabLayout();
+        showHomeTitle(false);
     }
 
     private void initViewPager() {

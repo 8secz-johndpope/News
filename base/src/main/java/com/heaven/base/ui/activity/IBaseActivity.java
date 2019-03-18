@@ -18,6 +18,8 @@ public interface IBaseActivity {
 
     int iniTitleBarResId();
 
+    void initTitle(View titleView);
+
     void setTitle(String title);
 
     void setTitle(int titleRes);
