@@ -85,6 +85,13 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
         }
     }
 
+    protected void setExtaTitle(String res) {
+        if (extra_function != null) {
+            extra_function.setText(res);
+            extra_function.setVisibility(View.VISIBLE);
+        }
+    }
+
     protected void setExtraImage(int res) {
         if (extra_image != null) {
             extra_image.setImageResource(res);

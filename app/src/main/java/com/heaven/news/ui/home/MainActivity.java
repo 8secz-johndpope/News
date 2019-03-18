@@ -53,6 +53,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     public void initView(View rootView) {
         super.initView(rootView);
         setTitle("首页");
+        setExtaTitle("登录/注册");
         initViewPager();
         initBottomTabLayout();
         showHomeTitle(false);

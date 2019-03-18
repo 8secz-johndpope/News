@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:gravity="left"
         android:id="@+id/title_left_area"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
@@ -51,6 +52,7 @@
         android:layout_centerVertical="true"
         android:id="@+id/title_right_area"
         android:layout_gravity="center_vertical"
+        android:gravity="right"
         android:orientation="horizontal"
         android:visibility="visible"
         >
@@ -94,6 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/_10dp"
+            android:textColor="@color/white"
             android:visibility="gone"
             />
     </LinearLayout>
