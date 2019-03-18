@@ -136,7 +136,15 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
             float density = metric.density;      // 屏幕密度（0.75 / 1.0 / 1.5）
             int densityDpi = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
 
+            float halfTitle = (width - 30 * density) / 2;
+
+            if(textPaintWidth > halfTitle) {
+                textPaintWidth = halfTitle;
+            }
+
             float areaWidth = (width - textPaintWidth - 30 * density) / 2;
+
+
 
             if (title_left_area != null && title_right_area != null) {
                 RelativeLayout.LayoutParams paramsLeft = (RelativeLayout.LayoutParams) title_left_area.getLayoutParams();
