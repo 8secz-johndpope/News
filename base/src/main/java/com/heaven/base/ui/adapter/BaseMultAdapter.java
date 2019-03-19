@@ -64,8 +64,8 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         diffCallBack = new DiffCallBack();
     }
 
-    public <T> BaseMultAdapter register(@NonNull Class<? extends T> clazz, @NonNull BaseMultItem<T> multiItem) {
-        multTypeManager.register(clazz, multiItem);
+    public <T> BaseMultAdapter register(@NonNull BaseMultItem<T> multiItem) {
+        multTypeManager.register(multiItem.getLayoutBindModel(), multiItem);
         return this;
     }
 

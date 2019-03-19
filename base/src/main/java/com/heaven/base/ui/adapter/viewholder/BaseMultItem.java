@@ -24,12 +24,7 @@ public abstract class BaseMultItem<T> implements IMultManager<T> {
     private int spanSize;
     private List<BaseMultItem<T>> childList = new ArrayList<>();
 
-    BaseMultItem(@LayoutRes int itemLayoutId) {
-        this.itemLayoutId = itemLayoutId;
-    }
-
-
-    BaseMultItem(@NonNull Class<T> modelBean, @LayoutRes int itemLayoutId) {
+    public BaseMultItem(@NonNull Class<T> modelBean, @LayoutRes int itemLayoutId) {
         this.modelBean = modelBean;
         this.itemLayoutId = itemLayoutId;
     }

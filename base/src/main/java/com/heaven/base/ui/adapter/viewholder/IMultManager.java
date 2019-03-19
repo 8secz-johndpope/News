@@ -11,8 +11,6 @@ import android.view.ViewGroup;
  */
 
 interface IMultManager<T> {
-    @NonNull
-    BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent);
 
     void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull T t);
 
