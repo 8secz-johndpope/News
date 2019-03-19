@@ -32,10 +32,16 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         return R.layout.welcome;
     }
 
+
+
     @Override
     protected void initMmersionTitleBar() {
     }
 
+    @Override
+    public void makeContentView(View rootView) {
+        setContentView(rootView);
+    }
 
     @Override
     public void bindModel() {
