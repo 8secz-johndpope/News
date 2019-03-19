@@ -1,4 +1,4 @@
-package com.heaven.base.ui.adapter;
+package com.heaven.base.ui.adapter.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import io.reactivex.annotations.NonNull;
 
 /**
- * FileName: com.heaven.base.ui.adapter.MultTypeManager.java
+ * FileName: com.heaven.base.ui.adapter.viewholder.MultTypeManager.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-19 13:51
@@ -53,7 +53,7 @@ public class MultTypeManager {
         return typeToMultItemMap.get(itemType);
     }
 
-    public <T> int getItemType(@NonNull T item, int position) throws Exception {
+    public <T> int getItemType(@NonNull T item, int position) {
         int type = -1;
         CopyOnWriteArrayList<BaseMultItem> itemList = beanToTypeListMap.get(item.getClass());
         if (itemList != null) {
@@ -64,11 +64,6 @@ public class MultTypeManager {
                 }
             }
         }
-
-        if (-1 == type) {
-            throw new Exception("Please bind bean to type");
-        }
-
         return type;
 
     }

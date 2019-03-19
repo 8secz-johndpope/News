@@ -1,4 +1,4 @@
-package com.heaven.base.ui.adapter;
+package com.heaven.base.ui.adapter.viewholder;
 
 import android.support.annotation.NonNull;
 import android.view.View;

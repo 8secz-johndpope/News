@@ -1,4 +1,4 @@
-package com.heaven.base.ui.adapter;
+package com.heaven.base.ui.adapter.viewholder;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +23,7 @@ import android.widget.TextView;
  */
 
 public class BaseViewHolder extends RecyclerView.ViewHolder {
-    public BaseMultItem viewHolderManager;
+    public BaseMultItem multItem;
     public Object itemData;
     private final SparseArray<View> views;
     private View viewItem;
@@ -46,8 +46,8 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return getAdapterPosition();
     }
 
-    public BaseMultItem getViewHolderManager() {
-        return viewHolderManager;
+    public BaseMultItem getMultItem() {
+        return multItem;
     }
 
     public void setContext(Context context) {
