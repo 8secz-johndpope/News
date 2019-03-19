@@ -41,7 +41,12 @@ public class ItemVIew03 extends BaseMultItem<Bean03> {
 
     }
 
-//    @NonNull
+    @Override
+    public int getSpanSize(int spanCount) {
+        return 4;
+    }
+
+    //    @NonNull
 //    @Override
 //    public int getLayoutId() {
 //        return R.layout.item_three;

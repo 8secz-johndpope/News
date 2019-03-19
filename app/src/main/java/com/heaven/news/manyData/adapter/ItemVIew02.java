@@ -38,7 +38,14 @@ public class ItemVIew02 extends BaseMultItem<Bean02> {
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull Bean02 bean02, Object payload) {
 
     }
-//    @NonNull
+
+    @Override
+    public int getSpanSize(int spanCount) {
+        return 2;
+    }
+
+
+    //    @NonNull
 //    @Override
 //    public int getLayoutId() {
 //        return R.layout.item_two;

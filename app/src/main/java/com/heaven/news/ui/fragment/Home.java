@@ -39,29 +39,29 @@ public class Home extends BaseFragment<HomeBinding> {
         adapter.register( new ItemVIew03(Bean03.class,R.layout.item_three));
 
         final GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 4);
-        GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                Object item = items.get(position);
-                if (item instanceof Bean01) {
-                    return 1;
-                }
-                if (item instanceof Bean02) {
-                    return 2;
-                }
-                if (item instanceof Bean03) {
-                    return 4;
-                }
-                if(item instanceof Bean04){
-                    return 4;
-                }
-                if(item instanceof String){
-                    return 4;
-                }
-                return 4;
-            }
-        };
-        layoutManager.setSpanSizeLookup(spanSizeLookup);
+//        GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int position) {
+//                Object item = items.get(position);
+//                if (item instanceof Bean01) {
+//                    return 1;
+//                }
+//                if (item instanceof Bean02) {
+//                    return 2;
+//                }
+//                if (item instanceof Bean03) {
+//                    return 4;
+//                }
+//                if(item instanceof Bean04){
+//                    return 4;
+//                }
+//                if(item instanceof String){
+//                    return 4;
+//                }
+//                return 4;
+//            }
+//        };
+//        layoutManager.setSpanSizeLookup(spanSizeLookup);
         mViewBinding.recyclerview.setLayoutManager(layoutManager);
         mViewBinding.recyclerview.setAdapter(adapter);
         items = new ArrayList<>();

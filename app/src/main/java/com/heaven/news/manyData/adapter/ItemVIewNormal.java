@@ -47,4 +47,9 @@ public class ItemVIewNormal extends BaseMultItem<String> {
             p.setFullSpan(true);
         }
     }
+
+    @Override
+    public int getSpanSize(int spanCount) {
+        return 1;
+    }
 }
