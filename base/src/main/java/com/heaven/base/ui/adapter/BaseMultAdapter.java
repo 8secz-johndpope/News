@@ -49,7 +49,7 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private DiffCallBack diffCallBack;
     private boolean openAnimationEnable = true;
     private boolean firstOnlyEnable = true;
-    private int lastPosition = -1;
+    private int lastPosition = 15;
     private int duration = 300;
     private boolean isStaggeredGridLayout;
     private Interpolator interpolator = new LinearInterpolator();
