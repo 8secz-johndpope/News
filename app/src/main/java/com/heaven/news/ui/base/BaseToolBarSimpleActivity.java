@@ -25,6 +25,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B extends ViewDataBinding> extends BaseSimpleBindActivity<VM, B> {
 
     LinearLayout title_left_area;
+    ImageView go_back;
     ImageView home_online_help;
     ImageView home_push_mess;
     ImageView change_language;
@@ -47,6 +48,7 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
     public void initTitle(View titleView) {
         super.initTitle(titleView);
         title_left_area = titleView.findViewById(R.id.title_left_area);
+        go_back = titleView.findViewById(R.id.go_back);
         home_online_help = titleView.findViewById(R.id.home_online_help);
         home_push_mess = titleView.findViewById(R.id.home_push_mess);
         change_language = titleView.findViewById(R.id.change_language);
@@ -105,6 +107,7 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
     protected void showHomeTitle(boolean showVoucher) {
         title_left_area.setVisibility(View.VISIBLE);
         title_right_area.setVisibility(View.VISIBLE);
+        go_back.setVisibility(View.GONE);
         home_online_help.setVisibility(View.VISIBLE);
         home_push_mess.setVisibility(View.VISIBLE);
         change_language.setVisibility(View.VISIBLE);

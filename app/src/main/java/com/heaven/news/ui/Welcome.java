@@ -36,19 +36,6 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     protected void initMmersionTitleBar() {
     }
 
-    @Override
-    protected void setBarColor(SystemBarTintManager tintManager) {
-        super.setBarColor(tintManager);
-    }
-
-    @Override
-    public void initView(View rootView) {
-    }
-
-    @Override
-    public void makeContentView(View rootView) {
-        setContentView(rootView);
-    }
 
     @Override
     public void bindModel() {

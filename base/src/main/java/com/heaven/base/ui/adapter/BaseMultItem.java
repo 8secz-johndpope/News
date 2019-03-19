@@ -1,10 +1,13 @@
-package com.heaven.base.ui.adapter.viewholder;
+package com.heaven.base.ui.adapter;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -13,19 +16,20 @@ import android.view.ViewGroup;
  * 邮箱:heavenisme@aliyun.com
  */
 
-public abstract class ViewHolderManager<T> implements IViewHolderManager<T> {
+public abstract class BaseMultItem<T> implements IMultManager<T> {
     private Class<T> modelBean;
     @LayoutRes
-    int itemLayoutId;
+    private int itemLayoutId;
     private boolean fullSpan;
     private int spanSize;
+    private List<BaseMultItem<T>> childList = new ArrayList<>();
 
-    ViewHolderManager(@LayoutRes int itemLayoutId) {
+    BaseMultItem(@LayoutRes int itemLayoutId) {
         this.itemLayoutId = itemLayoutId;
     }
 
 
-    ViewHolderManager(@NonNull Class<T> modelBean, @LayoutRes int itemLayoutId) {
+    BaseMultItem(@NonNull Class<T> modelBean, @LayoutRes int itemLayoutId) {
         this.modelBean = modelBean;
         this.itemLayoutId = itemLayoutId;
     }
@@ -33,6 +37,28 @@ public abstract class ViewHolderManager<T> implements IViewHolderManager<T> {
 
     public Class<T> getLayoutBindModel() {
         return modelBean;
+    }
+
+    public BaseMultItem<T> addChild(BaseMultItem<T> multItem) {
+        childList.add(multItem);
+        return this;
+    }
+
+    public List<BaseMultItem<T>> getChildList() {
+        return childList;
+    }
+
+    public boolean containChild() {
+        if(childList.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public boolean isTargetViewType(T item, int position) {
+        return true;
     }
 
     @Override
@@ -75,5 +101,10 @@ public abstract class ViewHolderManager<T> implements IViewHolderManager<T> {
 
     public boolean isContentSame(T oldItem,T newItem) {
         return false;
+    }
+
+    @Override
+    public int getMaxRecycleCount() {
+        return 5;
     }
 }

@@ -18,10 +18,20 @@
         android:orientation="horizontal"
         android:visibility="visible"
         >
+
+        <ImageView
+            android:id="@+id/go_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_10dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/toolbar_back" />
+
         <ImageView
             android:id="@+id/home_online_help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_10dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/home_online_help" />
 
@@ -30,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/_10dp"
+            android:layout_marginRight="@dimen/_10dp"
             android:src="@drawable/home_push_message" />
 
         <ImageView
@@ -38,7 +48,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/_10dp"
             android:src="@drawable/change_language_ch" />
 
     </LinearLayout>
@@ -61,6 +70,7 @@
             android:id="@+id/toolbar_home_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_10dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/toolbar_home"/>
 
@@ -68,7 +78,7 @@
             android:id="@+id/toolbar_phone_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10dp"
+            android:layout_marginRight="@dimen/_10dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/toolbar_phone"/>
 
@@ -78,7 +88,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/_10dp"
+            android:layout_marginRight="@dimen/_10dp"
             android:src="@drawable/mine_message" />
 
         <ImageView
@@ -87,7 +97,6 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/_10dp"
             />
 
         <TextView
@@ -95,7 +104,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/_10dp"
             android:textColor="@color/white"
             android:visibility="gone"
             />

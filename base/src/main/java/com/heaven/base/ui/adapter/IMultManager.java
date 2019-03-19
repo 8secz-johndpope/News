@@ -1,4 +1,4 @@
-package com.heaven.base.ui.adapter.viewholder;
+package com.heaven.base.ui.adapter;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -10,13 +10,13 @@ import android.view.ViewGroup;
  * 邮箱:heavenisme@aliyun.com
  */
 
-interface IViewHolderManager<T> {
+interface IMultManager<T> {
     @NonNull
     BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent);
 
     void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull T t);
 
-    void onBindViewHolder(@NonNull BaseViewHolder holder,@NonNull T t,Object payload);
+    void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull T t, Object payload);
 
     View getItemView(ViewGroup parent);
 
@@ -28,5 +28,9 @@ interface IViewHolderManager<T> {
 
     void setSpanSize(int spanSize);
 
-     boolean isClickable();
+    boolean isClickable();
+
+    boolean isTargetViewType(T item, int position);
+
+    int getMaxRecycleCount();
 }

@@ -109,7 +109,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
 
     }
 
-    public void makeContentView(View rootView) {
+    private void makeContentView(View rootView) {
         super.setContentView(getContainer(rootView));
     }
 
