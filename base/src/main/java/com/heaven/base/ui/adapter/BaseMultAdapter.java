@@ -64,6 +64,11 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         diffCallBack = new DiffCallBack();
     }
 
+    public <T> BaseMultAdapter register(@NonNull Class<? extends T> clazz, @NonNull BaseMultItem<T> multiItem) {
+        multTypeManager.register(clazz, multiItem);
+        return this;
+    }
+
     @Override
     public int getItemViewType(int position) {
         Object item = dataItems.get(position);
@@ -151,7 +156,7 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     @Override
-    public void onViewAttachedToWindow(BaseViewHolder holder) {
+    public void onViewAttachedToWindow(@NonNull BaseViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         if (isStaggeredGridLayout) {
             ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
@@ -164,7 +169,14 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             }
         }
+        onViewAttachedToWindow(holder,holder.getLayoutPosition());
         addAnimation(holder);
+    }
+
+    public void onViewAttachedToWindow(BaseViewHolder holder, int postion) {
+        if (postion < getItemCount()) {
+            multTypeManager.getMultItemByType(multTypeManager.getItemType(dataItems.get(postion),postion)).onViewAttachedToWindow(holder);
+        }
     }
 
     public void diffUpdate(List<?> diffNewDataItems) {
@@ -177,6 +189,10 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         dataItems = diffNewDataItems;
     }
 
+    public void updateItems(List<?> items) {
+        this.dataItems = items;
+        notifyDataSetChanged();
+    }
 
     /**
      * @return 除去header footer的个数

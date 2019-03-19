@@ -57,6 +57,11 @@ public abstract class BaseMultItem<T> implements IMultManager<T> {
     }
 
     @Override
+    public void onViewAttachedToWindow(BaseViewHolder holder) {
+
+    }
+
+    @Override
     public boolean isTargetViewType(T item, int position) {
         return true;
     }

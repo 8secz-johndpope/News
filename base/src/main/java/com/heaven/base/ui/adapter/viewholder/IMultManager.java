@@ -33,4 +33,6 @@ interface IMultManager<T> {
     boolean isTargetViewType(T item, int position);
 
     int getMaxRecycleCount();
+
+    void onViewAttachedToWindow(BaseViewHolder holder);
 }
