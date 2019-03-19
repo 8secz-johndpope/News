@@ -50,6 +50,6 @@ public class ItemVIewNormal extends BaseMultItem<String> {
 
     @Override
     public int getSpanSize(int spanCount) {
-        return 1;
+        return 4;
     }
 }
