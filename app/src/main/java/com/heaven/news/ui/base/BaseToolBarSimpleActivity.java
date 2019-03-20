@@ -36,6 +36,7 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
     ImageView toolbar_home_image;
     ImageView toolbar_phone_image;
     ImageView mine_message_image;
+    ImageView toolbar_setting;
     ImageView extra_image;
     TextView extra_function;
 
@@ -59,6 +60,7 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
         toolbar_home_image = titleView.findViewById(R.id.toolbar_home_image);
         toolbar_phone_image = titleView.findViewById(R.id.toolbar_phone_image);
         mine_message_image = titleView.findViewById(R.id.mine_message_image);
+        toolbar_setting = titleView.findViewById(R.id.toolbar_setting);
         extra_image = titleView.findViewById(R.id.extra_image);
         extra_function = titleView.findViewById(R.id.extra_function);
     }
@@ -85,17 +87,61 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
         setTitle(titleId);
     }
 
+    public void showMineTitleBarTitle(int titleId) {
+        setTitle(titleId);
+        hideTitleBarAll();
+        title_left_area.setVisibility(View.GONE);
+        title_right_area.setVisibility(View.VISIBLE);
+        toolbar_setting.setVisibility(View.VISIBLE);
+        mine_message_image.setVisibility(View.VISIBLE);
+
+    }
+
+    public void showMineTitleBarTitle(String title) {
+        setTitle(title);
+        hideTitleBarAll();
+        title_left_area.setVisibility(View.GONE);
+        title_right_area.setVisibility(View.VISIBLE);
+        toolbar_setting.setVisibility(View.VISIBLE);
+        mine_message_image.setVisibility(View.VISIBLE);
+
+    }
+
+    public void showHomeTitleBarTitle(String title,boolean hasLogin) {
+        setTitle(title);
+        hideTitleBarAll();
+        home_online_help.setVisibility(View.VISIBLE);
+        home_push_mess.setVisibility(View.VISIBLE);
+        change_language.setVisibility(View.VISIBLE);
+        if(!hasLogin) {
+            extra_function.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    public void showHomeTitleBarTitle(int title,boolean hasLogin) {
+        setTitle(title);
+        hideTitleBarAll();
+        title_left_area.setVisibility(View.VISIBLE);
+        title_right_area.setVisibility(View.VISIBLE);
+        home_online_help.setVisibility(View.VISIBLE);
+        home_push_mess.setVisibility(View.VISIBLE);
+        change_language.setVisibility(View.VISIBLE);
+        if(!hasLogin) {
+            extra_function.setVisibility(View.VISIBLE);
+        }
+
+    }
+
     protected void setExtaTitle(int res) {
         if (extra_function != null) {
             extra_function.setText(res);
-            extra_function.setVisibility(View.VISIBLE);
         }
     }
 
     protected void setExtaTitle(String res) {
         if (extra_function != null) {
             extra_function.setText(res);
-            extra_function.setVisibility(View.VISIBLE);
         }
     }
 
@@ -105,22 +151,14 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
         }
     }
 
-    protected void showOnlyTitle() {
-        title_left_area.setVisibility(View.GONE);
-        title_right_area.setVisibility(View.GONE);
-    }
 
     protected void showHomeTitle(boolean showVoucher) {
+        hideTitleBarAll();
         title_left_area.setVisibility(View.VISIBLE);
         title_right_area.setVisibility(View.VISIBLE);
-        go_back.setVisibility(View.GONE);
         home_online_help.setVisibility(View.VISIBLE);
         home_push_mess.setVisibility(View.VISIBLE);
         change_language.setVisibility(View.VISIBLE);
-
-        toolbar_home_image.setVisibility(View.GONE);
-        toolbar_phone_image.setVisibility(View.GONE);
-        mine_message_image.setVisibility(View.GONE);
         if (showVoucher) {
             extra_image.setVisibility(View.VISIBLE);
             extra_function.setVisibility(View.GONE);
@@ -128,6 +166,22 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
             extra_image.setVisibility(View.GONE);
             extra_function.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void hideTitleBarAll() {
+        title_left_area.setVisibility(View.GONE);
+        title_right_area.setVisibility(View.GONE);
+        go_back.setVisibility(View.GONE);
+        home_online_help.setVisibility(View.GONE);
+        home_push_mess.setVisibility(View.GONE);
+        change_language.setVisibility(View.GONE);
+
+        toolbar_home_image.setVisibility(View.GONE);
+        toolbar_phone_image.setVisibility(View.GONE);
+        toolbar_setting.setVisibility(View.GONE);
+        mine_message_image.setVisibility(View.GONE);
+        extra_image.setVisibility(View.GONE);
+        extra_function.setVisibility(View.GONE);
     }
 
     private void adjustTitlePosition(String title) {
@@ -146,12 +200,11 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
 
             float halfTitle = (width - 30 * density) / 2;
 
-            if(textPaintWidth > halfTitle) {
+            if (textPaintWidth > halfTitle) {
                 textPaintWidth = halfTitle;
             }
 
             float areaWidth = (width - textPaintWidth - 30 * density) / 2;
-
 
 
             if (title_left_area != null && title_right_area != null) {

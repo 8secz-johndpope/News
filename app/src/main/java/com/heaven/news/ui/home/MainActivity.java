@@ -131,8 +131,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     @Override
     public void onPageSelected(int i) {
         if (0 == i) {
-            setTitle(R.string.toobar_home);
-            setExtaTitle(R.string.login_regist);
+            showHomeTitleBarTitle(R.string.toobar_home,false);
         } else if (1 == i) {
             showTitleBarOnlyTitle(R.string.toobar_route);
         } else if (2 == i) {
@@ -140,7 +139,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         } else if (3 == i) {
             showTitleBarOnlyTitle(R.string.toobar_phoenix);
         } else if (4 == i) {
-            showTitleBarOnlyTitle(R.string.toobar_mine);
+            showMineTitleBarTitle("");
         }
         Logger.i("position---" + i);
     }
