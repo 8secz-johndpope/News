@@ -25,6 +25,11 @@ public class Route extends BaseFragment<RouteBinding> {
         return R.layout.route;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     public static  BaseFragment newInstance(Bundle paramBundle) {
         Route fragment = new Route();
         fragment.setArguments(paramBundle);

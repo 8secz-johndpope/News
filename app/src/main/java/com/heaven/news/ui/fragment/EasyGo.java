@@ -25,6 +25,11 @@ public class EasyGo extends BaseFragment<EasygoBinding> {
         return R.layout.easygo;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     public static  BaseFragment newInstance(Bundle paramBundle) {
         EasyGo fragment = new EasyGo();
         fragment.setArguments(paramBundle);

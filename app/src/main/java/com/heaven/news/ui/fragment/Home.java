@@ -82,6 +82,16 @@ public class Home extends BaseFragment<HomeBinding> {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected int initLayoutResId() {
         return R.layout.home;
     }

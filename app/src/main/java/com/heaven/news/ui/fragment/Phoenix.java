@@ -25,6 +25,11 @@ public class Phoenix extends BaseFragment<PhoenixBinding> {
         return R.layout.phoenix;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     public static  BaseFragment newInstance(Bundle paramBundle) {
         Phoenix fragment = new Phoenix();
         fragment.setArguments(paramBundle);

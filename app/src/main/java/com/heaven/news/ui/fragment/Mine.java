@@ -25,6 +25,11 @@ public class Mine extends BaseFragment<MineBinding> {
         return R.layout.mine;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     public static  BaseFragment newInstance(Bundle paramBundle) {
         Mine fragment = new Mine();
         fragment.setArguments(paramBundle);
