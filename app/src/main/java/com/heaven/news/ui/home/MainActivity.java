@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.heaven.news.ui.fragment.Mine;
 import com.heaven.news.ui.fragment.Phoenix;
 import com.heaven.news.ui.fragment.Route;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +37,7 @@ import java.util.List;
  * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainBinding> {
+public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainBinding> implements ViewPager.OnPageChangeListener {
     private List<Fragment> mainList = new ArrayList<>();
 
     @Override
@@ -62,7 +64,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     private void initViewPager() {
         final String[] bottomBarList = getResources().getStringArray(R.array.bottom_bar_name);
         Bundle paramBundle = new Bundle();
-        paramBundle.putInt("wx_type",1);
+        paramBundle.putInt("wx_type", 1);
 
         mainList.add(Home.newInstance(paramBundle));
         mainList.add(Route.newInstance(paramBundle));
@@ -70,9 +72,10 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         mainList.add(Phoenix.newInstance(null));
         mainList.add(Mine.newInstance(null));
         mViewBinding.viewpager.setOffscreenPageLimit(4);
-        FragmentPagerAdapter adapter = new FragmentPagerAdapter(this,getSupportFragmentManager());
+        FragmentPagerAdapter adapter = new FragmentPagerAdapter(this, getSupportFragmentManager());
         adapter.insertAll(mainList, Arrays.asList(bottomBarList));
         mViewBinding.viewpager.setAdapter(adapter);
+        mViewBinding.viewpager.addOnPageChangeListener(this);
         mViewBinding.tablayout.setupWithViewPager(mViewBinding.viewpager);
         mViewBinding.tablayout.setTabGravity(TabLayout.GRAVITY_FILL);
         mViewBinding.tablayout.setTabMode(TabLayout.MODE_FIXED);
@@ -86,12 +89,12 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
             TextView barItem = (TextView) LayoutInflater.from(this).inflate(R.layout.bottom_tab_item, null);
             barItem.setText(bottomBarList[i]);
             Drawable image = getResources().getDrawable(mBottomBarImageIds[i]);
-            if(image != null) {
+            if (image != null) {
                 image.setBounds(0, 0, image.getMinimumWidth(), image.getMinimumHeight());
-                barItem.setCompoundDrawables(null,image, null, null);
+                barItem.setCompoundDrawables(null, image, null, null);
             }
             TabLayout.Tab tab = mViewBinding.tablayout.getTabAt(i);
-            if(tab != null) {
+            if (tab != null) {
                 tab.setCustomView(barItem);
             }
         }
@@ -118,5 +121,32 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
 //        mViewModel.userName.observe(this, s -> {
 //            mViewBinding.userName.setText(s);
 //        });
+    }
+
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
+
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+        if (0 == i) {
+            setTitle(R.string.toobar_home);
+            setExtaTitle(R.string.login_regist);
+        } else if (1 == i) {
+            showTitleBarOnlyTitle(R.string.toobar_route);
+        } else if (2 == i) {
+            showTitleBarOnlyTitle(R.string.toobar_easygo);
+        } else if (3 == i) {
+            showTitleBarOnlyTitle(R.string.toobar_phoenix);
+        } else if (4 == i) {
+            showTitleBarOnlyTitle(R.string.toobar_mine);
+        }
+        Logger.i("position---" + i);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+
     }
 }

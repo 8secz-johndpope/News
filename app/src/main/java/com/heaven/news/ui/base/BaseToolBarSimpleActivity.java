@@ -79,6 +79,12 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
         }
     }
 
+    public void showTitleBarOnlyTitle(int titleId) {
+        title_left_area.setVisibility(View.GONE);
+        title_right_area.setVisibility(View.GONE);
+        setTitle(titleId);
+    }
+
     protected void setExtaTitle(int res) {
         if (extra_function != null) {
             extra_function.setText(res);
