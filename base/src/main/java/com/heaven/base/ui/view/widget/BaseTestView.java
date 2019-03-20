@@ -65,7 +65,6 @@ public class BaseTestView extends LinearLayout {
 
         if(getChildCount() == 1) {
             View child = getChildAt(0);
-            View childTwo = getChildAt(1);
             int childWidth = width - getPaddingLeft() - getPaddingRight();
             int childHeight = height - getPaddingTop() - getPaddingBottom();
             int childLeft = getPaddingLeft();

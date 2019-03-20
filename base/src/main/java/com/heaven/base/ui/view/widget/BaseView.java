@@ -49,6 +49,7 @@ public class BaseView extends LinearLayout {
 
             int measureBodyHeight = MeasureSpec.makeMeasureSpec(getMeasuredHeight()- childTitleHeight - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY);
             childBody.measure(measureWidth,measureBodyHeight);
+        } else {
             throw new IllegalStateException("BaseView must contains only one or two direct child.");
         }
     }
@@ -64,7 +65,6 @@ public class BaseView extends LinearLayout {
 
         if(getChildCount() == 1) {
             View child = getChildAt(0);
-            View childTwo = getChildAt(1);
             int childWidth = width - getPaddingLeft() - getPaddingRight();
             int childHeight = height - getPaddingTop() - getPaddingBottom();
             int childLeft = getPaddingLeft();
@@ -88,7 +88,5 @@ public class BaseView extends LinearLayout {
             childTitle.layout(childLeft, childTop, childRight, childTitleBottom);
             childBody.layout(childLeft, childBodyTop, childRight, childBodyBottom);
         }
-
-
     }
 }

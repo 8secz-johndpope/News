@@ -38,10 +38,10 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     protected void initMmersionTitleBar() {
     }
 
-    @Override
-    public void makeContentView(View rootView) {
-        setContentView(rootView);
-    }
+//    @Override
+//    public void makeContentView(View rootView) {
+//        setContentView(rootView);
+//    }
 
     @Override
     public void bindModel() {
