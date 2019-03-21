@@ -32,7 +32,9 @@ public class Route extends BaseSimpleBindFragment<MainViewModel,RouteBinding> im
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+
+        }
     }
 
     public static  Route newInstance(Bundle paramBundle) {

@@ -1,4 +1,4 @@
-package com.heaven.news.ui;
+package com.heaven.news.ui.activity;
 
 import android.view.View;
 

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="GuideNew"
-            type="com.heaven.news.ui.GuideActivity" />
+            type="com.heaven.news.ui.activity.GuideActivity" />
 
     </data>
 

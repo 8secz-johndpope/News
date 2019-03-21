@@ -1,4 +1,4 @@
-package com.heaven.news.ui;
+package com.heaven.news.ui.activity;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -14,7 +14,7 @@ import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.AdInfo;
 
 /**
- * FileName: com.heaven.news.ui.AdActivity.java
+ * FileName: com.heaven.news.ui.activity.AdActivity.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-13 12:14

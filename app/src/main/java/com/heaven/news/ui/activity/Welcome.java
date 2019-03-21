@@ -1,4 +1,4 @@
-package com.heaven.news.ui;
+package com.heaven.news.ui.activity;
 
 import android.content.Intent;
 import android.view.View;
@@ -6,12 +6,11 @@ import android.view.View;
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
 import com.heaven.news.databinding.WelcomeBinding;
-import com.heaven.news.ui.home.MainActivity;
 import com.heaven.news.ui.vm.viewmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
 
 /**
- * FileName: com.heaven.news.ui.Welcome.java
+ * FileName: com.heaven.news.ui.activity.Welcome.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-07 17:57

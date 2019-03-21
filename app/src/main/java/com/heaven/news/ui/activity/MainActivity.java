@@ -1,4 +1,4 @@
-package com.heaven.news.ui.home;
+package com.heaven.news.ui.activity;
 
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * FileName: com.heaven.news.ui.home.MainActivity.java
+ * FileName: com.heaven.news.ui.activity.MainActivity.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-14 15:16

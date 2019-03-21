@@ -1,4 +1,4 @@
-package com.heaven.news.ui;
+package com.heaven.news.ui.activity;
 
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
@@ -6,7 +6,7 @@ import com.heaven.news.databinding.GuideBinding;
 import com.heaven.news.ui.vm.viewmodel.GuideNewModel;
 
 /**
- * FileName: com.heaven.news.ui.GuideActivity.java
+ * FileName: com.heaven.news.ui.activity.GuideActivity.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-08 11:29

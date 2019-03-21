@@ -14,7 +14,7 @@
 
         <variable
             name="loginHandlers"
-            type="com.heaven.news.ui.LoginActivity" />
+            type="com.heaven.news.ui.activity.LoginActivity" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
