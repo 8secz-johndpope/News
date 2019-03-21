@@ -19,10 +19,6 @@ import com.heaven.news.ui.vm.viewmodel.MainViewModel;
  * @version V1.0 行程
  */
 public class Route extends BaseSimpleBindFragment<MainViewModel,RouteBinding> implements OnRefreshListener, OnLoadMoreListener {
-    @Override
-    public void initView(View rootView) {
-
-    }
 
     @Override
     public void bindModel() {

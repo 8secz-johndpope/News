@@ -17,10 +17,6 @@ import com.heaven.news.ui.vm.viewmodel.MainViewModel;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class Mine extends BaseSimpleBindFragment<MainViewModel,MineBinding> {
-    @Override
-    public void initView(View rootView) {
-
-    }
 
     @Override
     public void bindModel() {
