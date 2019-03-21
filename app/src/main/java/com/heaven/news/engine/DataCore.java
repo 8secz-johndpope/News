@@ -33,6 +33,11 @@ import java.util.List;
  * @version V1.0 核心数据管理类
  */
 public class DataCore {
+    public static int LOGIN_SUCCESS = 0;
+    public static int MILE_SUCCESS = 1;
+
+    ArrayList<DataReadyObserver> observers = new ArrayList<>();
+
     private static DataCore instance;
     queryRespVO userAllInfo;
 
@@ -135,6 +140,13 @@ public class DataCore {
                 mail = userInfo._EMAIL;
 
                 phoenixInfo(userInfo._MEMBER,userInfo._CREDENTIAL_LIST);
+                if(observers != null && observers.size() > 0) {
+                    for(DataReadyObserver observer : observers) {
+                        if(observer != null) {
+                            observer.dataReady(LOGIN_SUCCESS);
+                        }
+                    }
+                }
             }
         }
     }
@@ -201,6 +213,14 @@ public class DataCore {
 
     public String getUserName() {
         return userName;
+    }
+
+    public void addDataObserver(DataReadyObserver observer) {
+        observers.add(observer);
+    }
+
+    public interface DataReadyObserver{
+        void dataReady(int dataType);
     }
 
 }
