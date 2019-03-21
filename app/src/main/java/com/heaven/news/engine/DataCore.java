@@ -3,9 +3,15 @@ package com.heaven.news.engine;
 import android.text.TextUtils;
 
 import com.heaven.data.manager.DataSource;
+import com.heaven.news.BuildConfig;
+import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
+import com.heaven.news.ui.vm.model.AdInfo;
+import com.heaven.news.ui.vm.model.ConfigData;
 import com.heaven.news.ui.vm.model.UserLoginInfo;
+import com.heaven.news.ui.vm.model.Version;
+import com.heaven.news.ui.vm.viewmodel.WelecomModel;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.member.addressVo;
 import com.neusoft.szair.model.member.credentialVo;
@@ -20,6 +26,7 @@ import com.neusoft.szair.model.memberbase.queryRespVO;
 import com.neusoft.szair.model.memberbase.vipDetails;
 import com.neusoft.szair.model.memberbase.vipDocument;
 import com.neusoft.szair.model.soap.SOAPConstants;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +40,17 @@ import java.util.List;
  * @version V1.0 核心数据管理类
  */
 public class DataCore {
-    public static int LOGIN_SUCCESS = 0;
-    public static int MILE_SUCCESS = 1;
+
+    public static int VERSION = 0;
+    public static int LOGIN = 1;
+    public static int MILE = 2;
 
     private DataSource dataSource;
-
     private ArrayList<DataReadyObserver> observers = new ArrayList<>();
 
-    queryRespVO userAllInfo;
+    private ConfigData configData;
+    private UpdateInfo updateInfo;
+    private queryRespVO userAllInfo;
 
     private boolean hasLogin;
 
@@ -68,41 +78,8 @@ public class DataCore {
     }
 
     private void prepareData() {
+        requestVersion();
         autoLogin();
-    }
-    //自动登录
-    public void autoLogin() {
-        boolean isAutoLogin = dataSource.getSharePreBoolean(Constants.ISAUTOLOGIN);
-        if(isAutoLogin) {
-            UserLoginInfo userInfo = dataSource.getCacheEntity(DataSource.DISK,Constants.USERINFO);
-            if(userInfo != null && !TextUtils.isEmpty(userInfo.userCount) && !TextUtils.isEmpty(userInfo.userPwd)) {
-                loginNew login = new loginNew();
-                loginReqVO loginreqvo = new loginReqVO();
-                loginreqvo._USER_NAME = userInfo.userCount;
-                loginreqvo._PASSWORD = Constants.getPassword(userInfo.userPwd);
-
-                loginreqvo._APP_ID = SOAPConstants.APP_ID;
-                loginreqvo._APP_IP = SOAPConstants.APP_IP;
-                loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
-
-                loginreqvo._DEVICE_TOKEN = "";
-                login._LOGIN_PARAM = loginreqvo;
-
-
-                MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
-
-                RxRepUtils.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
-                    if (loginNewResponseDataResponse.code == 0) {
-                        UserLoginInfo userLoginInfo = new UserLoginInfo();
-                        userLoginInfo.userCount = userInfo.userCount;
-                        userLoginInfo.userPwd = userInfo.userPwd;
-                        initLoginData(loginNewResponseDataResponse.data);
-                        dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
-                    }
-                });
-            }
-        }
-
     }
 
     public void initLoginData(loginNewResponse loginData) {
@@ -134,13 +111,6 @@ public class DataCore {
                 mail = userInfo._EMAIL;
 
                 phoenixInfo(userInfo._MEMBER,userInfo._CREDENTIAL_LIST);
-                if(observers != null && observers.size() > 0) {
-                    for(DataReadyObserver observer : observers) {
-                        if(observer != null) {
-                            observer.dataReady(LOGIN_SUCCESS);
-                        }
-                    }
-                }
             }
         }
     }
@@ -201,6 +171,123 @@ public class DataCore {
         }
     }
 
+    //自动登录
+    public void autoLogin() {
+        boolean isAutoLogin = dataSource.getSharePreBoolean(Constants.ISAUTOLOGIN);
+        if(isAutoLogin) {
+            UserLoginInfo userInfo = dataSource.getCacheEntity(DataSource.DISK,Constants.USERINFO);
+            if(userInfo != null && !TextUtils.isEmpty(userInfo.userCount) && !TextUtils.isEmpty(userInfo.userPwd)) {
+                loginNew login = new loginNew();
+                loginReqVO loginreqvo = new loginReqVO();
+                loginreqvo._USER_NAME = userInfo.userCount;
+                loginreqvo._PASSWORD = Constants.getPassword(userInfo.userPwd);
+
+                loginreqvo._APP_ID = SOAPConstants.APP_ID;
+                loginreqvo._APP_IP = SOAPConstants.APP_IP;
+                loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
+
+                loginreqvo._DEVICE_TOKEN = "";
+                login._LOGIN_PARAM = loginreqvo;
+
+
+                MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
+
+                RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
+                    if (loginNewResponseDataResponse.code == 0) {
+                        UserLoginInfo userLoginInfo = new UserLoginInfo();
+                        userLoginInfo.userCount = userInfo.userCount;
+                        userLoginInfo.userPwd = userInfo.userPwd;
+                        initLoginData(loginNewResponseDataResponse.data);
+                        dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
+                    }
+                    notifyDataUpdate(LOGIN);
+                });
+            }
+        }
+
+    }
+
+    private void notifyDataUpdate(int dataType) {
+        if(observers != null && observers.size() > 0) {
+            for(DataReadyObserver observer : observers) {
+                if(observer != null) {
+                    observer.dataReady(dataType);
+                }
+            }
+        }
+    }
+
+    private void requestVersion() {
+        Logger.i("---------------------requestVersion start---------------------");
+        long startTime = System.currentTimeMillis();
+        RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL,ConfigApi.class).getConfig(), configData -> {
+            Logger.i("---------------------requestVersion end---------------------" + configData.toString());
+            long endTime = System.currentTimeMillis();
+            long requestTime = endTime - startTime;
+            if (configData.netCode == 0 && configData.androidversionnew != null) {
+                this.configData = configData;
+                checkVersion(configData.androidversionnew);
+            } else {
+                updateInfo = new UpdateInfo();
+                updateInfo.requestTime = requestTime;
+                updateInfo.isNetError = true;
+                updateInfo.reason = configData.message;
+                processNextStep(updateInfo);
+            }
+            notifyDataUpdate(VERSION);
+        });
+    }
+
+    private void checkVersion(Version version) {
+        AppInfo appInfo = AppEngine.getInstance().getAppConfig();
+        updateInfo = new UpdateInfo();
+        updateInfo.updateUrl = version.url;
+        updateInfo.updateMessage = version.txt;
+        if (version.cversion > 65534) {
+            updateInfo.isServiceMainta = true;
+        } else {
+            if (appInfo.verCode < version.cversion) {
+                updateInfo.needUpdate = true;
+                if (appInfo.verCode < version.fversion) {
+                    updateInfo.isForceUpdate = true;
+                }
+            }
+        }
+        checkAdInfo(updateInfo);
+        processNextStep(updateInfo);
+    }
+
+    private void checkAdInfo(UpdateInfo updateInfo) {
+        updateInfo.adInfo = getTestAdInfoData();
+//        updateInfo.isShowAd = true;
+        if(updateInfo.isShowAd && updateInfo.adInfo != null) {
+            AppEngine.getInstance().cacheData(DataSource.DB, Constants.ADINFO, updateInfo.adInfo );
+        } else {
+            updateInfo.isShowAd = false;
+        }
+    }
+
+
+    private void processNextStep(UpdateInfo updateInfo) {
+        boolean isOldUser = AppEngine.getInstance().getDataSource().getSharePreBoolean(Constants.ISOLDUSER);
+        if (isOldUser) {
+            updateInfo.nextGuidePage = false;
+        } else {
+            updateInfo.nextGuidePage = true;
+        }
+        AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISOLDUSER, true);
+    }
+
+    private AdInfo getTestAdInfoData() {
+        AdInfo adInfo = new AdInfo();
+        adInfo.isVideo = false;
+        adInfo.urlImage = "http://img0.imgtn.bdimg.com/it/u=1344159241,3681424911&fm=26&gp=0.jpg";
+        adInfo.urlVideo = "";
+        adInfo.content = "百思不得姐减肥肯定是怕几点睡激动是怕";
+
+        return adInfo;
+    }
+
     public boolean isLogin() {
         return hasLogin;
     }
@@ -209,12 +296,48 @@ public class DataCore {
         return userName;
     }
 
+    public UpdateInfo getUpdateInfo() {
+        return updateInfo;
+    }
+
     public void addDataObserver(DataReadyObserver observer) {
         observers.add(observer);
     }
 
     public interface DataReadyObserver{
         void dataReady(int dataType);
+    }
+
+
+    public static class UpdateInfo {
+        public boolean isNetError;
+        public String reason;
+        public long requestTime;
+        public boolean isServiceMainta;
+        public boolean needUpdate;
+        public boolean isForceUpdate;
+        public String updateUrl;
+        public String updateMessage;
+        public boolean nextGuidePage = false;
+        public boolean isShowAd = false;
+        public AdInfo adInfo;
+
+        @Override
+        public String toString() {
+            return "UpdateInfo{" +
+                    "isNetError=" + isNetError +
+                    ", reason='" + reason + '\'' +
+                    ", requestTime=" + requestTime +
+                    ", isServiceMainta=" + isServiceMainta +
+                    ", needUpdate=" + needUpdate +
+                    ", isForceUpdate=" + isForceUpdate +
+                    ", updateUrl='" + updateUrl + '\'' +
+                    ", updateMessage='" + updateMessage + '\'' +
+                    ", nextGuidePage=" + nextGuidePage +
+                    ", isShowAd=" + isShowAd +
+                    ", adInfo=" + adInfo +
+                    '}';
+        }
     }
 
 }

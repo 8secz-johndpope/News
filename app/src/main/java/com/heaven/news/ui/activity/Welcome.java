@@ -6,6 +6,8 @@ import android.view.View;
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
 import com.heaven.news.databinding.WelcomeBinding;
+import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.vm.viewmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
 
@@ -18,14 +20,23 @@ import com.orhanobut.logger.Logger;
  * @author heaven
  * @version V1.0 欢迎页
  */
-public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding> {
+public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding> implements DataCore.DataReadyObserver {
 
     @Override
     public int initLayoutResId() {
         return R.layout.welcome;
     }
 
-
+    @Override
+    public void initView(View rootView) {
+        super.initView(rootView);
+        DataCore.UpdateInfo updateInfo = AppEngine.getInstance().dataCore().getUpdateInfo();
+        if(updateInfo != null) {
+            processNext(updateInfo);
+        } else {
+            AppEngine.getInstance().dataCore().addDataObserver(this);
+        }
+    }
 
     @Override
     protected void initMmersionTitleBar() {
@@ -39,14 +50,9 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public void bindModel() {
         mViewBinding.setViewmodel(mViewModel);
-        mViewModel.versionLive.observe(this, updateInfo -> {
-            if (updateInfo != null) {
-                processNext(updateInfo);
-            }
-        });
     }
 
-    private void processNext(WelecomModel.UpdateInfo updateInfo) {
+    private void processNext(DataCore.UpdateInfo updateInfo) {
         if (updateInfo.isNetError) {
             toNextPage(updateInfo);
         } else {
@@ -64,7 +70,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     }
 
 
-    private void toNextPage(WelecomModel.UpdateInfo updateInfo) {
+    private void toNextPage(DataCore.UpdateInfo updateInfo) {
         if (updateInfo.nextGuidePage) {
             toGuidePage();
         } else if (updateInfo.isShowAd) {
@@ -94,4 +100,11 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         finish();
     }
 
+    @Override
+    public void dataReady(int dataType) {
+        if(DataCore.VERSION == dataType) {
+            DataCore.UpdateInfo updateInfo = AppEngine.getInstance().dataCore().getUpdateInfo();
+            processNext(updateInfo);
+        }
+    }
 }

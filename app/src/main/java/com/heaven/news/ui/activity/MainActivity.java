@@ -175,7 +175,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     @Override
     public void dataReady(int dataType) {
         updateLoginInfo();
-        if(DataCore.LOGIN_SUCCESS == dataType) {
+        if(DataCore.LOGIN == dataType) {
         }
     }
 
