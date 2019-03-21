@@ -2,6 +2,7 @@ package com.heaven.news.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.view.View;
 
 import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
@@ -31,7 +32,7 @@ import java.util.List;
 public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
     List<Object> items;
     @Override
-    protected void initView() {
+    public void initView(View rootView) {
         BaseMultAdapter  adapter = new BaseMultAdapter(getContext());
 
         adapter.register(new ItemVIewNormal(String.class,R.layout.item_go));
@@ -60,17 +61,18 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
     }
 
     @Override
+    public void bindModel() {
+
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     @Override
-    protected int initLayoutResId() {
+    public int initLayoutResId() {
         return R.layout.home;
     }
 

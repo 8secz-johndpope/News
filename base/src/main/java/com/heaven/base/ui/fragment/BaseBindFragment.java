@@ -6,6 +6,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,18 +32,15 @@ public abstract class BaseBindFragment<P extends BasePresenter, VM extends BaseV
     private P mPresenter;
     private BaseFragment.OnFragmentInteractionListener mListener;
 
-    /**
-     * 获取layout的id，具体由子类实现
-     *
-     * @return 布局id
-     */
-    @Override
-    protected abstract int initLayoutResId();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+        analyseGenerics();
+        if(mViewModel != null) {
+            bindModel();
+            mViewModel.initModel();
+        }
     }
 
     @Override
@@ -53,8 +51,10 @@ public abstract class BaseBindFragment<P extends BasePresenter, VM extends BaseV
         }
     }
 
-    private void init() {
-        analyseGenerics();
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        bindModel();
     }
 
     /**

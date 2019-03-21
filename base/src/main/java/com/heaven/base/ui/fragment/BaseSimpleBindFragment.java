@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.heaven.base.vm.BaseViewModel;
 
@@ -24,18 +25,14 @@ public abstract class BaseSimpleBindFragment<VM extends BaseViewModel, B extends
     protected VM mViewModel;
     private BaseFragment.OnFragmentInteractionListener mListener;
 
-    /**
-     * 获取layout的id，具体由子类实现
-     *
-     * @return 布局id
-     */
-    @Override
-    protected abstract int initLayoutResId();
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+        analyseGenerics();
+        if(mViewModel != null) {
+            bindModel();
+            mViewModel.initModel();
+        }
     }
 
 
@@ -47,8 +44,10 @@ public abstract class BaseSimpleBindFragment<VM extends BaseViewModel, B extends
         }
     }
 
-    private void init() {
-        analyseGenerics();
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        bindModel();
     }
 
     /**

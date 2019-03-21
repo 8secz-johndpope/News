@@ -17,19 +17,10 @@ import android.view.ViewGroup;
  * {@link BaseFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
- abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
+ abstract class BaseFragment<B extends ViewDataBinding> extends Fragment implements IBaseFragment{
     public B mViewBinding;
     private OnFragmentInteractionListener mListener;
 
-    protected abstract void initView();
-
-
-    /**
-     * 获取layout的id，具体由子类实现
-     *
-     * @return
-     */
-    protected abstract int initLayoutResId();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +31,7 @@ import android.view.ViewGroup;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mViewBinding = DataBindingUtil.inflate(inflater,initLayoutResId(), container, false);
-
+        initView(mViewBinding.getRoot());
         return mViewBinding.getRoot();
     }
 
@@ -58,7 +49,6 @@ import android.view.ViewGroup;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initView();
     }
 
     @Override

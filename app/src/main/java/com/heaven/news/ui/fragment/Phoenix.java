@@ -1,6 +1,7 @@
 package com.heaven.news.ui.fragment;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.news.R;
@@ -17,12 +18,17 @@ import com.heaven.news.ui.vm.viewmodel.MainViewModel;
  */
 public class Phoenix extends BaseSimpleBindFragment<MainViewModel,PhoenixBinding>{
     @Override
-    protected void initView() {
+    public void initView(View rootView) {
 
     }
 
     @Override
-    protected int initLayoutResId() {
+    public void bindModel() {
+
+    }
+
+    @Override
+    public int initLayoutResId() {
         return R.layout.phoenix;
     }
 

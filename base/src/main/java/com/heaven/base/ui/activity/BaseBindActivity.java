@@ -31,7 +31,6 @@ import java.lang.reflect.Type;
  */
 @SuppressWarnings("unchecked")
 public abstract class BaseBindActivity<P extends BasePresenter, VM extends BaseViewModel<P>, B extends ViewDataBinding> extends BaseActivity {
-    protected B mViewBinding;
     protected VM mViewModel;
     private P mPresenter;
 
