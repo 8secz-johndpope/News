@@ -309,10 +309,12 @@ public class DataCore {
 
     public void addDataObserver(Activity activity,DataReadyObserver observer) {
         observers.put(activity,observer);
+        Logger.i("addDataObserver----" + activity);
     }
 
     public void removeDataObserver(Activity activity) {
         observers.remove(activity);
+        Logger.i("removeDataObserver----" + activity);
     }
 
     public interface DataReadyObserver{
