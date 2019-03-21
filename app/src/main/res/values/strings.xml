@@ -8,5 +8,6 @@
     <string name="toobar_mine">我</string>
 
     <string name="login_regist">登录/注册</string>
+    <string name="welcom_login">欢迎登录</string>
 
 </resources>
