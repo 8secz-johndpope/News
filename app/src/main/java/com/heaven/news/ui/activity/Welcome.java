@@ -51,11 +51,11 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
             toNextPage(updateInfo);
         } else {
             if (updateInfo.isServiceMainta) {
-
+                toNextPage(updateInfo);
             } else if (updateInfo.isForceUpdate) {
-
+                toNextPage(updateInfo);
             } else if (updateInfo.needUpdate) {
-
+                toNextPage(updateInfo);
             } else {
                 toNextPage(updateInfo);
             }

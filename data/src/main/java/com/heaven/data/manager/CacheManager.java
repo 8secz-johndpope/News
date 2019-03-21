@@ -104,7 +104,7 @@ class CacheManager {
                 .migration(new DBMigration())//表变更
                 .build();
         Realm.setDefaultConfiguration(config);
-        secondCache = Realm.getInstance(config);
+        secondCache = Realm.getDefaultInstance();
     }
 
     /**

@@ -33,6 +33,7 @@ public class EngineModule {
         dataSource = builder.build();
         dataSource.addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
         dataSource.addHeader("Connection", "close");
+        dataCore = DataCore.getInstance();
 //        ServiceCore.initServiceCore(mContext);
     }
 
@@ -57,6 +58,6 @@ public class EngineModule {
     @Provides
     @Singleton
     DataCore providerDataCore() {
-        return DataCore.getInstance();
+        return dataCore;
     }
 }

@@ -57,8 +57,6 @@ public class DataCore {
 
 
     private DataCore() {
-        //自动登录
-        autoLogin();
     }
 
     public static DataCore getInstance() {
@@ -74,10 +72,10 @@ public class DataCore {
     }
 
     //自动登录
-    private void autoLogin() {
-        boolean isAutoLogin = AppEngine.getInstance().getDataSource().getSharePreBoolean(Constants.ISAUTOLOGIN);
+    public void autoLogin(DataSource dataSource) {
+        boolean isAutoLogin = dataSource.getSharePreBoolean(Constants.ISAUTOLOGIN);
         if(isAutoLogin) {
-            UserLoginInfo userInfo = AppEngine.getInstance().getDataSource().getCacheEntity(DataSource.DISK,Constants.USERINFO);
+            UserLoginInfo userInfo = dataSource.getCacheEntity(DataSource.DISK,Constants.USERINFO);
             if(userInfo != null && !TextUtils.isEmpty(userInfo.userCount) && !TextUtils.isEmpty(userInfo.userPwd)) {
                 loginNew login = new loginNew();
                 loginReqVO loginreqvo = new loginReqVO();
@@ -100,7 +98,7 @@ public class DataCore {
                         userLoginInfo.userCount = userInfo.userCount;
                         userLoginInfo.userPwd = userInfo.userPwd;
                         initLoginData(loginNewResponseDataResponse.data);
-                        AppEngine.getInstance().getDataSource().cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
+                        dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
                     }
                 });
             }
@@ -173,6 +171,7 @@ public class DataCore {
     private void userIdNumber(List<vipDocument> userIdInfoList) {
         if (userIdInfoList != null && userIdInfoList.size() > 0) {
             idNumber = userIdInfoList.get(0)._DOCUMENTNO;
+            idNumberList = new ArrayList<>();
             for (vipDocument idInfo : userIdInfoList) {
                 if ("NI".equals(idInfo._DOCUMENTTYPE)) {
                     idNumber = idInfo._DOCUMENTNO;
@@ -189,6 +188,7 @@ public class DataCore {
         }
 
         if(phonenixIdList != null && phonenixIdList.size() > 0) {
+            phoenixIdList = new ArrayList<>();
             for(credentialVo idInfo : phonenixIdList) {
                 phoenixIdList.add(idInfo._CREDENTIAL_NUM);
             }

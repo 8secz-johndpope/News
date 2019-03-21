@@ -39,8 +39,8 @@ public class WelecomModel extends BaseViewModel {
             Logger.i("---------------------requestVersion end---------------------" + configData.toString());
             long endTime = System.currentTimeMillis();
             long requestTime = endTime - startTime;
-            if (configData.netCode == 0 && configData.androidversion != null) {
-                checkVersion(configData.androidversion,requestTime);
+            if (configData.netCode == 0 && configData.androidversionnew != null) {
+                checkVersion(configData.androidversionnew,requestTime);
             } else {
                 UpdateInfo updateInfo = new UpdateInfo();
                 updateInfo.requestTime = requestTime;

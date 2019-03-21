@@ -73,6 +73,8 @@ public final class AppEngine {
      */
     private DataSource mDataSource;
 
+    private DataCore mDataCore;
+
     /**
      * 后台服务中心
      */
@@ -132,6 +134,8 @@ public final class AppEngine {
     }
 
     private void initInThread() {
+        //自动登录
+        mDataCore.autoLogin(getDataSource());
         //微信相关分享
         initShare(appDelegate.context());
         //初始化异常捕获类 CrashHandler
@@ -144,6 +148,40 @@ public final class AppEngine {
         initAppOptimizeTool(appDelegate.context());
     }
 
+    //自动登录
+    public void autoLogin() {
+        boolean isAutoLogin = AppEngine.getInstance().getDataSource().getSharePreBoolean(Constants.ISAUTOLOGIN);
+        if(isAutoLogin) {
+            UserLoginInfo userInfo = AppEngine.getInstance().getDataSource().getCacheEntity(DataSource.DISK,Constants.USERINFO);
+            if(userInfo != null && !TextUtils.isEmpty(userInfo.userCount) && !TextUtils.isEmpty(userInfo.userPwd)) {
+                loginNew login = new loginNew();
+                loginReqVO loginreqvo = new loginReqVO();
+                loginreqvo._USER_NAME = userInfo.userCount;
+                loginreqvo._PASSWORD = Constants.getPassword(userInfo.userPwd);
+
+                loginreqvo._APP_ID = SOAPConstants.APP_ID;
+                loginreqvo._APP_IP = SOAPConstants.APP_IP;
+                loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
+
+                loginreqvo._DEVICE_TOKEN = "";
+                login._LOGIN_PARAM = loginreqvo;
+
+
+                MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
+
+                RxRepUtils.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
+                    if (loginNewResponseDataResponse.code == 0) {
+                        UserLoginInfo userLoginInfo = new UserLoginInfo();
+                        userLoginInfo.userCount = userInfo.userCount;
+                        userLoginInfo.userPwd = userInfo.userPwd;
+                        mDataCore.initLoginData(loginNewResponseDataResponse.data);
+                        AppEngine.getInstance().cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
+                    }
+                });
+            }
+        }
+
+    }
 
     //获取广告信息
     private void getAdInfo() {
@@ -265,6 +303,7 @@ public final class AppEngine {
     private void initializeInjector(final Context context) {
         engineComponent = DaggerEngineComponent.builder().engineModule(new EngineModule(context)).build();
         mDataSource = engineComponent.dataSource();
+        mDataCore = engineComponent.dataCore();
 //        mServiceCore = engineComponent.serviceCore();
     }
 
@@ -275,7 +314,12 @@ public final class AppEngine {
      */
     public static AppEngine getInstance() {
         if (instance == null) {
-            instance = new AppEngine();
+            synchronized (AppEngine.class) {
+                if (instance == null) {
+                    instance = new AppEngine();
+                }
+            }
+
         }
         return instance;
     }
