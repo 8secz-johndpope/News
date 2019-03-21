@@ -2,9 +2,10 @@ package com.heaven.news.ui.fragment;
 
 import android.os.Bundle;
 
-import com.heaven.base.ui.fragment.BaseFragment;
+import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.news.R;
 import com.heaven.news.databinding.PhoenixBinding;
+import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 /**
  * FileName: com.heaven.news.ui.fragment.Home.java
@@ -14,7 +15,7 @@ import com.heaven.news.databinding.PhoenixBinding;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class Phoenix extends BaseFragment<PhoenixBinding> {
+public class Phoenix extends BaseSimpleBindFragment<MainViewModel,PhoenixBinding>{
     @Override
     protected void initView() {
 
@@ -30,7 +31,7 @@ public class Phoenix extends BaseFragment<PhoenixBinding> {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    public static  BaseFragment newInstance(Bundle paramBundle) {
+    public static  Phoenix newInstance(Bundle paramBundle) {
         Phoenix fragment = new Phoenix();
         fragment.setArguments(paramBundle);
         return fragment;

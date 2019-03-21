@@ -17,7 +17,7 @@ import android.view.ViewGroup;
  * {@link BaseFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
+ abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     public B mViewBinding;
     private OnFragmentInteractionListener mListener;
 

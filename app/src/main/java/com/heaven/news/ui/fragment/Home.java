@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 
 import com.heaven.base.ui.adapter.BaseMultAdapter;
-import com.heaven.base.ui.fragment.BaseFragment;
+import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
-import com.heaven.news.manyData.adapter.Bean04;
+import com.heaven.news.databinding.RouteBinding;
 import com.heaven.news.manyData.adapter.ItemVIew01;
 import com.heaven.news.manyData.adapter.ItemVIew02;
 import com.heaven.news.manyData.adapter.ItemVIew03;
@@ -15,6 +15,7 @@ import com.heaven.news.manyData.adapter.ItemVIewNormal;
 import com.heaven.news.manyData.bean.Bean01;
 import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
+import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,9 @@ import java.util.List;
  * email: heavenisme@aliyun.com
  * date: 2019-03-17 14:16
  *
- * @version V1.0 TODO <描述当前版本功能>
+ * @version V1.0 首页
  */
-public class Home extends BaseFragment<HomeBinding> {
+public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
     List<Object> items;
     @Override
     protected void initView() {
@@ -39,29 +40,6 @@ public class Home extends BaseFragment<HomeBinding> {
         adapter.register( new ItemVIew03(Bean03.class,R.layout.item_three));
 
         final GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 4);
-//        GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
-//            @Override
-//            public int getSpanSize(int position) {
-//                Object item = items.get(position);
-//                if (item instanceof Bean01) {
-//                    return 1;
-//                }
-//                if (item instanceof Bean02) {
-//                    return 2;
-//                }
-//                if (item instanceof Bean03) {
-//                    return 4;
-//                }
-//                if(item instanceof Bean04){
-//                    return 4;
-//                }
-//                if(item instanceof String){
-//                    return 4;
-//                }
-//                return 4;
-//            }
-//        };
-//        layoutManager.setSpanSizeLookup(spanSizeLookup);
         mViewBinding.recyclerview.setLayoutManager(layoutManager);
         mViewBinding.recyclerview.setAdapter(adapter);
         items = new ArrayList<>();
@@ -96,7 +74,7 @@ public class Home extends BaseFragment<HomeBinding> {
         return R.layout.home;
     }
 
-    public static  BaseFragment newInstance(Bundle paramBundle) {
+    public static  Home newInstance(Bundle paramBundle) {
         Home fragment = new Home();
         fragment.setArguments(paramBundle);
         return fragment;

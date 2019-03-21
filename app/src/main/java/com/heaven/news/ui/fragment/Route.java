@@ -2,9 +2,12 @@ package com.heaven.news.ui.fragment;
 
 import android.os.Bundle;
 
-import com.heaven.base.ui.fragment.BaseFragment;
+import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
+import com.heaven.base.ui.view.rlview.OnLoadMoreListener;
+import com.heaven.base.ui.view.rlview.OnRefreshListener;
 import com.heaven.news.R;
 import com.heaven.news.databinding.RouteBinding;
+import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 /**
  * FileName: com.heaven.news.ui.fragment.Home.java
@@ -12,9 +15,9 @@ import com.heaven.news.databinding.RouteBinding;
  * email: heavenisme@aliyun.com
  * date: 2019-03-17 14:16
  *
- * @version V1.0 TODO <描述当前版本功能>
+ * @version V1.0 行程
  */
-public class Route extends BaseFragment<RouteBinding> {
+public class Route extends BaseSimpleBindFragment<MainViewModel,RouteBinding> implements OnRefreshListener, OnLoadMoreListener {
     @Override
     protected void initView() {
 
@@ -30,9 +33,19 @@ public class Route extends BaseFragment<RouteBinding> {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    public static  BaseFragment newInstance(Bundle paramBundle) {
+    public static  Route newInstance(Bundle paramBundle) {
         Route fragment = new Route();
         fragment.setArguments(paramBundle);
         return fragment;
+    }
+
+    @Override
+    public void onLoadMore() {
+
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 }

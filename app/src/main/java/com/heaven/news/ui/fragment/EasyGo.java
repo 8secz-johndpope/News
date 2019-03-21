@@ -2,9 +2,10 @@ package com.heaven.news.ui.fragment;
 
 import android.os.Bundle;
 
-import com.heaven.base.ui.fragment.BaseFragment;
+import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.news.R;
 import com.heaven.news.databinding.EasygoBinding;
+import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 /**
  * FileName: com.heaven.news.ui.fragment.Home.java
@@ -14,7 +15,7 @@ import com.heaven.news.databinding.EasygoBinding;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class EasyGo extends BaseFragment<EasygoBinding> {
+public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> {
     @Override
     protected void initView() {
 
@@ -30,7 +31,7 @@ public class EasyGo extends BaseFragment<EasygoBinding> {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    public static  BaseFragment newInstance(Bundle paramBundle) {
+    public static  EasyGo newInstance(Bundle paramBundle) {
         EasyGo fragment = new EasyGo();
         fragment.setArguments(paramBundle);
         return fragment;
