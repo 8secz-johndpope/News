@@ -57,12 +57,6 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     public void initView(View rootView) {
         super.initView(rootView);
         setTitle(R.string.toobar_home);
-        if(DataCore.getInstance().isLogin()) {
-            setExtaTitle(DataCore.getInstance().getUserName());
-        } else {
-            setExtaTitle(R.string.login_regist);
-        }
-
         initViewPager();
         initBottomTabLayout();
         showHomeTitle(false);
@@ -139,7 +133,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     @Override
     public void onPageSelected(int i) {
         if (0 == i) {
-            showHomeTitleBarTitle(R.string.toobar_home,false);
+            showHomeTitleBarTitle(R.string.toobar_home, false);
         } else if (1 == i) {
             showTitleBarOnlyTitle(R.string.toobar_route);
         } else if (2 == i) {
@@ -157,13 +151,24 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (DataCore.getInstance().isLogin()) {
+            setExtaTitle(DataCore.getInstance().getUserName());
+        } else {
+            setExtaTitle(R.string.login_regist);
+        }
+    }
+
     @Override
     public void onClick(View v) {
-        if(R.id.extra_function == v.getId()) {
-            if(DataCore.getInstance().isLogin()) {
+        if (R.id.extra_function == v.getId()) {
+            if (DataCore.getInstance().isLogin()) {
 
             } else {
-                Intent intent = new Intent(this,LoginActivity.class);
+                Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
             }
         }

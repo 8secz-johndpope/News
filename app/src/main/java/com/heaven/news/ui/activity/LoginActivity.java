@@ -32,16 +32,4 @@ public class LoginActivity extends BaseToolBarSimpleActivity<LoginViewModel, Log
         mViewBinding.setViewModel(mViewModel);
         mViewBinding.setUserInfo(mViewModel.userInfo);
     }
-
-
-    @TraceTime
-    public void loginAction(View view) {
-//        String name = mViewBinding.name.getText().toString();
-//        String password = mViewBinding.password.getText().toString();
-//        mViewModel.login();
-//        mViewModel.userName.observe(this, s -> {
-//            mViewBinding.userName.setText(s);
-//        });
-    }
-
 }

@@ -31,6 +31,7 @@ import com.heaven.news.utils.SystemUtil;
 import com.heaven.news.ui.vm.model.UserLoginInfo;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
+import com.neusoft.szair.model.memberbase.loginNewResponse;
 import com.neusoft.szair.model.memberbase.loginReqVO;
 import com.neusoft.szair.model.soap.SOAPConstants;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -131,8 +132,6 @@ public final class AppEngine {
     }
 
     private void initInThread() {
-        //自动登录
-        autoLogin();
         //微信相关分享
         initShare(appDelegate.context());
         //初始化异常捕获类 CrashHandler
@@ -159,39 +158,6 @@ public final class AppEngine {
         }
     }
 
-    //自动登录
-    private void autoLogin() {
-        boolean isAutoLogin = getDataSource().getSharePreBoolean(Constants.ISAUTOLOGIN);
-        if(isAutoLogin) {
-            UserLoginInfo userInfo = getDataSource().getCacheEntity(DataSource.DISK,Constants.USERINFO);
-            if(userInfo != null && !TextUtils.isEmpty(userInfo.userCount) && !TextUtils.isEmpty(userInfo.userPwd)) {
-                loginNew login = new loginNew();
-                loginReqVO loginreqvo = new loginReqVO();
-                loginreqvo._USER_NAME = userInfo.userCount;
-                loginreqvo._PASSWORD = Constants.getPassword(userInfo.userPwd);
-
-                loginreqvo._APP_ID = SOAPConstants.APP_ID;
-                loginreqvo._APP_IP = SOAPConstants.APP_IP;
-                loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
-
-                loginreqvo._DEVICE_TOKEN = "";
-                login._LOGIN_PARAM = loginreqvo;
-
-
-                MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
-
-                RxRepUtils.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
-                    if (loginNewResponseDataResponse.code == 0) {
-                        UserLoginInfo userLoginInfo = new UserLoginInfo();
-                        userLoginInfo.userCount = userInfo.userCount;
-                        userLoginInfo.userPwd = userInfo.userPwd;
-                        getDataSource().cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
-                    }
-                });
-            }
-        }
-
-    }
 
     private void initLogger() {
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()

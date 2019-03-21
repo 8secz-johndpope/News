@@ -140,7 +140,7 @@ android {
 //            buildConfigField "String", "ROOT_URL", '"http://47.90.2.202:8090/ifilmo-toc/"'
 //            https://waptest.shenzhenair.com
             buildConfigField "String", "ROOT_URL", '"https://waptest.shenzhenair.com/szairMobileWS/services/"'
-            buildConfigField "String", "CONFIG_URL", '"http://waptest.shenzhenair.com/file/develop/"'
+            buildConfigField "String", "CONFIG_URL", '"http://waptest.shenzhenair.com/file/"'
 
 //            buildConfigField "String", "ROOT_URL", '"https://waptest.shenzhenair.com/szairMobileWS/services/"'
 //            buildConfigField "String", "CONFIG_URL", '"http://waptest.shenzhenair.com/file/develop/"'

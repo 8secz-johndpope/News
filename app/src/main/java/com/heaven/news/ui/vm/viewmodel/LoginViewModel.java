@@ -15,6 +15,7 @@ import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.vm.model.UserLoginInfo;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
@@ -79,7 +80,8 @@ public class LoginViewModel extends BaseViewModel {
                 loginInfo.userPwd = passwords;
                 AppEngine.getInstance().getDataSource().cacheData(DataSource.DISK,Constants.USERINFO,loginInfo);
                 AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN,true);
-                userName.postValue(loginNewResponseDataResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_NAME);
+                DataCore.getInstance().initLoginData(loginNewResponseDataResponse.data);
+                AppEngine.getInstance().getCurActivity().finish();
             }
         });
 //        RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL,ConfigApi.class).getConfig(), configData -> {
