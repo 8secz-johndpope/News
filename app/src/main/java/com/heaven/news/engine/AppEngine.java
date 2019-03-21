@@ -20,10 +20,6 @@ import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
-import com.heaven.news.di.components.AppComponent;
-import com.heaven.news.di.components.DaggerEngineComponent;
-import com.heaven.news.di.components.EngineComponent;
-import com.heaven.news.di.modules.EngineModule;
 import com.heaven.news.ui.activity.MainActivity;
 import com.heaven.news.utils.CrashHandler;
 import com.heaven.news.utils.RxRepUtils;
@@ -31,7 +27,6 @@ import com.heaven.news.utils.SystemUtil;
 import com.heaven.news.ui.vm.model.UserLoginInfo;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
-import com.neusoft.szair.model.memberbase.loginNewResponse;
 import com.neusoft.szair.model.memberbase.loginReqVO;
 import com.neusoft.szair.model.soap.SOAPConstants;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -134,8 +129,6 @@ public final class AppEngine {
     }
 
     private void initInThread() {
-        //自动登录
-        mDataCore.autoLogin(getDataSource());
         //微信相关分享
         initShare(appDelegate.context());
         //初始化异常捕获类 CrashHandler
@@ -340,11 +333,14 @@ public final class AppEngine {
      */
     public DataSource getDataSource() {
         mDataSource = engineComponent.dataSource();
-        if (mDataSource == null) {
-        }
         return mDataSource;
     }
 
+
+    public DataCore dataCore() {
+        mDataCore = engineComponent.dataCore();
+        return mDataCore;
+    }
     /**
      * 缓存数据
      *

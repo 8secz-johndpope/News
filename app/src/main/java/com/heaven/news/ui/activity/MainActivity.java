@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.news.R;
 import com.heaven.news.databinding.MainBinding;
+import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.base.BaseToolBarSimpleActivity;
@@ -56,7 +57,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        DataCore.getInstance().addDataObserver(this);
+        AppEngine.getInstance().dataCore().addDataObserver(this);
         setTitle(R.string.toobar_home);
         initViewPager();
         initBottomTabLayout();
@@ -156,17 +157,13 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     @Override
     protected void onResume() {
         super.onResume();
-        if (DataCore.getInstance().isLogin()) {
-            setExtaTitle(DataCore.getInstance().getUserName());
-        } else {
-            setExtaTitle(R.string.login_regist);
-        }
+        updateLoginInfo();
     }
 
     @Override
     public void onClick(View v) {
         if (R.id.extra_function == v.getId()) {
-            if (DataCore.getInstance().isLogin()) {
+            if (AppEngine.getInstance().dataCore().isLogin()) {
 
             } else {
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -177,12 +174,16 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
 
     @Override
     public void dataReady(int dataType) {
+        updateLoginInfo();
         if(DataCore.LOGIN_SUCCESS == dataType) {
-            if (DataCore.getInstance().isLogin()) {
-                setExtaTitle(DataCore.getInstance().getUserName());
-            } else {
-                setExtaTitle(R.string.login_regist);
-            }
+        }
+    }
+
+    private void updateLoginInfo() {
+        if (AppEngine.getInstance().dataCore().isLogin()) {
+            setExtaTitle(AppEngine.getInstance().dataCore().getUserName());
+        } else {
+            setExtaTitle(R.string.login_regist);
         }
     }
 }

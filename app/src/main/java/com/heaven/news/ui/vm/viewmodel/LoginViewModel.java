@@ -80,13 +80,10 @@ public class LoginViewModel extends BaseViewModel {
                 loginInfo.userPwd = passwords;
                 AppEngine.getInstance().getDataSource().cacheData(DataSource.DISK,Constants.USERINFO,loginInfo);
                 AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN,true);
-                DataCore.getInstance().initLoginData(loginNewResponseDataResponse.data);
+                AppEngine.getInstance().dataCore().initLoginData(loginNewResponseDataResponse.data);
                 AppEngine.getInstance().getCurActivity().finish();
             }
         });
-//        RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL,ConfigApi.class).getConfig(), configData -> {
-//            Logger.i("heaven---" + configData.toString());
-//        });
     }
 
     public static class UserInfo extends BaseObservable implements Serializable {

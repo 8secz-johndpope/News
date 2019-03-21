@@ -36,9 +36,10 @@ public class DataCore {
     public static int LOGIN_SUCCESS = 0;
     public static int MILE_SUCCESS = 1;
 
-    ArrayList<DataReadyObserver> observers = new ArrayList<>();
+    private DataSource dataSource;
 
-    private static DataCore instance;
+    private ArrayList<DataReadyObserver> observers = new ArrayList<>();
+
     queryRespVO userAllInfo;
 
     private boolean hasLogin;
@@ -61,23 +62,16 @@ public class DataCore {
     private String groupCode;                               //大客户编码
 
 
-    private DataCore() {
+    protected DataCore(DataSource dataSource) {
+        this.dataSource = dataSource;
+        this.dataSource.runWorkThread(this::prepareData);
     }
 
-    public static DataCore getInstance() {
-        if (instance == null) {
-            synchronized (DataCore.class) {
-                if (instance == null) {
-                    instance = new DataCore();
-                }
-            }
-
-        }
-        return instance;
+    private void prepareData() {
+        autoLogin();
     }
-
     //自动登录
-    public void autoLogin(DataSource dataSource) {
+    public void autoLogin() {
         boolean isAutoLogin = dataSource.getSharePreBoolean(Constants.ISAUTOLOGIN);
         if(isAutoLogin) {
             UserLoginInfo userInfo = dataSource.getCacheEntity(DataSource.DISK,Constants.USERINFO);

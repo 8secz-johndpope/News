@@ -1,4 +1,4 @@
-package com.heaven.news.di.modules;
+package com.heaven.news.engine;
 
 import android.content.Context;
 
@@ -33,7 +33,7 @@ public class EngineModule {
         dataSource = builder.build();
         dataSource.addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
         dataSource.addHeader("Connection", "close");
-        dataCore = DataCore.getInstance();
+        dataCore = new DataCore(dataSource);
 //        ServiceCore.initServiceCore(mContext);
     }
 

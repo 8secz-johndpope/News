@@ -1,9 +1,9 @@
-package com.heaven.news.di.components;
+package com.heaven.news.engine;
 
 import android.content.Context;
 
 
-import com.heaven.news.di.modules.AppModule;
+import com.heaven.news.engine.AppModule;
 import com.heaven.news.engine.App;
 
 import javax.inject.Singleton;

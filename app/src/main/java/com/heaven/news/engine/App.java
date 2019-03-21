@@ -4,9 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import com.heaven.news.di.components.AppComponent;
-import com.heaven.news.di.components.DaggerAppComponent;
-import com.heaven.news.di.modules.AppModule;
 import com.heaven.news.utils.SystemUtil;
 //import com.squareup.leakcanary.LeakCanary;
 

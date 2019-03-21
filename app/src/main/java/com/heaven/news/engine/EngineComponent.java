@@ -1,8 +1,8 @@
-package com.heaven.news.di.components;
+package com.heaven.news.engine;
 
 
 import com.heaven.data.manager.DataSource;
-import com.heaven.news.di.modules.EngineModule;
+import com.heaven.news.engine.EngineModule;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.engine.ServiceCore;
