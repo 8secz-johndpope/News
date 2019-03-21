@@ -34,7 +34,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         if(updateInfo != null) {
             processNext(updateInfo);
         } else {
-            AppEngine.getInstance().dataCore().addDataObserver(this);
+            AppEngine.getInstance().dataCore().addDataObserver(this,this);
         }
     }
 

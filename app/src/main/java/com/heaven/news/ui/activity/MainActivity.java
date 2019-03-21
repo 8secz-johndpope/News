@@ -57,7 +57,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        AppEngine.getInstance().dataCore().addDataObserver(this);
+        AppEngine.getInstance().dataCore().addDataObserver(this,this);
         setTitle(R.string.toobar_home);
         initViewPager();
         initBottomTabLayout();

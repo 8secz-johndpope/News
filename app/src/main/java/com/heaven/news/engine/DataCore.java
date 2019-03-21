@@ -1,6 +1,8 @@
 package com.heaven.news.engine;
 
+import android.app.Activity;
 import android.text.TextUtils;
+import android.util.SparseArray;
 
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
@@ -29,7 +31,11 @@ import com.neusoft.szair.model.soap.SOAPConstants;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * FileName: com.heaven.news.engine.DataCore.java
@@ -46,7 +52,7 @@ public class DataCore {
     public static int MILE = 2;
 
     private DataSource dataSource;
-    private ArrayList<DataReadyObserver> observers = new ArrayList<>();
+    private Map<Activity,DataReadyObserver> observers = new HashMap<>();
 
     private ConfigData configData;
     private UpdateInfo updateInfo;
@@ -209,7 +215,8 @@ public class DataCore {
 
     private void notifyDataUpdate(int dataType) {
         if(observers != null && observers.size() > 0) {
-            for(DataReadyObserver observer : observers) {
+            Collection<DataReadyObserver> observerSet = observers.values();
+            for(DataReadyObserver observer : observerSet) {
                 if(observer != null) {
                     observer.dataReady(dataType);
                 }
@@ -300,8 +307,12 @@ public class DataCore {
         return updateInfo;
     }
 
-    public void addDataObserver(DataReadyObserver observer) {
-        observers.add(observer);
+    public void addDataObserver(Activity activity,DataReadyObserver observer) {
+        observers.put(activity,observer);
+    }
+
+    public void removeDataObserver(Activity activity) {
+        observers.remove(activity);
     }
 
     public interface DataReadyObserver{
