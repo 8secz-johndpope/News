@@ -6,10 +6,9 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.heaven.base.ui.activity.BaseActivity;
-import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.R;
-import com.heaven.news.constant.Constants;
+import com.heaven.news.consts.Constants;
 import com.heaven.news.databinding.AdBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.AdInfo;

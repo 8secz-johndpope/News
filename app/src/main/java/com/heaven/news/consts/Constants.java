@@ -1,4 +1,4 @@
-package com.heaven.news.constant;
+package com.heaven.news.consts;
 
 import com.heaven.news.utils.CryptUtility;
 

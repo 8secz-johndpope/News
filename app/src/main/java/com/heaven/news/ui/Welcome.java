@@ -1,20 +1,14 @@
 package com.heaven.news.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Handler;
 import android.view.View;
 
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
-import com.heaven.news.constant.Constants;
 import com.heaven.news.databinding.WelcomeBinding;
-import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.home.MainActivity;
-import com.heaven.news.ui.vm.model.AdInfo;
 import com.heaven.news.ui.vm.viewmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
  * FileName: com.heaven.news.ui.Welcome.java

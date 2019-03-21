@@ -19,7 +19,7 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
-import com.heaven.news.constant.Constants;
+import com.heaven.news.consts.Constants;
 import com.heaven.news.di.components.AppComponent;
 import com.heaven.news.di.components.DaggerEngineComponent;
 import com.heaven.news.di.components.EngineComponent;

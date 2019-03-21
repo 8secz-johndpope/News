@@ -12,7 +12,7 @@ import com.heaven.base.vm.BaseViewModel;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BR;
 import com.heaven.news.api.LoginApi;
-import com.heaven.news.constant.Constants;
+import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.UserLoginInfo;
