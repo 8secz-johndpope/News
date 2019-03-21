@@ -11,6 +11,10 @@ package com.heaven.news.engine;
 public class DataCore {
     private static DataCore instance;
 
+    private boolean hasLogin;
+
+    private String userName;
+
     private DataCore() {
 
     }
@@ -29,6 +33,14 @@ public class DataCore {
 
     public void initLoginData() {
 
+    }
+
+    public boolean isLogin() {
+        return hasLogin;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
 }

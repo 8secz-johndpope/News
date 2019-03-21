@@ -1,5 +1,6 @@
 package com.heaven.news.ui.activity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.news.R;
 import com.heaven.news.databinding.MainBinding;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.base.BaseToolBarSimpleActivity;
 import com.heaven.news.ui.fragment.EasyGo;
@@ -55,7 +57,12 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     public void initView(View rootView) {
         super.initView(rootView);
         setTitle(R.string.toobar_home);
-        setExtaTitle(R.string.login_regist);
+        if(DataCore.getInstance().isLogin()) {
+            setExtaTitle(DataCore.getInstance().getUserName());
+        } else {
+            setExtaTitle(R.string.login_regist);
+        }
+
         initViewPager();
         initBottomTabLayout();
         showHomeTitle(false);
@@ -153,7 +160,12 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     @Override
     public void onClick(View v) {
         if(R.id.extra_function == v.getId()) {
+            if(DataCore.getInstance().isLogin()) {
 
+            } else {
+                Intent intent = new Intent(this,LoginActivity.class);
+                startActivity(intent);
+            }
         }
     }
 }
