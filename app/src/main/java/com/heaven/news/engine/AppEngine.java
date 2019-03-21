@@ -24,6 +24,7 @@ import com.heaven.news.di.components.AppComponent;
 import com.heaven.news.di.components.DaggerEngineComponent;
 import com.heaven.news.di.components.EngineComponent;
 import com.heaven.news.di.modules.EngineModule;
+import com.heaven.news.ui.activity.MainActivity;
 import com.heaven.news.utils.CrashHandler;
 import com.heaven.news.utils.RxRepUtils;
 import com.heaven.news.utils.SystemUtil;
@@ -557,6 +558,8 @@ public final class AppEngine {
 
     private int activityCount;//activity的数量
 
+    private MainActivity mainActivity;
+
     /**
      * activity生命周期监控管理
      */
@@ -564,7 +567,11 @@ public final class AppEngine {
 
         @Override
         public void onActivityCreated(final Activity activity, final Bundle bundle) {
-            store.add(activity);
+            if(!(activity instanceof MainActivity)) {
+                store.add(activity);
+            } else {
+                mainActivity = (MainActivity) activity;
+            }
         }
 
         @Override

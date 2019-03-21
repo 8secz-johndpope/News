@@ -4,6 +4,7 @@ package com.heaven.news.di.components;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.di.modules.EngineModule;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.engine.ServiceCore;
 
 import javax.inject.Singleton;
@@ -24,4 +25,6 @@ public interface EngineComponent {
     DataSource dataSource();
 
     ServiceCore serviceCore();
+
+    DataCore dataCore();
 }

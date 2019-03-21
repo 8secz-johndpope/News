@@ -3,6 +3,8 @@ package com.heaven.news.ui.base;
 import android.databinding.ViewDataBinding;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
+import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,6 +15,8 @@ import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+
+import java.util.ArrayList;
 
 /**
  * FileName: com.heaven.news.ui.base.BaseToolBarActivity.java
@@ -40,6 +44,63 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
     ImageView extraImage;
     TextView extraFunction;
 
+    ArrayList<View.OnClickListener> toobarListenerList = new ArrayList<>();
+
+    View.OnClickListener toobarRootListener = v -> {
+        if(R.id.go_back == v.getId()) {
+            onBackPress();
+        } else if(R.id.home_online_help == v.getId()){
+            showOnlineHelp();
+        } else if(R.id.home_push_mess == v.getId() || R.id.mine_message_image == v.getId()){
+            gotoMessage();
+        } else if(R.id.change_language == v.getId()){
+            changeLanguage();
+        } else if(R.id.toolbar_setting == v.getId()){
+            gotoSetting();
+        } else if(R.id.toolbar_home_image == v.getId()) {
+            returnHome();
+        }else {
+            if(toobarListenerList != null && toobarListenerList.size() > 0) {
+                for(View.OnClickListener listener : toobarListenerList) {
+                    listener.onClick(v);
+                }
+            }
+        }
+    };
+
+    private void showOnlineHelp() {
+
+    }
+
+    private void onBackPress() {
+        finish();
+    }
+
+    private void changeLanguage() {
+
+    }
+
+
+    private void returnHome() {
+
+    }
+
+    private void gotoSetting() {
+
+    }
+
+    private void gotoMessage() {
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            onBackPress();
+        }
+        return false;
+    }
+
     @Override
     public int iniTitleBarResId() {
         return R.layout.title_bar;
@@ -63,6 +124,17 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
         toolbarSetting = titleView.findViewById(R.id.toolbar_setting);
         extraImage = titleView.findViewById(R.id.extra_image);
         extraFunction = titleView.findViewById(R.id.extra_function);
+
+        goBack.setOnClickListener(toobarRootListener);
+        homeOnlineHelp.setOnClickListener(toobarRootListener);
+        homePushMess.setOnClickListener(toobarRootListener);
+        changeLanguage.setOnClickListener(toobarRootListener);
+        toolbarHomeImage.setOnClickListener(toobarRootListener);
+        toolbarPhoneImage.setOnClickListener(toobarRootListener);
+        mineMessageImage.setOnClickListener(toobarRootListener);
+        toolbarSetting.setOnClickListener(toobarRootListener);
+        extraImage.setOnClickListener(toobarRootListener);
+        extraFunction.setOnClickListener(toobarRootListener);
     }
 
     @Override
@@ -251,5 +323,9 @@ public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B exte
     @Override
     protected void setBarColor(SystemBarTintManager tintManager) {
         tintManager.setStatusBarTintResource(R.mipmap.toolbar_bg);
+    }
+
+    public void addToolBarListener(View.OnClickListener toolBarListener) {
+        toobarListenerList.add(toolBarListener);
     }
 }

@@ -37,7 +37,7 @@ import java.util.List;
  * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainBinding> implements ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainBinding> implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private List<Fragment> mainList = new ArrayList<>();
 
     @Override
@@ -59,6 +59,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         initViewPager();
         initBottomTabLayout();
         showHomeTitle(false);
+        addToolBarListener(this);
     }
 
     private void initViewPager() {
@@ -147,5 +148,12 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     @Override
     public void onPageScrollStateChanged(int i) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(R.id.extra_function == v.getId()) {
+
+        }
     }
 }

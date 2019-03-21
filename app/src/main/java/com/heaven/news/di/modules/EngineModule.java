@@ -6,6 +6,7 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.NetGlobalConfig;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.engine.ServiceCore;
 
 import javax.inject.Singleton;
@@ -23,6 +24,7 @@ public class EngineModule {
 
     private final Context mContext;
     private DataSource dataSource;
+    private DataCore dataCore;
     public EngineModule(Context context) {
         this.mContext = context;
         DataSource.Builder builder = new DataSource.Builder(context);
@@ -50,5 +52,11 @@ public class EngineModule {
     @Singleton
     ServiceCore providerServiceCore() {
         return null;//ServiceCore.getInstance(mContext);
+    }
+
+    @Provides
+    @Singleton
+    DataCore providerDataCore() {
+        return DataCore.getInstance();
     }
 }
