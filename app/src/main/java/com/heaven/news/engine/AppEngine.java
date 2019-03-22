@@ -141,42 +141,6 @@ public final class AppEngine {
         initAppOptimizeTool(appDelegate.context());
     }
 
-    //自动登录
-    public void autoLogin() {
-        boolean isAutoLogin = AppEngine.getInstance().getDataSource().getSharePreBoolean(Constants.ISAUTOLOGIN);
-        if(isAutoLogin) {
-            UserLoginInfo userInfo = AppEngine.getInstance().getDataSource().getCacheEntity(DataSource.DISK,Constants.USERINFO);
-            if(userInfo != null && !TextUtils.isEmpty(userInfo.userCount) && !TextUtils.isEmpty(userInfo.userPwd)) {
-                loginNew login = new loginNew();
-                loginReqVO loginreqvo = new loginReqVO();
-                loginreqvo._USER_NAME = userInfo.userCount;
-                loginreqvo._PASSWORD = Constants.getPassword(userInfo.userPwd);
-
-                loginreqvo._APP_ID = SOAPConstants.APP_ID;
-                loginreqvo._APP_IP = SOAPConstants.APP_IP;
-                loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
-
-                loginreqvo._DEVICE_TOKEN = "";
-                login._LOGIN_PARAM = loginreqvo;
-
-
-                MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
-
-                RxRepUtils.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
-                    if (loginNewResponseDataResponse.code == 0) {
-                        UserLoginInfo userLoginInfo = new UserLoginInfo();
-                        userLoginInfo.userCount = userInfo.userCount;
-                        userLoginInfo.userPwd = userInfo.userPwd;
-                        mDataCore.initLoginData(loginNewResponseDataResponse.data);
-                        AppEngine.getInstance().cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
-                    }
-                });
-            }
-        }
-
-    }
-
-
     private void initLogger() {
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
@@ -307,7 +271,7 @@ public final class AppEngine {
     /**
      * 初始化.
      */
-    public static void initEngine() {
+    static void initEngine() {
         if (instance == null) {
             instance = new AppEngine();
         }
