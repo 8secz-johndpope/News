@@ -176,19 +176,6 @@ public final class AppEngine {
 
     }
 
-    //获取广告信息
-    private void getAdInfo() {
-        try {
-            RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getAdInfo(), configData -> {
-                if(configData.netCode == 0) {
-                    getDataSource().cacheData(DataSource.DISK, Constants.ADINFO, configData);
-                }
-            });
-        } catch (Exception e) {
-            Logger.i("getAdInfo:" + e.getMessage());
-        }
-    }
-
 
     private void initLogger() {
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
@@ -352,7 +339,7 @@ public final class AppEngine {
      *         数据
      */
     public void cacheData(int type, String key, Object entity) {
-        getDataSource().cacheData(type, key, entity);
+        mDataSource.cacheData(type, key, entity);
     }
 
     /**
@@ -362,7 +349,7 @@ public final class AppEngine {
      *         头数据
      */
     public void removeHeaderData(HashMap<String, String> hashMap) {
-        getDataSource().removeExtraHeader(hashMap);
+        mDataSource.removeExtraHeader(hashMap);
     }
 
 
@@ -377,7 +364,7 @@ public final class AppEngine {
      * @return 缓存数据
      */
     public <E> E getCacheData(String key) {
-        return getDataSource().getCacheEntity(key);
+        return mDataSource.getCacheEntity(key);
     }
 
     /**
@@ -393,7 +380,7 @@ public final class AppEngine {
      * @return 缓存数据
      */
     public <E> E getCacheData(int type, String key) {
-        return getDataSource().getCacheEntity(type, key);
+        return mDataSource.getCacheEntity(type, key);
     }
 
     /**
@@ -513,7 +500,7 @@ public final class AppEngine {
      * @return api
      */
     <T> T getNetApi(Class<T> apiClass) {
-        return engineComponent.dataSource().getNetApi(apiClass);
+        return mDataSource.getNetApi(apiClass);
     }
 
     /**
@@ -527,7 +514,7 @@ public final class AppEngine {
      * @return api
      */
     <T> T getNetApi(String url, Class<T> apiClass) throws Exception {
-        return engineComponent.dataSource().getNetApi(url, apiClass);
+        return mDataSource.getNetApi(url, apiClass);
     }
 
     public ServiceCore getServiceCore() {
@@ -558,7 +545,11 @@ public final class AppEngine {
      * @return 当前活动
      */
     public Activity getCurActivity() {
-        return store.lastElement();
+        if(store.size() == 0) {
+            return mainActivity;
+        } else {
+            return store.lastElement();
+        }
     }
 
 

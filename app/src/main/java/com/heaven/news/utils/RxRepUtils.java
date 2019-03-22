@@ -1,8 +1,11 @@
 package com.heaven.news.utils;
 
 
+import android.support.v4.util.LongSparseArray;
+
 import com.heaven.data.net.DataResponse;
 import com.heaven.data.net.ExceptionHandle;
+import com.heaven.news.engine.ApiManager;
 import com.heaven.news.ui.vm.model.ConfigData;
 
 import io.reactivex.Flowable;
@@ -20,6 +23,14 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class RxRepUtils {
+    private static long currentTaskId = 1000000000000000L;
+    private static LongSparseArray<Disposable> reqTasks = new LongSparseArray<>();
+
+    private static synchronized long getTaskId() {
+        currentTaskId += 10;
+        return currentTaskId;
+    }
+
     private static final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER
             = flowable -> flowable
             .onErrorReturn((Function<Throwable, DataResponse>) ExceptionHandle::handleException)
@@ -49,11 +60,37 @@ public class RxRepUtils {
     }
 
 
-    public static <T> Disposable getResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
-        return resultFlowable.compose(RxRepUtils.ioMain()).subscribe(consumer);
+    public static <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
+        long taskId = getTaskId();
+        Disposable disposable = resultFlowable.compose(ioMain()).subscribe(consumer);
+        reqTasks.put(taskId,disposable);
+        return taskId;
     }
 
-    public static <T> Disposable getConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
-        return resultFlowable.compose(RxRepUtils.ioMainConfig()).subscribe(consumer);
+    public static <T> long getConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
+        long taskId = getTaskId();
+        Disposable disposable = resultFlowable.compose(ioMainConfig()).subscribe(consumer);
+        reqTasks.put(taskId,disposable);
+        return taskId;
+    }
+
+    public void cancelTask(long taskId) {
+        if(reqTasks.containsKey(taskId)) {
+            Disposable disposable = reqTasks.get(taskId);
+            if(disposable != null && !disposable.isDisposed()) {
+                disposable.dispose();
+            }
+            reqTasks.remove(taskId);
+        }
+    }
+
+    public void cancelCurrentTask() {
+        if(reqTasks.containsKey(currentTaskId)) {
+            Disposable disposable = reqTasks.get(currentTaskId);
+            if(disposable != null && !disposable.isDisposed()) {
+                disposable.dispose();
+            }
+            reqTasks.remove(currentTaskId);
+        }
     }
 }

@@ -12,15 +12,19 @@ public class ApiManager {
     private static ApiManager instance;
 
     private ApiManager(){
-
     }
 
     public static ApiManager getInstance() {
         if (instance == null) {
-            instance = new ApiManager();
+            synchronized (ApiManager.class){
+                if(instance == null) {
+                    instance = new ApiManager();
+                }
+            }
         }
         return instance;
     }
+
 
     public static <T> T getApi(Class<T> apiClass){
         return AppEngine.getInstance().getNetApi(apiClass);

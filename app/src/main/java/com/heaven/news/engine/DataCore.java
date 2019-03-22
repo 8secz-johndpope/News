@@ -85,7 +85,8 @@ public class DataCore {
 
     private void prepareData() {
         requestVersion();
-        autoLogin();
+//        autoLogin();
+//        getAdInfo();
     }
 
     public void initLoginData(loginNewResponse loginData) {
@@ -293,6 +294,19 @@ public class DataCore {
         adInfo.content = "百思不得姐减肥肯定是怕几点睡激动是怕";
 
         return adInfo;
+    }
+
+    //获取广告信息
+    private void getAdInfo() {
+        try {
+            RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getAdInfo(), configData -> {
+                if(configData.netCode == 0) {
+                    dataSource.cacheData(DataSource.DISK, Constants.ADINFO, configData);
+                }
+            });
+        } catch (Exception e) {
+            Logger.i("getAdInfo:" + e.getMessage());
+        }
     }
 
     public boolean isLogin() {
