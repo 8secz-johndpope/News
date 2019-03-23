@@ -229,10 +229,8 @@ public class DataCore {
 
     @TraceTime
     private void requestVersion() {
-        Logger.i("---------------------requestVersion start---------------------");
         long startTime = System.currentTimeMillis();
         RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL,ConfigApi.class).getConfig(), configData -> {
-            Logger.i("---------------------requestVersion end---------------------" + configData.toString());
             long endTime = System.currentTimeMillis();
             long requestTime = endTime - startTime;
             if (configData.netCode == 0 && configData.androidversionnew != null) {
