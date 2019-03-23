@@ -2,48 +2,55 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_230dp"
-            android:background="@mipmap/toolbar_bg"
-            android:clipChildren="false"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             >
 
-            <com.heaven.news.ui.view.banner.BannerViewPager
-                android:id="@+id/image_viewPager"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_150dp"
-                android:layout_marginTop="@dimen/_20dp"
-                android:layout_marginLeft="@dimen/_60dp"
-                android:layout_marginRight="@dimen/_60dp"
+                android:layout_height="@dimen/_230dp"
+                android:background="@mipmap/toolbar_bg"
                 android:clipChildren="false"
+                >
+
+                <com.heaven.news.ui.view.banner.BannerViewPager
+                    android:id="@+id/image_viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_140dp"
+                    android:layout_marginLeft="@dimen/_60dp"
+                    android:layout_marginTop="@dimen/_20dp"
+                    android:layout_marginRight="@dimen/_60dp"
+                    android:clipChildren="false"
+                    />
+
+                <com.heaven.news.ui.adapter.ViewPagerIndicator
+                    android:id="@+id/indicators"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20dp"
+                    android:layout_below="@+id/image_viewPager"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_10dp"
+                    app:vpi_default_color="@color/white"
+                    app:vpi_distance="14dp"
+                    app:vpi_distanceType="BY_DISTANCE"
+                    app:vpi_indicatorType="CIRCLE_LINE"
+                    app:vpi_length="14dp"
+                    app:vpi_radius="3dp"/>
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 />
 
-            <com.heaven.news.ui.adapter.ViewPagerIndicator
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/indicators"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_20dp"
-                app:vpi_default_color="@color/white"
-                app:vpi_distance="14dp"
-                app:vpi_distanceType="BY_DISTANCE"
-                app:vpi_indicatorType="CIRCLE_LINE"
-                app:vpi_length="14dp"
-                app:vpi_radius="3dp" />
-        </RelativeLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recyclerview"
-            />
-
-    </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </layout>
