@@ -74,7 +74,9 @@ public class DataRepo {
 
     /**
      * 构造方法
-     * @param builder builder
+     *
+     * @param builder
+     *         builder
      */
     private DataRepo(Builder builder) {
         this.repoIdentify = MD5Utils.getMd5Value(builder.baseUrl);
@@ -94,14 +96,17 @@ public class DataRepo {
         this.isRetryFailure = builder.isRetryFailure;
 
 
-        OkHttpClient client =  builder.okHttpBuilder.build();
+        OkHttpClient client = builder.okHttpBuilder.build();
         retrofit = builder.retrofitBuilder.callFactory(client).build();
     }
 
     /**
      * 添加请求头
-     * @param key key
-     * @param value value
+     *
+     * @param key
+     *         key
+     * @param value
+     *         value
      */
     public void addHeader(String key, String value) {
         if (TextUtils.isEmpty(headers.get(key))) {
@@ -114,7 +119,9 @@ public class DataRepo {
 
     /**
      * 添加请求头
-     * @param extraHeaders 请求头
+     *
+     * @param extraHeaders
+     *         请求头
      */
     public void addExtraHeader(HashMap<String, String> extraHeaders) {
         Headers.Builder builder = headers.newBuilder();
@@ -134,8 +141,11 @@ public class DataRepo {
 
     /**
      * 删除请求头
-     * @param key key
-     * @param value value
+     *
+     * @param key
+     *         key
+     * @param value
+     *         value
      */
     public void removeExtraHeader(String key, String value) {
         Headers.Builder builder = headers.newBuilder();
@@ -146,7 +156,9 @@ public class DataRepo {
 
     /**
      * 删除请求头
-     * @param extraHeaders 请求头
+     *
+     * @param extraHeaders
+     *         请求头
      */
     public void removeExtraHeader(HashMap<String, String> extraHeaders) {
         Headers.Builder builder = headers.newBuilder();
@@ -160,7 +172,9 @@ public class DataRepo {
 
     /**
      * 更新请求头信息
-     * @param headers 请求头信息
+     *
+     * @param headers
+     *         请求头信息
      */
     private void updateHeaders(Headers headers) {
         headerInterceptor.setHeaders(headers);
@@ -201,18 +215,18 @@ public class DataRepo {
                     .build();
 
             okHttpBuilder
-                    .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
+//                    .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS,ConnectionSpec.CLEARTEXT))
                     .cookieJar(new CookiesManager(context))
                     .addInterceptor(headerInterceptor)
                     .addInterceptor(new NetInterceptor())
-//                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
 //                    .addInterceptor(new StethoInterceptor())
                     .connectionPool(new ConnectionPool(5, 5, TimeUnit.MINUTES))
                     .followRedirects(isRedirect)
                     .retryOnConnectionFailure(isRetryFailure)//连接失败后是否重新连接
                     .connectTimeout(timeOut, TimeUnit.SECONDS)//超时时间15S
-                    .readTimeout(20, TimeUnit.SECONDS)
-                    .writeTimeout(20, TimeUnit.SECONDS);
+                    .readTimeout(200, TimeUnit.SECONDS)
+                    .writeTimeout(200, TimeUnit.SECONDS);
             retrofitBuilder.addCallAdapterFactory(adapterFactory);
         }
 
@@ -221,9 +235,10 @@ public class DataRepo {
          *
          * @param baseUrl
          *         url
+         *
          * @return builder
          */
-        public Builder baseUrl(String baseUrl,Converter.Factory converterFactory) {
+        public Builder baseUrl(String baseUrl, Converter.Factory converterFactory) {
             this.baseUrl = baseUrl;
             this.converterFactory = converterFactory;
             retrofitBuilder
@@ -234,8 +249,11 @@ public class DataRepo {
 
         /**
          * 添加请求头
-         * @param key key
-         * @param value value
+         *
+         * @param key
+         *         key
+         * @param value
+         *         value
          */
         public void addHeader(String key, String value) {
             if (TextUtils.isEmpty(headers.get(key))) {
@@ -248,16 +266,17 @@ public class DataRepo {
         private void initDefaultHeader() {
             Headers.Builder headerBuilder = new Headers.Builder();
             //请求头部
-            headerBuilder.add("User-Agent", "Android");
-            headerBuilder.add("APP-Key", "");//应用的key值
-            headerBuilder.add("APP-Secret", "");//应用的密钥
-            headerBuilder.add("Charset", "UTF-8");//字符编码格式
-            headerBuilder.add("Accept", "*/*");//能够接受的数据格式
-            headerBuilder.add("Accept-Language", "zh-cn");//接受的语言
-            headerBuilder.add("Content-Type", "application/json");//内容数据格式application/json text/xml
+            headerBuilder
+                    .add("User-Agent", "Android")
+                    .add("APP-Key", "")//应用的key值
+                    .add("APP-Secret", "")//应用的密钥
+                    .add("Charset", "UTF-8")//字符编码格式
+                    .add("Accept", "*/*")//能够接受的数据格式
+                    .add("Accept-Language", "zh-cn")//接受的语言
+                    .add("Content-Type", "application/json")//内容数据格式application/json text/xml
+                    .add("Connection", "close");
             headers = headerBuilder.build();
         }
-
 
 
         /**
@@ -296,7 +315,10 @@ public class DataRepo {
 
         /**
          * https设置
-         * @param certificates 安全证书
+         *
+         * @param certificates
+         *         安全证书
+         *
          * @return Builder
          */
         public Builder netHttps(int[] certificates) {
@@ -311,7 +333,9 @@ public class DataRepo {
 
         /**
          * 初始化https安全组件
-         * @param certificates 安全证书
+         *
+         * @param certificates
+         *         安全证书
          */
         private void httpsBycert(int[] certificates) {
             if (certificates != null && certificates.length > 0 && context != null) {
@@ -325,7 +349,7 @@ public class DataRepo {
         }
 
         private void httpsTrustAll() {
-            if(okHttpBuilder != null) {
+            if (okHttpBuilder != null) {
                 TrustAllManager trustAllManager = new TrustAllManager();
                 okHttpBuilder.sslSocketFactory(createTrustAllSSLFactory(trustAllManager), trustAllManager)
                         .hostnameVerifier(createTrustAllHostnameVerifier());
@@ -349,12 +373,12 @@ public class DataRepo {
         private class TrustAllManager implements X509TrustManager {
             @Override
             public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType );
+                Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType);
             }
 
             @Override
             public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType );
+                Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType);
             }
 
             @Override
@@ -367,8 +391,6 @@ public class DataRepo {
         private HostnameVerifier createTrustAllHostnameVerifier() {
             return (hostname, session) -> true;
         }
-
-
 
 
         public DataRepo build() {

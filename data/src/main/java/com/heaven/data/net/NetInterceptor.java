@@ -43,19 +43,46 @@ public class NetInterceptor implements Interceptor {
         //获取原始Request
         Request request = chain.request();
 
-        Logger.i(printReqBody(request.body()));
+        if (BuildConfig.DEBUG) {
+            printRequestLog(request);
+        }
 
         long startReqTime = System.nanoTime();
         Response response = chain.proceed(request);
         long endReqTime = System.nanoTime();
         if (BuildConfig.DEBUG) {
-            printLog(request, response, startReqTime, endReqTime);
+            printLog(response, startReqTime, endReqTime);
         }
         return response;
     }
 
+    private void printRequestLog(Request request) {
+        String contentType = request.header("Content-Type");
+        StringBuilder requestLog = new StringBuilder();
+        String reqBody = printReqBody(request.body());
+        requestLog
+                .append("******************************************\n")
+                .append("RequestHeader:\n")
+                .append(request.headers().toString())
+                .append("\n")
+                .append(request.url())
+                .append("\n")
+                .append("******************************************\n");
+        Logger.i(requestLog.toString());
+        if (!TextUtils.isEmpty(contentType)) {
+            if (contentType.contains("json")) {
+                Logger.json(reqBody);
+            } else if (contentType.contains("xml")) {
+                Logger.xml(reqBody);
+            } else {
+                Logger.i(reqBody);
+            }
+        } else {
+            Logger.i(reqBody);
+        }
+    }
 
-    private void printLog(Request request, Response response, long startReqTime, long endReqTime) throws IOException {
+    private void printLog(Response response, long startReqTime, long endReqTime) throws IOException {
         String contentType = response.header("Content-Type");
         String contectEncode = response.header("Content-Encoding");
         ResponseBody responseBody = response.body();
@@ -76,20 +103,8 @@ public class NetInterceptor implements Interceptor {
             }
 
         }
-        StringBuilder requestLog = new StringBuilder();
         StringBuilder responseLog = new StringBuilder();
         StringBuilder traceTime = new StringBuilder();
-        requestLog
-                .append("******************************************\n")
-                .append("RequestHeader:\n")
-                .append(request.headers().toString())
-                .append("\n")
-                .append(request.url())
-                .append("\n")
-                .append("******************************************\n")
-                .append("RequestBody:\n");
-        Logger.i(requestLog.toString());
-        Logger.i(formatJson(printReqBody(request.body())));
         responseLog
                 .append("\n")
                 .append("******************************************\n")
@@ -136,11 +151,15 @@ public class NetInterceptor implements Interceptor {
     }
 
 
-    private String printReqBody(RequestBody requestBody) throws IOException {
+    private String printReqBody(RequestBody requestBody) {
         String requestJson = "";
         if (requestBody != null) {
             Buffer buffer = new Buffer();
-            requestBody.writeTo(buffer);
+            try {
+                requestBody.writeTo(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             Charset charset = UTF8;
             MediaType contentType = requestBody.contentType();

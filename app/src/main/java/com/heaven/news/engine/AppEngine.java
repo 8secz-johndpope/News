@@ -386,7 +386,7 @@ public final class AppEngine {
         if (userInfo != null) {
             headerMap.put("userId", userInfo.userId);
         }
-        headerMap.put("User-Agent", "android(shenzhenair)" + "5.1.0");
+        headerMap.put("User-Agent", "android(shenzhenair)" + "5.1.1");
         headerMap.put("X-SZAIR-META", getSzairMeta(userInfo == null ? "" : userInfo.userId));
         headerMap.put("X-SZAIR-LANGUAG", "zh_CN");
         headerMap.put("Accept-Encoding", "gzip,deflate");
