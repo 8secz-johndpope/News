@@ -26,15 +26,18 @@ public class BannerAdapter extends BaseBannerAdapter<ImageInfo> {
     }
 
     @Override
-    public View bindView(Context context, ImageInfo imageInfo, int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.banner_item,null);
-        ImageView imageView = view.findViewById(R.id.banner_image);
-        Glide.with(context)
+    public int initLayoutRes() {
+        return R.layout.banner_item;
+    }
+
+    @Override
+    public void bindView(View viewItem, ImageInfo imageInfo, int position) {
+        ImageView imageView = viewItem.findViewById(R.id.banner_image);
+        Glide.with(viewItem.getContext())
                 .load(imageInfo.pic)
 //                .placeholder(R.mipmap.ic_launcher) // can also be a drawable
 //                .error(R.mipmap.cheese) // will be displayed if the image cannot be loaded
                 .centerCrop()
                 .into(imageView);
-        return view;
     }
 }

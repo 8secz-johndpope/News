@@ -24,7 +24,8 @@ public abstract class BaseBannerAdapter<T> extends PagerAdapter implements View.
     private Context mContext;
     private ItemClickListener itemClickListener;
     private int currentPosition = 0;
-
+    //内存优化界面复用
+    private List<View> mConvertView = new ArrayList<>();;
     private List<T> mDataItems;
 
     public BaseBannerAdapter(Context context, ViewPager viewPager) {
@@ -44,7 +45,11 @@ public abstract class BaseBannerAdapter<T> extends PagerAdapter implements View.
 
     @Override
     public int getCount() {
-        return  mDataItems != null ? mDataItems.size() : 0;
+        return  (mDataItems != null && mDataItems.size() > 0)? Integer.MAX_VALUE : 0;
+    }
+
+    public int getRealCount() {
+        return mDataItems != null? mDataItems.size() : 0;
     }
 
     @Override
@@ -55,18 +60,40 @@ public abstract class BaseBannerAdapter<T> extends PagerAdapter implements View.
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View view = bindView(mContext,mDataItems.get(position),position);
-        view.setOnClickListener(this);
-        container.addView(view);
-        return view;
+        View convertView = getConvertView();
+
+        View itemView = convertView == null? LayoutInflater.from(mContext).inflate(initLayoutRes(),null) : convertView;
+        int realPositionn = position % mDataItems.size();
+
+        bindView(itemView,mDataItems.get(realPositionn),realPositionn);
+        itemView.setOnClickListener(this);
+        container.addView(itemView);
+        return itemView;
     }
 
-    public abstract View bindView(Context context,T t,int position);
+    public abstract int initLayoutRes();
+
+    public abstract void bindView(View viewItem,T t,int position);
 
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
+        mConvertView.add(( View ) object);
+    }
+
+    /**
+     * 处理页面复用
+     *
+     * @return
+     */
+    public View getConvertView() {
+        for (int i = 0; i < mConvertView.size(); i++) {
+            if (mConvertView.get(i).getParent() == null) {
+                return mConvertView.get(i);
+            }
+        }
+        return null;
     }
 
     @Override
