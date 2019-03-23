@@ -191,7 +191,7 @@ public class DataRepo {
         CallAdapter.Factory adapterFactory = RxJava2CallAdapterFactory.create();
         HeaderInterceptor headerInterceptor;
         int[] certificates;
-        int timeOut = 500;
+        int timeOut = 30;
         boolean isCacheable = false;
         boolean isTrustAll = false;
         boolean isCookie = false;
