@@ -17,11 +17,11 @@ public class AppOptimizeTool {
     public static void toolInit(Context context) {
         Stetho.initializeWithDefaults(context);
 
-//        Stetho.initialize(Stetho
-//                .newInitializerBuilder(context)
-//                .enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
-//                .enableWebKitInspector(
-//                        Stetho.defaultInspectorModulesProvider(context)).build());
+        Stetho.initialize(Stetho
+                .newInitializerBuilder(context)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
+                .enableWebKitInspector(
+                        Stetho.defaultInspectorModulesProvider(context)).build());
     }
 
 }
