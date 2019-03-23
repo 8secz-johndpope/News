@@ -2,8 +2,10 @@ package com.heaven.news.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.news.R;
@@ -16,6 +18,8 @@ import com.heaven.news.manyData.adapter.ItemVIewNormal;
 import com.heaven.news.manyData.bean.Bean01;
 import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
+import com.heaven.news.ui.adapter.BannerAdapter;
+import com.heaven.news.ui.adapter.CardTransformer;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
@@ -33,6 +37,20 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
     List<Object> items;
     @Override
     public void initView(View rootView) {
+        BannerAdapter topAdapter = new BannerAdapter(getContext(),mViewBinding.imageViewPager);
+
+        mViewBinding.imageViewPager.setAdapter(topAdapter);
+        mViewBinding.imageViewPager.setOffscreenPageLimit(2);//预加载2个
+        mViewBinding.imageViewPager.setPageMargin(30);//设置viewpage之间的间距
+        mViewBinding.imageViewPager.setClipChildren(false);
+        mViewBinding.imageViewPager.setPageTransformer(true, new CardTransformer());
+        mViewBinding.indicators.setViewPager(mViewBinding.imageViewPager, 6);
+        topAdapter.setItemClickListener(index -> {
+//                ToastUtils.showToast("点击了图片" + index);
+        });
+        mViewBinding.imageViewPager.setCurrentItem(0);
+
+
         BaseMultAdapter  adapter = new BaseMultAdapter(getContext());
 
         adapter.register(new ItemVIewNormal(String.class,R.layout.item_go));

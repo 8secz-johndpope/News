@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_220dp"
+            >
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/image_viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_140dp"/>
+
+            <com.heaven.news.ui.adapter.ViewPagerIndicator
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/indicators"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:vpi_default_color="@color/white"
+                app:vpi_distance="14dp"
+                app:vpi_distanceType="BY_DISTANCE"
+                app:vpi_indicatorType="CIRCLE_LINE"
+                app:vpi_length="14dp"
+                app:vpi_radius="3dp" />
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"

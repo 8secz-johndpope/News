@@ -1,4 +1,4 @@
-package com.heaven.news.ui.adapter;
+package com.heaven.base.ui.adapter;
 
 import android.content.Context;
 import android.os.Parcelable;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by LeoLu on 2016/12/7.
  */
-public class FragmentPagerAdapter extends PagerAdapter {
+public class BaseFragmentPagerAdapter extends PagerAdapter {
     private static final String TAG = "FragmentPagerAdapter";
     private static final boolean DEBUG = false;
 
@@ -28,7 +28,7 @@ public class FragmentPagerAdapter extends PagerAdapter {
     private List<Fragment> mList = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
 
-    public FragmentPagerAdapter(Context activity, FragmentManager fragment) {
+    public BaseFragmentPagerAdapter(Context activity, FragmentManager fragment) {
         if (activity instanceof AppCompatActivity) {
             mFragmentManager = ((AppCompatActivity) activity).getSupportFragmentManager();
         } else if (activity instanceof FragmentActivity) {
