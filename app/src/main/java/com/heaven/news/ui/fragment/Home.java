@@ -11,6 +11,8 @@ import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.databinding.RouteBinding;
+import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.manyData.adapter.ItemVIew01;
 import com.heaven.news.manyData.adapter.ItemVIew02;
 import com.heaven.news.manyData.adapter.ItemVIew03;
@@ -20,6 +22,8 @@ import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.adapter.BannerAdapter;
 import com.heaven.news.ui.adapter.CardTransformer;
+import com.heaven.news.ui.vm.model.HomeImageInfo;
+import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
@@ -35,16 +39,16 @@ import java.util.List;
  */
 public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
     List<Object> items;
+    BannerAdapter topAdapter;
     @Override
     public void initView(View rootView) {
-        BannerAdapter topAdapter = new BannerAdapter(getContext(),mViewBinding.imageViewPager);
+        topAdapter = new BannerAdapter(getContext(),mViewBinding.imageViewPager);
 
         mViewBinding.imageViewPager.setAdapter(topAdapter);
         mViewBinding.imageViewPager.setOffscreenPageLimit(2);//预加载2个
         mViewBinding.imageViewPager.setPageMargin(30);//设置viewpage之间的间距
         mViewBinding.imageViewPager.setClipChildren(false);
         mViewBinding.imageViewPager.setPageTransformer(true, new CardTransformer());
-        mViewBinding.indicators.setViewPager(mViewBinding.imageViewPager, 6);
         topAdapter.setItemClickListener(index -> {
 //                ToastUtils.showToast("点击了图片" + index);
         });
@@ -92,6 +96,26 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
     @Override
     public int initLayoutResId() {
         return R.layout.home;
+    }
+
+    public void updateHomeImageData() {
+        HomeImageInfo homeImageInfo = AppEngine.getInstance().dataCore().getHomeConfigData();
+        if(homeImageInfo != null) {
+            if(homeImageInfo.top != null && homeImageInfo.top.size() > 0) {
+                mViewBinding.indicators.setViewPager(mViewBinding.imageViewPager,  homeImageInfo.top.size());
+                updateTopImages(homeImageInfo.top);
+            } else if(homeImageInfo.hot != null && homeImageInfo.hot.size() > 0) {
+                updateHotImages(homeImageInfo.hot);
+            }
+        }
+    }
+
+    private void updateTopImages(List<ImageInfo> tops) {
+        topAdapter.updatePagerData(tops);
+    }
+
+    private void updateHotImages(List<ImageInfo> hots) {
+
     }
 
     public static  Home newInstance(Bundle paramBundle) {

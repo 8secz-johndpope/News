@@ -117,16 +117,6 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         return resIdList;
     }
 
-    @TraceTime
-    public void loginAction(View view) {
-//        String name = mViewBinding.name.getEditText().getText().toString();
-//        String password = mViewBinding.password.getEditText().getText().toString();
-//        mViewModel.login(name,password);
-//        mViewModel.userName.observe(this, s -> {
-//            mViewBinding.userName.setText(s);
-//        });
-    }
-
     @Override
     public void onPageScrolled(int i, float v, int i1) {
 
@@ -174,8 +164,11 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
 
     @Override
     public void dataReady(int dataType) {
-        updateLoginInfo();
         if(DataCore.LOGIN == dataType) {
+            updateLoginInfo();
+        } else if(DataCore.HOME == dataType) {
+          Home home = (Home) mainList.get(0);
+          home.updateHomeImageData();
         }
     }
 
