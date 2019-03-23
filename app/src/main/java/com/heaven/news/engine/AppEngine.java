@@ -415,7 +415,7 @@ public final class AppEngine {
     private String getSzairMeta(String userId) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("app_version", "5.1.0"/*appConfig.verName*/);
+            jsonObject.put("app_version", "5.1.1"/*appConfig.verName*/);
             jsonObject.put("system_name", appConfig.DEVICE_TYPE);
             jsonObject.put("MOBILE_MODEL", appConfig.MOBILE_MODEL);
             jsonObject.put("MOBILE_SDK", appConfig.MOBILE_SDK);
