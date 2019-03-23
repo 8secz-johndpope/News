@@ -10,13 +10,20 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_170dp"
+            android:layout_height="@dimen/_230dp"
+            android:background="@mipmap/toolbar_bg"
+            android:clipChildren="false"
             >
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/image_viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="@dimen/_150dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_marginLeft="@dimen/_60dp"
+                android:layout_marginRight="@dimen/_60dp"
+                android:clipChildren="false"
+                />
 
             <com.heaven.news.ui.adapter.ViewPagerIndicator
                 android:layout_alignParentBottom="true"

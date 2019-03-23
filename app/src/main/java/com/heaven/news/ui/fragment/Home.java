@@ -45,9 +45,8 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
         topAdapter = new BannerAdapter(getContext(),mViewBinding.imageViewPager);
 
         mViewBinding.imageViewPager.setAdapter(topAdapter);
-        mViewBinding.imageViewPager.setOffscreenPageLimit(2);//预加载2个
-        mViewBinding.imageViewPager.setPageMargin(30);//设置viewpage之间的间距
-        mViewBinding.imageViewPager.setClipChildren(false);
+        mViewBinding.imageViewPager.setOffscreenPageLimit(3);//预加载2个
+        mViewBinding.imageViewPager.setPageMargin(80);//设置viewpage之间的间距
         mViewBinding.imageViewPager.setPageTransformer(true, new CardTransformer());
         topAdapter.setItemClickListener(index -> {
 //                ToastUtils.showToast("点击了图片" + index);
@@ -100,7 +99,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
 
     public void updateHomeImageData() {
         HomeImageInfo homeImageInfo = AppEngine.getInstance().dataCore().getHomeConfigData();
-        if(homeImageInfo != null) {
+        if(homeImageInfo != null && mViewBinding.indicators != null) {
             if(homeImageInfo.top != null && homeImageInfo.top.size() > 0) {
                 mViewBinding.indicators.setViewPager(mViewBinding.imageViewPager,  homeImageInfo.top.size());
                 updateTopImages(homeImageInfo.top);
