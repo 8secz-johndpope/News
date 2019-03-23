@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import okhttp3.Headers;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 import static com.heaven.data.net.NetGlobalConfig.PROTOTYPE.JSON;
@@ -69,17 +70,6 @@ public class DataSource {
             this.context = context;
         }
 
-        /**
-         * 根据baseurl添加网络请求对象
-         *
-         * @param baseUrl
-         *         url
-         *
-         * @return Builder
-         */
-        public Builder addNetRepo(String baseUrl) {
-            return addNetRepo(baseUrl, prototype, null);
-        }
 
         /**
          * 根据baseurl添加网络请求对象
@@ -91,22 +81,8 @@ public class DataSource {
          *
          * @return Builder
          */
-        public Builder addNetRepo(String baseUrl, NetGlobalConfig.PROTOTYPE prototype) {
-            return addNetRepo(baseUrl, prototype, null);
-        }
-
-        /**
-         * 根据baseurl添加网络请求对象
-         *
-         * @param baseUrl
-         *         url
-         * @param certificates
-         *         证书
-         *
-         * @return Builder
-         */
-        public Builder addNetRepo(String baseUrl, int[] certificates) {
-            return addNetRepo(baseUrl, prototype, certificates);
+        public Builder addNetRepo(String baseUrl, Converter.Factory converterFactory) {
+            return addNetRepo(baseUrl, converterFactory, null);
         }
 
 
@@ -122,19 +98,15 @@ public class DataSource {
          *
          * @return Builder
          */
-        public Builder addNetRepo(String baseUrl, NetGlobalConfig.PROTOTYPE prototype, int[] certificates) {
+        public Builder addNetRepo(String baseUrl, Converter.Factory converterFactory, int[] certificates) {
             URI uri = null;
             try {
                 uri = new URI(baseUrl);
                 String scheme = uri.getScheme();
                 DataRepo.Builder repoBuilder = new DataRepo.Builder(context);
-                repoBuilder.baseUrl(baseUrl, prototype);
+                repoBuilder.baseUrl(baseUrl, converterFactory);
                 if (NetGlobalConfig.HTTPS.equals(scheme)) {
-                    if (certificates != null && certificates.length > 0) {
-                        repoBuilder.netHttps(certificates);
-                    } else {
-                        repoBuilder.netHttps(true);
-                    }
+                    repoBuilder.netHttps(certificates);
                 }
                 if (repos.size() == 0) {
                     mainRepo = repoBuilder.build();

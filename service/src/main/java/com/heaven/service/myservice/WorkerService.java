@@ -27,6 +27,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.converter.gson.GsonConverterFactory;
+
 /**
  * FileName: com.heaven.flybetter.service.WorkerService.java
  * author: Heaven
@@ -64,7 +66,7 @@ public class WorkerService extends Service implements MediaManager.LocalMediaLoa
         if (intent != null) {
             String baseNetUrl = intent.getStringExtra("url");
             DataSource.Builder builder = new DataSource.Builder(this);
-            builder.addNetRepo(baseNetUrl);
+            builder.addNetRepo(baseNetUrl, GsonConverterFactory.create());
             dataSource = builder.build();
             Logger.i("onStartCommand---" + baseNetUrl);
         }

@@ -8,17 +8,22 @@ import com.heaven.data.convert.normal.ProtoStuffConvertFactory;
 import com.heaven.data.convert.szair.SzAirConvertFactory;
 import com.heaven.data.net.cookie.CookiesManager;
 import com.heaven.data.util.MD5Utils;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -26,9 +31,12 @@ import javax.net.ssl.X509TrustManager;
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import okhttp3.Cache;
+import okhttp3.CipherSuite;
 import okhttp3.ConnectionPool;
+import okhttp3.ConnectionSpec;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
+import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
@@ -63,7 +71,6 @@ public class DataRepo {
     boolean isRedirect = false;
     boolean isSslRedirect = false;
     boolean isRetryFailure = true;
-    boolean isLogInterceptor = false;
 
     /**
      * 构造方法
@@ -85,7 +92,7 @@ public class DataRepo {
         this.isRedirect = builder.isRedirect;
         this.isSslRedirect = builder.isSslRedirect;
         this.isRetryFailure = builder.isRetryFailure;
-        this.isLogInterceptor = builder.isLogInterceptor;
+
 
         OkHttpClient client =  builder.okHttpBuilder.build();
         retrofit = builder.retrofitBuilder.callFactory(client).build();
@@ -177,7 +184,6 @@ public class DataRepo {
         boolean isRedirect = true;
         boolean isSslRedirect = false;
         boolean isRetryFailure = true;
-        boolean isLogInterceptor = false;
 
         public Builder(Context context) {
             this.context = context;
@@ -185,7 +191,17 @@ public class DataRepo {
             this.okHttpBuilder = new OkHttpClient.Builder();
             this.retrofitBuilder = new Retrofit.Builder();
             this.headerInterceptor = new HeaderInterceptor(headers);
+
+            ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+                    .tlsVersions(TlsVersion.TLS_1_2)
+                    .cipherSuites(
+                            CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+                            CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+                            CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256)
+                    .build();
+
             okHttpBuilder
+                    .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
                     .cookieJar(new CookiesManager(context))
                     .addInterceptor(headerInterceptor)
                     .addInterceptor(new NetInterceptor())
@@ -200,26 +216,19 @@ public class DataRepo {
             retrofitBuilder.addCallAdapterFactory(adapterFactory);
         }
 
-        public Builder baseUrl(String baseUrl) {
-            return this.baseUrl(baseUrl, prototype);
-        }
-
         /**
-         * 基础url 和协议类型
+         * 基础url
          *
          * @param baseUrl
          *         url
-         * @param protocoltype
-         *         协议类型
-         *
          * @return builder
          */
-        public Builder baseUrl(String baseUrl, NetGlobalConfig.PROTOTYPE protocoltype) {
+        public Builder baseUrl(String baseUrl,Converter.Factory converterFactory) {
             this.baseUrl = baseUrl;
-            this.prototype = protocoltype;
-            this.initProtoCovert(protocoltype);
+            this.converterFactory = converterFactory;
             retrofitBuilder
-                    .baseUrl(baseUrl);
+                    .baseUrl(baseUrl)
+                    .addConverterFactory(converterFactory);
             return this;
         }
 
@@ -249,64 +258,23 @@ public class DataRepo {
             headers = headerBuilder.build();
         }
 
-        /**
-         * 请求基础参数设置
-         *
-         * @param timeOut
-         *         超时时间
-         * @param isLogInterceptor
-         *         是否显示请求日志
-         *
-         * @return Builder
-         */
-        public Builder baseNetParam(int timeOut, boolean isLogInterceptor) {
-            return this.baseNetParam(timeOut, isCacheable, isCookie, isRedirect, isRetryFailure, isLogInterceptor);
-        }
 
-        /**
-         * 请求基础参数设置
-         *
-         * @param timeOut
-         *         超时时间
-         * @param isCacheable
-         *         无网络时是否使用是否缓存
-         * @param isLogInterceptor
-         *         是否显示请求日志
-         *
-         * @return Builder
-         */
-        public Builder baseNetParam(int timeOut, boolean isCacheable, boolean isLogInterceptor) {
-            return this.baseNetParam(timeOut, isCacheable, isCookie, isRedirect, isRetryFailure, isLogInterceptor);
-        }
 
         /**
          * 网络基础属性设置
          *
          * @param isCookie
          *         是否使用cookie
-         * @param isRedirect
-         *         是否可以重定向
-         * @param isRetryFailure
-         *         失败后是否可以重试
-         * @param isLogInterceptor
-         *         是否显示报文日志
          *
          * @return builder
          */
-        public Builder baseNetParam(int timeOut, boolean isCacheable, boolean isCookie, boolean isRedirect, boolean isRetryFailure, boolean isLogInterceptor) {
+        public Builder baseNetParam(int timeOut, boolean isCacheable, boolean isCookie) {
             this.timeOut = timeOut;
             this.isCookie = isCookie;
-            this.isRedirect = isRedirect;
-            this.isRetryFailure = isRetryFailure;
-            this.isLogInterceptor = isLogInterceptor;
             this.isCacheable = isCacheable;
 
             if (isCookie) {
                 okHttpBuilder.cookieJar(new CookiesManager(context));
-            }
-
-            if (isLogInterceptor) {
-                okHttpBuilder.addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
             }
 
             if (isCacheable) {
@@ -320,22 +288,11 @@ public class DataRepo {
                 okHttpBuilder.addInterceptor(cacheInterceptor);
             }
 
-            okHttpBuilder
-                    .followRedirects(isRedirect)
-                    .retryOnConnectionFailure(isRetryFailure)//连接失败后是否重新连接
-                    .connectTimeout(timeOut, TimeUnit.SECONDS);//超时时间15S
+            okHttpBuilder.connectTimeout(timeOut, TimeUnit.SECONDS);//超时时间15S
 
             return this;
         }
 
-        /**
-         * https设置
-         * @param isTrustAll 是否全部信任
-         * @return Builder
-         */
-        public Builder netHttps(boolean isTrustAll) {
-            return this.netHttps(isTrustAll, isSslRedirect, null);
-        }
 
         /**
          * https设置
@@ -343,55 +300,20 @@ public class DataRepo {
          * @return Builder
          */
         public Builder netHttps(int[] certificates) {
-            return this.netHttps(isTrustAll, isSslRedirect, certificates);
-        }
-
-        /**
-         * https设置
-         * @param isTrustAll 是否全部信任
-         * @param isSslRedirect 是否可以重定向
-         * @return Builder
-         */
-        public Builder netHttps(boolean isTrustAll, boolean isSslRedirect) {
-            return this.netHttps(isTrustAll, isSslRedirect, null);
-        }
-
-        /**
-         * https设置
-         * @param certificates 安全证书
-         * @param isSslRedirect 是否可以重定向
-         * @return Builder
-         */
-        public Builder netHttps(int[] certificates,boolean isSslRedirect) {
-            return this.netHttps(isTrustAll, isSslRedirect, certificates);
-        }
-
-
-        /**
-         * https设置
-         * @param isTrustAll 是否全部信任
-         * @param isSslRedirect 是否可以重定向
-         * @param certificates 安全证书
-         * @return Builder
-         */
-        public Builder netHttps(boolean isTrustAll, boolean isSslRedirect, int[] certificates) {
-            this.isSslRedirect = isSslRedirect;
-            this.certificates = certificates;
-            this.okHttpBuilder.followSslRedirects(isSslRedirect);
-            if(isTrustAll) {
-                setAllCerPass(okHttpBuilder);
+            if (certificates != null && certificates.length > 0) {
+                httpsBycert(certificates);
             } else {
-                initSSL(certificates);
+                httpsTrustAll();
             }
+
             return this;
         }
-
 
         /**
          * 初始化https安全组件
          * @param certificates 安全证书
          */
-        private void initSSL(int[] certificates) {
+        private void httpsBycert(int[] certificates) {
             if (certificates != null && certificates.length > 0 && context != null) {
                 TrustManager[] trustManagers = SSLManager.getTrustManager(context, certificates);
                 SSLSocketFactory sslSocketFactory = SSLManager.getSSLSocketFactory(context, certificates);
@@ -402,86 +324,54 @@ public class DataRepo {
             }
         }
 
-        /**
-         * 让客户端通过所有证书的验证.
-         * 注意:容易导致中间人攻击,轻易不要使用
-         *
-         * @param httpBuilder httpBuilder
-         */
-        private void setAllCerPass(OkHttpClient.Builder httpBuilder) {
-            X509TrustManager xtm = new X509TrustManager() {
-                @Override
-                public void checkClientTrusted(X509Certificate[] chain, String authType) {
-//                    Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType );
-                }
+        private void httpsTrustAll() {
+            if(okHttpBuilder != null) {
+                TrustAllManager trustAllManager = new TrustAllManager();
+                okHttpBuilder.sslSocketFactory(createTrustAllSSLFactory(trustAllManager), trustAllManager)
+                        .hostnameVerifier(createTrustAllHostnameVerifier());
 
-                @Override
-                public void checkServerTrusted(X509Certificate[] chain, String authType) {
-//                    Logger.i("checkServerTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType );
-                }
+            }
+        }
 
-                @Override
-                public X509Certificate[] getAcceptedIssuers() {
-                    return new X509Certificate[]{};
-                }
-            };
-
+        private SSLSocketFactory createTrustAllSSLFactory(TrustAllManager trustAllManager) {
+            SSLSocketFactory ssfFactory = null;
             try {
-                SSLContext sslContext = SSLContext.getInstance("SSL");
+                SSLContext sc = SSLContext.getInstance("TLS");
+                sc.init(null, new TrustManager[]{trustAllManager}, new SecureRandom());
+                ssfFactory = sc.getSocketFactory();
+            } catch (Exception ignored) {
+                ignored.printStackTrace();
+            }
 
-                sslContext.init(null, new TrustManager[]{xtm}, new SecureRandom());
+            return ssfFactory;
+        }
 
-                HostnameVerifier doNotVerify = (hostname, session) -> true;
+        private class TrustAllManager implements X509TrustManager {
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType );
+            }
 
-                httpBuilder.sslSocketFactory(sslContext.getSocketFactory(), xtm)
-                        .hostnameVerifier(doNotVerify);
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType );
+            }
 
-            } catch (NoSuchAlgorithmException | KeyManagementException e) {
-                e.printStackTrace();
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
             }
         }
 
-        /**
-         * 初始化convert
-         *
-         * @param protocol
-         *         协议类型
-         */
-        private void initProtoCovert(NetGlobalConfig.PROTOTYPE protocol) {
-            switch (protocol) {
-                case JSON:
-                    converterFactory = GsonConverterFactory.create();
-                    addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEJSON);
-                    break;
-                case XML:
-//                    converterFactory = JaxbConverterFactory.create();
-//                    converterFactory = SimpleXmlConverterFactory.create();
-                    converterFactory = SzAirConvertFactory.create();
-                    addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
-                    break;
-                case PROTOBUF:
-                    converterFactory = ProtoStuffConvertFactory.create();
-                    break;
-                case JACKSON:
-                    break;
-                case MOSHI:
-                    break;
-                case WIRE:
-                    break;
-                case SCALARS:
-                    break;
-                default:
-                    converterFactory = GsonConverterFactory.create();
-            }
+        //获取HostnameVerifier
+        private HostnameVerifier createTrustAllHostnameVerifier() {
+            return (hostname, session) -> true;
         }
+
+
 
 
         public DataRepo build() {
-            if(converterFactory == null) {
-                converterFactory = GsonConverterFactory.create();
-            }
-            retrofitBuilder
-                    .addConverterFactory(converterFactory);
             return new DataRepo(this);
         }
     }
