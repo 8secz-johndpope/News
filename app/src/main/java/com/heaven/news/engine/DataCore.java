@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
+import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
@@ -179,6 +180,7 @@ public class DataCore {
     }
 
     //自动登录
+    @TraceTime
     public void autoLogin() {
         boolean isAutoLogin = dataSource.getSharePreBoolean(Constants.ISAUTOLOGIN);
         if(isAutoLogin) {
@@ -225,6 +227,7 @@ public class DataCore {
         }
     }
 
+    @TraceTime
     private void requestVersion() {
         Logger.i("---------------------requestVersion start---------------------");
         long startTime = System.currentTimeMillis();
@@ -297,6 +300,7 @@ public class DataCore {
     }
 
     //获取广告信息
+    @TraceTime
     private void getAdInfo() {
         try {
             RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getAdInfo(), configData -> {
