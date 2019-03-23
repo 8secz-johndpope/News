@@ -12,6 +12,7 @@ import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.ui.vm.model.AdInfo;
 import com.heaven.news.ui.vm.model.ConfigData;
+import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.UserLoginInfo;
 import com.heaven.news.ui.vm.model.Version;
 import com.heaven.news.ui.vm.viewmodel.WelecomModel;
@@ -49,13 +50,15 @@ import java.util.Set;
 public class DataCore {
 
     public static int VERSION = 0;
-    public static int LOGIN = 1;
-    public static int MILE = 2;
+    public static int HOME = 1;
+    public static int LOGIN = 2;
+    public static int MILE = 3;
 
     private DataSource dataSource;
-    private Map<Activity,DataReadyObserver> observers = new HashMap<>();
+    private Map<Activity, DataReadyObserver> observers = new HashMap<>();
 
     private ConfigData configData;
+    private HomeImageInfo homeConfigData;
     private UpdateInfo updateInfo;
     private queryRespVO userAllInfo;
 
@@ -84,9 +87,31 @@ public class DataCore {
         this.dataSource.runWorkThread(this::prepareData);
     }
 
+    private void notifyDataUpdate(int dataType) {
+        if (observers != null && observers.size() > 0) {
+            Collection<DataReadyObserver> observerSet = observers.values();
+            for (DataReadyObserver observer : observerSet) {
+                if (observer != null) {
+                    observer.dataReady(dataType);
+                }
+            }
+        }
+    }
+
+    public void addDataObserver(Activity activity, DataReadyObserver observer) {
+        observers.put(activity, observer);
+        Logger.i("addDataObserver----" + activity);
+    }
+
+    public void removeDataObserver(Activity activity) {
+        observers.remove(activity);
+        Logger.i("removeDataObserver----" + activity);
+    }
+
     private void prepareData() {
         autoLogin();
         requestVersion();
+        requestHomeConfig();
 //        getAdInfo();
     }
 
@@ -118,7 +143,7 @@ public class DataCore {
                 address = userInfo._ADDRESS;
                 mail = userInfo._EMAIL;
 
-                phoenixInfo(userInfo._MEMBER,userInfo._CREDENTIAL_LIST);
+                phoenixInfo(userInfo._MEMBER, userInfo._CREDENTIAL_LIST);
             }
         }
     }
@@ -146,7 +171,7 @@ public class DataCore {
                 }
             }
             userSex = userVipDetails._SEX;
-            if(!TextUtils.isEmpty(userVipDetails._IDENTIFY_TYPE)) {
+            if (!TextUtils.isEmpty(userVipDetails._IDENTIFY_TYPE)) {
                 identifyType = userVipDetails._IDENTIFY_TYPE;
             }
         }
@@ -165,15 +190,15 @@ public class DataCore {
         }
     }
 
-    private void phoenixInfo(memberInfoVo phoenixInfo,List<credentialVo> phonenixIdList) {
-        if(phoenixInfo != null) {
+    private void phoenixInfo(memberInfoVo phoenixInfo, List<credentialVo> phonenixIdList) {
+        if (phoenixInfo != null) {
             phoenixCardLevel = phoenixInfo._PRIMARY_TIER_NAME;
             phoenixNumber = phoenixInfo._MEMBER_NUMBER;
         }
 
-        if(phonenixIdList != null && phonenixIdList.size() > 0) {
+        if (phonenixIdList != null && phonenixIdList.size() > 0) {
             phoenixIdList = new ArrayList<>();
-            for(credentialVo idInfo : phonenixIdList) {
+            for (credentialVo idInfo : phonenixIdList) {
                 phoenixIdList.add(idInfo._CREDENTIAL_NUM);
             }
         }
@@ -183,9 +208,9 @@ public class DataCore {
     @TraceTime
     public void autoLogin() {
         boolean isAutoLogin = dataSource.getSharePreBoolean(Constants.ISAUTOLOGIN);
-        if(isAutoLogin) {
-            UserLoginInfo userInfo = dataSource.getCacheEntity(DataSource.DISK,Constants.USERINFO);
-            if(userInfo != null && !TextUtils.isEmpty(userInfo.userCount) && !TextUtils.isEmpty(userInfo.userPwd)) {
+        if (isAutoLogin) {
+            UserLoginInfo userInfo = dataSource.getCacheEntity(DataSource.DISK, Constants.USERINFO);
+            if (userInfo != null && !TextUtils.isEmpty(userInfo.userCount) && !TextUtils.isEmpty(userInfo.userPwd)) {
                 loginNew login = new loginNew();
                 loginReqVO loginreqvo = new loginReqVO();
                 loginreqvo._USER_NAME = userInfo.userCount;
@@ -199,7 +224,7 @@ public class DataCore {
                 login._LOGIN_PARAM = loginreqvo;
 
 
-                MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
+                MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
 
                 RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
                     if (loginNewResponseDataResponse.code == 0) {
@@ -217,21 +242,11 @@ public class DataCore {
 
     }
 
-    private void notifyDataUpdate(int dataType) {
-        if(observers != null && observers.size() > 0) {
-            Collection<DataReadyObserver> observerSet = observers.values();
-            for(DataReadyObserver observer : observerSet) {
-                if(observer != null) {
-                    observer.dataReady(dataType);
-                }
-            }
-        }
-    }
 
     @TraceTime
     private void requestVersion() {
         long startTime = System.currentTimeMillis();
-        RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL,ConfigApi.class).getConfig(), configData -> {
+        RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
             long endTime = System.currentTimeMillis();
             long requestTime = endTime - startTime;
             if (configData.netCode == 0 && configData.androidversionnew != null) {
@@ -270,8 +285,8 @@ public class DataCore {
     private void checkAdInfo(UpdateInfo updateInfo) {
         updateInfo.adInfo = getTestAdInfoData();
 //        updateInfo.isShowAd = true;
-        if(updateInfo.isShowAd && updateInfo.adInfo != null) {
-            AppEngine.getInstance().cacheData(DataSource.DB, Constants.ADINFO, updateInfo.adInfo );
+        if (updateInfo.isShowAd && updateInfo.adInfo != null) {
+            AppEngine.getInstance().cacheData(DataSource.DB, Constants.ADINFO, updateInfo.adInfo);
         } else {
             updateInfo.isShowAd = false;
         }
@@ -298,12 +313,21 @@ public class DataCore {
         return adInfo;
     }
 
+    private void requestHomeConfig() {
+        RxRepUtils.getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), configData -> {
+            if (configData.netCode == 0) {
+                this.homeConfigData = configData;
+            }
+            notifyDataUpdate(HOME);
+        });
+    }
+
     //获取广告信息
     @TraceTime
     private void getAdInfo() {
         try {
             RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getAdInfo(), configData -> {
-                if(configData.netCode == 0) {
+                if (configData.netCode == 0) {
                     dataSource.cacheData(DataSource.DISK, Constants.ADINFO, configData);
                 }
             });
@@ -324,17 +348,11 @@ public class DataCore {
         return updateInfo;
     }
 
-    public void addDataObserver(Activity activity,DataReadyObserver observer) {
-        observers.put(activity,observer);
-        Logger.i("addDataObserver----" + activity);
+    public HomeImageInfo getHomeConfigData() {
+        return homeConfigData;
     }
 
-    public void removeDataObserver(Activity activity) {
-        observers.remove(activity);
-        Logger.i("removeDataObserver----" + activity);
-    }
-
-    public interface DataReadyObserver{
+    public interface DataReadyObserver {
         void dataReady(int dataType);
     }
 

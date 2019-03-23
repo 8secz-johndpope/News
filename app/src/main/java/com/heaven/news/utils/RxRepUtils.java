@@ -51,6 +51,18 @@ public class RxRepUtils {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
 
+    private static final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER_HOME_CONFIG
+            = flowable -> flowable
+            .onErrorReturn((Function<Throwable, ConfigData>) throwable -> {
+                ConfigData configData = new ConfigData();
+                DataResponse dataResponse = ExceptionHandle.handleException(throwable);
+                configData.netCode = dataResponse.code;
+                configData.message = dataResponse.reason;
+                return configData;
+            })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread());
+
     @SuppressWarnings("unchecked")
     public static <T> FlowableTransformer<T, T> ioMain() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER;
@@ -59,6 +71,11 @@ public class RxRepUtils {
     @SuppressWarnings("unchecked")
     public static <T> FlowableTransformer<T, T> ioMainConfig() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_CONFIG;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> FlowableTransformer<T, T> ioHomeConfig() {
+        return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_HOME_CONFIG;
     }
 
 
@@ -72,6 +89,13 @@ public class RxRepUtils {
     public static <T> long getConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
         long taskId = getTaskId();
         Disposable disposable = resultFlowable.compose(ioMainConfig()).subscribe(new TaskIdConsumer<T>(taskId,consumer));
+        reqTasks.put(taskId,disposable);
+        return taskId;
+    }
+
+    public static <T> long getHomeConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
+        long taskId = getTaskId();
+        Disposable disposable = resultFlowable.compose(ioHomeConfig()).subscribe(new TaskIdConsumer<T>(taskId,consumer));
         reqTasks.put(taskId,disposable);
         return taskId;
     }

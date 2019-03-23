@@ -12,6 +12,7 @@ import java.util.List;
  * @version V1.0 首页轮播图片和推荐
  */
 public class HomeImageInfo implements Serializable {
+    public int netCode = 0;
     public List<ImageInfo> top;        //轮播图
     public List<ImageInfo> easygotop;        //易行轮播图
     public List<ImageInfo> phoenix;        //凤凰知音轮播图
