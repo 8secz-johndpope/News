@@ -30,7 +30,7 @@ public class BannerAdapter extends BaseBannerAdapter<ImageInfo> {
         View view = LayoutInflater.from(context).inflate(R.layout.banner_item,null);
         ImageView imageView = view.findViewById(R.id.banner_image);
         Glide.with(context)
-                .load(imageInfo.url)
+                .load(imageInfo.pic)
 //                .placeholder(R.mipmap.ic_launcher) // can also be a drawable
 //                .error(R.mipmap.cheese) // will be displayed if the image cannot be loaded
                 .centerCrop()

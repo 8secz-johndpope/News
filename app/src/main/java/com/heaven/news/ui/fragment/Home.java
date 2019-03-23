@@ -53,7 +53,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
 //                ToastUtils.showToast("点击了图片" + index);
         });
         mViewBinding.imageViewPager.setCurrentItem(0);
-
+        updateHomeImageData();
 
         BaseMultAdapter  adapter = new BaseMultAdapter(getContext());
 
