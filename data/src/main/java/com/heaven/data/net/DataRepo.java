@@ -215,9 +215,9 @@ public class DataRepo {
 //                    .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS,ConnectionSpec.CLEARTEXT))
                     .cookieJar(new CookiesManager(context))
                     .addInterceptor(headerInterceptor)
-//                    .addInterceptor(new NetInterceptor())
+                    .addInterceptor(new NetInterceptor())
                     .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-//                    .addInterceptor(new StethoInterceptor())
+                    .addInterceptor(new StethoInterceptor())
                     .connectionPool(new ConnectionPool(5, 5, TimeUnit.MINUTES))
                     .followRedirects(isRedirect)
                     .retryOnConnectionFailure(isRetryFailure)//连接失败后是否重新连接
