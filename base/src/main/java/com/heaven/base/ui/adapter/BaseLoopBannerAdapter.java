@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * FileName: com.heaven.base.ui.adapter.BaseBannerAdapter.java
+ * FileName: com.heaven.base.ui.adapter.BaseLoopBannerAdapter.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-23 15:21
  *
- * @version V1.0 TODO <描述当前版本功能>
+ * @version V1.0 循环banner
  */
-public abstract class BaseBannerAdapter<T> extends PagerAdapter implements View.OnClickListener, ViewPager.OnPageChangeListener {
+public abstract class BaseLoopBannerAdapter<T> extends PagerAdapter implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private Context mContext;
     private ItemClickListener itemClickListener;
     private int currentPosition = 0;
@@ -28,10 +28,8 @@ public abstract class BaseBannerAdapter<T> extends PagerAdapter implements View.
     private List<View> mConvertView = new ArrayList<>();;
     private List<T> mDataItems;
 
-    public BaseBannerAdapter(Context context, ViewPager viewPager) {
+    public BaseLoopBannerAdapter(Context context) {
         mContext = context;
-        viewPager.clearOnPageChangeListeners();
-        viewPager.addOnPageChangeListener(this);
     }
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
@@ -79,7 +77,9 @@ public abstract class BaseBannerAdapter<T> extends PagerAdapter implements View.
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
-        mConvertView.add(( View ) object);
+        if(mConvertView.size() <= getRealCount()) {
+            mConvertView.add(( View ) object);
+        }
     }
 
     /**

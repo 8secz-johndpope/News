@@ -1,6 +1,5 @@
 package com.heaven.news.ui.view.banner;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -11,19 +10,16 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.heaven.base.ui.adapter.BaseBannerAdapter;
+import com.heaven.base.ui.adapter.BaseLoopBannerAdapter;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
- * FileName: com.heaven.news.ui.view.banner.BannerViewPager.java
+ * FileName: com.heaven.news.ui.view.banner.BannerViewPagerT.java
  * author: Heaven
  * email: heavenisme@aliyun.com
- * date: 2019-03-23 21:56
+ * date: 2019-03-23 23:13
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
@@ -31,7 +27,7 @@ public class BannerViewPager extends ViewPager {
     private static final int SCROLL_MSG = 0x011;
     private int mCutDownTime = 3000;
     private BannerScroller mBannerScroller;
-    private BaseBannerAdapter  mAdapter;
+    private BaseLoopBannerAdapter mAdapter;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -44,7 +40,6 @@ public class BannerViewPager extends ViewPager {
             }
         }
     };
-
 
     public BannerViewPager(@NonNull Context context) {
         this(context, null);
@@ -68,49 +63,6 @@ public class BannerViewPager extends ViewPager {
         }
     }
 
-    public <T> void setAdapter(BaseBannerAdapter<T> adapter) {
-        mAdapter = adapter;
-        setAdapter(adapter);
-    }
-
-
-    /**
-     * 设置切换页面的持续时间
-     *
-     * @param scrollerDuration
-     */
-    public void setScrollerDuration(int scrollerDuration) {
-        mBannerScroller.setScrollerDuration(scrollerDuration);
-    }
-
-
-    private float mDownX;
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mDownX = ev.getX();
-                mHandler.removeMessages(SCROLL_MSG);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                break;
-            case MotionEvent.ACTION_UP:
-                //左滑动到第一张，跳转到最后一张
-                if (this.getCurrentItem() == 0) {
-                    if (ev.getX() - mDownX > 0) {
-                        if(mAdapter != null) {
-                            this.setCurrentItem(mAdapter.getRealCount() - 1);
-                        }
-                        Log.i("BannerViewPager", "onTouchEvent: " + this.getCurrentItem());
-                    }
-                }
-                mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
-
-                break;
-        }
-        return super.onTouchEvent(ev);
-    }
-
     /**
      * 开启轮播
      */
@@ -128,5 +80,60 @@ public class BannerViewPager extends ViewPager {
         mHandler.removeMessages(SCROLL_MSG);
         mHandler = null;
 
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mDownX = ev.getX();
+                mHandler.removeMessages(SCROLL_MSG);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                //左滑动到第一张，跳转到最后一张
+                if (this.getCurrentItem() == 0) {
+                    if (ev.getX() - mDownX > 0) {
+                        PagerAdapter pagerAdapter = getAdapter();
+                        if(pagerAdapter instanceof  BaseLoopBannerAdapter) {
+                            this.setCurrentItem(((BaseLoopBannerAdapter)pagerAdapter).getRealCount() - 1);
+                        }
+                        Log.i("BannerViewPager", "onTouchEvent: " + this.getCurrentItem());
+                    }
+                }
+                mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
+
+                break;
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    private float mDownX;
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mDownX = ev.getX();
+                mHandler.removeMessages(SCROLL_MSG);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                //左滑动到第一张，跳转到最后一张
+                if (this.getCurrentItem() == 0) {
+                    if (ev.getX() - mDownX > 0) {
+                        PagerAdapter pagerAdapter = getAdapter();
+                        if(pagerAdapter instanceof  BaseLoopBannerAdapter) {
+                            this.setCurrentItem(((BaseLoopBannerAdapter)pagerAdapter).getRealCount() - 1);
+                        }
+                        Log.i("BannerViewPager", "onTouchEvent: " + this.getCurrentItem());
+                    }
+                }
+                mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
+
+                break;
+        }
+        return super.onTouchEvent(ev);
     }
 }

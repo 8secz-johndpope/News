@@ -1,13 +1,11 @@
 package com.heaven.news.ui.adapter;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.heaven.base.ui.adapter.BaseBannerAdapter;
+import com.heaven.base.ui.adapter.BaseLoopBannerAdapter;
 import com.heaven.news.R;
 import com.heaven.news.ui.vm.model.ImageInfo;
 
@@ -19,10 +17,10 @@ import com.heaven.news.ui.vm.model.ImageInfo;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class BannerAdapter extends BaseBannerAdapter<ImageInfo> {
+public class BannerAdapter extends BaseLoopBannerAdapter<ImageInfo> {
 
-    public BannerAdapter(Context context, ViewPager viewPager) {
-        super(context, viewPager);
+    public BannerAdapter(Context context) {
+        super(context);
     }
 
     @Override

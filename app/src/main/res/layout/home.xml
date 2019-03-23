@@ -15,7 +15,7 @@
             android:clipChildren="false"
             >
 
-            <android.support.v4.view.ViewPager
+            <com.heaven.news.ui.view.banner.BannerViewPager
                 android:id="@+id/image_viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_150dp"
