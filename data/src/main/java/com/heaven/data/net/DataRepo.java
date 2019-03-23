@@ -216,7 +216,7 @@ public class DataRepo {
                     .cookieJar(new CookiesManager(context))
                     .addInterceptor(headerInterceptor)
                     .addInterceptor(new NetInterceptor())
-                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+//                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .addInterceptor(new StethoInterceptor())
                     .connectionPool(new ConnectionPool(5, 5, TimeUnit.MINUTES))
                     .followRedirects(isRedirect)
