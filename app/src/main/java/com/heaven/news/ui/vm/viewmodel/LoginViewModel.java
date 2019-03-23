@@ -17,6 +17,7 @@ import com.heaven.news.engine.ApiManager;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.vm.model.UserLoginInfo;
+import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNew;
 import com.neusoft.szair.model.memberbase.loginReqVO;
@@ -72,8 +73,7 @@ public class LoginViewModel extends BaseViewModel {
 
         MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
 
-        RxSchedulers.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
-            Logger.i("heaven---" + loginNewResponseDataResponse.toString());
+        RxRepUtils.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
             if(loginNewResponseDataResponse.code == 0) {
                 UserLoginInfo loginInfo = new UserLoginInfo();
                 loginInfo.userCount = userInfo.count;
