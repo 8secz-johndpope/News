@@ -78,7 +78,7 @@ public class DataCore {
     private String groupCode;                               //大客户编码
 
 
-    protected DataCore(DataSource dataSource) {
+    DataCore(DataSource dataSource) {
         this.dataSource = dataSource;
         this.dataSource.runWorkThread(this::prepareData);
     }
