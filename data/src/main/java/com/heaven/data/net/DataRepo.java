@@ -66,7 +66,6 @@ public class DataRepo {
     final int[] certificates;
     int timeOut = 20;
     boolean isCacheable = false;
-    boolean isTrustAll = false;
     boolean isCookie = false;
     boolean isRedirect = false;
     boolean isSslRedirect = false;
@@ -88,7 +87,6 @@ public class DataRepo {
         this.certificates = builder.certificates;
         this.timeOut = builder.timeOut;
         this.isCacheable = builder.isCacheable;
-        this.isTrustAll = builder.isTrustAll;
 
         this.isCookie = builder.isCookie;
         this.isRedirect = builder.isRedirect;
@@ -193,7 +191,6 @@ public class DataRepo {
         int[] certificates;
         int timeOut = 30;
         boolean isCacheable = false;
-        boolean isTrustAll = false;
         boolean isCookie = false;
         boolean isRedirect = true;
         boolean isSslRedirect = false;
