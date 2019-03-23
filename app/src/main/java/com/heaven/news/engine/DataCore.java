@@ -87,7 +87,7 @@ public class DataCore {
     private void prepareData() {
         requestVersion();
         autoLogin();
-        getAdInfo();
+//        getAdInfo();
     }
 
     public void initLoginData(loginNewResponse loginData) {
@@ -209,6 +209,7 @@ public class DataCore {
                         initLoginData(loginNewResponseDataResponse.data);
                         dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
                     }
+                    Logger.i("autoLogin------" + loginNewResponseDataResponse);
                     notifyDataUpdate(LOGIN);
                 });
             }
