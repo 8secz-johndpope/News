@@ -63,6 +63,10 @@ public abstract class BaseLoopBannerAdapter<T> extends PagerAdapter implements V
         View itemView = convertView == null? LayoutInflater.from(mContext).inflate(initLayoutRes(),null) : convertView;
         int realPositionn = position % mDataItems.size();
 
+        if (realPositionn<0){
+            realPositionn = getRealCount()+realPositionn;
+        }
+
         bindView(itemView,mDataItems.get(realPositionn),realPositionn);
         itemView.setOnClickListener(this);
         container.addView(itemView);
