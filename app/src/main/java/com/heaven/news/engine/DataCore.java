@@ -85,8 +85,8 @@ public class DataCore {
     }
 
     private void prepareData() {
-        requestVersion();
         autoLogin();
+        requestVersion();
 //        getAdInfo();
     }
 
