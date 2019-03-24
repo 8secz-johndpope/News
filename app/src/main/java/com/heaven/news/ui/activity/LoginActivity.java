@@ -21,8 +21,8 @@ public class LoginActivity extends BaseToolBarSimpleActivity<LoginViewModel, Log
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, dataType -> {
             if (AppEngine.instance().dataCore().isLogin()) {
                 AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN, true);
+                finish();
             }
-            finish();
         });
     }
 
