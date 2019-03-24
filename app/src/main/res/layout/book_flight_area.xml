@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_200dp"
+    android:background="@drawable/round_bg"
+    android:layout_marginTop="-30dp"
+    android:layout_marginLeft="@dimen/_15dp"
+    android:layout_marginRight="@dimen/_15dp"
+    >
+
+</LinearLayout>

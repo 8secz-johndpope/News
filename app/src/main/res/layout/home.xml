@@ -45,6 +45,9 @@
                     app:vpi_radius="3dp"/>
             </RelativeLayout>
 
+            <include layout="@layout/book_flight_area" />
+
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"

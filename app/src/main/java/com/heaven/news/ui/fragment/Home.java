@@ -36,6 +36,13 @@ import java.util.List;
 public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
     List<Object> items;
     BannerAdapter topAdapter;
+
+    @Override
+    public int initLayoutResId() {
+        return R.layout.home;
+    }
+
+
     @Override
     public void initView(View rootView) {
         topAdapter = new BannerAdapter(getContext());
@@ -87,11 +94,6 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-
-    @Override
-    public int initLayoutResId() {
-        return R.layout.home;
-    }
 
     public void updateHomeImageData() {
         HomeImageInfo homeImageInfo = AppEngine.instance().dataCore().getHomeConfigData();
