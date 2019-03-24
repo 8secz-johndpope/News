@@ -47,43 +47,13 @@ public class LoginViewModel extends BaseViewModel {
     //    @Permission(value = Manifest.permission.READ_CONTACTS)
 //    @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void login() {
-        UserLoginInfo userLoginInfo =  AppEngine.getInstance().getCacheData(DataSource.DISK, Constants.USERINFO);
-        if(userLoginInfo != null) {
-            Logger.i("login_action-----------" + "userLoginInfo--" + userLoginInfo.toString());
-        }
         AppEngine.getInstance().getDataSource().addHeader("Content-Type", "text/xml;charset=UTF-8");
         String count = userInfo.count;
         String passwords = userInfo.password;
         if(TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {
             return;
         }
-
-        loginNew login = new loginNew();
-        loginReqVO loginreqvo = new loginReqVO();
-        loginreqvo._USER_NAME = count;
-        loginreqvo._PASSWORD = Constants.getPassword(passwords);
-
-        loginreqvo._APP_ID = SOAPConstants.APP_ID;
-        loginreqvo._APP_IP = SOAPConstants.APP_IP;
-        loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
-
-        loginreqvo._DEVICE_TOKEN = "";
-        login._LOGIN_PARAM = loginreqvo;
-
-
-        MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew",login);//非短信验证码登陆，用户新接口
-
-        RxRepUtils.getResult(ApiManager.getApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
-            if(loginNewResponseDataResponse.code == 0) {
-                UserLoginInfo loginInfo = new UserLoginInfo();
-                loginInfo.userCount = userInfo.count;
-                loginInfo.userPwd = Constants.getPassword(passwords);;
-                AppEngine.getInstance().getDataSource().cacheData(DataSource.DISK,Constants.USERINFO,loginInfo);
-                AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN,true);
-                AppEngine.getInstance().dataCore().initLoginData(loginNewResponseDataResponse.data);
-                AppEngine.getInstance().getCurActivity().finish();
-            }
-        });
+        AppEngine.getInstance().dataCore().login(count,Constants.getPassword(passwords));
     }
 
     public static class UserInfo extends BaseObservable implements Serializable {

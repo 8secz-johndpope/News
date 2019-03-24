@@ -97,9 +97,7 @@ public class DataCore {
 //        getAdInfo();
     }
 
-    public void initLoginData(loginNewResponse loginData) {
-        if (loginData != null) {
-            queryRespVO userInfo = loginData._LOGIN_RESULT;
+    public void initLoginData(queryRespVO userInfo) {
             if (userInfo != null) {
                 hasLogin = true;
                 userAllInfo = userInfo;
@@ -112,11 +110,11 @@ public class DataCore {
                 if (userInfo._GROUP_INFO != null) {
                     groupCode = userInfo._GROUP_INFO._CUS_BIG_CODE;
                 }
-                if (loginData._LOGIN_RESULT._VIP != null) {
-                    if (loginData._LOGIN_RESULT._VIP._VIPDETAILS != null) {
-                        initUserName(loginData._LOGIN_RESULT._VIP._VIPDETAILS);
-                        if (loginData._LOGIN_RESULT._VIP._VIP_DOCUMENTS != null) {
-                            userIdNumber(loginData._LOGIN_RESULT._VIP._VIP_DOCUMENTS);
+                if (userInfo._VIP != null) {
+                    if (userInfo._VIP._VIPDETAILS != null) {
+                        initUserName(userInfo._VIP._VIPDETAILS);
+                        if (userInfo._VIP._VIP_DOCUMENTS != null) {
+                            userIdNumber(userInfo._VIP._VIP_DOCUMENTS);
                         }
                     }
                 }
@@ -128,7 +126,6 @@ public class DataCore {
                 phoenixInfo(userInfo._MEMBER, userInfo._CREDENTIAL_LIST);
                 userNameLive.setValue(userName);
             }
-        }
     }
 
     private void initUserName(vipDetails userVipDetails) {
@@ -194,30 +191,7 @@ public class DataCore {
         if (isAutoLogin) {
             UserLoginInfo userInfo = dataSource.getCacheEntity(DataSource.DISK, Constants.USERINFO);
             if (userInfo != null && !TextUtils.isEmpty(userInfo.userCount) && !TextUtils.isEmpty(userInfo.userPwd)) {
-                loginNew login = new loginNew();
-                loginReqVO loginreqvo = new loginReqVO();
-                loginreqvo._USER_NAME = userInfo.userCount;
-                loginreqvo._PASSWORD = userInfo.userPwd;
-
-                loginreqvo._APP_ID = SOAPConstants.APP_ID;
-                loginreqvo._APP_IP = SOAPConstants.APP_IP;
-                loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
-
-                loginreqvo._DEVICE_TOKEN = "";
-                login._LOGIN_PARAM = loginreqvo;
-
-
-                MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
-
-                RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
-                    if (loginNewResponseDataResponse.code == 0) {
-                        UserLoginInfo userLoginInfo = new UserLoginInfo();
-                        userLoginInfo.userCount = userInfo.userCount;
-                        userLoginInfo.userPwd = userInfo.userPwd;
-                        initLoginData(loginNewResponseDataResponse.data);
-                        dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
-                    }
-                });
+                login(userInfo.userCount, userInfo.userPwd);
             }
         }
     }
@@ -240,14 +214,16 @@ public class DataCore {
             MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
 
             RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
-                if (loginNewResponseDataResponse.code == 0) {
-                    UserLoginInfo userLoginInfo = new UserLoginInfo();
-                    userLoginInfo.userCount = userCount;
-                    userLoginInfo.userPwd = pwd;
-                    initLoginData(loginNewResponseDataResponse.data);
-                    userNameLive.setValue(userName);
-                    dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
+                if (loginNewResponseDataResponse.code == 0 && loginNewResponseDataResponse.data != null && loginNewResponseDataResponse.data._LOGIN_RESULT != null) {
+                    if("0".equals(loginNewResponseDataResponse.data._LOGIN_RESULT._CODE)) {
+                        UserLoginInfo userLoginInfo = new UserLoginInfo();
+                        userLoginInfo.userCount = userCount;
+                        userLoginInfo.userPwd = pwd;
+                        initLoginData(loginNewResponseDataResponse.data._LOGIN_RESULT);
+                        dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
+                    }
                 }
+                userNameLive.setValue(userName);
             });
         }
     }
