@@ -17,15 +17,13 @@
         >
         <android.support.design.widget.TabLayout
             android:id="@+id/book_tab"
-            style="@style/MyCustomTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             app:tabBackground="@color/white"
-            app:tabIndicatorColor="@color/app_main_color"
+            app:tabIndicatorColor="@android:color/transparent"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/app_main_color"
-            app:tabTextColor="@color/app_sub_font_color"/>
+            />
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"

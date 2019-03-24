@@ -90,7 +90,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         int[] mBottomBarImageIds = getResourceId(R.array.bottom_bar_img);
         int tabCount = mViewBinding.tablayout.getTabCount();
         for (int i = 0; i < tabCount; i++) {
-            TextView barItem = (TextView) LayoutInflater.from(this).inflate(R.layout.bottom_tab_item, null);
+            TextView barItem = (TextView) LayoutInflater.from(this).inflate(R.layout.main_tab_item, null);
             barItem.setText(bottomBarList[i]);
             Drawable image = getResources().getDrawable(mBottomBarImageIds[i]);
             if (image != null) {

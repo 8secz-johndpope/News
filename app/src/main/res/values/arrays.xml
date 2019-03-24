@@ -14,6 +14,14 @@
         <item>最新</item>
     </string-array>
 
+
+    <string-array name="book_type">
+        <item>@string/flight_only_go</item>
+        <item>@string/flight_go_back</item>
+        <item>@string/flight_mult</item>
+    </string-array>
+
+
     <string-array name="bottom_bar_img">
         <item>@drawable/tab_home</item>
         <item>@drawable/tab_route</item>

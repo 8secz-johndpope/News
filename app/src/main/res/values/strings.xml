@@ -10,4 +10,8 @@
     <string name="login_regist">登录/注册</string>
     <string name="welcom_login">欢迎登录</string>
 
+    <string name="flight_only_go">单程</string>
+    <string name="flight_go_back">往返</string>
+    <string name="flight_mult">多程</string>
+
 </resources>

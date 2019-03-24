@@ -1,7 +1,9 @@
 package com.heaven.news.ui.fragment;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.heaven.base.ui.adapter.BaseMultAdapter;
@@ -30,7 +33,9 @@ import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
+import com.heaven.news.utils.UIUtil;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -73,7 +78,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     }
 
     private void initBookTab() {
-        final String[] bottomBarList = getResources().getStringArray(R.array.bottom_bar_name);
+        final String[] bottomBarList = getResources().getStringArray(R.array.book_type);
         Bundle paramBundle = new Bundle();
         paramBundle.putInt("wx_type", 1);
 
@@ -91,6 +96,75 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
+        int[] mBottomBarImageIds = getResourceId(R.array.bottom_bar_img);
+        int tabCount = tabLayout.getTabCount();
+        for (int i = 0; i < tabCount; i++) {
+            View barItem =  LayoutInflater.from(getContext()).inflate(R.layout.bottom_tab_item, null);
+           TextView barName = barItem.findViewById(R.id.bottom_bar_name);
+            barName.setText(bottomBarList[i]);
+//            Drawable image = getResources().getDrawable(mBottomBarImageIds[i]);
+//            if (image != null) {
+//                image.setBounds(0, 0, image.getMinimumWidth(), image.getMinimumHeight());
+//                barItem.setCompoundDrawables(null, image, null, null);
+//            }
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null) {
+                tab.setCustomView(barItem);
+            }
+        }
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        setTabWidth(tabLayout,0);
+    }
+
+
+    public void setTabWidth(final TabLayout tabLayout, final int padding){
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //拿到tabLayout的mTabStrip属性
+                    LinearLayout mTabStrip = (LinearLayout) tabLayout.getChildAt(0);
+
+
+
+                    for (int i = 0; i < mTabStrip.getChildCount(); i++) {
+                        View tabView = mTabStrip.getChildAt(i);
+
+                        //拿到tabView的mTextView属性  tab的字数不固定一定用反射取mTextView
+                        Field mTextViewField = tabView.getClass().getDeclaredField("mTextView");
+                        mTextViewField.setAccessible(true);
+
+                        TextView mTextView = (TextView) mTextViewField.get(tabView);
+
+                        tabView.setPadding(0, 0, 0, 0);
+
+                        //因为我想要的效果是   字多宽线就多宽，所以测量mTextView的宽度
+                        int width = 0;
+                        width = mTextView.getWidth();
+                        if (width == 0) {
+                            mTextView.measure(0, 0);
+                            width = mTextView.getMeasuredWidth();
+                        }
+
+                        //设置tab左右间距 注意这里不能使用Padding 因为源码中线的宽度是根据 tabView的宽度来设置的
+                        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tabView.getLayoutParams();
+                        params.width = width ;
+                        params.leftMargin = padding;
+                        params.rightMargin = padding;
+                        tabView.setLayoutParams(params);
+
+                        tabView.invalidate();
+                    }
+
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     private void initMult() {
