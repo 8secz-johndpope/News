@@ -138,8 +138,8 @@ public class RxRepUtils {
         @Override
         public void accept(T t) throws Exception {
             if (resultConsumer != null) {
-                cancelTask(taskid);
                 resultConsumer.accept(t);
+                cancelTask(taskid);
             }
         }
     }
