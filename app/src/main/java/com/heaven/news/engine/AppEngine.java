@@ -563,7 +563,6 @@ public final class AppEngine {
         @Override
         public void onActivityDestroyed(final Activity activity) {
             store.remove(activity);
-            mDataCore.removeDataObserver(activity);
         }
     }
 

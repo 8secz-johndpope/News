@@ -1,10 +1,12 @@
 package com.heaven.news.engine;
 
 import android.app.Activity;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.text.TextUtils;
-import android.util.SparseArray;
 
 import com.heaven.annotation.aspect.TraceTime;
+import com.heaven.base.ui.activity.BaseActivity;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
@@ -15,7 +17,6 @@ import com.heaven.news.ui.vm.model.ConfigData;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.UserLoginInfo;
 import com.heaven.news.ui.vm.model.Version;
-import com.heaven.news.ui.vm.viewmodel.WelecomModel;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.member.addressVo;
 import com.neusoft.szair.model.member.credentialVo;
@@ -37,7 +38,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * FileName: com.heaven.news.engine.DataCore.java
@@ -54,12 +54,14 @@ public class DataCore {
     public static int LOGIN = 2;
     public static int MILE = 3;
 
+    public final MutableLiveData<String> userNameLive = new MutableLiveData<>();
+    public final MutableLiveData<ConfigData> configLive = new MutableLiveData<>();
+    public final MutableLiveData<HomeImageInfo> homeConfigLive = new MutableLiveData<>();
+
     private DataSource dataSource;
-    private Map<Activity, DataReadyObserver> observers = new HashMap<>();
 
     private ConfigData configData;
     private HomeImageInfo homeConfigData;
-    private UpdateInfo updateInfo;
     private queryRespVO userAllInfo;
 
     private boolean hasLogin;
@@ -87,26 +89,6 @@ public class DataCore {
         this.dataSource.runWorkThread(this::prepareData);
     }
 
-    private void notifyDataUpdate(int dataType) {
-        if (observers != null && observers.size() > 0) {
-            Collection<DataReadyObserver> observerSet = observers.values();
-            for (DataReadyObserver observer : observerSet) {
-                if (observer != null) {
-                    observer.dataReady(dataType);
-                }
-            }
-        }
-    }
-
-    public void addDataObserver(Activity activity, DataReadyObserver observer) {
-        observers.put(activity, observer);
-        Logger.i("addDataObserver----" + activity);
-    }
-
-    public void removeDataObserver(Activity activity) {
-        observers.remove(activity);
-        Logger.i("removeDataObserver----" + activity);
-    }
 
     private void prepareData() {
         autoLogin();
@@ -232,10 +214,10 @@ public class DataCore {
                         userLoginInfo.userCount = userInfo.userCount;
                         userLoginInfo.userPwd = userInfo.userPwd;
                         initLoginData(loginNewResponseDataResponse.data);
+                        userNameLive.setValue(userName);
                         dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
                     }
                     Logger.i("autoLogin------" + loginNewResponseDataResponse);
-                    notifyDataUpdate(LOGIN);
                 });
             }
         }
@@ -245,80 +227,25 @@ public class DataCore {
 
     @TraceTime
     private void requestVersion() {
-        long startTime = System.currentTimeMillis();
         RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
-            long endTime = System.currentTimeMillis();
-            long requestTime = endTime - startTime;
+            this.configData = configData;
+            configLive.setValue(configData);
             if (configData.netCode == 0 && configData.androidversionnew != null) {
                 this.configData = configData;
-                checkVersion(configData.androidversionnew);
+                configLive.setValue(configData);
             } else {
-                updateInfo = new UpdateInfo();
-                updateInfo.requestTime = requestTime;
-                updateInfo.isNetError = true;
-                updateInfo.reason = configData.message;
-                processNextStep(updateInfo);
+                configLive.setValue(configData);
             }
-            notifyDataUpdate(VERSION);
         });
     }
 
-    private void checkVersion(Version version) {
-        AppInfo appInfo = AppEngine.getInstance().getAppConfig();
-        updateInfo = new UpdateInfo();
-        updateInfo.updateUrl = version.url;
-        updateInfo.updateMessage = version.txt;
-        if (version.cversion > 65534) {
-            updateInfo.isServiceMainta = true;
-        } else {
-            if (appInfo.verCode < version.cversion) {
-                updateInfo.needUpdate = true;
-                if (appInfo.verCode < version.fversion) {
-                    updateInfo.isForceUpdate = true;
-                }
-            }
-        }
-        checkAdInfo(updateInfo);
-        processNextStep(updateInfo);
-    }
-
-    private void checkAdInfo(UpdateInfo updateInfo) {
-        updateInfo.adInfo = getTestAdInfoData();
-//        updateInfo.isShowAd = true;
-        if (updateInfo.isShowAd && updateInfo.adInfo != null) {
-            AppEngine.getInstance().cacheData(DataSource.DB, Constants.ADINFO, updateInfo.adInfo);
-        } else {
-            updateInfo.isShowAd = false;
-        }
-    }
-
-
-    private void processNextStep(UpdateInfo updateInfo) {
-        boolean isOldUser = AppEngine.getInstance().getDataSource().getSharePreBoolean(Constants.ISOLDUSER);
-        if (isOldUser) {
-            updateInfo.nextGuidePage = false;
-        } else {
-            updateInfo.nextGuidePage = true;
-        }
-        AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISOLDUSER, true);
-    }
-
-    private AdInfo getTestAdInfoData() {
-        AdInfo adInfo = new AdInfo();
-        adInfo.isVideo = false;
-        adInfo.urlImage = "http://img0.imgtn.bdimg.com/it/u=1344159241,3681424911&fm=26&gp=0.jpg";
-        adInfo.urlVideo = "";
-        adInfo.content = "百思不得姐减肥肯定是怕几点睡激动是怕";
-
-        return adInfo;
-    }
 
     private void requestHomeConfig() {
         RxRepUtils.getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), configData -> {
             if (configData.netCode == 0) {
                 this.homeConfigData = configData;
+                homeConfigLive.setValue(homeConfigData);
             }
-            notifyDataUpdate(HOME);
         });
     }
 
@@ -344,16 +271,25 @@ public class DataCore {
         return userName;
     }
 
-    public UpdateInfo getUpdateInfo() {
-        return updateInfo;
+    public ConfigData getConfigData() {
+        return configData;
     }
 
     public HomeImageInfo getHomeConfigData() {
         return homeConfigData;
     }
 
-    public interface DataReadyObserver {
-        void dataReady(int dataType);
+
+    public void registLoginObserver(BaseActivity activity, Observer<String> userName) {
+        userNameLive.observe(activity,userName);
+    }
+
+    public void registConfigObserver(BaseActivity activity, Observer<ConfigData> configObserver) {
+        configLive.observe(activity,configObserver);
+    }
+
+    public void registHomeConfigObserver(BaseActivity activity, Observer<HomeImageInfo> homeImageInfoObserver) {
+        homeConfigLive.observe(activity,homeImageInfoObserver);
     }
 
 

@@ -12,11 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.news.R;
 import com.heaven.news.databinding.MainBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.base.BaseToolBarSimpleActivity;
 import com.heaven.news.ui.fragment.EasyGo;
@@ -40,7 +38,7 @@ import java.util.List;
  * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainBinding> implements ViewPager.OnPageChangeListener, View.OnClickListener, DataCore.DataReadyObserver {
+public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainBinding> implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private List<Fragment> mainList = new ArrayList<>();
 
     @Override
@@ -57,12 +55,18 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        AppEngine.getInstance().dataCore().addDataObserver(this,this);
         setTitle(R.string.toobar_home);
         initViewPager();
         initBottomTabLayout();
         showHomeTitle(false);
         addToolBarListener(this);
+        AppEngine.getInstance().dataCore().registLoginObserver(this, s -> {
+            updateData();
+        });
+
+        AppEngine.getInstance().dataCore().registHomeConfigObserver(this, homeImageInfo -> {
+            updateData();
+        });
     }
 
     private void initViewPager() {
@@ -147,7 +151,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     @Override
     protected void onResume() {
         super.onResume();
-        updateLoginInfo();
+        updateData();
     }
 
     @Override
@@ -162,21 +166,14 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         }
     }
 
-    @Override
-    public void dataReady(int dataType) {
-        if(DataCore.LOGIN == dataType) {
-            updateLoginInfo();
-        } else if(DataCore.HOME == dataType) {
-          Home home = (Home) mainList.get(0);
-          home.updateHomeImageData();
-        }
-    }
 
-    private void updateLoginInfo() {
+    private void updateData() {
         if (AppEngine.getInstance().dataCore().isLogin()) {
             setExtaTitle(AppEngine.getInstance().dataCore().getUserName());
         } else {
             setExtaTitle(R.string.login_regist);
         }
+        Home home = (Home) mainList.get(0);
+        home.updateHomeImageData();
     }
 }
