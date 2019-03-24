@@ -93,21 +93,21 @@ public class RxRepUtils {
     }
 
 
-    public <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
+    public synchronized <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
         Disposable disposable = resultFlowable.compose(ioMain()).subscribe(new TaskIdConsumer<T>(taskId,consumer));
         reqTasks.put(taskId,disposable);
         return taskId;
     }
 
-    public <T> long getConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
+    public synchronized <T> long getConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
         long taskId = getTaskId();
         Disposable disposable = resultFlowable.compose(ioMainConfig()).subscribe(new TaskIdConsumer<T>(taskId,consumer));
         reqTasks.put(taskId,disposable);
         return taskId;
     }
 
-    public <T> long getHomeConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
+    public synchronized <T> long getHomeConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
         long taskId = getTaskId();
         Disposable disposable = resultFlowable.compose(ioHomeConfig()).subscribe(new TaskIdConsumer<T>(taskId,consumer));
         reqTasks.put(taskId,disposable);

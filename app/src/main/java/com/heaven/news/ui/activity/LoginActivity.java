@@ -17,6 +17,11 @@ public class LoginActivity extends BaseToolBarSimpleActivity<LoginViewModel, Log
     public void initView(View rootView) {
         super.initView(rootView);
         showBackTitleBarTitle(R.string.welcom_login);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, dataType -> {
             finish();
         });
