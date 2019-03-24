@@ -35,6 +35,7 @@ public class LoginViewModel extends BaseViewModel {
             return;
         }
         AppEngine.instance().dataCore().login(count,Constants.getPassword(passwords));
+        AppEngine.instance().getCurActivity().finish();
     }
 
     public static class UserInfo extends BaseObservable implements Serializable {

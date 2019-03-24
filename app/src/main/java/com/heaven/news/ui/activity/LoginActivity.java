@@ -22,9 +22,9 @@ public class LoginActivity extends BaseToolBarSimpleActivity<LoginViewModel, Log
     @Override
     protected void onResume() {
         super.onResume();
-        AppEngine.instance().dataCore().registerDataTypeObaserver(this, dataType -> {
-            finish();
-        });
+//        AppEngine.instance().dataCore().registerDataTypeObaserver(this, dataType -> {
+//            finish();
+//        });
     }
 
     @Override
