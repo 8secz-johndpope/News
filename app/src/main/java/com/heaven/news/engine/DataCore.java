@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.heaven.annotation.aspect.TraceTime;
@@ -57,7 +58,7 @@ public class DataCore {
     public static int MILE = 3;
 
     public MediatorLiveData mediatorLiveData = new MediatorLiveData();
-    public final MutableLiveData<Integer> dataTypeLive = new MutableLiveData<>();
+    private ArrayList<MutableLiveData<Integer>> dataTypeList = new ArrayList<>();
 
     private DataSource dataSource;
 
@@ -223,7 +224,7 @@ public class DataCore {
                         dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
                     }
                 }
-                dataTypeLive.postValue(LOGIN);
+                notifyCoreDataChange(LOGIN);
             });
         }
     }
@@ -234,9 +235,9 @@ public class DataCore {
         RxRepUtils.instance().getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
             this.configData = configData;
             if (configData.netCode == 0 && configData.androidversionnew != null) {
-                dataTypeLive.postValue(VERSION);
+                notifyCoreDataChange(VERSION);
             } else {
-                dataTypeLive.postValue(VERSION);
+                notifyCoreDataChange(VERSION);
             }
         });
     }
@@ -244,9 +245,9 @@ public class DataCore {
 
     private void requestHomeConfig() {
         RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
-            if (configData.netCode == 0) {
+            if (homeConfigData.netCode == 0) {
                 this.homeConfigData = homeConfigData;
-                dataTypeLive.postValue(HOME);
+                notifyCoreDataChange(HOME);
             }
         });
     }
@@ -270,7 +271,18 @@ public class DataCore {
 
 
     public void registerDataTypeObaserver(LifecycleOwner lifecycleOwner,Observer<Integer> typeObserver) {
+        MutableLiveData<Integer> dataTypeLive = new MutableLiveData<>();
         dataTypeLive.observe(lifecycleOwner,typeObserver);
+        dataTypeList.add(dataTypeLive);
     }
 
+    private void notifyCoreDataChange(int dataType) {
+        if(dataTypeList != null && dataTypeList.size() > 0) {
+            for(MutableLiveData<Integer> mutableLiveData : dataTypeList) {
+                if(mutableLiveData != null) {
+                    mutableLiveData.postValue(dataType);
+                }
+            }
+        }
+    }
 }

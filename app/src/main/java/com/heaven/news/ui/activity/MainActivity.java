@@ -61,6 +61,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         initBottomTabLayout();
         showHomeTitle(false);
         addToolBarListener(this);
+        updateData(DataCore.LOGIN);
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, this::updateData);
     }
 
@@ -163,12 +164,13 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
 
 
     private void updateData(int dataType) {
-        if (AppEngine.instance().dataCore().isLogin()) {
-            setExtaTitle(AppEngine.instance().dataCore().getUserName());
-        } else {
-            setExtaTitle(R.string.login_regist);
-        }
-        if (DataCore.HOME == dataType) {
+        if(DataCore.LOGIN == dataType) {
+            if (AppEngine.instance().dataCore().isLogin()) {
+                setExtaTitle(AppEngine.instance().dataCore().getUserName());
+            } else {
+                setExtaTitle(R.string.login_regist);
+            }
+        } else if (DataCore.HOME == dataType) {
             Home home = (Home) mainList.get(0);
             home.updateHomeImageData();
         }

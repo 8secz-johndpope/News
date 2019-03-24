@@ -3,6 +3,7 @@ package com.heaven.news.ui.activity;
 import android.view.View;
 
 import com.heaven.news.R;
+import com.heaven.news.consts.Constants;
 import com.heaven.news.databinding.LoginBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.base.BaseToolBarSimpleActivity;
@@ -17,14 +18,17 @@ public class LoginActivity extends BaseToolBarSimpleActivity<LoginViewModel, Log
     public void initView(View rootView) {
         super.initView(rootView);
         showBackTitleBarTitle(R.string.welcom_login);
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this, dataType -> {
+            if (AppEngine.instance().dataCore().isLogin()) {
+                AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN, true);
+            }
+            finish();
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        AppEngine.instance().dataCore().registerDataTypeObaserver(this, dataType -> {
-//            finish();
-//        });
     }
 
     @Override
