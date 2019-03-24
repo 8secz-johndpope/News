@@ -57,9 +57,6 @@ public class DataCore {
     public static int MILE = 3;
 
     public MediatorLiveData mediatorLiveData = new MediatorLiveData();
-    public final MutableLiveData<String> userNameLive = new MutableLiveData<>();
-    public final MutableLiveData<ConfigData> configLive = new MutableLiveData<>();
-    public final MutableLiveData<HomeImageInfo> homeConfigLive = new MutableLiveData<>();
     public final MutableLiveData<Integer> dataTypeLive = new MutableLiveData<>();
 
     private DataSource dataSource;
@@ -128,7 +125,6 @@ public class DataCore {
                 mail = userInfo._EMAIL;
 
                 phoenixInfo(userInfo._MEMBER, userInfo._CREDENTIAL_LIST);
-                userNameLive.postValue(userName);
             }
     }
 
@@ -237,14 +233,10 @@ public class DataCore {
     private void requestVersion() {
         RxRepUtils.instance().getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
             this.configData = configData;
-            configLive.setValue(configData);
             if (configData.netCode == 0 && configData.androidversionnew != null) {
-                this.configData = configData;
                 dataTypeLive.postValue(VERSION);
-                configLive.postValue(configData);
             } else {
                 dataTypeLive.postValue(VERSION);
-                configLive.postValue(configData);
             }
         });
     }
@@ -254,7 +246,6 @@ public class DataCore {
         RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), configData -> {
             if (configData.netCode == 0) {
                 this.homeConfigData = configData;
-                homeConfigLive.postValue(homeConfigData);
                 dataTypeLive.postValue(HOME);
             }
         });
@@ -280,18 +271,6 @@ public class DataCore {
 
     public void registerDataTypeObaserver(LifecycleOwner lifecycleOwner,Observer<Integer> typeObserver) {
         dataTypeLive.observe(lifecycleOwner,typeObserver);
-    }
-
-    public void registLoginObserver(BaseActivity activity, Observer<String> typeObserver) {
-//        userNameLive.observe(activity,userName);
-    }
-
-    public void registConfigObserver(BaseActivity activity, Observer<ConfigData> configObserver) {
-        configLive.observe(activity,configObserver);
-    }
-
-    public void registHomeConfigObserver(BaseActivity activity, Observer<HomeImageInfo> homeImageInfoObserver) {
-//        homeConfigLive.observe(activity,homeImageInfoObserver);
     }
 
 }
