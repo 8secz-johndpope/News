@@ -44,9 +44,9 @@ public class DbRealmAspect {
                     @Override
                     public void accept(Object o) throws Exception {
                         if (o instanceof List) {
-                            AppEngine.getInstance().cacheData(DataSource.DB, null, o);
+                            AppEngine.instance().cacheData(DataSource.DB, null, o);
                         } else {
-                            AppEngine.getInstance().cacheData(DataSource.DB, null, o);
+                            AppEngine.instance().cacheData(DataSource.DB, null, o);
                         }
                     }
                 });

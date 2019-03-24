@@ -2,17 +2,13 @@ package com.heaven.news.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
-import com.heaven.news.databinding.RouteBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.DataCore;
 import com.heaven.news.manyData.adapter.ItemVIew01;
 import com.heaven.news.manyData.adapter.ItemVIew02;
 import com.heaven.news.manyData.adapter.ItemVIew03;
@@ -98,7 +94,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
     }
 
     public void updateHomeImageData() {
-        HomeImageInfo homeImageInfo = AppEngine.getInstance().dataCore().getHomeConfigData();
+        HomeImageInfo homeImageInfo = AppEngine.instance().dataCore().getHomeConfigData();
         if(mViewBinding != null && homeImageInfo != null) {
             if(homeImageInfo.top != null && homeImageInfo.top.size() > 0) {
                 mViewBinding.indicators.setViewPager(mViewBinding.imageViewPager,  homeImageInfo.top.size());

@@ -1,6 +1,8 @@
 package com.heaven.news.engine;
 
 import android.app.Activity;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.text.TextUtils;
@@ -54,9 +56,11 @@ public class DataCore {
     public static int LOGIN = 2;
     public static int MILE = 3;
 
+    public MediatorLiveData mediatorLiveData = new MediatorLiveData();
     public final MutableLiveData<String> userNameLive = new MutableLiveData<>();
     public final MutableLiveData<ConfigData> configLive = new MutableLiveData<>();
     public final MutableLiveData<HomeImageInfo> homeConfigLive = new MutableLiveData<>();
+    public final MutableLiveData<Integer> dataTypeLive = new MutableLiveData<>();
 
     private DataSource dataSource;
 
@@ -213,7 +217,7 @@ public class DataCore {
 
             MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
 
-            RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
+            RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
                 if (loginNewResponseDataResponse.code == 0 && loginNewResponseDataResponse.data != null && loginNewResponseDataResponse.data._LOGIN_RESULT != null) {
                     if("0000".equals(loginNewResponseDataResponse.data._LOGIN_RESULT._CODE)) {
                         UserLoginInfo userLoginInfo = new UserLoginInfo();
@@ -223,7 +227,7 @@ public class DataCore {
                         dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
                     }
                 }
-                userNameLive.postValue(userName);
+                dataTypeLive.postValue(LOGIN);
             });
         }
     }
@@ -231,13 +235,15 @@ public class DataCore {
 
     @TraceTime
     private void requestVersion() {
-        RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
+        RxRepUtils.instance().getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
             this.configData = configData;
             configLive.setValue(configData);
             if (configData.netCode == 0 && configData.androidversionnew != null) {
                 this.configData = configData;
+                dataTypeLive.postValue(VERSION);
                 configLive.postValue(configData);
             } else {
+                dataTypeLive.postValue(VERSION);
                 configLive.postValue(configData);
             }
         });
@@ -245,10 +251,11 @@ public class DataCore {
 
 
     private void requestHomeConfig() {
-        RxRepUtils.getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), configData -> {
+        RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), configData -> {
             if (configData.netCode == 0) {
                 this.homeConfigData = configData;
                 homeConfigLive.postValue(homeConfigData);
+                dataTypeLive.postValue(HOME);
             }
         });
     }
@@ -271,8 +278,12 @@ public class DataCore {
     }
 
 
-    public void registLoginObserver(BaseActivity activity, Observer<String> userName) {
-        userNameLive.observe(activity,userName);
+    public void registerDataTypeObaserver(LifecycleOwner lifecycleOwner,Observer<Integer> typeObserver) {
+        dataTypeLive.observe(lifecycleOwner,typeObserver);
+    }
+
+    public void registLoginObserver(BaseActivity activity, Observer<String> typeObserver) {
+//        userNameLive.observe(activity,userName);
     }
 
     public void registConfigObserver(BaseActivity activity, Observer<ConfigData> configObserver) {
@@ -280,7 +291,7 @@ public class DataCore {
     }
 
     public void registHomeConfigObserver(BaseActivity activity, Observer<HomeImageInfo> homeImageInfoObserver) {
-        homeConfigLive.observe(activity,homeImageInfoObserver);
+//        homeConfigLive.observe(activity,homeImageInfoObserver);
     }
 
 }

@@ -70,6 +70,8 @@ public final class AppEngine {
 
     private DataCore mDataCore;
 
+    private Api mApi;
+
     /**
      * 后台服务中心
      */
@@ -113,7 +115,7 @@ public final class AppEngine {
         //上下文代理
         appDelegate = App.getAppDelegate();
         //启动后台服务
-//        ServiceCore.getInstance(appDelegate.context());
+//        ServiceCore.instance(appDelegate.context());
         //白天黑夜切换
         SpUtil.init(appDelegate.app());
         int type = SpUtil.isNight() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
@@ -248,6 +250,7 @@ public final class AppEngine {
         engineComponent = DaggerEngineComponent.builder().engineModule(new EngineModule(context)).build();
         mDataSource = engineComponent.dataSource();
         mDataCore = engineComponent.dataCore();
+        mApi = engineComponent.api();
 //        mServiceCore = engineComponent.serviceCore();
     }
 
@@ -256,7 +259,7 @@ public final class AppEngine {
      *
      * @return 返回引擎
      */
-    public static AppEngine getInstance() {
+    public static AppEngine instance() {
         if (instance == null) {
             synchronized (AppEngine.class) {
                 if (instance == null) {
@@ -292,6 +295,11 @@ public final class AppEngine {
         mDataCore = engineComponent.dataCore();
         return mDataCore;
     }
+
+    public Api api() {
+        return mApi;
+    }
+
     /**
      * 缓存数据
      *
@@ -453,33 +461,6 @@ public final class AppEngine {
         return userId;
     }
 
-    /**
-     * 取得网络数据源的api
-     *
-     * @param apiClass
-     *         api接口
-     * @param <T>
-     *         泛型
-     *
-     * @return api
-     */
-    <T> T getNetApi(Class<T> apiClass) {
-        return mDataSource.getNetApi(apiClass);
-    }
-
-    /**
-     * 取得网络数据源的api
-     *
-     * @param apiClass
-     *         api接口
-     * @param <T>
-     *         泛型
-     *
-     * @return api
-     */
-    <T> T getNetApi(String url, Class<T> apiClass) throws Exception {
-        return mDataSource.getNetApi(url, apiClass);
-    }
 
     public ServiceCore getServiceCore() {
         return engineComponent.serviceCore();

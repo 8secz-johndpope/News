@@ -27,8 +27,8 @@ public class CheckLoginAspect {
 
     @Around("methodAnnotated()")//在连接点进行方法替换
     public void aroundJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
-        if (null == AppEngine.getInstance().getUserInfo()) {
-            Snackbar.make(AppEngine.getInstance().getCurActivity().getWindow().getDecorView(), "请先登录!", Snackbar.LENGTH_LONG)
+        if (null == AppEngine.instance().getUserInfo()) {
+            Snackbar.make(AppEngine.instance().getCurActivity().getWindow().getDecorView(), "请先登录!", Snackbar.LENGTH_LONG)
                     .setAction("登录", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

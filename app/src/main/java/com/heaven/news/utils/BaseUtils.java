@@ -154,7 +154,7 @@ public class BaseUtils {
      */
     public static String saveFile(ByteArrayOutputStream baos, String fileName)
             throws Exception {
-        String Path = AppEngine.getInstance().getFilesDir();
+        String Path = AppEngine.instance().getFilesDir();
         File dirFile = new File(Path);
         if (!dirFile.exists()) {
             dirFile.mkdir();

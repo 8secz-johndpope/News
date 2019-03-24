@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.heaven.news.R;
 import com.heaven.news.databinding.MainBinding;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.base.BaseToolBarSimpleActivity;
 import com.heaven.news.ui.fragment.EasyGo;
@@ -60,13 +61,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         initBottomTabLayout();
         showHomeTitle(false);
         addToolBarListener(this);
-        AppEngine.getInstance().dataCore().registLoginObserver(this, s -> {
-            updateData();
-        });
-
-        AppEngine.getInstance().dataCore().registHomeConfigObserver(this, homeImageInfo -> {
-            updateData();
-        });
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this, this::updateData);
     }
 
     private void initViewPager() {
@@ -151,13 +146,13 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     @Override
     protected void onResume() {
         super.onResume();
-        updateData();
+//        updateData();
     }
 
     @Override
     public void onClick(View v) {
         if (R.id.extra_function == v.getId()) {
-            if (AppEngine.getInstance().dataCore().isLogin()) {
+            if (AppEngine.instance().dataCore().isLogin()) {
 
             } else {
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -167,13 +162,16 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     }
 
 
-    private void updateData() {
-        if (AppEngine.getInstance().dataCore().isLogin()) {
-            setExtaTitle(AppEngine.getInstance().dataCore().getUserName());
+    private void updateData(int dataType) {
+        if (AppEngine.instance().dataCore().isLogin()) {
+            setExtaTitle(AppEngine.instance().dataCore().getUserName());
         } else {
             setExtaTitle(R.string.login_regist);
         }
-        Home home = (Home) mainList.get(0);
-        home.updateHomeImageData();
+        if (DataCore.HOME == dataType) {
+            Home home = (Home) mainList.get(0);
+            home.updateHomeImageData();
+        }
+
     }
 }

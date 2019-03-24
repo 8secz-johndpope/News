@@ -14,7 +14,7 @@ public class KeyGenerator {
 	}
 	
 	public String getKey() {
-		//String timestampt = YMDHMS.format(Calendar.getInstance().getTime());
+		//String timestampt = YMDHMS.format(Calendar.instance().getTime());
 		double sec = System.currentTimeMillis()/1000.0d;
         String timestampt = String.valueOf(sec);
         //String timestampt = "2014-08-11 22:15:45";

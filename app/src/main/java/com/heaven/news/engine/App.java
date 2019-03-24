@@ -46,7 +46,7 @@ public class App extends Application{
             // 2、相关Service调用
             AppEngine.initEngine();
         } else {
-//            AppEngine.getInstance().initNim();
+//            AppEngine.instance().initNim();
         }
 //        this.initializeLeakDetection();
     }

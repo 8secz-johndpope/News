@@ -57,7 +57,7 @@ public class AuthPaymentAspect {
 
     @AfterReturning(value = "executionMethod() && @annotation(payment)", returning = "authPaymentInfo")
     public void payMoney(@NonNull AuthPaymentInfo authPaymentInfo, @NonNull AuthPayment authPayment) {
-        Activity context = AppEngine.getInstance().getCurActivity();
+        Activity context = AppEngine.instance().getCurActivity();
         AuthPaymentUtil.authPayMoney(context, authPaymentInfo, authPayment);
     }
 }

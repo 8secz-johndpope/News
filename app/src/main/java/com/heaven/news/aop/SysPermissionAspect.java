@@ -25,7 +25,7 @@ public class SysPermissionAspect {
     String[] permissions;
     @Around("execution(@com.heaven.annotation.aspect.Permission * *(..)) && @annotation(permission)")
     public void aroundJoinPoint(ProceedingJoinPoint joinPoint, Permission permission) throws Throwable {
-        Activity ac = AppEngine.getInstance().getCurActivity();
+        Activity ac = AppEngine.instance().getCurActivity();
             if (!MPermissionUtils.checkPermissions(ac, permission.value())) {
                 requestJoinPoint = joinPoint;
                 permissions = permission.value();

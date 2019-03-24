@@ -6,14 +6,12 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
-import com.heaven.data.manager.DataSource;
 import com.heaven.news.R;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.databinding.WelcomeBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.AppInfo;
 import com.heaven.news.engine.DataCore;
-import com.heaven.news.ui.vm.model.AdInfo;
 import com.heaven.news.ui.vm.model.ConfigData;
 import com.heaven.news.ui.vm.model.UpdateInfo;
 import com.heaven.news.ui.vm.model.Version;
@@ -39,11 +37,11 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        AppEngine.getInstance().dataCore().registConfigObserver(this,this);
-        ConfigData configData = AppEngine.getInstance().dataCore().getConfigData();
-        if(configData != null) {
-            updateConfig(configData);
-        }
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this, dataType -> {
+            if(DataCore.VERSION == dataType) {
+                updateVersion();
+            }
+        });
     }
 
     @Override
@@ -58,6 +56,13 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public void bindModel() {
         mViewBinding.setViewmodel(mViewModel);
+    }
+
+    private void updateVersion() {
+        ConfigData configData = AppEngine.instance().dataCore().getConfigData();
+        if(configData != null) {
+            updateConfig(configData);
+        }
     }
 
     private void updateConfig(ConfigData configData) {
@@ -78,7 +83,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     }
 
     private void checkVersion(Version version) {
-        AppInfo appInfo = AppEngine.getInstance().getAppConfig();
+        AppInfo appInfo = AppEngine.instance().getAppConfig();
         UpdateInfo updateInfo = new UpdateInfo();
         updateInfo.updateUrl = version.url;
         updateInfo.updateMessage = version.txt;
@@ -97,13 +102,13 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
 
 
     private void processNextStep(UpdateInfo updateInfo) {
-        boolean isOldUser = AppEngine.getInstance().getDataSource().getSharePreBoolean(Constants.ISOLDUSER);
+        boolean isOldUser = AppEngine.instance().getDataSource().getSharePreBoolean(Constants.ISOLDUSER);
         if (isOldUser) {
             updateInfo.nextGuidePage = false;
         } else {
             updateInfo.nextGuidePage = true;
         }
-        AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISOLDUSER, true);
+        AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISOLDUSER, true);
         processNext(updateInfo);
     }
 

@@ -27,4 +27,6 @@ public interface EngineComponent {
     ServiceCore serviceCore();
 
     DataCore dataCore();
+
+    Api api();
 }

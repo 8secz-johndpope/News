@@ -1,13 +1,12 @@
-package com.heaven.news.utils;
-
+package com.heaven.news.engine;
 
 import android.support.v4.util.LongSparseArray;
 
+import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.DataResponse;
 import com.heaven.data.net.ExceptionHandle;
 import com.heaven.news.ui.vm.model.ConfigData;
 import com.orhanobut.logger.Logger;
-
 
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
@@ -18,36 +17,47 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * 作者:Heaven
- * 时间: on 2017/3/13 11:15
- * 邮箱:heavenisme@aliyun.com
+ * FileName: com.heaven.flybetter.engine.Api.java
+ * author: Heaven
+ * email: heavenisme@aliyun.com
+ * date: 2017-06-23 21:51
+ *
+ * @version V1.0 TODO <描述当前版本功能>
  */
-
-public class RxRepUtils {
-    private static RxRepUtils instance = new RxRepUtils();
+public class Api {
+   private DataSource mDataSource;
 
     private static long currentTaskId = 1000000000000000L;
     private static LongSparseArray<Disposable> reqTasks = new LongSparseArray<>();
 
-    public static RxRepUtils instance() {
-        if(instance == null) {
-            synchronized(RxRepUtils.class)  {
-                if(instance == null) {
-                    instance = new RxRepUtils();
-                }
-            }
-        }
-        return instance;
-    }
-
-    private synchronized long getTaskId() {
+    private static synchronized long getTaskId() {
         currentTaskId += 10;
         Logger.i("createTaskid----" + currentTaskId);
         return currentTaskId;
     }
 
 
-    private final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER
+    Api(DataSource dataSource){
+        this.mDataSource = dataSource;
+    }
+
+
+    public  <T> T getApi(Class<T> apiClass){
+        return mDataSource.getNetApi(apiClass);
+    }
+
+    public <T> T getApi(String url,Class<T> apiClass){
+        T targetApi = null;
+        try {
+            targetApi = mDataSource.getNetApi(url,apiClass);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return targetApi;
+    }
+
+
+    private  final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER
             = flowable -> flowable
             .onErrorReturn((Function<Throwable, DataResponse>) ExceptionHandle::handleException)
             .subscribeOn(Schedulers.io())
@@ -65,7 +75,7 @@ public class RxRepUtils {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
 
-    private final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER_HOME_CONFIG
+    private  final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER_HOME_CONFIG
             = flowable -> flowable
             .onErrorReturn((Function<Throwable, ConfigData>) throwable -> {
                 ConfigData configData = new ConfigData();
@@ -78,20 +88,19 @@ public class RxRepUtils {
             .observeOn(AndroidSchedulers.mainThread());
 
     @SuppressWarnings("unchecked")
-    public <T> FlowableTransformer<T, T> ioMain() {
+    public  <T> FlowableTransformer<T, T> ioMain() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> FlowableTransformer<T, T> ioMainConfig() {
+    public  <T> FlowableTransformer<T, T> ioMainConfig() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_CONFIG;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> FlowableTransformer<T, T> ioHomeConfig() {
+    public  <T> FlowableTransformer<T, T> ioHomeConfig() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_HOME_CONFIG;
     }
-
 
     public <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();

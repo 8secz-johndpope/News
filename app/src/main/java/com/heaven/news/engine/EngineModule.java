@@ -6,9 +6,6 @@ import com.heaven.data.convert.szair.SzAirConvertFactory;
 import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.NetGlobalConfig;
 import com.heaven.news.BuildConfig;
-import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.DataCore;
-import com.heaven.news.engine.ServiceCore;
 
 import javax.inject.Singleton;
 
@@ -27,6 +24,7 @@ public class EngineModule {
     private final Context mContext;
     private DataSource dataSource;
     private DataCore dataCore;
+    private Api api;
     public EngineModule(Context context) {
         this.mContext = context;
         DataSource.Builder builder = new DataSource.Builder(context);
@@ -36,13 +34,14 @@ public class EngineModule {
         dataSource.addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
         dataSource.addHeader("Connection", "close");
         dataCore = new DataCore(dataSource);
+        api = new Api(dataSource);
 //        ServiceCore.initServiceCore(mContext);
     }
 
     @Provides
     @Singleton
     AppEngine providerAppEngine() {
-        return AppEngine.getInstance();
+        return AppEngine.instance();
     }
 
     @Provides
@@ -54,12 +53,19 @@ public class EngineModule {
     @Provides
     @Singleton
     ServiceCore providerServiceCore() {
-        return null;//ServiceCore.getInstance(mContext);
+        return null;//ServiceCore.instance(mContext);
     }
 
     @Provides
     @Singleton
     DataCore providerDataCore() {
         return dataCore;
+    }
+
+
+    @Provides
+    @Singleton
+    Api providerApi() {
+        return api;
     }
 }

@@ -143,7 +143,7 @@ public class ShareAspect {
 
     private void shareWeiXin(ShareInfo shareInfo) {
         if (shareInfo != null) {
-            Activity context = AppEngine.getInstance().getCurActivity();
+            Activity context = AppEngine.instance().getCurActivity();
             IWXAPI api = WXAPIFactory.createWXAPI(context, BuildConfig.WX_APP_ID);
             if (!api.isWXAppInstalled()) {
                 Toast.makeText(context, "您手机尚未安装微信，请安装后再登录", Toast.LENGTH_LONG).show();
@@ -283,7 +283,7 @@ public class ShareAspect {
 
 
     private void shareWeiQQ(ShareInfo shareInfo) {
-        Activity context = AppEngine.getInstance().getCurActivity();
+        Activity context = AppEngine.instance().getCurActivity();
         Tencent tencent = Tencent.createInstance(BuildConfig.QQ_APP_ID, context);
     }
 
