@@ -249,19 +249,6 @@ public class DataCore {
         });
     }
 
-    //获取广告信息
-    @TraceTime
-    private void getAdInfo() {
-        try {
-            RxRepUtils.getConfigResult(ApiManager.getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getAdInfo(), configData -> {
-                if (configData.netCode == 0) {
-                    dataSource.cacheData(DataSource.DISK, Constants.ADINFO, configData);
-                }
-            });
-        } catch (Exception e) {
-            Logger.i("getAdInfo:" + e.getMessage());
-        }
-    }
 
     public boolean isLogin() {
         return hasLogin;
