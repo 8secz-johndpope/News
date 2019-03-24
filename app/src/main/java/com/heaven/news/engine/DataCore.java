@@ -279,36 +279,4 @@ public class DataCore {
         homeConfigLive.observe(activity,homeImageInfoObserver);
     }
 
-
-    public static class UpdateInfo {
-        public boolean isNetError;
-        public String reason;
-        public long requestTime;
-        public boolean isServiceMainta;
-        public boolean needUpdate;
-        public boolean isForceUpdate;
-        public String updateUrl;
-        public String updateMessage;
-        public boolean nextGuidePage = false;
-        public boolean isShowAd = false;
-        public AdInfo adInfo;
-
-        @Override
-        public String toString() {
-            return "UpdateInfo{" +
-                    "isNetError=" + isNetError +
-                    ", reason='" + reason + '\'' +
-                    ", requestTime=" + requestTime +
-                    ", isServiceMainta=" + isServiceMainta +
-                    ", needUpdate=" + needUpdate +
-                    ", isForceUpdate=" + isForceUpdate +
-                    ", updateUrl='" + updateUrl + '\'' +
-                    ", updateMessage='" + updateMessage + '\'' +
-                    ", nextGuidePage=" + nextGuidePage +
-                    ", isShowAd=" + isShowAd +
-                    ", adInfo=" + adInfo +
-                    '}';
-        }
-    }
-
 }

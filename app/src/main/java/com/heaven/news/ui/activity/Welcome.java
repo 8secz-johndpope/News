@@ -15,6 +15,7 @@ import com.heaven.news.engine.AppInfo;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.vm.model.AdInfo;
 import com.heaven.news.ui.vm.model.ConfigData;
+import com.heaven.news.ui.vm.model.UpdateInfo;
 import com.heaven.news.ui.vm.model.Version;
 import com.heaven.news.ui.vm.viewmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
@@ -38,11 +39,10 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
+        AppEngine.getInstance().dataCore().registConfigObserver(this,this);
         ConfigData configData = AppEngine.getInstance().dataCore().getConfigData();
         if(configData != null) {
             updateConfig(configData);
-        } else {
-            AppEngine.getInstance().dataCore().registConfigObserver(this,this);
         }
     }
 
@@ -65,13 +65,13 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
             if (configData.netCode == 0 && configData.androidversionnew != null) {
                 checkVersion(configData.androidversionnew);
             } else {
-                DataCore.UpdateInfo updateInfo = new DataCore.UpdateInfo();
+                UpdateInfo updateInfo = new UpdateInfo();
                 updateInfo.isNetError = true;
                 updateInfo.reason = configData.message;
                 processNextStep(updateInfo);
             }
         } else {
-            DataCore.UpdateInfo updateInfo = new DataCore.UpdateInfo();
+            UpdateInfo updateInfo = new UpdateInfo();
             updateInfo.isNetError = true;
             processNextStep(updateInfo);
         }
@@ -79,7 +79,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
 
     private void checkVersion(Version version) {
         AppInfo appInfo = AppEngine.getInstance().getAppConfig();
-        DataCore.UpdateInfo updateInfo = new DataCore.UpdateInfo();
+        UpdateInfo updateInfo = new UpdateInfo();
         updateInfo.updateUrl = version.url;
         updateInfo.updateMessage = version.txt;
         if (version.cversion > 65534) {
@@ -92,22 +92,11 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
                 }
             }
         }
-        checkAdInfo(updateInfo);
         processNextStep(updateInfo);
     }
 
-    private void checkAdInfo(DataCore.UpdateInfo updateInfo) {
-        updateInfo.adInfo = getTestAdInfoData();
-//        updateInfo.isShowAd = true;
-        if (updateInfo.isShowAd && updateInfo.adInfo != null) {
-            AppEngine.getInstance().cacheData(DataSource.DB, Constants.ADINFO, updateInfo.adInfo);
-        } else {
-            updateInfo.isShowAd = false;
-        }
-    }
 
-
-    private void processNextStep(DataCore.UpdateInfo updateInfo) {
+    private void processNextStep(UpdateInfo updateInfo) {
         boolean isOldUser = AppEngine.getInstance().getDataSource().getSharePreBoolean(Constants.ISOLDUSER);
         if (isOldUser) {
             updateInfo.nextGuidePage = false;
@@ -118,17 +107,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         processNext(updateInfo);
     }
 
-    private AdInfo getTestAdInfoData() {
-        AdInfo adInfo = new AdInfo();
-        adInfo.isVideo = false;
-        adInfo.urlImage = "http://img0.imgtn.bdimg.com/it/u=1344159241,3681424911&fm=26&gp=0.jpg";
-        adInfo.urlVideo = "";
-        adInfo.content = "百思不得姐减肥肯定是怕几点睡激动是怕";
-
-        return adInfo;
-    }
-
-    private void processNext(DataCore.UpdateInfo updateInfo) {
+    private void processNext(UpdateInfo updateInfo) {
         if (updateInfo.isNetError) {
             toNextPage(updateInfo);
         } else {
@@ -146,7 +125,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     }
 
 
-    private void toNextPage(DataCore.UpdateInfo updateInfo) {
+    private void toNextPage(UpdateInfo updateInfo) {
         if (updateInfo.nextGuidePage) {
             toGuidePage();
         } else if (updateInfo.isShowAd) {
