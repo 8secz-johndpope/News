@@ -124,7 +124,7 @@ public class DataCore {
                 mail = userInfo._EMAIL;
 
                 phoenixInfo(userInfo._MEMBER, userInfo._CREDENTIAL_LIST);
-                userNameLive.setValue(userName);
+                userNameLive.postValue(userName);
             }
     }
 
@@ -215,7 +215,7 @@ public class DataCore {
 
             RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
                 if (loginNewResponseDataResponse.code == 0 && loginNewResponseDataResponse.data != null && loginNewResponseDataResponse.data._LOGIN_RESULT != null) {
-                    if("0".equals(loginNewResponseDataResponse.data._LOGIN_RESULT._CODE)) {
+                    if("0000".equals(loginNewResponseDataResponse.data._LOGIN_RESULT._CODE)) {
                         UserLoginInfo userLoginInfo = new UserLoginInfo();
                         userLoginInfo.userCount = userCount;
                         userLoginInfo.userPwd = pwd;
@@ -223,7 +223,7 @@ public class DataCore {
                         dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
                     }
                 }
-                userNameLive.setValue(userName);
+                userNameLive.postValue(userName);
             });
         }
     }
@@ -236,9 +236,9 @@ public class DataCore {
             configLive.setValue(configData);
             if (configData.netCode == 0 && configData.androidversionnew != null) {
                 this.configData = configData;
-                configLive.setValue(configData);
+                configLive.postValue(configData);
             } else {
-                configLive.setValue(configData);
+                configLive.postValue(configData);
             }
         });
     }
@@ -248,7 +248,7 @@ public class DataCore {
         RxRepUtils.getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), configData -> {
             if (configData.netCode == 0) {
                 this.homeConfigData = configData;
-                homeConfigLive.setValue(homeConfigData);
+                homeConfigLive.postValue(homeConfigData);
             }
         });
     }

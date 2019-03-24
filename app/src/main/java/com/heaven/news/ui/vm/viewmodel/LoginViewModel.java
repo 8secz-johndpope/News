@@ -38,12 +38,6 @@ public class LoginViewModel extends BaseViewModel {
 
     public UserInfo userInfo;
 
-    public final MutableLiveData<String> userName = new MutableLiveData<>();
-
-    public final MutableLiveData<String> password = new MutableLiveData<>();
-
-    public final ObservableField<String> passwordObserve = new ObservableField<>();
-
     //    @Permission(value = Manifest.permission.READ_CONTACTS)
 //    @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void login() {
@@ -100,9 +94,9 @@ public class LoginViewModel extends BaseViewModel {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 if(BR.count == propertyId) {
-                    Logger.i("sonPropertyChanged count--" + password);
+                    Logger.i("sonPropertyChanged count--");
                 } else if(BR.password == propertyId) {
-                    Logger.i("sonPropertyChanged password--" + password);
+                    Logger.i("sonPropertyChanged password--");
                 }
             }
         });

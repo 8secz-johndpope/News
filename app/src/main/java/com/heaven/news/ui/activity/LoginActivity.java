@@ -31,10 +31,6 @@ public class LoginActivity extends BaseToolBarSimpleActivity<LoginViewModel, Log
         return R.layout.login;
     }
 
-    public void login() {
-        mViewModel.login();
-    }
-
     @Override
     public void bindModel() {
         mViewBinding.setLoginHandlers(this);
