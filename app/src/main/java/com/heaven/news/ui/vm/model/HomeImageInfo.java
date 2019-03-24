@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class HomeImageInfo implements Serializable {
     public int netCode = 0;
+    public String message;
     public List<ImageInfo> top;        //轮播图
     public List<ImageInfo> easygotop;        //易行轮播图
     public List<ImageInfo> phoenix;        //凤凰知音轮播图

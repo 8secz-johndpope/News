@@ -243,9 +243,9 @@ public class DataCore {
 
 
     private void requestHomeConfig() {
-        RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), configData -> {
+        RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if (configData.netCode == 0) {
-                this.homeConfigData = configData;
+                this.homeConfigData = homeConfigData;
                 dataTypeLive.postValue(HOME);
             }
         });

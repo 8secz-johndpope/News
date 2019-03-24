@@ -6,6 +6,7 @@ import android.support.v4.util.LongSparseArray;
 import com.heaven.data.net.DataResponse;
 import com.heaven.data.net.ExceptionHandle;
 import com.heaven.news.ui.vm.model.ConfigData;
+import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.orhanobut.logger.Logger;
 
 
@@ -30,9 +31,9 @@ public class RxRepUtils {
     private static LongSparseArray<Disposable> reqTasks = new LongSparseArray<>();
 
     public static RxRepUtils instance() {
-        if(instance == null) {
-            synchronized(RxRepUtils.class)  {
-                if(instance == null) {
+        if (instance == null) {
+            synchronized (RxRepUtils.class) {
+                if (instance == null) {
                     instance = new RxRepUtils();
                 }
             }
@@ -45,7 +46,6 @@ public class RxRepUtils {
         Logger.i("createTaskid----" + currentTaskId);
         return currentTaskId;
     }
-
 
     private final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER
             = flowable -> flowable
@@ -67,8 +67,8 @@ public class RxRepUtils {
 
     private final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER_HOME_CONFIG
             = flowable -> flowable
-            .onErrorReturn((Function<Throwable, ConfigData>) throwable -> {
-                ConfigData configData = new ConfigData();
+            .onErrorReturn((Function<Throwable, HomeImageInfo>) throwable -> {
+                HomeImageInfo configData = new HomeImageInfo();
                 DataResponse dataResponse = ExceptionHandle.handleException(throwable);
                 configData.netCode = dataResponse.code;
                 configData.message = dataResponse.reason;
@@ -77,18 +77,20 @@ public class RxRepUtils {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
 
+
+
     @SuppressWarnings("unchecked")
-    public <T> FlowableTransformer<T, T> ioMain() {
+    public synchronized <T> FlowableTransformer<T, T> ioMain() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> FlowableTransformer<T, T> ioMainConfig() {
+    public synchronized <T> FlowableTransformer<T, T> ioMainConfig() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_CONFIG;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> FlowableTransformer<T, T> ioHomeConfig() {
+    public synchronized <T> FlowableTransformer<T, T> ioHomeConfig() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_HOME_CONFIG;
     }
 
@@ -96,37 +98,38 @@ public class RxRepUtils {
     public synchronized <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
         synchronized (this) {
-            Disposable disposable = resultFlowable.compose(ioMain()).subscribe(getTaskConsumer(taskId,consumer));
+            Disposable disposable = resultFlowable.compose(ioMain()).subscribe(getTaskConsumer(taskId, consumer));
             reqTasks.put(taskId, disposable);
         }
         return taskId;
     }
 
-    public <T> long getConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
+    public <T> long getConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
         synchronized (this) {
-            Disposable disposable = resultFlowable.compose(ioMainConfig()).subscribe(getTaskConsumer(taskId,consumer));
+            Disposable disposable = resultFlowable.compose(ioMainConfig()).subscribe(getTaskConsumer(taskId, consumer));
             reqTasks.put(taskId, disposable);
         }
         return taskId;
     }
 
-    public synchronized <T> long getHomeConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
+    public synchronized <T> long getHomeConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
         synchronized (this) {
-            Disposable disposable = resultFlowable.compose(ioHomeConfig()).subscribe(getTaskConsumer(taskId,consumer));
+            Disposable disposable = resultFlowable.compose(ioHomeConfig()).subscribe(getTaskConsumer(taskId, consumer));
             reqTasks.put(taskId, disposable);
         }
         return taskId;
     }
 
-    private synchronized <T> TaskIdConsumer<T> getTaskConsumer(long taskId,Consumer<T> consumer) {
+    private synchronized <T> TaskIdConsumer<T> getTaskConsumer(long taskId, Consumer<T> consumer) {
         return new TaskIdConsumer<T>(taskId, consumer);
     }
 
-    class TaskIdConsumer<T> implements Consumer<T>{
+    class TaskIdConsumer<T> implements Consumer<T> {
         long taskid;
         Consumer<T> resultConsumer;
+
         TaskIdConsumer(long taskid, Consumer<T> consumer) {
             this.taskid = taskid;
             this.resultConsumer = consumer;
@@ -134,7 +137,7 @@ public class RxRepUtils {
 
         @Override
         public void accept(T t) throws Exception {
-            if(resultConsumer != null) {
+            if (resultConsumer != null) {
                 cancelTask(taskid);
                 resultConsumer.accept(t);
             }
@@ -143,15 +146,15 @@ public class RxRepUtils {
 
 
     public static void cancelCurrentTask() {
-        if(reqTasks.containsKey(currentTaskId)) {
+        if (reqTasks.containsKey(currentTaskId)) {
             cancelTask(currentTaskId);
         }
     }
 
     public static void cancelTask(long taskId) {
-        if(reqTasks.containsKey(taskId)) {
+        if (reqTasks.containsKey(taskId)) {
             Disposable disposable = reqTasks.get(taskId);
-            if(disposable != null && !disposable.isDisposed()) {
+            if (disposable != null && !disposable.isDisposed()) {
                 disposable.dispose();
             }
             reqTasks.remove(taskId);
