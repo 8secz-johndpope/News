@@ -1,8 +1,16 @@
 package com.heaven.news.ui.fragment;
 
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
@@ -18,11 +26,13 @@ import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.adapter.BannerAdapter;
 import com.heaven.news.ui.adapter.CardTransformer;
+import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,10 +43,10 @@ import java.util.List;
  *
  * @version V1.0 首页
  */
-public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
+public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener{
     List<Object> items;
     BannerAdapter topAdapter;
-
+    private List<Fragment> mainList = new ArrayList<>();
     @Override
     public int initLayoutResId() {
         return R.layout.home;
@@ -45,8 +55,13 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
 
     @Override
     public void initView(View rootView) {
-        topAdapter = new BannerAdapter(getContext());
+        initTopBanner();
+        initBookTab();
+        initMult();
+    }
 
+    private void initTopBanner() {
+        topAdapter = new BannerAdapter(getContext());
         mViewBinding.imageViewPager.setAdapter(topAdapter);
         mViewBinding.imageViewPager.setOffscreenPageLimit(3);//预加载2个
         mViewBinding.imageViewPager.setPageMargin(60);//设置viewpage之间的间距
@@ -55,9 +70,31 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
 //                ToastUtils.showToast("点击了图片" + index);
         });
         updateHomeImageData();
+    }
 
+    private void initBookTab() {
+        final String[] bottomBarList = getResources().getStringArray(R.array.bottom_bar_name);
+        Bundle paramBundle = new Bundle();
+        paramBundle.putInt("wx_type", 1);
+
+        mainList.add(BookGo.newInstance(paramBundle));
+        mainList.add(BookGoBack.newInstance(paramBundle));
+        mainList.add(BookMult.newInstance(null));
+        ViewPager viewPager = mViewBinding.bookArea.findViewById(R.id.viewpager);
+        TabLayout tabLayout = mViewBinding.bookArea.findViewById(R.id.book_tab);
+        viewPager.setOffscreenPageLimit(3);
+
+        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getActivity(), getChildFragmentManager());
+        adapter.insertAll(mainList, Arrays.asList(bottomBarList));
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(this);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+    }
+
+    private void initMult() {
         BaseMultAdapter  adapter = new BaseMultAdapter(getContext());
-
         adapter.register(new ItemVIewNormal(String.class,R.layout.item_go));
         adapter.register( new ItemVIew01(Bean01.class,R.layout.item_one));
         adapter.register( new ItemVIew02(Bean02.class,R.layout.item_two));
@@ -118,9 +155,36 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> {
 
     }
 
+    private int[] getResourceId(int arrayId) {
+        Resources res = getResources();
+        TypedArray ar = res.obtainTypedArray(arrayId);
+        int len = ar.length();
+        int[] resIdList = new int[len];
+        for (int i = 0; i < len; i++) {
+            resIdList[i] = ar.getResourceId(i, 0);
+        }
+        ar.recycle();
+        return resIdList;
+    }
+
     public static  Home newInstance(Bundle paramBundle) {
         Home fragment = new Home();
         fragment.setArguments(paramBundle);
         return fragment;
+    }
+
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
+
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+
     }
 }
