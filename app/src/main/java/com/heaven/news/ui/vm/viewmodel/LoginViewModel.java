@@ -77,7 +77,7 @@ public class LoginViewModel extends BaseViewModel {
             if(loginNewResponseDataResponse.code == 0) {
                 UserLoginInfo loginInfo = new UserLoginInfo();
                 loginInfo.userCount = userInfo.count;
-                loginInfo.userPwd = passwords;
+                loginInfo.userPwd = Constants.getPassword(passwords);;
                 AppEngine.getInstance().getDataSource().cacheData(DataSource.DISK,Constants.USERINFO,loginInfo);
                 AppEngine.getInstance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN,true);
                 AppEngine.getInstance().dataCore().initLoginData(loginNewResponseDataResponse.data);

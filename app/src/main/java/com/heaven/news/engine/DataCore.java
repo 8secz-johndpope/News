@@ -126,6 +126,7 @@ public class DataCore {
                 mail = userInfo._EMAIL;
 
                 phoenixInfo(userInfo._MEMBER, userInfo._CREDENTIAL_LIST);
+                userNameLive.setValue(userName);
             }
         }
     }
@@ -196,7 +197,7 @@ public class DataCore {
                 loginNew login = new loginNew();
                 loginReqVO loginreqvo = new loginReqVO();
                 loginreqvo._USER_NAME = userInfo.userCount;
-                loginreqvo._PASSWORD = Constants.getPassword(userInfo.userPwd);
+                loginreqvo._PASSWORD = userInfo.userPwd;
 
                 loginreqvo._APP_ID = SOAPConstants.APP_ID;
                 loginreqvo._APP_IP = SOAPConstants.APP_IP;
@@ -214,14 +215,41 @@ public class DataCore {
                         userLoginInfo.userCount = userInfo.userCount;
                         userLoginInfo.userPwd = userInfo.userPwd;
                         initLoginData(loginNewResponseDataResponse.data);
-                        userNameLive.setValue(userName);
                         dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
                     }
-                    Logger.i("autoLogin------" + loginNewResponseDataResponse);
                 });
             }
         }
+    }
 
+    public void login(String userCount,String pwd) {
+        if (!TextUtils.isEmpty(userCount) && !TextUtils.isEmpty(pwd)) {
+            loginNew login = new loginNew();
+            loginReqVO loginreqvo = new loginReqVO();
+            loginreqvo._USER_NAME = userCount;
+            loginreqvo._PASSWORD = pwd;
+
+            loginreqvo._APP_ID = SOAPConstants.APP_ID;
+            loginreqvo._APP_IP = SOAPConstants.APP_IP;
+            loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
+
+            loginreqvo._DEVICE_TOKEN = "";
+            login._LOGIN_PARAM = loginreqvo;
+
+
+            MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
+
+            RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
+                if (loginNewResponseDataResponse.code == 0) {
+                    UserLoginInfo userLoginInfo = new UserLoginInfo();
+                    userLoginInfo.userCount = userCount;
+                    userLoginInfo.userPwd = pwd;
+                    initLoginData(loginNewResponseDataResponse.data);
+                    userNameLive.setValue(userName);
+                    dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
+                }
+            });
+        }
     }
 
 
