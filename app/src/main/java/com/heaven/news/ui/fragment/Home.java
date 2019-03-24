@@ -138,7 +138,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
             if(homeImageInfo.top != null && homeImageInfo.top.size() > 0) {
                 mViewBinding.indicators.setViewPager(mViewBinding.imageViewPager,  homeImageInfo.top.size());
                 updateTopImages(homeImageInfo.top);
-                mViewBinding.imageViewPager.setCurrentItem(1000*homeImageInfo.top.size());
+                mViewBinding.imageViewPager.setCurrentItem(10*homeImageInfo.top.size());
                 mViewBinding.imageViewPager.startLoop();
 //                mViewBinding.imageViewPager.setCurrentItem(mViewBinding.imageViewPager.getChildCount()/2);
             } else if(homeImageInfo.hot != null && homeImageInfo.hot.size() > 0) {
