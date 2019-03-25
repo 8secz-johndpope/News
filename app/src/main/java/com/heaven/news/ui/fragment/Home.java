@@ -156,6 +156,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     }
 
 
+    int homeDataReqCount = 0;
     public void updateHomeImageData() {
         HomeImageInfo homeImageInfo = AppEngine.instance().dataCore().getHomeConfigData();
         if (mViewBinding != null) {
@@ -172,7 +173,10 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
                     updateHotImages(homeImageInfo.hot);
                 }
             } else {
-                AppEngine.instance().dataCore().requestHomeConfig();
+                if(homeDataReqCount <=3) {
+                    AppEngine.instance().dataCore().requestHomeConfig();
+                    homeDataReqCount++;
+                }
                 ArrayList<ImageInfo> bannerList = new ArrayList<>();
                 bannerList.add(new ImageInfo());
                 updateBannerData(bannerList);
