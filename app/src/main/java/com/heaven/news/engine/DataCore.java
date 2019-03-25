@@ -85,15 +85,15 @@ public class DataCore {
 
     DataCore(DataSource dataSource) {
         this.dataSource = dataSource;
-        prepareData();
+        dataSource.runWorkThread(this::prepareData);
     }
 
 
     private void prepareData() {
-        autoLogin();
         requestVersion();
+        autoLogin();
         requestHomeConfig();
-        homeConfigData = dataSource.getCacheEntity(DataSource.DB,Constants.HOMECONFIG);
+        homeConfigData = dataSource.getCacheEntity(DataSource.DISK,Constants.HOMECONFIG);
 //        getAdInfo();
     }
 
@@ -188,7 +188,7 @@ public class DataCore {
     public void autoLogin() {
         boolean isAutoLogin = dataSource.getSharePreBoolean(Constants.ISAUTOLOGIN);
         if (isAutoLogin) {
-            UserSecret userSecret = dataSource.getCacheEntity(DataSource.DB, Constants.USERINFO);
+            UserSecret userSecret = dataSource.getCacheEntity(DataSource.DISK, Constants.USERINFO);
             if (userSecret != null && !TextUtils.isEmpty(userSecret.userCount) && !TextUtils.isEmpty(userSecret.pwd)) {
                 login(userSecret.userCount, userSecret.pwd);
             }
@@ -222,8 +222,8 @@ public class DataCore {
                         userLoginInfo.userInfo = loginNewResponseDataResponse.data._LOGIN_RESULT;
                         initLoginData(loginNewResponseDataResponse.data._LOGIN_RESULT);
                         notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
-                        dataSource.cacheData(DataSource.DB,Constants.USERINFO,userSecret);
-                        dataSource.cacheData(DataSource.DB, userLoginInfo.key, userLoginInfo);
+                        dataSource.cacheData(DataSource.DISK,Constants.USERINFO,userSecret);
+                        dataSource.cacheData(DataSource.DISK, userLoginInfo.key, userLoginInfo);
                     } else {
                         notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
                     }
@@ -235,7 +235,7 @@ public class DataCore {
     }
 
     private void prepareLoginCache(String userCount, String pwd) {
-     UserLoginInfo  loginInfo = dataSource.getCacheEntity(DataSource.DB,userCount+pwd);
+     UserLoginInfo  loginInfo = dataSource.getCacheEntity(DataSource.DISK,userCount+pwd);
        if(loginInfo != null && loginInfo.userInfo != null) {
            Logger.i("DataCore--prepareLoginCache" + loginInfo.userInfo.toString());
            initLoginData(loginInfo.userInfo);
@@ -266,7 +266,7 @@ public class DataCore {
         RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if (homeConfigData.netCode == 0) {
                 this.homeConfigData = homeConfigData;
-                dataSource.cacheData(DataSource.DB,Constants.HOMECONFIG,homeConfigData);
+                dataSource.cacheData(DataSource.DISK,Constants.HOMECONFIG,homeConfigData);
                 notifyCoreDataChange(getCoreDataWrapper(true, HOME));
             } else {
                 notifyCoreDataChange(getCoreDataWrapper(false, HOME));
