@@ -196,18 +196,6 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
     }
 
-    private int[] getResourceId(int arrayId) {
-        Resources res = getResources();
-        TypedArray ar = res.obtainTypedArray(arrayId);
-        int len = ar.length();
-        int[] resIdList = new int[len];
-        for (int i = 0; i < len; i++) {
-            resIdList[i] = ar.getResourceId(i, 0);
-        }
-        ar.recycle();
-        return resIdList;
-    }
-
     public static Home newInstance(Bundle paramBundle) {
         Home fragment = new Home();
         fragment.setArguments(paramBundle);
