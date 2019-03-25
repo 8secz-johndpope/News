@@ -15,6 +15,7 @@ import com.heaven.news.consts.Constants;
 import com.heaven.news.ui.vm.model.ConfigData;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.UserLoginInfo;
+import com.heaven.news.ui.vm.model.UserSecret;
 import com.heaven.news.ui.vm.model.Version;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.member.addressVo;
@@ -84,12 +85,12 @@ public class DataCore {
 
     DataCore(DataSource dataSource) {
         this.dataSource = dataSource;
+        autoLogin();
         this.dataSource.runWorkThread(this::prepareData);
     }
 
 
     private void prepareData() {
-        autoLogin();
         requestVersion();
         requestHomeConfig();
 //        getAdInfo();
@@ -186,15 +187,17 @@ public class DataCore {
     public void autoLogin() {
         boolean isAutoLogin = dataSource.getSharePreBoolean(Constants.ISAUTOLOGIN);
         if (isAutoLogin) {
-            UserLoginInfo userInfo = dataSource.getCacheEntity(DataSource.DISK, Constants.USERINFO);
-            if (userInfo != null && !TextUtils.isEmpty(userInfo.userCount) && !TextUtils.isEmpty(userInfo.userPwd)) {
-                login(userInfo.userCount, userInfo.userPwd);
+            UserSecret userSecret = dataSource.getCacheEntity(DataSource.DB, Constants.USERINFO);
+            if (userSecret != null && !TextUtils.isEmpty(userSecret.userCount) && !TextUtils.isEmpty(userSecret.pwd)) {
+                login(userSecret.userCount, userSecret.pwd);
             }
         }
     }
 
     public void login(String userCount, String pwd) {
         if (!TextUtils.isEmpty(userCount) && !TextUtils.isEmpty(pwd)) {
+            prepareLoginCache(userCount,pwd);
+
             loginNew login = new loginNew();
             loginReqVO loginreqvo = new loginReqVO();
             loginreqvo._USER_NAME = userCount;
@@ -213,12 +216,13 @@ public class DataCore {
             RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
                 if (loginNewResponseDataResponse.code == 0 && loginNewResponseDataResponse.data != null && loginNewResponseDataResponse.data._LOGIN_RESULT != null) {
                     if ("0000".equals(loginNewResponseDataResponse.data._LOGIN_RESULT._CODE)) {
-                        UserLoginInfo userLoginInfo = new UserLoginInfo();
-                        userLoginInfo.userCount = userCount;
-                        userLoginInfo.userPwd = pwd;
+                        UserSecret userSecret = new UserSecret(userCount,pwd);
+                        UserLoginInfo userLoginInfo = new UserLoginInfo(userCount,pwd);
+                        userLoginInfo.userInfo = loginNewResponseDataResponse.data._LOGIN_RESULT;
                         initLoginData(loginNewResponseDataResponse.data._LOGIN_RESULT);
                         notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
-                        dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
+                        dataSource.cacheData(DataSource.DB,Constants.USERINFO,userSecret);
+                        dataSource.cacheData(DataSource.DB, userLoginInfo.key, userLoginInfo);
                     } else {
                         notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
                     }
@@ -227,6 +231,15 @@ public class DataCore {
                 }
             });
         }
+    }
+
+    private void prepareLoginCache(String userCount, String pwd) {
+     UserLoginInfo  loginInfo = dataSource.getCacheEntity(DataSource.DB,userCount+pwd);
+       if(loginInfo != null && loginInfo.userInfo != null) {
+           Logger.i("DataCore--prepareLoginCache" + loginInfo.userInfo.toString());
+           initLoginData(loginInfo.userInfo);
+           notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
+       }
     }
 
 
