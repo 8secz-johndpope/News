@@ -21,6 +21,12 @@
         <item>@string/flight_mult</item>
     </string-array>
 
+    <string-array name="guide_img">
+        <item>@drawable/guide_page1</item>
+        <item>@drawable/guide_page2</item>
+        <item>@drawable/guide_page3</item>
+        <item>@drawable/guide_page4</item>
+    </string-array>
 
     <string-array name="bottom_bar_img">
         <item>@drawable/tab_home</item>

@@ -14,4 +14,6 @@
     <string name="flight_go_back">往返</string>
     <string name="flight_mult">多程</string>
 
+    <string name="guid_try_now">立即体验</string>
+
 </resources>

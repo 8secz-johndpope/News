@@ -94,6 +94,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         }
         AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISOLDUSER, true);
         processNext(updateInfo);
+        AppEngine.instance().dataCore().removeForeverObserve(this);
     }
 
     private void processNext(UpdateInfo updateInfo) {

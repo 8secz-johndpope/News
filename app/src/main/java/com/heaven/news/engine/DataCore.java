@@ -304,7 +304,7 @@ public class DataCore {
         }
     }
 
-    void removeForeverObserve(Observer<CoreDataWrapper> typeObserver) {
+   public void removeForeverObserve(Observer<CoreDataWrapper> typeObserver) {
        Object object = observers.remove(typeObserver);
         Logger.i("DataCore----removeForeverObserve--" + object);
     }
