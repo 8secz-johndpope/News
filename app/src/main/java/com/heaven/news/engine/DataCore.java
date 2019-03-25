@@ -1,21 +1,17 @@
 package com.heaven.news.engine;
 
-import android.app.Activity;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.heaven.annotation.aspect.TraceTime;
-import com.heaven.base.ui.activity.BaseActivity;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
-import com.heaven.news.ui.vm.model.AdInfo;
 import com.heaven.news.ui.vm.model.ConfigData;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.UserLoginInfo;
@@ -26,7 +22,6 @@ import com.neusoft.szair.model.member.credentialVo;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.emailVo;
 import com.neusoft.szair.model.memberbase.loginNew;
-import com.neusoft.szair.model.memberbase.loginNewResponse;
 import com.neusoft.szair.model.memberbase.loginReqVO;
 import com.neusoft.szair.model.memberbase.memberInfoVo;
 import com.neusoft.szair.model.memberbase.phoneVo;
@@ -34,13 +29,9 @@ import com.neusoft.szair.model.memberbase.queryRespVO;
 import com.neusoft.szair.model.memberbase.vipDetails;
 import com.neusoft.szair.model.memberbase.vipDocument;
 import com.neusoft.szair.model.soap.SOAPConstants;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * FileName: com.heaven.news.engine.DataCore.java
@@ -58,10 +49,11 @@ public class DataCore {
     public static int MILE = 3;
 
     public MediatorLiveData mediatorLiveData = new MediatorLiveData();
-    private ArrayList<MutableLiveData<Integer>> dataTypeList = new ArrayList<>();
+    private ArrayList<MutableLiveData<CoreDataWrapper>> dataTypeList = new ArrayList<>();
 
     private DataSource dataSource;
 
+    private Version version;
     private ConfigData configData;
     private HomeImageInfo homeConfigData;
     private queryRespVO userAllInfo;
@@ -221,10 +213,14 @@ public class DataCore {
                         userLoginInfo.userCount = userCount;
                         userLoginInfo.userPwd = pwd;
                         initLoginData(loginNewResponseDataResponse.data._LOGIN_RESULT);
+                        notifyCoreDataChange(getCoreDataWrapper(true,LOGIN));
                         dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
+                    } else {
+                        notifyCoreDataChange(getCoreDataWrapper(false,LOGIN));
                     }
+                } else {
+                    notifyCoreDataChange(getCoreDataWrapper(false,LOGIN));
                 }
-                notifyCoreDataChange(LOGIN);
             });
         }
     }
@@ -233,11 +229,12 @@ public class DataCore {
     @TraceTime
     private void requestVersion() {
         RxRepUtils.instance().getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
-            this.configData = configData;
             if (configData.netCode == 0 && configData.androidversionnew != null) {
-                notifyCoreDataChange(VERSION);
+                this.configData = configData;
+                this.version = configData.androidversionnew;
+                notifyCoreDataChange(getCoreDataWrapper(true,VERSION));
             } else {
-                notifyCoreDataChange(VERSION);
+                notifyCoreDataChange(getCoreDataWrapper(false,VERSION));
             }
         });
     }
@@ -247,11 +244,16 @@ public class DataCore {
         RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if (homeConfigData.netCode == 0) {
                 this.homeConfigData = homeConfigData;
-                notifyCoreDataChange(HOME);
+                notifyCoreDataChange(getCoreDataWrapper(true,HOME));
+            } else {
+                notifyCoreDataChange(getCoreDataWrapper(false,HOME));
             }
         });
     }
 
+    public Version getVersion() {
+        return version;
+    }
 
     public boolean isLogin() {
         return hasLogin;
@@ -270,19 +272,65 @@ public class DataCore {
     }
 
 
-    public void registerDataTypeObaserver(LifecycleOwner lifecycleOwner,Observer<Integer> typeObserver) {
-        MutableLiveData<Integer> dataTypeLive = new MutableLiveData<>();
+    public void registerDataTypeObaserver(LifecycleOwner lifecycleOwner,Observer<CoreDataWrapper> typeObserver) {
+        MutableLiveData<CoreDataWrapper> dataTypeLive = new MutableLiveData<>();
         dataTypeLive.observe(lifecycleOwner,typeObserver);
         dataTypeList.add(dataTypeLive);
     }
 
-    private void notifyCoreDataChange(int dataType) {
+    private void notifyCoreDataChange(CoreDataWrapper coreDataWrapper) {
         if(dataTypeList != null && dataTypeList.size() > 0) {
-            for(MutableLiveData<Integer> mutableLiveData : dataTypeList) {
+            for(MutableLiveData<CoreDataWrapper> mutableLiveData : dataTypeList) {
                 if(mutableLiveData != null) {
-                    mutableLiveData.postValue(dataType);
+                    mutableLiveData.postValue(coreDataWrapper);
                 }
             }
+        }
+    }
+
+    private CoreDataWrapper getCoreDataWrapper(boolean isSuccess,int dataType) {
+        CoreDataWrapper coreDataWrapper = new CoreDataWrapper();
+        coreDataWrapper.isSuccess = isSuccess;
+        coreDataWrapper.dataType = dataType;
+        if(isSuccess) {
+            if(VERSION == dataType) {
+                if(configData != null && configData.androidversionnew != null) {
+                    coreDataWrapper.version = configData.androidversionnew;
+                }
+            } else if(HOME == dataType) {
+                if(homeConfigData != null) {
+                    coreDataWrapper.homeConfigData = homeConfigData;
+                }
+            } else if(LOGIN == dataType) {
+                if(userAllInfo != null) {
+                    coreDataWrapper.userAllInfo = userAllInfo;
+                }
+            } else if(MILE == dataType) {
+
+            }
+        }
+        return coreDataWrapper;
+
+    }
+
+    public class CoreDataWrapper {
+        public boolean isSuccess = true;
+        public int dataType = -1;
+        public Version version;
+        public ConfigData configData;
+        public HomeImageInfo homeConfigData;
+        public queryRespVO userAllInfo;
+
+        @Override
+        public String toString() {
+            return "CoreDataWrapper{" +
+                    "isSuccess=" + isSuccess +
+                    ", dataType=" + dataType +
+                    ", version=" + version +
+                    ", configData=" + configData +
+                    ", homeConfigData=" + homeConfigData +
+                    ", userAllInfo=" + userAllInfo +
+                    '}';
         }
     }
 }

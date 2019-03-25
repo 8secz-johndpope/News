@@ -27,7 +27,7 @@ import com.orhanobut.logger.Logger;
  * @author heaven
  * @version V1.0 欢迎页
  */
-public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding> implements Observer<ConfigData> {
+public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding> {
 
     @Override
     public int initLayoutResId() {
@@ -37,10 +37,11 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        AppEngine.instance().dataCore().registerDataTypeObaserver(this, dataType -> {
-            if(DataCore.VERSION == dataType) {
-                updateVersion();
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this, coreDataWrapper -> {
+            if (coreDataWrapper != null && DataCore.VERSION == coreDataWrapper.dataType) {
+                checkVersion(coreDataWrapper.version);
             }
+            Logger.i("Welcome----versionobserver--" + coreDataWrapper.toString());
         });
     }
 
@@ -58,44 +59,24 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         mViewBinding.setViewmodel(mViewModel);
     }
 
-    private void updateVersion() {
-        ConfigData configData = AppEngine.instance().dataCore().getConfigData();
-        if(configData != null) {
-            updateConfig(configData);
-        }
-    }
-
-    private void updateConfig(ConfigData configData) {
-        if(configData != null) {
-            if (configData.netCode == 0 && configData.androidversionnew != null) {
-                checkVersion(configData.androidversionnew);
-            } else {
-                UpdateInfo updateInfo = new UpdateInfo();
-                updateInfo.isNetError = true;
-                updateInfo.reason = configData.message;
-                processNextStep(updateInfo);
-            }
-        } else {
-            UpdateInfo updateInfo = new UpdateInfo();
-            updateInfo.isNetError = true;
-            processNextStep(updateInfo);
-        }
-    }
-
     private void checkVersion(Version version) {
-        AppInfo appInfo = AppEngine.instance().getAppConfig();
         UpdateInfo updateInfo = new UpdateInfo();
-        updateInfo.updateUrl = version.url;
-        updateInfo.updateMessage = version.txt;
-        if (version.cversion > 65534) {
-            updateInfo.isServiceMainta = true;
-        } else {
-            if (appInfo.verCode < version.cversion) {
-                updateInfo.needUpdate = true;
-                if (appInfo.verCode < version.fversion) {
-                    updateInfo.isForceUpdate = true;
+        if(version != null) {
+            AppInfo appInfo = AppEngine.instance().getAppConfig();
+            updateInfo.updateUrl = version.url;
+            updateInfo.updateMessage = version.txt;
+            if (version.cversion > 65534) {
+                updateInfo.isServiceMainta = true;
+            } else {
+                if (appInfo.verCode < version.cversion) {
+                    updateInfo.needUpdate = true;
+                    if (appInfo.verCode < version.fversion) {
+                        updateInfo.isForceUpdate = true;
+                    }
                 }
             }
+        } else {
+            updateInfo.isNetError = true;
         }
         processNextStep(updateInfo);
     }
@@ -160,9 +141,4 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         finish();
     }
 
-
-    @Override
-    public void onChanged(@Nullable ConfigData configData) {
-        updateConfig(configData);
-    }
 }

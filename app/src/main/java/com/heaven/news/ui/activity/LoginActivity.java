@@ -6,6 +6,7 @@ import com.heaven.news.R;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.databinding.LoginBinding;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.base.BaseToolBarSimpleActivity;
 import com.heaven.news.ui.vm.viewmodel.LoginViewModel;
 
@@ -18,10 +19,14 @@ public class LoginActivity extends BaseToolBarSimpleActivity<LoginViewModel, Log
     public void initView(View rootView) {
         super.initView(rootView);
         showBackTitleBarTitle(R.string.welcom_login);
-        AppEngine.instance().dataCore().registerDataTypeObaserver(this, dataType -> {
-            if (AppEngine.instance().dataCore().isLogin()) {
-                AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN, true);
-                finish();
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this, coreDataWrapper -> {
+            if (coreDataWrapper != null && DataCore.LOGIN == coreDataWrapper.dataType) {
+                if (coreDataWrapper.isSuccess) {
+                    if (AppEngine.instance().dataCore().isLogin()) {
+                        AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN, true);
+                        finish();
+                    }
+                }
             }
         });
     }

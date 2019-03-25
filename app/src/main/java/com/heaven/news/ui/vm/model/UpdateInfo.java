@@ -32,7 +32,7 @@ public class UpdateInfo {
     @Override
     public String toString() {
         return "UpdateInfo{" +
-                "isNetError=" + isNetError +
+                "isSuccess=" + isNetError +
                 ", reason='" + reason + '\'' +
                 ", requestTime=" + requestTime +
                 ", isServiceMainta=" + isServiceMainta +

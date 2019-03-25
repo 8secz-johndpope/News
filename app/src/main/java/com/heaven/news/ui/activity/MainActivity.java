@@ -1,10 +1,12 @@
 package com.heaven.news.ui.activity;
 
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -61,8 +63,12 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         initBottomTabLayout();
         showHomeTitle(false);
         addToolBarListener(this);
-        updateData(DataCore.LOGIN);
-        AppEngine.instance().dataCore().registerDataTypeObaserver(this, this::updateData);
+        updateData();
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this, coreDataWrapper -> {
+            if (coreDataWrapper != null && DataCore.LOGIN == coreDataWrapper.dataType) {
+                updateData();
+            }
+        });
     }
 
     private void initViewPager() {
@@ -163,17 +169,11 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     }
 
 
-    private void updateData(int dataType) {
-        if(DataCore.LOGIN == dataType) {
-            if (AppEngine.instance().dataCore().isLogin()) {
-                setExtaTitle(AppEngine.instance().dataCore().getUserName());
-            } else {
-                setExtaTitle(R.string.login_regist);
-            }
-        } else if (DataCore.HOME == dataType) {
-            Home home = (Home) mainList.get(0);
-            home.updateHomeImageData();
+    private void updateData() {
+        if (AppEngine.instance().dataCore().isLogin()) {
+            setExtaTitle(AppEngine.instance().dataCore().getUserName());
+        } else {
+            setExtaTitle(R.string.login_regist);
         }
-
     }
 }
