@@ -41,7 +41,7 @@ import java.util.List;
  * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainBinding> implements ViewPager.OnPageChangeListener, View.OnClickListener {
+public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainBinding> implements Observer<DataCore.CoreDataWrapper>,ViewPager.OnPageChangeListener, View.OnClickListener {
     private List<Fragment> mainList = new ArrayList<>();
 
     @Override
@@ -64,11 +64,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         showHomeTitle(false);
         addToolBarListener(this);
         updateData();
-        AppEngine.instance().dataCore().registerDataTypeObaserver(this, coreDataWrapper -> {
-            if (coreDataWrapper != null && DataCore.LOGIN == coreDataWrapper.dataType) {
-                updateData();
-            }
-        });
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
     }
 
     private void initViewPager() {
@@ -174,6 +170,13 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
             setExtaTitle(AppEngine.instance().dataCore().getUserName());
         } else {
             setExtaTitle(R.string.login_regist);
+        }
+    }
+
+    @Override
+    public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
+        if(coreDataWrapper != null && DataCore.LOGIN == coreDataWrapper.dataType) {
+            updateData();
         }
     }
 }

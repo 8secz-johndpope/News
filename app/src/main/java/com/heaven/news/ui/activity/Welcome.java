@@ -27,7 +27,7 @@ import com.orhanobut.logger.Logger;
  * @author heaven
  * @version V1.0 欢迎页
  */
-public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding> {
+public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding> implements Observer<DataCore.CoreDataWrapper>{
 
     @Override
     public int initLayoutResId() {
@@ -37,12 +37,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        AppEngine.instance().dataCore().registerDataTypeObaserver(this, coreDataWrapper -> {
-            if (coreDataWrapper != null && DataCore.VERSION == coreDataWrapper.dataType) {
-                checkVersion(coreDataWrapper.version);
-            }
-            Logger.i("Welcome----versionobserver--" + coreDataWrapper.toString());
-        });
+        prepareVersion();
     }
 
     @Override
@@ -57,6 +52,14 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public void bindModel() {
         mViewBinding.setViewmodel(mViewModel);
+    }
+
+    private void prepareVersion() {
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this,this);
+        Version version = AppEngine.instance().dataCore().getVersion();
+        if(version == null) {
+            AppEngine.instance().dataCore().requestVersion();
+        }
     }
 
     private void checkVersion(Version version) {
@@ -123,22 +126,27 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         } else {
             toMainPage();
         }
+        finish();
     }
 
     private void toAdPage() {
         Intent intent = new Intent(Welcome.this, AdActivity.class);
         startActivity(intent);
-        finish();
     }
 
     private void toMainPage() {
         startActivity(new Intent(Welcome.this, MainActivity.class));
-        finish();
     }
 
     private void toGuidePage() {
         startActivity(new Intent(Welcome.this, GuideActivity.class));
-        finish();
     }
 
+    @Override
+    public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
+        assert coreDataWrapper != null;
+        if(DataCore.VERSION == coreDataWrapper.dataType) {
+            checkVersion(coreDataWrapper.version);
+        }
+    }
 }

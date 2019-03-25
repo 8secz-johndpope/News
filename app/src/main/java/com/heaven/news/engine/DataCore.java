@@ -29,9 +29,12 @@ import com.neusoft.szair.model.memberbase.queryRespVO;
 import com.neusoft.szair.model.memberbase.vipDetails;
 import com.neusoft.szair.model.memberbase.vipDocument;
 import com.neusoft.szair.model.soap.SOAPConstants;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * FileName: com.heaven.news.engine.DataCore.java
@@ -48,8 +51,9 @@ public class DataCore {
     public static int LOGIN = 2;
     public static int MILE = 3;
 
-    public MediatorLiveData mediatorLiveData = new MediatorLiveData();
-    private ArrayList<MutableLiveData<CoreDataWrapper>> dataTypeList = new ArrayList<>();
+    public boolean isRequestVersionError;
+
+    private Map<Observer<CoreDataWrapper>, MutableLiveData<CoreDataWrapper>> observers = new HashMap<>();
 
     private DataSource dataSource;
 
@@ -92,33 +96,33 @@ public class DataCore {
     }
 
     public void initLoginData(queryRespVO userInfo) {
-            if (userInfo != null) {
-                hasLogin = true;
-                userAllInfo = userInfo;
-                userCrmCardNumber = userInfo._CRM_CARD_NUMBER;
+        if (userInfo != null) {
+            hasLogin = true;
+            userAllInfo = userInfo;
+            userCrmCardNumber = userInfo._CRM_CARD_NUMBER;
 
-                if ("1".equals(userInfo._CRM_FREQUENT_FLYER_FLAG)) {
-                    isRegistPhoenix = true;
-                }
-                groupFlag = userInfo._GROUP_FLAG;
-                if (userInfo._GROUP_INFO != null) {
-                    groupCode = userInfo._GROUP_INFO._CUS_BIG_CODE;
-                }
-                if (userInfo._VIP != null) {
-                    if (userInfo._VIP._VIPDETAILS != null) {
-                        initUserName(userInfo._VIP._VIPDETAILS);
-                        if (userInfo._VIP._VIP_DOCUMENTS != null) {
-                            userIdNumber(userInfo._VIP._VIP_DOCUMENTS);
-                        }
+            if ("1".equals(userInfo._CRM_FREQUENT_FLYER_FLAG)) {
+                isRegistPhoenix = true;
+            }
+            groupFlag = userInfo._GROUP_FLAG;
+            if (userInfo._GROUP_INFO != null) {
+                groupCode = userInfo._GROUP_INFO._CUS_BIG_CODE;
+            }
+            if (userInfo._VIP != null) {
+                if (userInfo._VIP._VIPDETAILS != null) {
+                    initUserName(userInfo._VIP._VIPDETAILS);
+                    if (userInfo._VIP._VIP_DOCUMENTS != null) {
+                        userIdNumber(userInfo._VIP._VIP_DOCUMENTS);
                     }
                 }
-
-                phone = userInfo._PHONE;
-                address = userInfo._ADDRESS;
-                mail = userInfo._EMAIL;
-
-                phoenixInfo(userInfo._MEMBER, userInfo._CREDENTIAL_LIST);
             }
+
+            phone = userInfo._PHONE;
+            address = userInfo._ADDRESS;
+            mail = userInfo._EMAIL;
+
+            phoenixInfo(userInfo._MEMBER, userInfo._CREDENTIAL_LIST);
+        }
     }
 
     private void initUserName(vipDetails userVipDetails) {
@@ -189,7 +193,7 @@ public class DataCore {
         }
     }
 
-    public void login(String userCount,String pwd) {
+    public void login(String userCount, String pwd) {
         if (!TextUtils.isEmpty(userCount) && !TextUtils.isEmpty(pwd)) {
             loginNew login = new loginNew();
             loginReqVO loginreqvo = new loginReqVO();
@@ -208,18 +212,18 @@ public class DataCore {
 
             RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
                 if (loginNewResponseDataResponse.code == 0 && loginNewResponseDataResponse.data != null && loginNewResponseDataResponse.data._LOGIN_RESULT != null) {
-                    if("0000".equals(loginNewResponseDataResponse.data._LOGIN_RESULT._CODE)) {
+                    if ("0000".equals(loginNewResponseDataResponse.data._LOGIN_RESULT._CODE)) {
                         UserLoginInfo userLoginInfo = new UserLoginInfo();
                         userLoginInfo.userCount = userCount;
                         userLoginInfo.userPwd = pwd;
                         initLoginData(loginNewResponseDataResponse.data._LOGIN_RESULT);
-                        notifyCoreDataChange(getCoreDataWrapper(true,LOGIN));
+                        notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
                         dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userLoginInfo);
                     } else {
-                        notifyCoreDataChange(getCoreDataWrapper(false,LOGIN));
+                        notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
                     }
                 } else {
-                    notifyCoreDataChange(getCoreDataWrapper(false,LOGIN));
+                    notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
                 }
             });
         }
@@ -227,29 +231,34 @@ public class DataCore {
 
 
     @TraceTime
-    private void requestVersion() {
+    public void requestVersion() {
         RxRepUtils.instance().getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
             if (configData.netCode == 0 && configData.androidversionnew != null) {
                 this.configData = configData;
                 this.version = configData.androidversionnew;
-                notifyCoreDataChange(getCoreDataWrapper(true,VERSION));
+                isRequestVersionError = false;
+                notifyCoreDataChange(getCoreDataWrapper(true, VERSION));
+                Logger.i("requestVersion--" + configData.toString());
             } else {
-                notifyCoreDataChange(getCoreDataWrapper(false,VERSION));
+                isRequestVersionError = true;
+                notifyCoreDataChange(getCoreDataWrapper(false, VERSION));
+                Logger.i("requestVersion--" + configData.toString());
             }
         });
     }
 
 
-    private void requestHomeConfig() {
+    public void requestHomeConfig() {
         RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if (homeConfigData.netCode == 0) {
                 this.homeConfigData = homeConfigData;
-                notifyCoreDataChange(getCoreDataWrapper(true,HOME));
+                notifyCoreDataChange(getCoreDataWrapper(true, HOME));
             } else {
-                notifyCoreDataChange(getCoreDataWrapper(false,HOME));
+                notifyCoreDataChange(getCoreDataWrapper(false, HOME));
             }
         });
     }
+
 
     public Version getVersion() {
         return version;
@@ -272,40 +281,47 @@ public class DataCore {
     }
 
 
-    public void registerDataTypeObaserver(LifecycleOwner lifecycleOwner,Observer<CoreDataWrapper> typeObserver) {
-        MutableLiveData<CoreDataWrapper> dataTypeLive = new MutableLiveData<>();
-        dataTypeLive.observe(lifecycleOwner,typeObserver);
-        dataTypeList.add(dataTypeLive);
+    public void registerDataTypeObaserver(LifecycleOwner lifecycleOwner, Observer<CoreDataWrapper> typeObserver) {
+        if (!observers.containsKey(typeObserver)) {
+            MutableLiveData<CoreDataWrapper> dataTypeLive = new MutableLiveData<>();
+            dataTypeLive.observe(lifecycleOwner, typeObserver);
+            observers.put(typeObserver, dataTypeLive);
+        }
+    }
+
+    void removeForeverObserve(Observer<CoreDataWrapper> typeObserver) {
+       Object object = observers.remove(typeObserver);
+        Logger.i("DataCore----removeForeverObserve--" + object);
     }
 
     private void notifyCoreDataChange(CoreDataWrapper coreDataWrapper) {
-        if(dataTypeList != null && dataTypeList.size() > 0) {
-            for(MutableLiveData<CoreDataWrapper> mutableLiveData : dataTypeList) {
-                if(mutableLiveData != null) {
-                    mutableLiveData.postValue(coreDataWrapper);
-                }
+        Logger.i("DataCore----notifyCoreDataChange-" + coreDataWrapper.toString());
+        if(observers != null && observers.size() > 0) {
+            for(MutableLiveData<CoreDataWrapper> dataTypeLive : observers.values()) {
+                dataTypeLive.postValue(coreDataWrapper);
+
             }
         }
     }
 
-    private CoreDataWrapper getCoreDataWrapper(boolean isSuccess,int dataType) {
+    private CoreDataWrapper getCoreDataWrapper(boolean isSuccess, int dataType) {
         CoreDataWrapper coreDataWrapper = new CoreDataWrapper();
         coreDataWrapper.isSuccess = isSuccess;
         coreDataWrapper.dataType = dataType;
-        if(isSuccess) {
-            if(VERSION == dataType) {
-                if(configData != null && configData.androidversionnew != null) {
+        if (isSuccess) {
+            if (VERSION == dataType) {
+                if (configData != null && configData.androidversionnew != null) {
                     coreDataWrapper.version = configData.androidversionnew;
                 }
-            } else if(HOME == dataType) {
-                if(homeConfigData != null) {
+            } else if (HOME == dataType) {
+                if (homeConfigData != null) {
                     coreDataWrapper.homeConfigData = homeConfigData;
                 }
-            } else if(LOGIN == dataType) {
-                if(userAllInfo != null) {
+            } else if (LOGIN == dataType) {
+                if (userAllInfo != null) {
                     coreDataWrapper.userAllInfo = userAllInfo;
                 }
-            } else if(MILE == dataType) {
+            } else if (MILE == dataType) {
 
             }
         }

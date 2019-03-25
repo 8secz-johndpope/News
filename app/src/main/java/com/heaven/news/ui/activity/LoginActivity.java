@@ -1,5 +1,7 @@
 package com.heaven.news.ui.activity;
 
+import android.arch.lifecycle.Observer;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.heaven.news.R;
@@ -13,22 +15,13 @@ import com.heaven.news.ui.vm.viewmodel.LoginViewModel;
 /**
  * @author heaven
  */
-public class LoginActivity extends BaseToolBarSimpleActivity<LoginViewModel, LoginBinding> {
+public class LoginActivity extends BaseToolBarSimpleActivity<LoginViewModel, LoginBinding> implements Observer<DataCore.CoreDataWrapper> {
 
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
         showBackTitleBarTitle(R.string.welcom_login);
-        AppEngine.instance().dataCore().registerDataTypeObaserver(this, coreDataWrapper -> {
-            if (coreDataWrapper != null && DataCore.LOGIN == coreDataWrapper.dataType) {
-                if (coreDataWrapper.isSuccess) {
-                    if (AppEngine.instance().dataCore().isLogin()) {
-                        AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN, true);
-                        finish();
-                    }
-                }
-            }
-        });
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
     }
 
     @Override
@@ -46,5 +39,17 @@ public class LoginActivity extends BaseToolBarSimpleActivity<LoginViewModel, Log
         mViewBinding.setLoginHandlers(this);
         mViewBinding.setViewModel(mViewModel);
         mViewBinding.setUserInfo(mViewModel.userInfo);
+    }
+
+    @Override
+    public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
+        if (coreDataWrapper != null && DataCore.LOGIN == coreDataWrapper.dataType) {
+            if (coreDataWrapper.isSuccess) {
+                if (AppEngine.instance().dataCore().isLogin()) {
+                    AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN, true);
+                    finish();
+                }
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.heaven.news.engine;
 
 import android.app.Activity;
 import android.app.Application;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -543,6 +544,9 @@ public final class AppEngine {
 
         @Override
         public void onActivityDestroyed(final Activity activity) {
+            if(activity instanceof Observer) {
+                mDataCore.removeForeverObserve((Observer) activity);
+            }
             store.remove(activity);
         }
     }
