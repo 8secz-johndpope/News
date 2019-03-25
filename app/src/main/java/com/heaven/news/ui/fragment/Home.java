@@ -35,6 +35,7 @@ import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 import com.heaven.news.utils.UIUtil;
+import com.heaven.news.utils.UiPxUtil;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         topAdapter = new BannerAdapter(getContext());
         mViewBinding.imageViewPager.setAdapter(topAdapter);
         mViewBinding.imageViewPager.setOffscreenPageLimit(3);//预加载2个
-        mViewBinding.imageViewPager.setPageMargin(60);//设置viewpage之间的间距
+        mViewBinding.imageViewPager.setPageMargin(UiPxUtil.dip2px(getContext(),30));//设置viewpage之间的间距
         mViewBinding.imageViewPager.setPageTransformer(true, new CardTransformer());
         topAdapter.setItemClickListener(index -> {
 //                ToastUtils.showToast("点击了图片" + index);
