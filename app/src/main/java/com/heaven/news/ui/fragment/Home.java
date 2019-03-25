@@ -172,6 +172,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
                     updateHotImages(homeImageInfo.hot);
                 }
             } else {
+                AppEngine.instance().dataCore().requestHomeConfig();
                 ArrayList<ImageInfo> bannerList = new ArrayList<>();
                 bannerList.add(new ImageInfo());
                 updateBannerData(bannerList);
