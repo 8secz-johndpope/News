@@ -85,14 +85,15 @@ public class DataCore {
 
     DataCore(DataSource dataSource) {
         this.dataSource = dataSource;
-        autoLogin();
-        this.dataSource.runWorkThread(this::prepareData);
+        prepareData();
     }
 
 
     private void prepareData() {
+        autoLogin();
         requestVersion();
         requestHomeConfig();
+        homeConfigData = dataSource.getCacheEntity(DataSource.DB,Constants.HOMECONFIG);
 //        getAdInfo();
     }
 
@@ -265,6 +266,7 @@ public class DataCore {
         RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if (homeConfigData.netCode == 0) {
                 this.homeConfigData = homeConfigData;
+                dataSource.cacheData(DataSource.DB,Constants.HOMECONFIG,homeConfigData);
                 notifyCoreDataChange(getCoreDataWrapper(true, HOME));
             } else {
                 notifyCoreDataChange(getCoreDataWrapper(false, HOME));
