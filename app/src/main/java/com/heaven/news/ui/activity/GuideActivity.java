@@ -35,13 +35,12 @@ public class GuideActivity extends BaseSimpleBindActivity<GuideNewModel, GuideBi
     }
 
     @Override
+    protected void initMmersionTitleBar() {
+    }
+
+    @Override
     public void makeContentView(View rootView) {
-        //无title
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //全屏
-        getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,
-                WindowManager.LayoutParams. FLAG_FULLSCREEN);
-        super.makeContentView(rootView);
+        setContentView(rootView);
     }
 
     @Override
