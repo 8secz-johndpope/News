@@ -3,6 +3,8 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_margin="@dimen/common_margin"
+          android:textColor="@color/tab_bottom_color"
+          android:textSize="@dimen/_12sp"
           android:id="@+id/bottom_bar_name"
           android:gravity="center"
           android:orientation="vertical"
