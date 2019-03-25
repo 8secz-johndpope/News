@@ -3,6 +3,7 @@ package com.heaven.data.net;
 import android.net.ParseException;
 
 import com.google.gson.JsonParseException;
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.xmlpull.v1.XmlPullParserException;
@@ -30,10 +31,9 @@ public class ExceptionHandle {
     private static final int GATEWAY_TIMEOUT = 504;
 
     public static DataResponse handleException(Throwable e) {
-        DataResponse ex;
+        DataResponse ex = new DataResponse();
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
-            ex = new DataResponse();
             switch (httpException.code()) {
                 case UNAUTHORIZED:
                 case FORBIDDEN:
@@ -48,48 +48,35 @@ public class ExceptionHandle {
                     ex.reason = "网络错误";
                     break;
             }
-            return ex;
         } else if (e instanceof ServerException) {
             ServerException resultException = (ServerException) e;
-            ex = new DataResponse();
             ex.code = resultException.code;
             ex.reason = resultException.message;
-            return ex;
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException
                 || e instanceof XmlPullParserException) {
-            ex = new DataResponse();
             ex.code = ERROR.PARSE_ERROR;
             ex.reason = "解析错误";
-            return ex;
         } else if (e instanceof ConnectException) {
-            ex = new DataResponse();
             ex.code = ERROR.NETWORD_ERROR;
             ex.reason = "连接失败";
-            return ex;
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
-            ex = new DataResponse();
             ex.code = ERROR.SSL_ERROR;
             ex.reason = "证书验证失败";
-            return ex;
         } else if(e instanceof SocketTimeoutException) {
             SocketTimeoutException timeoutException = (SocketTimeoutException) e;
-            ex = new DataResponse();
             ex.code = ERROR.TIME_OUT;
             ex.reason = "连接超时SocketTimeoutException";
-            return ex;
         } else if(e instanceof Exception) {
-            ex = new DataResponse();
             ex.code = ERROR.UNKNOWN;
             ex.reason = e.getMessage();
-            return ex;
         } else {
-            ex = new DataResponse();
             ex.code = ERROR.UNKNOWN;
             ex.reason = "未知错误";
-            return ex;
         }
+        Logger.i("ExceptionHandle--" + ex.toString());
+        return ex;
     }
 
     /**
