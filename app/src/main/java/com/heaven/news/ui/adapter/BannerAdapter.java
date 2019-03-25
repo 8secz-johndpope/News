@@ -1,6 +1,7 @@
 package com.heaven.news.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -31,11 +32,16 @@ public class BannerAdapter extends BaseLoopBannerAdapter<ImageInfo> {
     @Override
     public void bindView(View viewItem, ImageInfo imageInfo, int position) {
         ImageView imageView = viewItem.findViewById(R.id.banner_image);
-        Glide.with(viewItem.getContext())
-                .load(imageInfo.pic)
+        if(TextUtils.isEmpty(imageInfo.pic)) {
+            imageView.setImageResource(R.mipmap.hint_banner);
+        } else {
+            Glide.with(viewItem.getContext())
+                    .load(imageInfo.pic)
 //                .placeholder(R.mipmap.ic_launcher) // can also be a drawable
 //                .error(R.mipmap.cheese) // will be displayed if the image cannot be loaded
-                .centerCrop()
-                .into(imageView);
+                    .centerCrop()
+                    .into(imageView);
+        }
+
     }
 }
