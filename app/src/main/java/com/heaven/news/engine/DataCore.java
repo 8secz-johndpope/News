@@ -52,8 +52,6 @@ public class DataCore {
     public static int LOGIN = 2;
     public static int MILE = 3;
 
-    public boolean isRequestVersionError;
-
     private Map<Observer<CoreDataWrapper>, MutableLiveData<CoreDataWrapper>> observers = new HashMap<>();
 
     private DataSource dataSource;
@@ -251,15 +249,14 @@ public class DataCore {
             if (configData.netCode == 0 && configData.androidversionnew != null) {
                 this.configData = configData;
                 this.version = configData.androidversionnew;
-                isRequestVersionError = false;
                 notifyCoreDataChange(getCoreDataWrapper(true, VERSION));
                 Logger.i("requestVersion--" + configData.toString());
             } else {
-                isRequestVersionError = true;
-                notifyCoreDataChange(getCoreDataWrapper(false, VERSION));
                 if(reqVersionCount < 3) {
                     requestVersion();
                     reqVersionCount++;
+                } else {
+                    notifyCoreDataChange(getCoreDataWrapper(false, VERSION));
                 }
                 Logger.i("requestVersion--" + configData.toString());
             }
@@ -267,6 +264,7 @@ public class DataCore {
     }
 
 
+    private int requestHomeCount = 0;
     public void requestHomeConfig() {
         RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if (homeConfigData.netCode == 0) {
@@ -274,7 +272,12 @@ public class DataCore {
                 dataSource.cacheData(DataSource.DISK,Constants.HOMECONFIG,homeConfigData);
                 notifyCoreDataChange(getCoreDataWrapper(true, HOME));
             } else {
-                notifyCoreDataChange(getCoreDataWrapper(false, HOME));
+                if(reqVersionCount < 3) {
+                    requestHomeCount++;
+                    requestHomeConfig();
+                } else {
+                    notifyCoreDataChange(getCoreDataWrapper(false, HOME));
+                }
             }
         });
     }
