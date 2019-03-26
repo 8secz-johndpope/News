@@ -61,6 +61,8 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         Version version = AppEngine.instance().dataCore().getVersion();
         if(version == null) {
             AppEngine.instance().dataCore().requestVersion();
+        } else {
+            checkVersion(version);
         }
     }
 
@@ -151,5 +153,10 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
             Logger.i("Welcome--onChanged--" + coreDataWrapper.toString());
             checkVersion(coreDataWrapper.version);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }
