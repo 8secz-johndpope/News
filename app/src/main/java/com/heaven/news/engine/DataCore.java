@@ -244,7 +244,7 @@ public class DataCore {
     }
 
 
-    int reqVersionCount = 0;
+    private int reqVersionCount = 0;
     @TraceTime
     public void requestVersion() {
         RxRepUtils.instance().getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
