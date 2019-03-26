@@ -132,9 +132,9 @@ android {
 //            buildConfigField "String", "ROOT_URL", '"http://120.76.211.202:9098/ifilmo-toc/"'
 //            buildConfigField "String", "CHAT_ROOT_URL", '"http://ifilmo.me:8080/"'
             versionNameSuffix "release"
-            minifyEnabled true
+            minifyEnabled false
             zipAlignEnabled true
-            shrinkResources true
+            shrinkResources false
             signingConfig signingConfigs.release
 //            proguardFiles '../config/proguard-rules.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

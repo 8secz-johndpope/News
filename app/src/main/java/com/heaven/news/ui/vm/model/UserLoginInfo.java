@@ -10,9 +10,12 @@ import java.io.Serializable;
  * email: heavenisme@aliyun.com
  * date: 2019-03-09 01:05
  *
+ * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class UserLoginInfo implements Serializable {
+
+    private static final long serialVersionUID = 8244539920568972456L;
     public String key;
     public String userCount;
     public String userPwd;

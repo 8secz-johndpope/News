@@ -34,7 +34,8 @@ public class LoginViewModel extends BaseViewModel {
         if(TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {
             return;
         }
-        AppEngine.instance().dataCore().login(count,Constants.getPassword(passwords));
+        AppEngine.instance().getDataSource().runWorkThread(() -> AppEngine.instance().dataCore().login(count,Constants.getPassword(passwords)));
+
     }
 
     public static class UserInfo extends BaseObservable implements Serializable {
