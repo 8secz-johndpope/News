@@ -5,6 +5,8 @@ import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.text.TextUtils;
+import android.util.SparseIntArray;
+import android.util.SparseLongArray;
 
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.data.manager.DataSource;
@@ -53,6 +55,10 @@ public class DataCore {
     public static int MILE = 3;
 
     private Map<Observer<CoreDataWrapper>, MutableLiveData<CoreDataWrapper>> observers = new HashMap<>();
+
+
+    ArrayList<Long> loginTaskTaskList = new ArrayList();
+    ArrayList<Long> homeTaskList = new ArrayList();
 
     private DataSource dataSource;
 
@@ -213,7 +219,7 @@ public class DataCore {
 
             MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
 
-            RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
+            Long loginTaskId = RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
                 if (loginNewResponseDataResponse.code == 0 && loginNewResponseDataResponse.data != null && loginNewResponseDataResponse.data._LOGIN_RESULT != null) {
                     if ("0000".equals(loginNewResponseDataResponse.data._LOGIN_RESULT._CODE)) {
                         UserSecret userSecret = new UserSecret(userCount,pwd);
@@ -273,7 +279,7 @@ public class DataCore {
                 dataSource.cacheData(DataSource.DISK,Constants.HOMECONFIG,homeConfigData);
                 notifyCoreDataChange(getCoreDataWrapper(true, HOME));
             } else {
-                if(reqVersionCount < 3) {
+                if(requestHomeCount < 3) {
                     requestHomeCount++;
                     requestHomeConfig();
                 } else {
