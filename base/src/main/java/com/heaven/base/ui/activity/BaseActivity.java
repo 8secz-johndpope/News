@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.base.R;
 import com.heaven.base.ui.SpUtil;
 import com.heaven.base.ui.view.widget.SwipeBackLayout;
@@ -36,7 +37,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ARouter.getInstance().inject(this);
         if(initLayoutResId() > 0) {
             LinearLayout rootView = (LinearLayout) getLayoutInflater().inflate(R.layout.base, null);
             if(iniTitleBarResId() > 0) {

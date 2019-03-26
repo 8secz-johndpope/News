@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.news.utils.SystemUtil;
 //import com.squareup.leakcanary.LeakCanary;
 
@@ -75,4 +76,9 @@ public class App extends Application{
         return  appDelegate;
     }
 
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        ARouter.getInstance().destroy();
+    }
 }

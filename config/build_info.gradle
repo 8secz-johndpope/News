@@ -45,6 +45,9 @@ versions.styleableToastVersion = "1.0.6"
 versions.daggerVersion = '2.11'
 versions.butterKnifeVersion = '7.0.1'
 versions.lifecycle = '1.1.1'
+versions.arouterapi = '1.4.1'
+versions.aroutercompiler = '1.2.2'
+
 /*********************uiversion*******************/
 
 /*********************otherversion*******************/
@@ -95,6 +98,8 @@ uiDep.dagger = "com.google.dagger:dagger:$versions.daggerVersion"
 uiDep.butterKnife = "com.jakewharton:butterknife:$versions.butterKnifeVersion"
 uiDep.styleableToast = "com.muddzdev:styleabletoast:$versions.styleableToastVersion"
 uiDep.exoplayer = 'com.google.android.exoplayer:exoplayer:2.8.0'
+uiDep.arouterapi = "com.alibaba:arouter-api:$versions.arouterapi"
+uiDep.aroutercompiler = "com.alibaba:arouter-compiler:$versions.aroutercompiler"
 
 def archDep = [:]
 archDep.extensions = "android.arch.lifecycle:extensions:$versions.lifecycle"

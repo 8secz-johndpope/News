@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.base.ui.SpUtil;
 import com.heaven.data.dbentity.DownEntity;
 import com.heaven.data.fileworker.DownLoadWorker;
@@ -126,6 +127,7 @@ public final class AppEngine {
         //activity声明周期检测
         SwitchBackgroundCallbacks callbacks = new SwitchBackgroundCallbacks();
         appDelegate.app().registerActivityLifecycleCallbacks(callbacks);
+        initArouter();
         //耗时初始化在线程中
         getDataSource().runWorkThread(this::initInThread);
 
@@ -144,10 +146,18 @@ public final class AppEngine {
         initAppOptimizeTool(appDelegate.context());
     }
 
+    private void initArouter() {
+        if (BuildConfig.DEBUG) {
+            ARouter.openLog();//打开日志
+            ARouter.openDebug();//打开调式模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
+        }
+        ARouter.init(appDelegate.app());
+    }
+
     private void initLogger() {
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
-                .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
-                .methodCount(0)         // (Optional) How many method line to show. Default 2
+                .showThreadInfo(true)  // (Optional) Whether to show thread info or not. Default true
+                .methodCount(2)         // (Optional) How many method line to show. Default 2
                 .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
 //                .logStrategy(customLog) // (Optional) Changes the log strategy to print out. Default LogCat
                 .tag("heaven")   // (Optional) Global tag for every log. Default PRETTY_LOGGER

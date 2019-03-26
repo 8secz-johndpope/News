@@ -7,6 +7,11 @@ android {
         targetSdkVersion            build_info.target_sdk
         versionCode                 app.versionCode
         versionName                 app.versionName
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ AROUTER_MODULE_NAME : project.getName() ]
+            }
+        }
     }
 
 
@@ -43,11 +48,13 @@ dependencies {
     api uiDep.recyclerView
     api uiDep.cardview
     api uiDep.glide
-    annotationProcessor uiDep.glideannotion
     api uiDep.glideokhttp
     api uiDep.androidAnnotations
     api uiDep.support
     api archDep.extensions
+    api uiDep.arouterapi
+    annotationProcessor uiDep.aroutercompiler
+    annotationProcessor uiDep.glideannotion
     api 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 //    api uiDep.styleableToast
 
