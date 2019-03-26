@@ -127,7 +127,7 @@ android {
             buildConfigField "String", "QQ_APP_ID", '""'
             buildConfigField "String", "WX_APP_ID", '"wxce1a7065bfc5d09e"'
             buildConfigField "String", "WX_APP_SECRET", '"66811ce8142dd4a803a5c8e5020b6675"'
-            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "LOG_DEBUG", "true"
 //            buildConfigField "String", "ROOT_URL", '"http://api.ifilmo.com/ifilmo-toc/"'
 //            buildConfigField "String", "ROOT_URL", '"http://120.76.211.202:9098/ifilmo-toc/"'
 //            buildConfigField "String", "CHAT_ROOT_URL", '"http://ifilmo.me:8080/"'
@@ -162,9 +162,9 @@ android {
             buildConfigField "String", "CHAT_ROOT_URL", '"http://47.89.42.150:8080/"'
             buildConfigField "boolean", "LOG_DEBUG", "true"
             versionNameSuffix "debug"
-            minifyEnabled false
+            minifyEnabled true
             zipAlignEnabled true
-            shrinkResources false
+            shrinkResources true
             signingConfig signingConfigs.debug
 
 //            project.rootProject.file('config/secret.properties')

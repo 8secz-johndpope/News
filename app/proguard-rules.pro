@@ -22,14 +22,31 @@
 ######### 主程序不能混淆的代码 #########
 #####################################
 -keep class com.heaven.model**{*;}
--keep class com.heaven.flybetter.aop.** {*;}
+-keep class com.heaven.news.aop.** {*;}
 -keep class com.heaven.annotation.** {*;}
 -keep class com.heaven.data.manager.** {*;}
 -keep class com.heaven.service.** {*;}
+-keep class com.heaven.base.** {*;}
 
 #-------------------------------------------------------------------------
 
 #---------------------------------2.第三方包-------------------------------
+
+-keep class android.arch.** {*;}
+-keep class dagger.** {*;}
+
+#ARouter
+-keep public class com.alibaba.android.arouter.routes.**{*;}
+-keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
+
+# 如果使用了 byType 的方式获取 Service，需添加下面规则，保护接口
+-keep interface * implements com.alibaba.android.arouter.facade.template.IProvider
+
+# 如果使用了 单类注入，即不定义接口实现 IProvider，需添加下面规则，保护实现
+-keep class * implements com.alibaba.android.arouter.facade.template.IProvide
+
+
+
 #aspectj
 -keep class org.aspectj.** {
 *;
@@ -307,6 +324,18 @@ public void *(***);
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
 -keep class com.alipay.mobilesecuritysdk.*
 -keep class com.ut.*
+
+
+#glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+# for DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 #-------------------------------------------------------------------------
 
 #---------------------------------3.与js互相调用的类------------------------

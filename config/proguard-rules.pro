@@ -22,14 +22,19 @@
 ######### 主程序不能混淆的代码 #########
 #####################################
 -keep class com.heaven.model**{*;}
--keep class com.heaven.flybetter.aop.** {*;}
+-keep class com.heaven.news.aop.** {*;}
 -keep class com.heaven.annotation.** {*;}
 -keep class com.heaven.data.manager.** {*;}
 -keep class com.heaven.service.** {*;}
+-keep class com.heaven.base.** {*;}
 
 #-------------------------------------------------------------------------
 
 #---------------------------------2.第三方包-------------------------------
+
+-keep class android.arch.** {*;}
+-keep class dagger.** {*;}
+
 #ARouter
 -keep public class com.alibaba.android.arouter.routes.**{*;}
 -keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}

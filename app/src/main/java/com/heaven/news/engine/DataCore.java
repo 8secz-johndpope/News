@@ -252,7 +252,7 @@ public class DataCore {
                 notifyCoreDataChange(getCoreDataWrapper(true, VERSION));
                 Logger.i("requestVersion--" + configData.toString());
             } else {
-                if(reqVersionCount < 3) {
+                if(reqVersionCount < 2) {
                     requestVersion();
                     reqVersionCount++;
                 } else {
