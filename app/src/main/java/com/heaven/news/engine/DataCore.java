@@ -57,7 +57,7 @@ public class DataCore {
     private Map<Observer<CoreDataWrapper>, MutableLiveData<CoreDataWrapper>> observers = new HashMap<>();
 
 
-    ArrayList<Long> loginTaskTaskList = new ArrayList();
+    ArrayList<Long> versionTaskList = new ArrayList();
     ArrayList<Long> homeTaskList = new ArrayList();
 
     private DataSource dataSource;
@@ -252,11 +252,12 @@ public class DataCore {
     private int reqVersionCount = 0;
     @TraceTime
     public void requestVersion() {
-        RxRepUtils.instance().getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
+      long taskId =  RxRepUtils.instance().getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
             if (configData.netCode == 0 && configData.androidversionnew != null) {
                 this.configData = configData;
                 this.version = configData.androidversionnew;
                 notifyCoreDataChange(getCoreDataWrapper(true, VERSION));
+//                cancelVersionTask();
                 Logger.i("requestVersion--" + configData.toString());
             } else {
                 if(reqVersionCount < 2) {
@@ -268,16 +269,18 @@ public class DataCore {
                 Logger.i("requestVersion--" + configData.toString());
             }
         });
+      versionTaskList.add(taskId);
     }
 
 
     private int requestHomeCount = 0;
     public void requestHomeConfig() {
-        RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
+        long taskId = RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if (homeConfigData.netCode == 0) {
                 this.homeConfigData = homeConfigData;
                 dataSource.cacheData(DataSource.DISK,Constants.HOMECONFIG,homeConfigData);
                 notifyCoreDataChange(getCoreDataWrapper(true, HOME));
+//                cancelHomeTask();
             } else {
                 if(requestHomeCount < 3) {
                     requestHomeCount++;
@@ -287,6 +290,23 @@ public class DataCore {
                 }
             }
         });
+        homeTaskList.add(taskId);
+    }
+
+    private void cancelVersionTask() {
+        if(versionTaskList != null && versionTaskList.size() > 0) {
+            for(Long taskId : versionTaskList) {
+                RxRepUtils.cancelTask(taskId);
+            }
+        }
+    }
+
+    private void cancelHomeTask() {
+        if(homeTaskList != null && homeTaskList.size() > 0) {
+            for(Long taskId : homeTaskList) {
+                RxRepUtils.cancelTask(taskId);
+            }
+        }
     }
 
 
