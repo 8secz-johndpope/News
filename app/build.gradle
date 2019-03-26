@@ -162,9 +162,9 @@ android {
             buildConfigField "String", "CHAT_ROOT_URL", '"http://47.89.42.150:8080/"'
             buildConfigField "boolean", "LOG_DEBUG", "true"
             versionNameSuffix "debug"
-            minifyEnabled true
+            minifyEnabled false
             zipAlignEnabled true
-            shrinkResources true
+            shrinkResources false
             signingConfig signingConfigs.debug
 
 //            project.rootProject.file('config/secret.properties')

@@ -1,14 +1,14 @@
 <resources>
 
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">@android:color/transparent</item>
+        <item name="tabIndicatorColor">@color/red</item>
         <item name="tabIndicatorHeight">0dp</item>
         <item name="tabPaddingTop">0dp</item>
         <item name="tabPaddingBottom">0dp</item>
         <item name="tabPaddingStart">12dp</item>
         <item name="tabPaddingEnd">12dp</item>
         <item name="tabBackground">@color/colorWhite</item>
-        <item name="tabSelectedTextColor">@color/textColor</item>
+        <item name="tabSelectedTextColor">@color/tab_bottom_color</item>
     </style>
 
 </resources>

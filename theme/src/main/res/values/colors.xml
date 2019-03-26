@@ -7,6 +7,8 @@
     <color name="line_color">#eeeeee</color>
     <color name="step_progress_halftransparent_bg">#50000000</color>
 
+    <color name="gray_e4">#E4E4E4</color>
+
     <color name="CoverColor">#757575</color>
     <color name="alpha_white">#FFF5F5F5</color>
     <color name="white">#ffffff</color>

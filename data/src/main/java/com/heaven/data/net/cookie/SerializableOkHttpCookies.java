@@ -11,9 +11,11 @@ import okhttp3.Cookie;
  * 作者：Heaven
  * 时间: on 2016/10/18 17:47
  * 邮箱：heavenisme@aliyun.com
+ * @author heaven
  */
 
 public class SerializableOkHttpCookies implements Serializable {
+    private static final long serialVersionUID = -4531153460463689977L;
     private transient final Cookie cookies;
     private transient Cookie clientCookies;
 

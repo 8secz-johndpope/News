@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -100,12 +101,13 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-
+//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+//        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+//        tabLayout.setSelectedTabIndicatorHeight(0);
         int tabCount = tabLayout.getTabCount();
         for (int i = 0; i < tabCount; i++) {
             View barItem = LayoutInflater.from(getContext()).inflate(R.layout.bottom_tab_item, null);
+           ViewGroup.LayoutParams params = barItem.getLayoutParams();
             TextView barName = barItem.findViewById(R.id.bottom_bar_name);
             barName.setText(bottomBarList[i]);
             TabLayout.Tab tab = tabLayout.getTabAt(i);

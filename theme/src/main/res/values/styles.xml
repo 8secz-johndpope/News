@@ -75,7 +75,7 @@
     </style>
 
     <style name="horizontal_line_padding_50" parent="horizontal_line">
-        <item name="android:layout_marginStart">@dimen/_50dp</item>
+        <item name="android:layout_marginLeft">@dimen/_50dp</item>
     </style>
 
 
@@ -84,8 +84,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">8dp</item>
-        <item name="android:layout_marginEnd">16dp</item>
-        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
         <!--<item name="android:background">#fff</item>-->
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">18sp</item>
@@ -93,15 +93,10 @@
     </style>
 
 
-    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">@android:color/transparent</item>
-        <item name="tabIndicatorHeight">0dp</item>
-        <item name="tabPaddingTop">0dp</item>
-        <item name="tabPaddingBottom">0dp</item>
-        <item name="tabPaddingStart">12dp</item>
-        <item name="tabPaddingEnd">12dp</item>
-        <item name="tabBackground">@color/colorWhite</item>
-        <item name="tabSelectedTextColor">@color/textColor</item>
+    //分割线浅色
+    <style name="driver_line_e4e4e4">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/gray_e4</item>
     </style>
-
 </resources>
