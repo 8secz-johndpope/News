@@ -22,7 +22,7 @@
 ######### 主程序不能混淆的代码 #########
 #####################################
 -keep class com.heaven.model**{*;}
--keep class com.nneusoft.szair.model**{*;}
+-keep class com.neusoft.szair.model**{*;}
 -keep class com.heaven.news.aop.** {*;}
 -keep class com.heaven.annotation.** {*;}
 -keep class com.heaven.data.manager.** {*;}
