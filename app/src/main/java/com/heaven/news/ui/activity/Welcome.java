@@ -147,6 +147,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
         assert coreDataWrapper != null;
         if(DataCore.VERSION == coreDataWrapper.dataType) {
+            Logger.i("Welcome--onChanged--" + coreDataWrapper.toString());
             checkVersion(coreDataWrapper.version);
         }
     }
