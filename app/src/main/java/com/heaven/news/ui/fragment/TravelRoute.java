@@ -32,7 +32,7 @@ import java.util.List;
  *
  * @version V1.0 行程
  */
-public class Route extends BaseSimpleBindFragment<MainViewModel,RouteBinding> implements OnRefreshListener, OnLoadMoreListener {
+public class TravelRoute extends BaseSimpleBindFragment<MainViewModel,RouteBinding> implements OnRefreshListener, OnLoadMoreListener {
     List<Object> items;
     @Override
     public void bindModel() {
@@ -85,8 +85,8 @@ public class Route extends BaseSimpleBindFragment<MainViewModel,RouteBinding> im
         }
     }
 
-    public static  Route newInstance(Bundle paramBundle) {
-        Route fragment = new Route();
+    public static TravelRoute newInstance(Bundle paramBundle) {
+        TravelRoute fragment = new TravelRoute();
         fragment.setArguments(paramBundle);
         return fragment;
     }

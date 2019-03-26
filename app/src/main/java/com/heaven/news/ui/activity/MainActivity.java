@@ -14,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.heaven.news.R;
+import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.MainBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
@@ -24,7 +26,7 @@ import com.heaven.news.ui.fragment.EasyGo;
 import com.heaven.news.ui.fragment.Home;
 import com.heaven.news.ui.fragment.Mine;
 import com.heaven.news.ui.fragment.Phoenix;
-import com.heaven.news.ui.fragment.Route;
+import com.heaven.news.ui.fragment.TravelRoute;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 import com.orhanobut.logger.Logger;
 
@@ -41,6 +43,7 @@ import java.util.List;
  * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
+@Route(path= RouterUrl.ROUTER_URL_MAIN)
 public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainBinding> implements Observer<DataCore.CoreDataWrapper>,ViewPager.OnPageChangeListener, View.OnClickListener {
     private List<Fragment> mainList = new ArrayList<>();
 
@@ -73,7 +76,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
         paramBundle.putInt("wx_type", 1);
 
         mainList.add(Home.newInstance(paramBundle));
-        mainList.add(Route.newInstance(paramBundle));
+        mainList.add(TravelRoute.newInstance(paramBundle));
         mainList.add(EasyGo.newInstance(null));
         mainList.add(Phoenix.newInstance(null));
         mainList.add(Mine.newInstance(null));
