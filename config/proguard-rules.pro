@@ -25,6 +25,7 @@
 -keep class com.heaven.news.aop.** {*;}
 -keep class com.heaven.annotation.** {*;}
 -keep class com.heaven.data.manager.** {*;}
+-keep class com.heaven.data.convert.** {*;}
 -keep class com.heaven.service.** {*;}
 -keep class com.heaven.base.** {*;}
 -keep class com.heaven.news.ui.vm.model.**
