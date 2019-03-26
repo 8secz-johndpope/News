@@ -26,7 +26,7 @@
 -keep class com.heaven.annotation.** {*;}
 -keep class com.heaven.data.manager.** {*;}
 -keep class com.heaven.service.** {*;}
--keep class com.heaven.base.** {*;}
+#-keep class com.heaven.base.** {*;}
 
 #-------------------------------------------------------------------------
 
