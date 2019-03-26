@@ -133,8 +133,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     }
 
     private void toAdPage() {
-        Intent intent = new Intent(Welcome.this, AdActivity.class);
-        startActivity(intent);
+        ARouter.getInstance().build(RouterUrl.ROUTER_URL_AD).navigation();
     }
 
     private void toMainPage() {
@@ -142,7 +141,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     }
 
     private void toGuidePage() {
-        startActivity(new Intent(Welcome.this, GuideActivity.class));
+        ARouter.getInstance().build(RouterUrl.ROUTER_URL_GUIDE).navigation();
     }
 
     @Override

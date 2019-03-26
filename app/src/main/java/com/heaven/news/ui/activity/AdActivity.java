@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.heaven.base.ui.activity.BaseActivity;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.R;
 import com.heaven.news.consts.Constants;
+import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.AdBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.AdInfo;
@@ -22,6 +24,7 @@ import com.heaven.news.ui.vm.model.AdInfo;
  * @author heaven
  * @version V1.0 ad page
  */
+@Route(path = RouterUrl.ROUTER_URL_AD)
 public class AdActivity extends BaseActivity<AdBinding> {
     @Override
     public int initLayoutResId() {

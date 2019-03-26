@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
+import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.GuideBinding;
 import com.heaven.news.ui.adapter.CardTransformer;
 import com.heaven.news.ui.adapter.GuidePageAdapter;
@@ -28,6 +31,7 @@ import java.util.Arrays;
  * @author heaven
  * @version V1.0 新用户首次进入的引导页
  */
+@Route(path = RouterUrl.ROUTER_URL_GUIDE)
 public class GuideActivity extends BaseSimpleBindActivity<GuideNewModel, GuideBinding> {
     @Override
     public int initLayoutResId() {
@@ -56,8 +60,7 @@ public class GuideActivity extends BaseSimpleBindActivity<GuideNewModel, GuideBi
         mViewBinding.guidViewpager.setPageTransformer(true, new CardTransformer());
         pagerAdapter.setItemClickListener(v -> {
             if(R.id.trynow == v.getId()) {
-                Intent intent = new Intent(GuideActivity.this,MainActivity.class);
-                startActivity(intent);
+                ARouter.getInstance().build(RouterUrl.ROUTER_URL_MAIN).navigation();
                 finish();
             }
         });
