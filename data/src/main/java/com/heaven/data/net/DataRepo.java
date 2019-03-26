@@ -204,6 +204,7 @@ public class DataRepo {
             this.headerInterceptor = new HeaderInterceptor(headers);
 
             ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+                    .tlsVersions(TlsVersion.TLS_1_1)
                     .tlsVersions(TlsVersion.TLS_1_2)
                     .cipherSuites(
                             CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
@@ -211,8 +212,9 @@ public class DataRepo {
                             CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256)
                     .build();
 
+
             okHttpBuilder
-//                    .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS,ConnectionSpec.CLEARTEXT))
+                    .connectionSpecs(Arrays.asList(spec, ConnectionSpec.COMPATIBLE_TLS,ConnectionSpec.CLEARTEXT))
                     .cookieJar(new CookiesManager(context))
                     .addInterceptor(headerInterceptor)
                     .addInterceptor(new NetInterceptor())
