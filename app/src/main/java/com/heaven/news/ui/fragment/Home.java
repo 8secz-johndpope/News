@@ -228,4 +228,10 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
             updateHomeImageData();
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppEngine.instance().dataCore().removeForeverObserve(this);
+    }
 }

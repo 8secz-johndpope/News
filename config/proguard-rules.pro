@@ -27,13 +27,18 @@
 -keep class com.heaven.data.manager.** {*;}
 -keep class com.heaven.service.** {*;}
 -keep class com.heaven.base.** {*;}
+-keep class com.heaven.news.ui.vm.model.**
 
 #-------------------------------------------------------------------------
 
 #---------------------------------2.第三方包-------------------------------
-
+-dontwarn android.arch.**
 -keep class android.arch.** {*;}
+-dontwarn dagger.**
 -keep class dagger.** {*;}
+-dontwarn om.orhanobut.**
+-keep class com.orhanobut.** {*;}
+
 
 #ARouter
 -keep public class com.alibaba.android.arouter.routes.**{*;}
@@ -253,6 +258,14 @@ public void *(***);
 # Retrolambda
 -dontwarn java.lang.invoke.*
 
+#-------------- okhttp3 -------------
+-dontwarn com.squareup.okhttp.**
+-keep class com.squareup.okhttp.{*;}
+
+-dontwarn com.squareup.okhttp3.**
+-keep class com.squareup.okhttp3.** { *;}
+-dontwarn okio.**
+
 # RxJava RxAndroid
 -dontwarn sun.misc.**
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
@@ -265,6 +278,21 @@ public void *(***);
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
+
+#----------- rxjava rxandroid----------------
+-dontwarn sun.misc.**
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+    long producerIndex;
+    long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}
+-dontnote rx.internal.util.PlatformDependent
+
 
 
 # 微信支付
@@ -334,8 +362,19 @@ public void *(***);
   public *;
 }
 
+# gilde
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
 # for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+
+
 #-------------------------------------------------------------------------
 
 #---------------------------------3.与js互相调用的类------------------------
@@ -444,12 +483,28 @@ public void *(***);
     java.lang.Object writeReplace();
     java.lang.Object readResolve();
 }
+
+# 保留Serializable序列化的类不被混淆
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    !static !transient <fields>;
+    !private <fields>;
+    !private <methods>;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
+# 对于带有回调函数的onXXEvent、**On*Listener的，不能被混淆
+-keepclassmembers class * {
+    void *(**On*Event);
+    void *(**On*Listener);
+}
+
 -keep class **.R$* {
  *;
-}
--keepclassmembers class * {
-        void *(**On*Event);
-        void *(**On*Listener);
 }
 #----------------------------------------------------------------------------
 

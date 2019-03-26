@@ -92,6 +92,7 @@ public class DataCore {
         autoLogin();
         requestHomeConfig();
         homeConfigData = dataSource.getCacheEntity(DataSource.DISK,Constants.HOMECONFIG);
+        Logger.i("DataCore----prepareData--homeConfigData--" + homeConfigData);
 //        getAdInfo();
     }
 
