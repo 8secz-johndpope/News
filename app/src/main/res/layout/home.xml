@@ -5,7 +5,6 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         >
 
         <LinearLayout
@@ -16,16 +15,19 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_230dp"
+                android:layout_height="wrap_content"
                 android:background="@mipmap/toolbar_bg"
-                android:clipChildren="false"
                 >
 
-                <com.heaven.base.ui.view.widget.banner.BannerRecyclerView
+                <com.heaven.base.ui.view.widget.bannertest.LoopRecyclerViewPager
                     android:id="@+id/image_viewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_140dp"
-                    android:layout_marginTop="@dimen/_20dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    app:rvp_triggerOffset="0.1"
+                    app:rvp_singlePageFling="true"
+                    android:clipToPadding="false"
                     />
 
                 <com.heaven.news.ui.adapter.ViewPagerIndicator

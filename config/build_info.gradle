@@ -183,6 +183,7 @@ def static addRepos(RepositoryHandler handler) {
     handler.maven { url 'https://oss.jfrog.org/libs-snapshot' }
     handler.maven { url 'https://jitpack.io' }
     handler.maven { url 'https://bintray.com/heavenisme/maven' }
+    handler.maven { url "https://jitpack.io" }
     handler.mavenCentral()
 
 }
