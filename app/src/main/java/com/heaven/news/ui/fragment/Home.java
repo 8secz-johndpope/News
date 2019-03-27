@@ -288,10 +288,8 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
     private void updateBannerData(List<ImageInfo> bannerList) {
         if (bannerList != null && bannerList.size() > 0) {
-//            mViewBinding.indicators.setViewPager(mViewBinding.imageViewPager, bannerList.size());
             updateTopImages(bannerList);
-//            mViewBinding.imageViewPager.setCurrentItem(bannerList.size());
-//            mViewBinding.imageViewPager.startLoop();
+            mViewBinding.indicators.setViewPager(mViewBinding.imageViewPager);
         }
     }
 

@@ -10,7 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.heaven.base.ui.view.widget.banner.RecyclerViewPager;
 import com.heaven.news.R;
+import com.orhanobut.logger.Logger;
 
 
 /**
@@ -682,6 +684,48 @@ public class ViewPagerIndicator extends View {
         }else{
             setViewPager(viewPager,viewPager.getAdapter().getCount(),isInfiniteCircle);
         }
+        return this;
+    }
+
+    public ViewPagerIndicator setViewPager(RecyclerViewPager viewPager) {
+        setViewPager(viewPager,viewPager.getAdapter().getItemCount(),false);
+        Logger.i("ViewPagerIndicator---itemcount--" + viewPager.getAdapter().getItemCount());
+        return this;
+    }
+
+
+    /**
+     *
+     * @param viewpager 适配的viewpager
+     * @param CycleNumber 真/伪无限循环都必须输入
+     * @param isInfiniteCircle 真无限循环 配合Banner
+     * @return
+     */
+    public ViewPagerIndicator setViewPager(RecyclerViewPager viewpager, int CycleNumber, boolean isInfiniteCircle) {
+        mNum = CycleNumber;
+        mIsInfiniteCircle = isInfiniteCircle;
+        viewpager.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
+            @Override
+            public void OnPageChanged(int oldPosition, int newPosition) {
+                if(mAnimation){
+                    //需要动画
+                    return;
+                }
+                if(mNum>0&&!mIsInfiniteCircle)
+                {
+                    move(0, newPosition % mNum, false);
+                }else if(mNum>0&&mIsInfiniteCircle){
+                    if(newPosition==0){
+                        newPosition=mNum-1;
+                    }else if(newPosition==mNum+1){
+                        newPosition=0;
+                    }else{
+                        newPosition--;
+                    }
+                    move(0, newPosition , false);
+                }
+            }
+        });
         return this;
     }
 
