@@ -39,9 +39,9 @@ import io.reactivex.disposables.Disposable;
  * @version V1.0 多类型适配器
  */
 public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
-    private List<E> dataItems;
+    protected List<E> dataItems;
     private List<E> diffNewDataItems = new ArrayList<>();
-    private MultTypeManager multTypeManager = new MultTypeManager();
+    protected MultTypeManager multTypeManager = new MultTypeManager();
     protected Context context;
     protected @Nullable
     LayoutInflater inflater;
@@ -56,7 +56,7 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
     private BaseAnimation mCustomAnimation;
     private BaseAnimation mSelectAnimation = new ScaleInAnimation();
 
-    private OnItemClickListener onItemClickListener;
+    protected OnItemClickListener onItemClickListener;
 
     public BaseAdapter(Context context) {
         this.context = context;
