@@ -26,7 +26,7 @@
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     app:rvp_triggerOffset="0.1"
-                    app:rvp_singlePageFling="true"
+                    app:rvp_singlePageFling="false"
                     android:clipToPadding="false"
                     />
 
