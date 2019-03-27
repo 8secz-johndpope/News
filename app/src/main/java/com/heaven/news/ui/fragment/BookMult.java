@@ -24,7 +24,7 @@ public class BookMult extends BaseSimpleBindFragment<MainViewModel,MineBinding> 
 
     @Override
     public int initLayoutResId() {
-        return R.layout.mine;
+        return R.layout.book_mult;
     }
 
     @Override

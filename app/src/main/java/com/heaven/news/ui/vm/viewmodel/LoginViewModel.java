@@ -34,7 +34,7 @@ public class LoginViewModel extends BaseViewModel {
         if(TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {
             return;
         }
-        AppEngine.instance().getDataSource().runWorkThread(() -> AppEngine.instance().dataCore().login(count,Constants.getPassword(passwords)));
+        AppEngine.instance().dataCore().login(count,Constants.getPassword(passwords));
 
     }
 
