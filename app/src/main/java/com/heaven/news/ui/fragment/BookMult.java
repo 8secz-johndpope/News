@@ -1,10 +1,12 @@
 package com.heaven.news.ui.fragment;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.news.R;
 import com.heaven.news.databinding.MineBinding;
+import com.heaven.news.ui.view.AutofitHeightViewPager;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 /**
@@ -17,6 +19,8 @@ import com.heaven.news.ui.vm.viewmodel.MainViewModel;
  */
 public class BookMult extends BaseSimpleBindFragment<MainViewModel,MineBinding> {
 
+    AutofitHeightViewPager.ViewPosition viewPosition;
+
     @Override
     public void bindModel() {
 
@@ -28,13 +32,28 @@ public class BookMult extends BaseSimpleBindFragment<MainViewModel,MineBinding> 
     }
 
     @Override
+    public void initView(View rootView) {
+        super.initView(rootView);
+        if(viewPosition != null ) {
+            viewPosition.setViewPosition(rootView,2);
+        }
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
     public static BookMult newInstance(Bundle paramBundle) {
         BookMult fragment = new BookMult();
-        fragment.setArguments(paramBundle);
+        if(paramBundle != null) {
+            paramBundle.putInt(AutofitHeightViewPager.POSITION, 2);
+            fragment.setArguments(paramBundle);
+        }
         return fragment;
+    }
+
+    public void setViewPosition(AutofitHeightViewPager.ViewPosition viewPosition) {
+        this.viewPosition = viewPosition;
     }
 }

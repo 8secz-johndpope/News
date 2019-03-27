@@ -34,6 +34,7 @@ import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.adapter.BannerAdapter;
 import com.heaven.news.ui.adapter.CardTransformer;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
+import com.heaven.news.ui.view.AutofitHeightViewPager;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
@@ -85,16 +86,30 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     }
 
     private void initBookTab() {
-        final String[] bottomBarList = getResources().getStringArray(R.array.book_type);
-        Bundle paramBundle = new Bundle();
-        paramBundle.putInt("wx_type", 1);
-
-        mainList.add(BookGo.newInstance(paramBundle));
-        mainList.add(BookGoBack.newInstance(paramBundle));
-        mainList.add(BookMult.newInstance(null));
-        ViewPager viewPager = mViewBinding.bookArea.findViewById(R.id.viewpager);
+        AutofitHeightViewPager viewPager = mViewBinding.bookArea.findViewById(R.id.viewpager);
         TabLayout tabLayout = mViewBinding.bookArea.findViewById(R.id.book_tab);
         viewPager.setOffscreenPageLimit(3);
+
+        final String[] bottomBarList = getResources().getStringArray(R.array.book_type);
+        Bundle paramBundleGo = new Bundle();
+        paramBundleGo.putInt("wx_type", 1);
+        Bundle paramBundleGoBack = new Bundle();
+        paramBundleGoBack.putInt("wx_type", 1);
+        Bundle paramBundleMult = new Bundle();
+        paramBundleMult.putInt("wx_type", 1);
+
+        AutofitHeightViewPager.ViewPosition viewPosition = viewPager::setViewPosition;
+        BookGo go = BookGo.newInstance(paramBundleGo);
+        BookGoBack goBack = BookGoBack.newInstance(paramBundleGoBack);
+        BookMult mult = BookMult.newInstance(paramBundleMult);
+        go.setViewPosition(viewPosition);
+        goBack.setViewPosition(viewPosition);
+        mult.setViewPosition(viewPosition);
+
+        mainList.add(go);
+        mainList.add(goBack);
+        mainList.add(mult);
+
 
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getActivity(), getChildFragmentManager());
         adapter.insertAll(mainList, Arrays.asList(bottomBarList));
@@ -116,6 +131,22 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
             }
         }
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                viewPager.updateHeight(i);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
 

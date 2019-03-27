@@ -1,10 +1,12 @@
 package com.heaven.news.ui.fragment;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.news.R;
 import com.heaven.news.databinding.MineBinding;
+import com.heaven.news.ui.view.AutofitHeightViewPager;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 /**
@@ -17,9 +19,20 @@ import com.heaven.news.ui.vm.viewmodel.MainViewModel;
  */
 public class BookGo extends BaseSimpleBindFragment<MainViewModel,MineBinding> {
 
+    int position = 0;
+    AutofitHeightViewPager.ViewPosition viewPosition;
+
     @Override
     public void bindModel() {
 
+    }
+
+    @Override
+    public void initView(View rootView) {
+        super.initView(rootView);
+        if(viewPosition != null ) {
+            viewPosition.setViewPosition(rootView,0);
+        }
     }
 
     @Override
@@ -34,7 +47,14 @@ public class BookGo extends BaseSimpleBindFragment<MainViewModel,MineBinding> {
 
     public static BookGo newInstance(Bundle paramBundle) {
         BookGo fragment = new BookGo();
-        fragment.setArguments(paramBundle);
+        if(paramBundle != null) {
+            paramBundle.putInt(AutofitHeightViewPager.POSITION, 0);
+            fragment.setArguments(paramBundle);
+        }
         return fragment;
+    }
+
+    public void setViewPosition(AutofitHeightViewPager.ViewPosition viewPosition) {
+        this.viewPosition = viewPosition;
     }
 }
