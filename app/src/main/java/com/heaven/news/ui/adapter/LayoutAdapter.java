@@ -22,12 +22,15 @@ import java.util.List;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.heaven.news.R;
 import com.heaven.news.ui.vm.model.ImageInfo;
 
@@ -41,11 +44,11 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
     private int mCurrentItemId = 0;
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
-        public final TextView title;
+        public final ImageView imageView;
 
         public SimpleViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.title);
+            imageView = view.findViewById(R.id.banner_image);
         }
     }
 
@@ -82,27 +85,42 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
     @NonNull
     @Override
     public SimpleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.item, parent, false);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.banner_item, parent, false);
         return new SimpleViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SimpleViewHolder holder, int position) {
-        holder.title.setText(mItems.get(position).toString());
+        ImageInfo imageInfo = mItems.get(position);
+        if (TextUtils.isEmpty(imageInfo.pic)) {
+            holder.imageView.setImageResource(R.mipmap.hint_banner);
+        } else {
+            Glide.with(holder.imageView.getContext())
+                    .load(imageInfo.pic)
+                    .placeholder(R.mipmap.hint_banner) // can also be a drawable
+                    .error(R.mipmap.hint_banner) // will be displayed if the image cannot be loaded
+                    .centerCrop()
+                    .into(holder.imageView);
+        }
 
         final View itemView = holder.itemView;
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "", Toast.LENGTH_SHORT).show();
-            }
-        });
+        itemView.setOnClickListener(v -> Toast.makeText(mContext, "", Toast.LENGTH_SHORT).show());
         final ImageInfo itemId = mItems.get(position);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SimpleViewHolder holder, int position, @NonNull List<Object> payloads) {
-        holder.title.setText(mItems.get(position).toString());
+        ImageInfo imageInfo = mItems.get(position);
+        if (TextUtils.isEmpty(imageInfo.pic)) {
+            holder.imageView.setImageResource(R.mipmap.hint_banner);
+        } else {
+            Glide.with(holder.imageView.getContext())
+                    .load(imageInfo.pic)
+                    .placeholder(R.mipmap.hint_banner) // can also be a drawable
+                    .error(R.mipmap.hint_banner) // will be displayed if the image cannot be loaded
+                    .centerCrop()
+                    .into(holder.imageView);
+        }
 
         final View itemView = holder.itemView;
         itemView.setOnClickListener(new View.OnClickListener() {
