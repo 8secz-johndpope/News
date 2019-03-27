@@ -1,4 +1,4 @@
-package com.heaven.base.ui.view.widget.bannertest;
+package com.heaven.base.ui.view.widget.banner;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ViewHolderDelegate;

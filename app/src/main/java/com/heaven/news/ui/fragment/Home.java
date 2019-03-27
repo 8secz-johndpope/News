@@ -1,11 +1,6 @@
 package com.heaven.news.ui.fragment;
 
 import android.arch.lifecycle.Observer;
-import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -18,15 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
-import com.heaven.base.ui.view.widget.banner.BannerAdapter;
-import com.heaven.base.ui.view.widget.banner.BannerScaleHelper;
-import com.heaven.base.ui.view.widget.bannertest.LoopRecyclerViewPager;
-import com.heaven.base.ui.view.widget.bannertest.RecyclerViewPager;
+import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
+import com.heaven.base.ui.view.widget.banner.RecyclerViewPager;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
@@ -38,20 +30,13 @@ import com.heaven.news.manyData.adapter.ItemVIewNormal;
 import com.heaven.news.manyData.bean.Bean01;
 import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
-import com.heaven.news.ui.adapter.CardAdapter;
-import com.heaven.news.ui.adapter.CardTransformer;
-import com.heaven.news.ui.adapter.CustomSnapHelper;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.adapter.LayoutAdapter;
 import com.heaven.news.ui.view.AutofitHeightViewPager;
-import com.heaven.news.ui.vm.adapterbean.HomeBanner;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
-import com.heaven.news.utils.UIUtil;
-import com.heaven.news.utils.UiPxUtil;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,10 +51,8 @@ import java.util.List;
  */
 public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper> {
     List<Object> items;
-    BannerAdapter<ImageInfo> topAdapter;
     LayoutAdapter mCardAdapter;
     private List<Fragment> mainList = new ArrayList<>();
-    private BannerScaleHelper mBannerScaleHelper = null;
     @Override
     public int initLayoutResId() {
         return R.layout.home;

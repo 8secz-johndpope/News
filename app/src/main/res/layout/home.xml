@@ -19,7 +19,7 @@
                 android:background="@mipmap/toolbar_bg"
                 >
 
-                <com.heaven.base.ui.view.widget.bannertest.LoopRecyclerViewPager
+                <com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager
                     android:id="@+id/image_viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

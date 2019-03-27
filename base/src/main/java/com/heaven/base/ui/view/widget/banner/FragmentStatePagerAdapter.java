@@ -1,4 +1,4 @@
-package com.heaven.base.ui.view.widget.bannertest;
+package com.heaven.base.ui.view.widget.banner;
 
 import java.util.HashSet;
 import java.util.Random;

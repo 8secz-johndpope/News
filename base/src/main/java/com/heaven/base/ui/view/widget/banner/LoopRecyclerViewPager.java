@@ -1,4 +1,4 @@
-package com.heaven.base.ui.view.widget.bannertest;
+package com.heaven.base.ui.view.widget.banner;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
