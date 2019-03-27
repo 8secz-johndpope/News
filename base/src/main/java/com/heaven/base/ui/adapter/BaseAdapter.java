@@ -51,7 +51,7 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
     private boolean firstOnlyEnable = true;
     private int lastPosition = 15;
     private int duration = 300;
-    private boolean isStaggeredGridLayout;
+    protected boolean isStaggeredGridLayout;
     private Interpolator interpolator = new LinearInterpolator();
     private BaseAnimation mCustomAnimation;
     private BaseAnimation mSelectAnimation = new ScaleInAnimation();

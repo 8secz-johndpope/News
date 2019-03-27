@@ -21,14 +21,11 @@
                 android:clipChildren="false"
                 >
 
-                <com.heaven.news.ui.view.banner.BannerViewPager
+                <com.heaven.base.ui.view.widget.banner.BannerRecyclerView
                     android:id="@+id/image_viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_140dp"
                     android:layout_marginTop="@dimen/_20dp"
-                    android:layout_marginLeft="@dimen/_20dp"
-                    android:layout_marginRight="@dimen/_20dp"
-                    android:clipChildren="false"
                     />
 
                 <com.heaven.news.ui.adapter.ViewPagerIndicator

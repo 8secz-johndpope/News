@@ -12,6 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 
 import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
+import com.heaven.base.ui.view.widget.banner.BannerAdapter;
+import com.heaven.base.ui.view.widget.banner.BannerScaleHelper;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
@@ -31,10 +34,10 @@ import com.heaven.news.manyData.adapter.ItemVIewNormal;
 import com.heaven.news.manyData.bean.Bean01;
 import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
-import com.heaven.news.ui.adapter.BannerAdapter;
 import com.heaven.news.ui.adapter.CardTransformer;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.view.AutofitHeightViewPager;
+import com.heaven.news.ui.vm.adapterbean.HomeBanner;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
@@ -56,9 +59,9 @@ import java.util.List;
  */
 public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper> {
     List<Object> items;
-    BannerAdapter topAdapter;
+    BannerAdapter<ImageInfo> topAdapter;
     private List<Fragment> mainList = new ArrayList<>();
-
+    private BannerScaleHelper mBannerScaleHelper = null;
     @Override
     public int initLayoutResId() {
         return R.layout.home;
@@ -74,14 +77,14 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     }
 
     private void initTopBanner() {
-        topAdapter = new BannerAdapter(getContext());
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mViewBinding.imageViewPager.setLayoutManager(linearLayoutManager);
+        topAdapter = new BannerAdapter<ImageInfo>(getContext());
+        topAdapter.register(new HomeBanner(ImageInfo.class, R.layout.banner_item));
         mViewBinding.imageViewPager.setAdapter(topAdapter);
-        mViewBinding.imageViewPager.setOffscreenPageLimit(3);//预加载2个
-        mViewBinding.imageViewPager.setPageMargin(UiPxUtil.dip2px(getContext(), 5));//设置viewpage之间的间距
-        mViewBinding.imageViewPager.setPageTransformer(true, new CardTransformer());
-        topAdapter.setItemClickListener(index -> {
-//                ToastUtils.showToast("点击了图片" + index);
-        });
+        mBannerScaleHelper = new BannerScaleHelper();
+        mBannerScaleHelper.setFirstItemPos(1000);
+        mBannerScaleHelper.attachToRecyclerView(mViewBinding.imageViewPager);
         updateHomeImageData();
     }
 
@@ -219,15 +222,15 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
     private void updateBannerData(List<ImageInfo> bannerList) {
         if (bannerList != null && bannerList.size() > 0) {
-            mViewBinding.indicators.setViewPager(mViewBinding.imageViewPager, bannerList.size());
+//            mViewBinding.indicators.setViewPager(mViewBinding.imageViewPager, bannerList.size());
             updateTopImages(bannerList);
-            mViewBinding.imageViewPager.setCurrentItem(bannerList.size());
-            mViewBinding.imageViewPager.startLoop();
+//            mViewBinding.imageViewPager.setCurrentItem(bannerList.size());
+//            mViewBinding.imageViewPager.startLoop();
         }
     }
 
     private void updateTopImages(List<ImageInfo> tops) {
-        topAdapter.updatePagerData(tops);
+        topAdapter.updateItems(tops);
     }
 
     private void updateHotImages(List<ImageInfo> hots) {
