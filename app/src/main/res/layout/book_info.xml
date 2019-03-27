@@ -184,6 +184,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_10dp"
+            android:layout_marginBottom="@dimen/_10dp"
             android:drawableLeft="@mipmap/one_price"
             android:drawablePadding="@dimen/_5dp"
             android:text="@string/one_price"
