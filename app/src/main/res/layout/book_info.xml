@@ -6,8 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/_15dp"
-        android:paddingRight="@dimen/_15dp"
+        android:paddingLeft="@dimen/_30dp"
+        android:paddingRight="@dimen/_30dp"
         >
 
         <LinearLayout
@@ -26,6 +26,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:textSize="@dimen/_17sp"
+                    android:textColor="@color/black"
                     android:text="深圳"
                     />
 
@@ -56,6 +58,8 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:gravity="right"
+                    android:textSize="@dimen/_17sp"
+                    android:textColor="@color/black"
                     android:text="北京"
                     />
 
@@ -72,21 +76,55 @@
             android:layout_marginBottom="@dimen/_10dp"
             >
 
-            <TextView
-                android:id="@+id/start_date"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="03月27日 星期三"
-                />
+                >
+                <TextView
+                    android:id="@+id/go_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_17sp"
+                    android:textColor="@color/black"
+                    android:text="03月27日 "
+                    />
 
-            <TextView
-                android:id="@+id/back_date"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/go_week"
+                    android:textSize="@dimen/_12sp"
+                    android:text="星期三"
+                    />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="03月27日 星期三"
-                />
+                >
+
+                <TextView
+                    android:id="@+id/back_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_17sp"
+                    android:textColor="@color/black"
+                    android:text="03月27日 "
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/back_week"
+                    android:textSize="@dimen/_12sp"
+                    android:text="星期三"
+                    />
+            </LinearLayout>
+
         </RelativeLayout>
 
         <View style="@style/driver_line_e4e4e4"/>
@@ -132,13 +170,23 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10dp"
             android:background="@drawable/button_bg"
             android:gravity="center"
-            android:padding="@dimen/_10dp"
+            android:padding="@dimen/_14dp"
             android:text="@string/search_book"
             android:textColor="@color/white"
             android:textSize="@dimen/_18sp"
             />
+
+        <TextView
+            android:id="@+id/home_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_10dp"
+            android:drawableLeft="@mipmap/one_price"
+            android:drawablePadding="@dimen/_5dp"
+            android:text="@string/one_price"
+            android:textColor="@color/red" />
     </LinearLayout>
 </layout>
