@@ -87,6 +87,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
                 }
         );
         updateHomeImageData();
+        mRecyclerView.startLoop();
     }
 
     private void initBookTab() {

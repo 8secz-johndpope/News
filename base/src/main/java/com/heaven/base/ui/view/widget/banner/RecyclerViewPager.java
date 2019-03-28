@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PointF;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.text.TextUtilsCompat;
@@ -58,6 +60,38 @@ public class RecyclerViewPager extends RecyclerView {
     private boolean mHasCalledOnPageChanged = true;
     private boolean reverseLayout = false;
     private float mLastY;
+
+    private static final int SCROLL_MSG = 0x011;
+    private int mCutDownTime = 3000;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SCROLL_MSG:
+                    smoothScrollToPosition(mSmoothScrollTargetPosition + 1);
+                    startLoop();
+                    break;
+            }
+        }
+    };
+
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mHandler.removeMessages(SCROLL_MSG);
+        mHandler = null;
+    }
+
+    /**
+     * 开启轮播
+     */
+    public void startLoop() {
+        mHandler.removeMessages(SCROLL_MSG);
+        mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
+    }
+
 
     public RecyclerViewPager(Context context) {
         this(context, null);
@@ -447,13 +481,22 @@ public class RecyclerViewPager extends RecyclerView {
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         // recording the max/min value in touch track
-        if (e.getAction() == MotionEvent.ACTION_MOVE) {
-            if (mCurView != null) {
-                mMaxLeftWhenDragging = Math.max(mCurView.getLeft(), mMaxLeftWhenDragging);
-                mMaxTopWhenDragging = Math.max(mCurView.getTop(), mMaxTopWhenDragging);
-                mMinLeftWhenDragging = Math.min(mCurView.getLeft(), mMinLeftWhenDragging);
-                mMinTopWhenDragging = Math.min(mCurView.getTop(), mMinTopWhenDragging);
-            }
+        int action = e.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                mHandler.removeMessages(SCROLL_MSG);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (mCurView != null) {
+                    mMaxLeftWhenDragging = Math.max(mCurView.getLeft(), mMaxLeftWhenDragging);
+                    mMaxTopWhenDragging = Math.max(mCurView.getTop(), mMaxTopWhenDragging);
+                    mMinLeftWhenDragging = Math.min(mCurView.getLeft(), mMinLeftWhenDragging);
+                    mMinTopWhenDragging = Math.min(mCurView.getTop(), mMinTopWhenDragging);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
+                break;
         }
         return super.onTouchEvent(e);
     }
@@ -468,6 +511,7 @@ public class RecyclerViewPager extends RecyclerView {
             }
             switch (MotionEvent.ACTION_MASK & e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    mHandler.removeMessages(SCROLL_MSG);
                     touchStartPoint.set(x, y);
                     break;
                 case MotionEvent.ACTION_MOVE:
@@ -485,6 +529,9 @@ public class RecyclerViewPager extends RecyclerView {
                         }
                         return k < Math.tan(Math.toRadians(30F));
                     }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
                     break;
                 default:
                     return super.onInterceptTouchEvent(e);
