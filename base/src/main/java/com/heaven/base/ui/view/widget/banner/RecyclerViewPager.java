@@ -316,7 +316,7 @@ public class RecyclerViewPager extends RecyclerView {
     }
 
 
-    private boolean isLeftToRightMode(){
+    private boolean isLeftToRightMode() {
         return TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == ViewCompat.LAYOUT_DIRECTION_LTR;
     }
 
@@ -325,8 +325,12 @@ public class RecyclerViewPager extends RecyclerView {
      */
     protected void adjustPositionX(int velocityX) {
 
-        if (reverseLayout) velocityX *= -1;
-        if (!isLeftToRightMode()) velocityX *= -1;
+        if (reverseLayout) {
+            velocityX *= -1;
+        }
+        if (!isLeftToRightMode()) {
+            velocityX *= -1;
+        }
 
         int childCount = getChildCount();
         if (childCount > 0) {
@@ -386,7 +390,9 @@ public class RecyclerViewPager extends RecyclerView {
      * adjust position before Touch event complete and fling action start.
      */
     protected void adjustPositionY(int velocityY) {
-        if (reverseLayout) velocityY *= -1;
+        if (reverseLayout) {
+            velocityY *= -1;
+        }
 
         int childCount = getChildCount();
         if (childCount > 0) {
@@ -432,6 +438,9 @@ public class RecyclerViewPager extends RecyclerView {
                     : ViewUtils.getCenterYChildPosition(this);
             mLastY = ev.getRawY();
         }
+        //解决recyclerView和viewPager的滑动影响
+        //当滑动recyclerView时，告知父控件不要拦截事件，交给子view处理
+        getParent().requestDisallowInterceptTouchEvent(true);
         return super.dispatchTouchEvent(ev);
     }
 
@@ -476,6 +485,9 @@ public class RecyclerViewPager extends RecyclerView {
                         return k < Math.tan(Math.toRadians(30F));
                     }
                     break;
+                default:
+                    return super.onInterceptTouchEvent(e);
+
             }
         }
         return super.onInterceptTouchEvent(e);
@@ -524,15 +536,13 @@ public class RecyclerViewPager extends RecyclerView {
                         if (spanX > mCurView.getWidth() * mTriggerOffset && mCurView.getLeft() >= mMaxLeftWhenDragging) {
                             if (!reverseLayout) {
                                 targetPosition = leftToRight ? (targetPosition - 1) : (targetPosition + 1);
-                            }
-                            else {
+                            } else {
                                 targetPosition = leftToRight ? (targetPosition + 1) : (targetPosition - 1);
                             }
                         } else if (spanX < mCurView.getWidth() * -mTriggerOffset && mCurView.getLeft() <= mMinLeftWhenDragging) {
                             if (!reverseLayout) {
                                 targetPosition = leftToRight ? (targetPosition + 1) : (targetPosition - 1);
-                            }
-                            else {
+                            } else {
                                 targetPosition = leftToRight ? (targetPosition - 1) : (targetPosition + 1);
                             }
                         }
@@ -598,8 +608,10 @@ public class RecyclerViewPager extends RecyclerView {
         /**
          * Fires when viewpager changes it's page
          *
-         * @param oldPosition old position
-         * @param newPosition new position
+         * @param oldPosition
+         *         old position
+         * @param newPosition
+         *         new position
          */
         void OnPageChanged(int oldPosition, int newPosition);
     }
