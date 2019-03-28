@@ -121,9 +121,6 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);
         tabLayout.setupWithViewPager(viewPager);
-//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-//        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-//        tabLayout.setSelectedTabIndicatorHeight(0);
         int tabCount = tabLayout.getTabCount();
         for (int i = 0; i < tabCount; i++) {
             View barItem = LayoutInflater.from(getContext()).inflate(R.layout.bottom_tab_item, null);
