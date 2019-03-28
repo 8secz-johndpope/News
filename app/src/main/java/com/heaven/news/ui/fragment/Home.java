@@ -54,6 +54,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     List<Object> items;
     LayoutAdapter mCardAdapter;
     private List<Fragment> mainList = new ArrayList<>();
+
     @Override
     public int initLayoutResId() {
         return R.layout.home;
@@ -62,7 +63,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
     @Override
     public void initView(View rootView) {
-        AppEngine.instance().dataCore().registerDataTypeObaserver(this,this);
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
         initTopBanner();
         initBookTab();
         initMult();
@@ -70,7 +71,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
     private void initTopBanner() {
         LoopRecyclerViewPager mRecyclerView = mViewBinding.imageViewPager;
-        LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mCardAdapter = new LayoutAdapter(getContext(), mRecyclerView);
         mRecyclerView.setLayoutManager(layout);
         mRecyclerView.setAdapter(mCardAdapter);
@@ -79,7 +80,12 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         BannerListener bannerListener = new BannerListener(mRecyclerView);
         mRecyclerView.addOnScrollListener(bannerListener);
         mRecyclerView.addOnLayoutChangeListener(bannerListener);
-        mRecyclerView.addOnPageChangedListener((oldPosition, newPosition) -> Log.d("test", "oldPosition:" + oldPosition + " newPosition:" + newPosition));
+        mRecyclerView.addOnPageChangedListener((oldPosition, newPosition) -> {
+                    if(mCardAdapter.getItemCount() != 0) {
+                        Log.d("test", "oldPosition:" + oldPosition%mCardAdapter.getItemCount() + " newPosition:" + newPosition%mCardAdapter.getItemCount());
+                    }
+                }
+        );
         updateHomeImageData();
     }
 
@@ -120,7 +126,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         int tabCount = tabLayout.getTabCount();
         for (int i = 0; i < tabCount; i++) {
             View barItem = LayoutInflater.from(getContext()).inflate(R.layout.bottom_tab_item, null);
-           ViewGroup.LayoutParams params = barItem.getLayoutParams();
+            ViewGroup.LayoutParams params = barItem.getLayoutParams();
             TextView barName = barItem.findViewById(R.id.bottom_bar_name);
             barName.setText(bottomBarList[i]);
             TabLayout.Tab tab = tabLayout.getTabAt(i);
@@ -188,6 +194,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
 
     int homeDataReqCount = 0;
+
     public void updateHomeImageData() {
         HomeImageInfo homeImageInfo = AppEngine.instance().dataCore().getHomeConfigData();
         if (mViewBinding != null) {
@@ -204,7 +211,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
                     updateHotImages(homeImageInfo.hot);
                 }
             } else {
-                if(homeDataReqCount <=3) {
+                if (homeDataReqCount <= 3) {
                     AppEngine.instance().dataCore().requestHomeConfig();
                     homeDataReqCount++;
                 }
@@ -253,7 +260,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
     @Override
     public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
-        if(coreDataWrapper != null && DataCore.HOME == coreDataWrapper.dataType) {
+        if (coreDataWrapper != null && DataCore.HOME == coreDataWrapper.dataType) {
             updateHomeImageData();
         }
     }

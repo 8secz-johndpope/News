@@ -463,8 +463,9 @@ public class RecyclerViewPager extends RecyclerView {
         if (isInertia) {
             final float x = e.getRawX();
             final float y = e.getRawY();
-            if (touchStartPoint == null)
+            if (touchStartPoint == null) {
                 touchStartPoint = new PointF();
+            }
             switch (MotionEvent.ACTION_MASK & e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     touchStartPoint.set(x, y);
