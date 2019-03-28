@@ -5,7 +5,15 @@ import android.content.Context;
 import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.heaven.news.R;
+import com.heaven.news.ui.vm.model.AllServiceItem;
 import com.heaven.news.utils.SystemUtil;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 //import com.squareup.leakcanary.LeakCanary;
 
 
@@ -34,6 +42,7 @@ public class App extends Application{
         long start = System.currentTimeMillis();
         Log.d("ryg", "use time:" + (System.currentTimeMillis() - start));
     }
+
 
     /**
      * app初始化

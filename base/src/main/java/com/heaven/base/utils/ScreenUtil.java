@@ -39,4 +39,14 @@ public class ScreenUtil {
         float scale = context.getResources().getDisplayMetrics().density;
         return (int)(pxValue / scale + 0.5F);
     }
+
+    public static int getImageResId(Context context,String imageResId) {
+        //如果没有在"mipmap"下找到imageResId,将会返回0
+        return context.getResources().getIdentifier(imageResId, "mipmap", context.getPackageName());
+    }
+
+    public static int getStringResId(Context context,String stringResId) {
+        //如果没有在"stirng"下找到stringResId,将会返回0
+        return context.getResources().getIdentifier(stringResId, "stirng", context.getPackageName());
+    }
 }

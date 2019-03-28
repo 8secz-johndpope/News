@@ -34,9 +34,11 @@ import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.adapter.LayoutAdapter;
 import com.heaven.news.ui.view.AutofitHeightViewPager;
+import com.heaven.news.ui.vm.model.AllServiceItem;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,6 +68,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
         initTopBanner();
         initBookTab();
+        initService();
         initMult();
     }
 
@@ -149,6 +152,11 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
             }
         });
+    }
+
+    private void initService() {
+        AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
+        Logger.i("initService--" + allServiceItem);
     }
 
 

@@ -1,0 +1,202 @@
+{
+
+  "homeServiceInfos": [
+    {
+      "id": 0,
+      "iconID": "@mipmap/access_net",
+      "name": "@string/flight_state",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 1,
+      "iconID": "@mipmap/flight_check_in",
+      "name": "@string/flight_check_in",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 2,
+      "iconID": "@mipmap/flight_change_date",
+      "name": "@string/flight_change_date",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 3,
+      "iconID": "@mipmap/flight_refund",
+      "name": "@string/flight_refund",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 4,
+      "iconID": "@mipmap/flight_award",
+      "name": "@string/flight_award",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 5,
+      "iconID": "@mipmap/flight_shuttle",
+      "name": "@string/flight_shuttle",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 6,
+      "iconID": "@mipmap/flight_park",
+      "name": "@string/flight_park",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 7,
+      "iconID": "@mipmap/flight_fast_check",
+      "name": "@string/flight_fast_check",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    }
+  ],
+  "easyGoServiceInfos": [
+    {
+      "id": 0,
+      "iconID": "@mipmap/access_net",
+      "name": "@string/flight_state",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 1,
+      "iconID": "@mipmap/flight_check_in",
+      "name": "@string/flight_check_in",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 2,
+      "iconID": "@mipmap/flight_change_date",
+      "name": "@string/flight_change_date",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 3,
+      "iconID": "@mipmap/flight_refund",
+      "name": "@string/flight_refund",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 4,
+      "iconID": "@mipmap/flight_award",
+      "name": "@string/flight_award",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 5,
+      "iconID": "@mipmap/flight_shuttle",
+      "name": "@string/flight_shuttle",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 6,
+      "iconID": "@mipmap/flight_park",
+      "name": "@string/flight_park",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 7,
+      "iconID": "@mipmap/flight_fast_check",
+      "name": "@string/flight_fast_check",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    }
+  ],
+
+  "phoenixServiceInfos": [
+    {
+      "id": 0,
+      "iconID": "@mipmap/access_net",
+      "name": "@string/flight_state",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 1,
+      "iconID": "@mipmap/flight_check_in",
+      "name": "@string/flight_check_in",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 2,
+      "iconID": "@mipmap/flight_change_date",
+      "name": "@string/flight_change_date",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 3,
+      "iconID": "@mipmap/flight_refund",
+      "name": "@string/flight_refund",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 4,
+      "iconID": "@mipmap/flight_award",
+      "name": "@string/flight_award",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 5,
+      "iconID": "@mipmap/flight_shuttle",
+      "name": "@string/flight_shuttle",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 6,
+      "iconID": "@mipmap/flight_park",
+      "name": "@string/flight_park",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 7,
+      "iconID": "@mipmap/flight_fast_check",
+      "name": "@string/flight_fast_check",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    }
+  ]
+}

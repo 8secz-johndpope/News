@@ -17,4 +17,14 @@
     <string name="guid_try_now">立即体验</string>
     <string name="search_book">查询预订</string>
     <string name="one_price">买贵1元，即可赔付</string>
+
+    <string name="flight_state">航班动态</string>
+    <string name="flight_check_in">选座值机</string>
+    <string name="flight_change_date">机票改期</string>
+    <string name="flight_refund">办理退票</string>
+    <string name="flight_award">有奖评价</string>
+    <string name="flight_shuttle">机场接送</string>
+    <string name="flight_park">乘机泊车</string>
+    <string name="flight_fast_check">快速安检</string>
+
 </resources>

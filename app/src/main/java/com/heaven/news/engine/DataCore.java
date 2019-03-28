@@ -4,16 +4,21 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.util.SparseLongArray;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
+import com.heaven.news.R;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
+import com.heaven.news.ui.vm.model.AllServiceItem;
 import com.heaven.news.ui.vm.model.ConfigData;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.UserLoginInfo;
@@ -34,6 +39,9 @@ import com.neusoft.szair.model.memberbase.vipDocument;
 import com.neusoft.szair.model.soap.SOAPConstants;
 import com.orhanobut.logger.Logger;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +61,10 @@ public class DataCore {
     public static int HOME = 1;
     public static int LOGIN = 2;
     public static int MILE = 3;
+
+    private Context context;
+
+    private AllServiceItem allServiceItem;//首页 易行 凤凰知音服务
 
     private Map<Observer<CoreDataWrapper>, MutableLiveData<CoreDataWrapper>> observers = new HashMap<>();
 
@@ -87,11 +99,22 @@ public class DataCore {
     private String groupCode;                               //大客户编码
 
 
-    DataCore(DataSource dataSource) {
+    DataCore(DataSource dataSource,Context context) {
         this.dataSource = dataSource;
         dataSource.runWorkThread(this::prepareData);
+        dataSource.runWorkThread(() -> loadAllServiceItem(context));
     }
 
+
+    public AllServiceItem loadAllServiceItem(Context context) {
+        if (allServiceItem == null) {
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+            InputStream allServiceIn = context.getResources().openRawResource(R.raw.service);
+                Reader readerAll = new InputStreamReader(allServiceIn);
+                allServiceItem = gson.fromJson(readerAll, AllServiceItem.class);
+        }
+        return allServiceItem;
+    }
 
     private void prepareData() {
         requestVersion();

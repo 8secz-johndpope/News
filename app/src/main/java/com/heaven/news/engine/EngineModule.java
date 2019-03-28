@@ -33,7 +33,7 @@ public class EngineModule {
         dataSource = builder.build();
         dataSource.addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
         dataSource.addHeader("Connection", "close");
-        dataCore = new DataCore(dataSource);
+        dataCore = new DataCore(dataSource,context);
         api = new Api(dataSource);
 //        ServiceCore.initServiceCore(mContext);
     }
