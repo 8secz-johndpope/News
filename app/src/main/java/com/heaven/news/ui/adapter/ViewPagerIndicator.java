@@ -707,10 +707,10 @@ public class ViewPagerIndicator extends View {
         viewpager.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
             @Override
             public void OnPageChanged(int oldPosition, int newPosition) {
-                if(mAnimation){
-                    //需要动画
-                    return;
-                }
+//                if(mAnimation){
+//                    //需要动画
+//                    return;
+//                }
                 if(mNum>0&&!mIsInfiniteCircle)
                 {
                     move(0, newPosition % mNum, false);
