@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
+import com.heaven.base.ui.view.widget.banner.BannerListener;
 import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
 import com.heaven.base.ui.view.widget.banner.RecyclerViewPager;
 import com.heaven.news.R;
@@ -75,45 +76,9 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         mRecyclerView.setAdapter(mCardAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLongClickable(true);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
-//                updateState(scrollState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-//                mPositionText.setText("First: " + mRecyclerViewPager.getFirstVisiblePosition());
-                int childCount = mRecyclerView.getChildCount();
-                int width = mRecyclerView.getChildAt(0).getWidth();
-                int padding = (mRecyclerView.getWidth() - width) / 2;
-//                mCountText.setText("Count: " + childCount);
-
-                for (int j = 0; j < childCount; j++) {
-                    View v = recyclerView.getChildAt(j);
-                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
-                    float rate = 0;
-                    ;
-                    if (v.getLeft() <= padding) {
-                        if (v.getLeft() >= padding - v.getWidth()) {
-                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
-                        } else {
-                            rate = 1;
-                        }
-                        v.setScaleY(1 - rate * 0.1f);
-                        v.setScaleX(1 - rate * 0.1f);
-
-                    } else {
-                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
-                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
-                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
-                        }
-                        v.setScaleY(0.9f + rate * 0.1f);
-                        v.setScaleX(0.9f + rate * 0.1f);
-                    }
-                }
-            }
-        });
+        BannerListener bannerListener = new BannerListener(mRecyclerView);
+        mRecyclerView.addOnScrollListener(bannerListener);
+        mRecyclerView.addOnLayoutChangeListener(bannerListener);
         mRecyclerView.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
             @Override
             public void OnPageChanged(int oldPosition, int newPosition) {
