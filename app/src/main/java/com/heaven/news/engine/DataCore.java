@@ -56,7 +56,7 @@ import java.util.Map;
  * @version V1.0 核心数据管理类
  */
 public class DataCore {
-
+    String TAG = DataCore.class.getSimpleName();
     public static int VERSION = 0;
     public static int HOME = 1;
     public static int LOGIN = 2;
@@ -99,7 +99,7 @@ public class DataCore {
     private String groupCode;                               //大客户编码
 
 
-    DataCore(DataSource dataSource,Context context) {
+    DataCore(DataSource dataSource, Context context) {
         this.dataSource = dataSource;
         dataSource.runWorkThread(this::prepareData);
         dataSource.runWorkThread(() -> loadAllServiceItem(context));
@@ -110,8 +110,8 @@ public class DataCore {
         if (allServiceItem == null) {
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             InputStream allServiceIn = context.getResources().openRawResource(R.raw.service);
-                Reader readerAll = new InputStreamReader(allServiceIn);
-                allServiceItem = gson.fromJson(readerAll, AllServiceItem.class);
+            Reader readerAll = new InputStreamReader(allServiceIn);
+            allServiceItem = gson.fromJson(readerAll, AllServiceItem.class);
         }
         return allServiceItem;
     }
@@ -120,7 +120,7 @@ public class DataCore {
         requestVersion();
         autoLogin();
         requestHomeConfig();
-        homeConfigData = dataSource.getCacheEntity(DataSource.DISK,Constants.HOMECONFIG);
+        homeConfigData = dataSource.getCacheEntity(DataSource.DISK, Constants.HOMECONFIG);
         Logger.i("DataCore----prepareData--homeConfigData--" + homeConfigData);
 //        getAdInfo();
     }
@@ -225,7 +225,7 @@ public class DataCore {
 
     public void login(String userCount, String pwd) {
         if (!TextUtils.isEmpty(userCount) && !TextUtils.isEmpty(pwd)) {
-            prepareLoginCache(userCount,pwd);
+            prepareLoginCache(userCount, pwd);
 
             loginNew login = new loginNew();
             loginReqVO loginreqvo = new loginReqVO();
@@ -245,12 +245,12 @@ public class DataCore {
             Long loginTaskId = RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
                 if (loginNewResponseDataResponse.code == 0 && loginNewResponseDataResponse.data != null && loginNewResponseDataResponse.data._LOGIN_RESULT != null) {
                     if ("0000".equals(loginNewResponseDataResponse.data._LOGIN_RESULT._CODE)) {
-                        UserSecret userSecret = new UserSecret(userCount,pwd);
-                        UserLoginInfo userLoginInfo = new UserLoginInfo(userCount,pwd);
+                        UserSecret userSecret = new UserSecret(userCount, pwd);
+                        UserLoginInfo userLoginInfo = new UserLoginInfo(userCount, pwd);
                         userLoginInfo.userInfo = loginNewResponseDataResponse.data._LOGIN_RESULT;
                         initLoginData(loginNewResponseDataResponse.data._LOGIN_RESULT);
                         notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
-                        dataSource.cacheData(DataSource.DISK,Constants.USERINFO,userSecret);
+                        dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userSecret);
                         dataSource.cacheData(DataSource.DISK, userLoginInfo.key, userLoginInfo);
                     } else {
                         notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
@@ -263,19 +263,20 @@ public class DataCore {
     }
 
     private void prepareLoginCache(String userCount, String pwd) {
-     UserLoginInfo  loginInfo = dataSource.getCacheEntity(DataSource.DISK,userCount+pwd);
-       if(loginInfo != null && loginInfo.userInfo != null) {
-           Logger.i("DataCore--prepareLoginCache" + loginInfo.userInfo.toString());
-           initLoginData(loginInfo.userInfo);
-           notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
-       }
+        UserLoginInfo loginInfo = dataSource.getCacheEntity(DataSource.DISK, userCount + pwd);
+        if (loginInfo != null && loginInfo.userInfo != null) {
+            Logger.i("DataCore--prepareLoginCache" + loginInfo.userInfo.toString());
+            initLoginData(loginInfo.userInfo);
+            notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
+        }
     }
 
 
     private int reqVersionCount = 0;
+
     @TraceTime
     public void requestVersion() {
-      long taskId =  RxRepUtils.instance().getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
+        long taskId = RxRepUtils.instance().getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
             if (configData.netCode == 0 && configData.androidversionnew != null) {
                 this.configData = configData;
                 this.version = configData.androidversionnew;
@@ -283,7 +284,7 @@ public class DataCore {
 //                cancelVersionTask();
                 Logger.i("requestVersion--" + configData.toString());
             } else {
-                if(reqVersionCount < 2) {
+                if (reqVersionCount < 2) {
                     requestVersion();
                     reqVersionCount++;
                 } else {
@@ -292,20 +293,21 @@ public class DataCore {
                 Logger.i("requestVersion--" + configData.toString());
             }
         });
-      versionTaskList.add(taskId);
+        versionTaskList.add(taskId);
     }
 
 
     private int requestHomeCount = 0;
+
     public void requestHomeConfig() {
         long taskId = RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if (homeConfigData.netCode == 0) {
                 this.homeConfigData = homeConfigData;
-                dataSource.cacheData(DataSource.DISK,Constants.HOMECONFIG,homeConfigData);
+                dataSource.cacheData(DataSource.DISK, Constants.HOMECONFIG, homeConfigData);
                 notifyCoreDataChange(getCoreDataWrapper(true, HOME));
 //                cancelHomeTask();
             } else {
-                if(requestHomeCount < 3) {
+                if (requestHomeCount < 3) {
                     requestHomeCount++;
                     requestHomeConfig();
                 } else {
@@ -317,16 +319,16 @@ public class DataCore {
     }
 
     private void cancelVersionTask() {
-        if(versionTaskList != null && versionTaskList.size() > 0) {
-            for(Long taskId : versionTaskList) {
+        if (versionTaskList != null && versionTaskList.size() > 0) {
+            for (Long taskId : versionTaskList) {
                 RxRepUtils.cancelTask(taskId);
             }
         }
     }
 
     private void cancelHomeTask() {
-        if(homeTaskList != null && homeTaskList.size() > 0) {
-            for(Long taskId : homeTaskList) {
+        if (homeTaskList != null && homeTaskList.size() > 0) {
+            for (Long taskId : homeTaskList) {
                 RxRepUtils.cancelTask(taskId);
             }
         }
@@ -362,15 +364,15 @@ public class DataCore {
         }
     }
 
-   public void removeForeverObserve(Observer<CoreDataWrapper> typeObserver) {
-       Object object = observers.remove(typeObserver);
+    public void removeForeverObserve(Observer<CoreDataWrapper> typeObserver) {
+        Object object = observers.remove(typeObserver);
         Logger.i("DataCore----removeForeverObserve--" + object);
     }
 
     private void notifyCoreDataChange(CoreDataWrapper coreDataWrapper) {
         Logger.i("DataCore----notifyCoreDataChange-" + coreDataWrapper.toString());
-        if(observers != null && observers.size() > 0) {
-            for(MutableLiveData<CoreDataWrapper> dataTypeLive : observers.values()) {
+        if (observers != null && observers.size() > 0) {
+            for (MutableLiveData<CoreDataWrapper> dataTypeLive : observers.values()) {
                 dataTypeLive.postValue(coreDataWrapper);
 
             }

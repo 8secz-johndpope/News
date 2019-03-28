@@ -156,7 +156,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
     private void initService() {
         AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
-        Logger.i("initService--" + allServiceItem);
+        Logger.i("AllServiceItem---initService--" + allServiceItem);
     }
 
 
