@@ -78,7 +78,6 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         mBannerAdapter = new BaseAdapter<>(getContext());
         mBannerAdapter.register(new HomeBanner(ImageInfo.class,R.layout.banner_item));
 
-//        mBannerAdapter = new LayoutAdapter(getContext(), mRecyclerView);
         mRecyclerView.setLayoutManager(layout);
         mRecyclerView.setAdapter(mBannerAdapter);
         mRecyclerView.setHasFixedSize(true);

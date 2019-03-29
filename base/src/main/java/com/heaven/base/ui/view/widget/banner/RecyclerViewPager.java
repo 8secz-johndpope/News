@@ -33,6 +33,7 @@ import java.util.Locale;
  * @author Green
  */
 public class RecyclerViewPager extends RecyclerView {
+    private boolean mIsAutoLoop;
 
     private RecyclerViewPagerAdapter<?> mViewPagerAdapter;
     private float mTriggerOffset = 0.25f;
@@ -88,6 +89,7 @@ public class RecyclerViewPager extends RecyclerView {
      * 开启轮播
      */
     public void startLoop() {
+        mIsAutoLoop = true;
         mHandler.removeMessages(SCROLL_MSG);
         mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
     }
@@ -495,7 +497,9 @@ public class RecyclerViewPager extends RecyclerView {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
+                if(mIsAutoLoop) {
+                    startLoop();
+                }
                 break;
         }
         return super.onTouchEvent(e);
@@ -531,7 +535,7 @@ public class RecyclerViewPager extends RecyclerView {
                     }
                     break;
                 case MotionEvent.ACTION_UP:
-                    mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
+                    startLoop();
                     break;
                 default:
                     return super.onInterceptTouchEvent(e);
