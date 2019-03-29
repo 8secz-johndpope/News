@@ -61,7 +61,7 @@ public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> 
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        width = getResources().getDisplayMetrics().widthPixels / 4;
+        width = getResources().getDisplayMetrics().widthPixels / 5;
         initGrid();
 
     }
