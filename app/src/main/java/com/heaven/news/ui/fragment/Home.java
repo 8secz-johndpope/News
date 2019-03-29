@@ -94,6 +94,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
                 }
         );
         updateHomeImageData();
+        mRecyclerView.setAutoLoop(true);
         mRecyclerView.startLoop();
     }
 
@@ -180,6 +181,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         if(allServiceItem != null && allServiceItem.homeServiceInfos != null) {
             mServiceAdapter.updateItems(allServiceItem.homeServiceInfos);
         }
+        mViewBinding.service.setAutoLoop(false);
 
     }
 

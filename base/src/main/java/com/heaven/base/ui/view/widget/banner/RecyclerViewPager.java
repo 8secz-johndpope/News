@@ -85,13 +85,18 @@ public class RecyclerViewPager extends RecyclerView {
         mHandler = null;
     }
 
+    public void setAutoLoop(boolean isAutoloop) {
+        this.mIsAutoLoop = isAutoloop;
+    }
+
     /**
      * 开启轮播
      */
     public void startLoop() {
-        mIsAutoLoop = true;
         mHandler.removeMessages(SCROLL_MSG);
-        mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
+        if(mIsAutoLoop) {
+            mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
+        }
     }
 
 
