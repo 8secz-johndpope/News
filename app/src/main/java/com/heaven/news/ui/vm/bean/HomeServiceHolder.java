@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
+import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.ui.vm.model.HomeServiceItem;
 import com.heaven.news.ui.vm.model.ServiceItem;
@@ -35,6 +36,7 @@ public class HomeServiceHolder  extends BaseMultItem<HomeServiceItem> {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(holder.context,4);
             BaseAdapter<ServiceItem> adapter = new BaseAdapter<>(holder.context,homeServiceItem.homeServiceInfos);
             adapter.register(new ServiceItemHolder(ServiceItem.class,R.layout.service_item));
+            recyclerView.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(holder.context,10),4));
             recyclerView.setLayoutManager(gridLayoutManager);
             recyclerView.setAdapter(adapter);
         }
