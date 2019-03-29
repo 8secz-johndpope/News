@@ -169,15 +169,6 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         mViewBinding.service.setAdapter(mServiceAdapter);
         mViewBinding.service.setHasFixedSize(true);
         mViewBinding.service.setLongClickable(true);
-        RecyclerViewPagerListener bannerListener = new RecyclerViewPagerListener(mViewBinding.service);
-        mViewBinding.service.addOnScrollListener(bannerListener);
-        mViewBinding.service.addOnLayoutChangeListener(bannerListener);
-        mViewBinding.service.addOnPageChangedListener((oldPosition, newPosition) -> {
-                    if(mBannerAdapter.getItemCount() != 0) {
-                        Log.d("test", "oldPosition:" + oldPosition% mBannerAdapter.getItemCount() + " newPosition:" + newPosition% mBannerAdapter.getItemCount());
-                    }
-                }
-        );
         if(allServiceItem != null && allServiceItem.homeServiceInfos != null) {
             mServiceAdapter.updateItems(allServiceItem.homeServiceInfos);
         }
