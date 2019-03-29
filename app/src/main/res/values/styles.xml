@@ -11,11 +11,4 @@
         <item name="tabSelectedTextColor">@color/tab_bottom_color</item>
     </style>
 
-    <declare-styleable name="PageGridView">
-        <!--行数，如果为0表示横向显示gridview-->
-        <attr name="PagingRows" format="integer" />
-        <!--列数,如果为0表示纵向显示gridview-->
-        <attr name="PagingColums" format="integer" />
-        <attr name="PagingDiver" format="reference" />
-    </declare-styleable>
 </resources>

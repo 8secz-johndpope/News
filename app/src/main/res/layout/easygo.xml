@@ -12,13 +12,10 @@
             android:orientation="vertical"
             >
 
-            <com.heaven.news.ui.view.gridpager.PageGridView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:PagingColums="4"
-                app:PagingDiver="@drawable/divider_bg"
-                app:PagingRows="2"
                 />
 
 

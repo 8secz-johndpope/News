@@ -47,7 +47,7 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
     LayoutInflater inflater;
 
     private DiffCallBack diffCallBack;
-    private boolean openAnimationEnable = true;
+    private boolean openAnimationEnable = false;
     private boolean firstOnlyEnable = true;
     private int lastPosition = 15;
     private int duration = 300;

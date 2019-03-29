@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +16,9 @@ import android.widget.TextView;
 
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.BaseMultAdapter;
-import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.base.ui.view.widget.banner.BannerListener;
 import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
-import com.heaven.base.ui.view.widget.gridpage.PagerGridLayoutManager;
-import com.heaven.base.ui.view.widget.gridpage.PagerGridSnapHelper;
-import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
@@ -36,8 +31,8 @@ import com.heaven.news.manyData.bean.Bean01;
 import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
-import com.heaven.news.ui.adapter.LayoutAdapter;
 import com.heaven.news.ui.view.AutofitHeightViewPager;
+import com.heaven.news.ui.vm.bean.HomeBanner;
 import com.heaven.news.ui.vm.bean.ServiceItemHolder;
 import com.heaven.news.ui.vm.model.AllServiceItem;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
@@ -57,10 +52,9 @@ import java.util.List;
  *
  * @version V1.0 首页
  */
-public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper>, PagerGridLayoutManager
-        .PageListener {
+public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper>{
     List<Object> items;
-    LayoutAdapter mCardAdapter;
+    BaseAdapter<ImageInfo> mBannerAdapter;
     private List<Fragment> mainList = new ArrayList<>();
 
     @Override
@@ -81,17 +75,20 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     private void initTopBanner() {
         LoopRecyclerViewPager mRecyclerView = mViewBinding.imageViewPager;
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mCardAdapter = new LayoutAdapter(getContext(), mRecyclerView);
+        mBannerAdapter = new BaseAdapter<>(getContext());
+        mBannerAdapter.register(new HomeBanner(ImageInfo.class,R.layout.banner_item));
+
+//        mBannerAdapter = new LayoutAdapter(getContext(), mRecyclerView);
         mRecyclerView.setLayoutManager(layout);
-        mRecyclerView.setAdapter(mCardAdapter);
+        mRecyclerView.setAdapter(mBannerAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLongClickable(true);
         BannerListener bannerListener = new BannerListener(mRecyclerView);
         mRecyclerView.addOnScrollListener(bannerListener);
         mRecyclerView.addOnLayoutChangeListener(bannerListener);
         mRecyclerView.addOnPageChangedListener((oldPosition, newPosition) -> {
-                    if(mCardAdapter.getItemCount() != 0) {
-                        Log.d("test", "oldPosition:" + oldPosition%mCardAdapter.getItemCount() + " newPosition:" + newPosition%mCardAdapter.getItemCount());
+                    if(mBannerAdapter.getItemCount() != 0) {
+                        Log.d("test", "oldPosition:" + oldPosition% mBannerAdapter.getItemCount() + " newPosition:" + newPosition% mBannerAdapter.getItemCount());
                     }
                 }
         );
@@ -162,26 +159,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
     private void initService() {
         AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
-        PagerGridLayoutManager mLayoutManager = new PagerGridLayoutManager(2, 4, PagerGridLayoutManager
-                .HORIZONTAL);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),4,GridLayoutManager.HORIZONTAL,false);
 
-        mLayoutManager.setAutoMeasureEnabled(true);
-        mViewBinding.service.setHasFixedSize(true);
-        mViewBinding.service.setNestedScrollingEnabled(false);
-        // 水平分页布局管理器
-//        mLayoutManager.setPageListener(this);    // 设置页面变化监听器
-        // 设置滚动辅助工具
-        mViewBinding.service.setLayoutManager(mLayoutManager);
-        mViewBinding.service.setNestedScrollingEnabled(false);
-        PagerGridSnapHelper pageSnapHelper = new PagerGridSnapHelper();
-        pageSnapHelper.attachToRecyclerView(mViewBinding.service);
-        if(allServiceItem != null && allServiceItem.homeServiceInfos != null && allServiceItem.homeServiceInfos.size() > 0) {
-            BaseAdapter<ServiceItem> adapter = new BaseAdapter<>(getContext(),allServiceItem.homeServiceInfos);
-            adapter.register(new ServiceItemHolder(ServiceItem.class,R.layout.service_item));
-            mViewBinding.service.setAdapter(adapter);
-//            adapter.updateItems(allServiceItem.homeServiceInfos);
-        }
 
     }
 
@@ -262,7 +240,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     }
 
     private void updateTopImages(List<ImageInfo> tops) {
-        mCardAdapter.updateImageInfo(tops);
+        mBannerAdapter.updateItems(tops);
     }
 
     private void updateHotImages(List<ImageInfo> hots) {
@@ -303,13 +281,4 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         AppEngine.instance().dataCore().removeForeverObserve(this);
     }
 
-    @Override
-    public void onPageSizeChanged(int pageSize) {
-
-    }
-
-    @Override
-    public void onPageSelect(int pageIndex) {
-
-    }
 }
