@@ -84,16 +84,13 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (multItem != null) {
                 multTypeManager.setMaxRecycledViews(viewGroup, viewType);
                 viewHolder = new BaseViewHolder(inflater.inflate(multItem.getItemLayoutId(), viewGroup, false));
-                viewHolder.setContext(context);
                 viewHolder.multItem = multItem;
             } else {
                 viewHolder = new BaseViewHolder(new TextView(context));
-                viewHolder.setContext(context);
                 viewHolder.multItem = multItem;
             }
         } else {
             viewHolder = new BaseViewHolder(new TextView(context));
-            viewHolder.setContext(context);
             viewHolder.multItem = multItem;
         }
         return viewHolder;

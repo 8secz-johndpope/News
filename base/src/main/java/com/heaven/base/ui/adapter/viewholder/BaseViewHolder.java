@@ -30,6 +30,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public Context context;
     public BaseViewHolder(View itemView) {
         super(itemView);
+        context = itemView.getContext();
         this.viewItem = itemView;
         views = new SparseArray<>();
     }
@@ -48,10 +49,6 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     public BaseMultItem getMultItem() {
         return multItem;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
     }
 
     public void startActivity(Intent intent) {
