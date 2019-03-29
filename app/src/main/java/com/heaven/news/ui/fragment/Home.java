@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
-import com.heaven.base.ui.view.widget.banner.BannerListener;
+import com.heaven.base.ui.view.widget.banner.RecyclerViewPagerListener;
 import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
@@ -33,9 +33,10 @@ import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.view.AutofitHeightViewPager;
 import com.heaven.news.ui.vm.bean.HomeBanner;
-import com.heaven.news.ui.vm.bean.ServiceItemHolder;
+import com.heaven.news.ui.vm.bean.HomeServiceHolder;
 import com.heaven.news.ui.vm.model.AllServiceItem;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
+import com.heaven.news.ui.vm.model.HomeServiceItem;
 import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.model.ServiceItem;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
@@ -55,6 +56,7 @@ import java.util.List;
 public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper>{
     List<Object> items;
     BaseAdapter<ImageInfo> mBannerAdapter;
+    BaseAdapter<HomeServiceItem> mServiceAdapter;
     private List<Fragment> mainList = new ArrayList<>();
 
     @Override
@@ -82,7 +84,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         mRecyclerView.setAdapter(mBannerAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLongClickable(true);
-        BannerListener bannerListener = new BannerListener(mRecyclerView);
+        RecyclerViewPagerListener bannerListener = new RecyclerViewPagerListener(mRecyclerView);
         mRecyclerView.addOnScrollListener(bannerListener);
         mRecyclerView.addOnLayoutChangeListener(bannerListener);
         mRecyclerView.addOnPageChangedListener((oldPosition, newPosition) -> {
@@ -158,7 +160,26 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
     private void initService() {
         AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
+        LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mServiceAdapter = new BaseAdapter<>(getContext());
+        mServiceAdapter.register(new HomeServiceHolder(HomeServiceItem.class,R.layout.home_service_item));
 
+        mViewBinding.service.setLayoutManager(layout);
+        mViewBinding.service.setAdapter(mServiceAdapter);
+        mViewBinding.service.setHasFixedSize(true);
+        mViewBinding.service.setLongClickable(true);
+        RecyclerViewPagerListener bannerListener = new RecyclerViewPagerListener(mViewBinding.service);
+        mViewBinding.service.addOnScrollListener(bannerListener);
+        mViewBinding.service.addOnLayoutChangeListener(bannerListener);
+        mViewBinding.service.addOnPageChangedListener((oldPosition, newPosition) -> {
+                    if(mBannerAdapter.getItemCount() != 0) {
+                        Log.d("test", "oldPosition:" + oldPosition% mBannerAdapter.getItemCount() + " newPosition:" + newPosition% mBannerAdapter.getItemCount());
+                    }
+                }
+        );
+        if(allServiceItem != null && allServiceItem.homeServiceInfos != null) {
+            mServiceAdapter.updateItems(allServiceItem.homeServiceInfos);
+        }
 
     }
 

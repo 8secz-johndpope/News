@@ -5,16 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * FileName: com.heaven.base.ui.view.widget.banner.BannerListener.java
+ * FileName: com.heaven.base.ui.view.widget.banner.RecyclerViewPagerListener.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-28 09:20
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class BannerListener extends RecyclerView.OnScrollListener implements View.OnLayoutChangeListener {
+public class RecyclerViewPagerListener extends RecyclerView.OnScrollListener implements View.OnLayoutChangeListener {
     private RecyclerViewPager mRecyclerView;
-    public BannerListener(RecyclerViewPager recyclerView) {
+    public RecyclerViewPagerListener(RecyclerViewPager recyclerView) {
         super();
         this.mRecyclerView = recyclerView;
     }

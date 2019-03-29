@@ -111,7 +111,7 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         final Object item = dataItems.get(position);
         BaseMultItem binder = multTypeManager.getMultItemByType(holder.getItemViewType());
         if (binder != null) {
-            binder.onBindViewHolder(holder, item, position);
+            binder.onBindViewHolder(holder, item);
 
             if (onItemClickListener != null) {
                 holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, holder, item, position));

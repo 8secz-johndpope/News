@@ -51,12 +51,15 @@
             <include layout="@layout/book_flight_area" android:id="@+id/book_area"/>
 
 
-            <android.support.v7.widget.RecyclerView
+            <com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager
                 android:id="@+id/service"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                app:rvp_triggerOffset="0.1"
+                app:rvp_singlePageFling="false"
+                app:rvp_inertia="true"
+                android:clipToPadding="false"
                 android:descendantFocusability="blocksDescendants"
-                android:layout_weight="1"
                 />
 
             <android.support.v7.widget.RecyclerView
