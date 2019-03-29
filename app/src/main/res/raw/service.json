@@ -3,7 +3,7 @@
   "homeServiceInfos": [
     {
       "id": 0,
-      "iconID": "@mipmap/access_net",
+      "iconID": "@mipmap/flight_state",
       "name": "@string/flight_state",
       "urlShort": "",
       "urlDetail": "",

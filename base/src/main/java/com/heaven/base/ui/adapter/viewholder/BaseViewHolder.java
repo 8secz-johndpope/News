@@ -27,7 +27,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public Object itemData;
     private final SparseArray<View> views;
     private View viewItem;
-    private Context context;
+    public Context context;
     public BaseViewHolder(View itemView) {
         super(itemView);
         this.viewItem = itemView;
@@ -74,6 +74,14 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         TextView view = getView(viewId);
         if (view != null) {
             view.setText(value);
+        }
+        return this;
+    }
+
+    public BaseViewHolder setText(int viewId, int resId) {
+        TextView view = getView(viewId);
+        if (view != null) {
+            view.setText(resId);
         }
         return this;
     }

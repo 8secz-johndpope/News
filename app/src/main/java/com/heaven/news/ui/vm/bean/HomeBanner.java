@@ -1,4 +1,4 @@
-package com.heaven.news.ui.vm.adapterbean;
+package com.heaven.news.ui.vm.bean;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide;
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.news.R;
-import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.ImageInfo;
 
 /**

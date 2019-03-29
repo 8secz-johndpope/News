@@ -2,10 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:fillViewport="true"-->
+        <!--&gt;-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,9 +52,11 @@
 
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/function"
+                android:id="@+id/service"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:descendantFocusability="blocksDescendants"
+                android:layout_weight="1"
                 />
 
             <android.support.v7.widget.RecyclerView
@@ -69,5 +72,5 @@
                 />
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    <!--</android.support.v4.widget.NestedScrollView>-->
 </layout>

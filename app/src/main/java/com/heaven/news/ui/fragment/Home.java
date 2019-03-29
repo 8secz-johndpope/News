@@ -15,11 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.BaseMultAdapter;
+import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.base.ui.view.widget.banner.BannerListener;
 import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
-import com.heaven.base.ui.view.widget.banner.RecyclerViewPager;
+import com.heaven.base.ui.view.widget.gridpage.PagerGridLayoutManager;
+import com.heaven.base.ui.view.widget.gridpage.PagerGridSnapHelper;
+import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
@@ -34,11 +38,12 @@ import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.adapter.LayoutAdapter;
 import com.heaven.news.ui.view.AutofitHeightViewPager;
+import com.heaven.news.ui.vm.bean.ServiceItemHolder;
 import com.heaven.news.ui.vm.model.AllServiceItem;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.ImageInfo;
+import com.heaven.news.ui.vm.model.ServiceItem;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +57,8 @@ import java.util.List;
  *
  * @version V1.0 首页
  */
-public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper> {
+public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper>, PagerGridLayoutManager
+        .PageListener {
     List<Object> items;
     LayoutAdapter mCardAdapter;
     private List<Fragment> mainList = new ArrayList<>();
@@ -156,7 +162,27 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
     private void initService() {
         AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
-        Logger.i("AllServiceItem---initService--" + allServiceItem);
+        PagerGridLayoutManager mLayoutManager = new PagerGridLayoutManager(2, 4, PagerGridLayoutManager
+                .HORIZONTAL);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),4,GridLayoutManager.HORIZONTAL,false);
+
+        mLayoutManager.setAutoMeasureEnabled(true);
+        mViewBinding.service.setHasFixedSize(true);
+        mViewBinding.service.setNestedScrollingEnabled(false);
+        // 水平分页布局管理器
+//        mLayoutManager.setPageListener(this);    // 设置页面变化监听器
+        // 设置滚动辅助工具
+        mViewBinding.service.setLayoutManager(mLayoutManager);
+        mViewBinding.service.setNestedScrollingEnabled(false);
+        PagerGridSnapHelper pageSnapHelper = new PagerGridSnapHelper();
+        pageSnapHelper.attachToRecyclerView(mViewBinding.service);
+        if(allServiceItem != null && allServiceItem.homeServiceInfos != null && allServiceItem.homeServiceInfos.size() > 0) {
+            BaseAdapter<ServiceItem> adapter = new BaseAdapter<>(getContext(),allServiceItem.homeServiceInfos);
+            adapter.register(new ServiceItemHolder(ServiceItem.class,R.layout.service_item));
+            mViewBinding.service.setAdapter(adapter);
+//            adapter.updateItems(allServiceItem.homeServiceInfos);
+        }
+
     }
 
 
@@ -275,5 +301,15 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     public void onDestroy() {
         super.onDestroy();
         AppEngine.instance().dataCore().removeForeverObserve(this);
+    }
+
+    @Override
+    public void onPageSizeChanged(int pageSize) {
+
+    }
+
+    @Override
+    public void onPageSelect(int pageIndex) {
+
     }
 }
