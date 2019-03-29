@@ -5,6 +5,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         >
 
         <LinearLayout
@@ -50,17 +51,15 @@
             <include layout="@layout/book_flight_area" android:id="@+id/book_area"/>
 
 
-            <com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager
+            <com.heaven.base.ui.view.widget.banner.RecyclerViewPager
                 android:id="@+id/service"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_10dp"
                 android:layout_marginBottom="@dimen/_10dp"
                 app:rvp_triggerOffset="0.1"
                 app:rvp_singlePageFling="false"
                 app:rvp_inertia="true"
-                android:clipToPadding="false"
-                android:descendantFocusability="blocksDescendants"
                 />
 
             <android.support.v7.widget.RecyclerView
