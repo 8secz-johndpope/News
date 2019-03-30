@@ -19,6 +19,7 @@ import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.base.ui.view.widget.banner.RecyclerViewPagerListener;
 import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
+import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
@@ -32,8 +33,13 @@ import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.view.AutofitHeightViewPager;
-import com.heaven.news.ui.vm.bean.HomeBanner;
-import com.heaven.news.ui.vm.bean.HomeServiceHolder;
+import com.heaven.news.ui.vm.holder.GrideDecoration;
+import com.heaven.news.ui.vm.holder.HomeBanner;
+import com.heaven.news.ui.vm.holder.HomeHotHolder;
+import com.heaven.news.ui.vm.holder.HomeHotTitleHoler;
+import com.heaven.news.ui.vm.model.HomeHotTitle;
+import com.heaven.news.ui.vm.holder.HomeRecHolder;
+import com.heaven.news.ui.vm.holder.HomeServiceHolder;
 import com.heaven.news.ui.vm.model.AllServiceItem;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
 import com.heaven.news.ui.vm.model.HomeServiceItem;
@@ -71,6 +77,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         initTopBanner();
         initBookTab();
         initService();
+        initRecommends();
         initMult();
     }
 
@@ -174,6 +181,42 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         }
         mViewBinding.service.setAutoLoop(false);
 
+    }
+
+    private void initRecommends() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
+        mViewBinding.recommendService.setLayoutManager(gridLayoutManager);
+        BaseMultAdapter adapter = new BaseMultAdapter(getContext(),organizeRecData());
+        adapter.register(new HomeRecHolder(ServiceItem.class,0));
+        adapter.register(new HomeHotHolder(ImageInfo.class,R.layout.home_hot));
+        adapter.register(new HomeHotTitleHoler(HomeHotTitle.class,R.layout.home_hot_title));
+        mViewBinding.recommendService.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(getContext(),10),2));
+        mViewBinding.recommendService.setAdapter(adapter);
+
+    }
+
+    private ArrayList organizeRecData() {
+        ArrayList dataList = new ArrayList();
+        AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
+        HomeImageInfo homeImageInfo =  AppEngine.instance().dataCore().getHomeConfigData();
+        if(allServiceItem != null && allServiceItem.homeRecommendInfos != null && allServiceItem.homeRecommendInfos.size() > 0) {
+            dataList.addAll(allServiceItem.homeRecommendInfos);
+        }
+
+        if(homeImageInfo != null) {
+            if(homeImageInfo.top != null && homeImageInfo.top.size() > 0) {
+                HomeHotTitle title = new HomeHotTitle(1,R.string.sz_easy_go,"",R.mipmap.home_easy_title);
+                dataList.add(title);
+                dataList.addAll(homeImageInfo.top);
+            }
+
+            if(homeImageInfo.hot != null && homeImageInfo.hot.size() > 0) {
+                HomeHotTitle title = new HomeHotTitle(2,R.string.sz_hot,"",R.mipmap.home_hot_city);
+                dataList.add(title);
+                dataList.addAll(homeImageInfo.top);
+            }
+        }
+        return dataList;
     }
 
 

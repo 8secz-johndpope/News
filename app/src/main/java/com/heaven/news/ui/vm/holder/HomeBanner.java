@@ -1,4 +1,4 @@
-package com.heaven.news.ui.vm.bean;
+package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;

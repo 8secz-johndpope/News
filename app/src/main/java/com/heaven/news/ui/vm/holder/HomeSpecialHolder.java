@@ -1,4 +1,4 @@
-package com.heaven.news.ui.vm.bean;
+package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
 
@@ -16,9 +16,9 @@ import com.heaven.news.ui.vm.model.ServiceItem;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class ServiceItemHolder extends BaseMultItem<ServiceItem> {
+public class HomeSpecialHolder extends BaseMultItem<ServiceItem> {
 
-    public ServiceItemHolder(@NonNull Class<ServiceItem> modelBean, int itemLayoutId) {
+    public HomeSpecialHolder(@NonNull Class<ServiceItem> modelBean, int itemLayoutId) {
         super(modelBean, itemLayoutId);
     }
 
@@ -31,5 +31,11 @@ public class ServiceItemHolder extends BaseMultItem<ServiceItem> {
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull ServiceItem serviceItem, Object payload) {
 
+    }
+
+
+    @Override
+    public boolean isTargetViewType(ServiceItem item, int position) {
+        return 100 == item.id || 101 == item.id;
     }
 }

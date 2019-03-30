@@ -73,7 +73,7 @@
       "serviceType": 1,
       "homeServiceInfos": [
         {
-          "id": 0,
+          "id": 8,
           "iconID": "@mipmap/flight_state",
           "name": "@string/flight_state",
           "urlShort": "",
@@ -83,6 +83,34 @@
       ]
     }
   ],
+
+  "homeRecommends":[
+    {
+      "id": 100,
+      "iconID": "@mipmap/home_cheap",
+      "name": "飞享惠",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 101,
+      "iconID": "@mipmap/home_welfare",
+      "name": "福利专区",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "id": 102,
+      "iconID": "@mipmap/hom_user_info_bg",
+      "name": "用户信息",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    }
+  ],
+
   "easyGoServiceInfos": [
     {
       "id": 0,

@@ -1,4 +1,4 @@
-package com.heaven.news.ui.vm.bean;
+package com.heaven.news.ui.vm.holder;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

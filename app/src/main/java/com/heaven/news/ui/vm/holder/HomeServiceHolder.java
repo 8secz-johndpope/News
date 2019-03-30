@@ -1,4 +1,4 @@
-package com.heaven.news.ui.vm.bean;
+package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,8 +11,6 @@ import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.ui.vm.model.HomeServiceItem;
 import com.heaven.news.ui.vm.model.ServiceItem;
-
-import java.util.ArrayList;
 
 /**
  * FileName: com.heaven.news.ui.vm.bean.HomeServiceHolder.java

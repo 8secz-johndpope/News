@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class AllServiceItem {
     public ArrayList<HomeServiceItem> homeServiceInfos;
+    public ArrayList<ServiceItem> homeRecommendInfos;
     public ArrayList<ServiceItem> easyGoServiceInfos;
     public ArrayList<ServiceItem> phoenixServiceInfos;
 
@@ -19,6 +20,7 @@ public class AllServiceItem {
     public String toString() {
         return "AllServiceItem{" +
                 "homeServiceInfos=" + homeServiceInfos +
+                ", homeRecommendInfos=" + homeRecommendInfos +
                 ", easyGoServiceInfos=" + easyGoServiceInfos +
                 ", phoenixServiceInfos=" + phoenixServiceInfos +
                 '}';

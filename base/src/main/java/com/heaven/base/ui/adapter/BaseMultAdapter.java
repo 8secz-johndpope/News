@@ -64,6 +64,13 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         diffCallBack = new DiffCallBack();
     }
 
+    public BaseMultAdapter(Context context,List<?> dataItems) {
+        this.context = context;
+        this.dataItems = dataItems;
+        inflater = LayoutInflater.from(context);
+        diffCallBack = new DiffCallBack();
+    }
+
     public <T> BaseMultAdapter register(@NonNull BaseMultItem<T> multiItem) {
         multTypeManager.register(multiItem.getLayoutBindModel(), multiItem);
         return this;

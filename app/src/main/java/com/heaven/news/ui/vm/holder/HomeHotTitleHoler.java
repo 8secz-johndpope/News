@@ -1,0 +1,33 @@
+package com.heaven.news.ui.vm.holder;
+
+import android.support.annotation.NonNull;
+
+import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
+import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
+import com.heaven.news.ui.vm.model.HomeHotTitle;
+
+/**
+ * FileName: com.heaven.news.ui.vm.holder.HomeHotTitleHoler.java
+ * author: Heaven
+ * email: heavenisme@aliyun.com
+ * date: 2019-03-30 11:41
+ *
+ * @version V1.0 TODO <描述当前版本功能>
+ */
+public class HomeHotTitleHoler extends BaseMultItem<HomeHotTitle> {
+
+    public HomeHotTitleHoler(@NonNull Class<HomeHotTitle> modelBean, int itemLayoutId) {
+        super(modelBean, itemLayoutId);
+        setSpanSize(2);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull HomeHotTitle homeHotTitle) {
+
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull HomeHotTitle homeHotTitle, Object payload) {
+
+    }
+}

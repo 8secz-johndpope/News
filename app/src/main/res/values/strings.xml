@@ -27,4 +27,7 @@
     <string name="flight_park">乘机泊车</string>
     <string name="flight_fast_check">快速安检</string>
 
+    <string name="sz_easy_go">深航易行</string>
+    <string name="sz_hot">热门目的地</string>
+
 </resources>

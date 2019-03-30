@@ -5,7 +5,6 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         >
 
         <LinearLayout
@@ -63,7 +62,7 @@
                 />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/more_function"
+                android:id="@+id/recommend_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
@@ -73,6 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
+
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
