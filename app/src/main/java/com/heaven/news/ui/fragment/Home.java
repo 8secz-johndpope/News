@@ -190,7 +190,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         adapter.register(new HomeRecHolder(ServiceItem.class,0));
         adapter.register(new HomeHotHolder(ImageInfo.class,R.layout.home_hot));
         adapter.register(new HomeHotTitleHoler(HomeHotTitle.class,R.layout.home_hot_title));
-        mViewBinding.recommendService.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(getContext(),10),2));
+        mViewBinding.recommendService.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(getContext(),5),2));
         mViewBinding.recommendService.setAdapter(adapter);
 
     }

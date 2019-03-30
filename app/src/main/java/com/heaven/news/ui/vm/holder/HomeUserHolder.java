@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
+import com.heaven.base.utils.ScreenUtil;
+import com.heaven.news.R;
 import com.heaven.news.ui.vm.model.ServiceItem;
 
 /**
@@ -23,7 +25,7 @@ public class HomeUserHolder extends BaseMultItem<ServiceItem> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull ServiceItem serviceItem) {
-
+        holder.setImageResource(R.id.user_info_bg, ScreenUtil.getImageResId(holder.context,serviceItem.iconID));
     }
 
     @Override

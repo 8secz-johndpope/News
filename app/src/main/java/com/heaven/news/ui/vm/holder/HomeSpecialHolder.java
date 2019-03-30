@@ -24,8 +24,7 @@ public class HomeSpecialHolder extends BaseMultItem<ServiceItem> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull ServiceItem serviceItem) {
-        holder.setImageResource(R.id.service_icon, ScreenUtil.getImageResId(holder.context,serviceItem.iconID));
-        holder.setText(R.id.service_name,ScreenUtil.getStringResId(holder.context,serviceItem.name));
+        holder.setImageResource(R.id.special_img, ScreenUtil.getImageResId(holder.context,serviceItem.iconID));
     }
 
     @Override

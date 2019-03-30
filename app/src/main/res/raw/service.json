@@ -84,7 +84,7 @@
     }
   ],
 
-  "homeRecommends":[
+  "homeRecommendInfos":[
     {
       "id": 100,
       "iconID": "@mipmap/home_cheap",
