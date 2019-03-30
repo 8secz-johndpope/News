@@ -29,7 +29,7 @@ import com.orhanobut.logger.Logger;
  * @author heaven
  * @version V1.0 欢迎页
  */
-public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding> implements Observer<DataCore.CoreDataWrapper>{
+public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding> implements Observer<UpdateInfo>{
 
     @Override
     public int initLayoutResId() {
@@ -39,7 +39,6 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        prepareVersion();
     }
 
     @Override
@@ -54,52 +53,17 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     @Override
     public void bindModel() {
         mViewBinding.setViewmodel(mViewModel);
+        mViewModel.obserUpdateInfo(this,this);
+        prepareVersion();
     }
 
     private void prepareVersion() {
-        AppEngine.instance().dataCore().registerDataTypeObaserver(this,this);
-        Version version = AppEngine.instance().dataCore().getVersion();
-        if(version == null) {
-            AppEngine.instance().dataCore().requestVersion();
-        } else {
-            checkVersion(version);
+        if(mViewModel.updateInfo != null) {
+            processNext(mViewModel.updateInfo);
         }
     }
 
-    private void checkVersion(Version version) {
-        UpdateInfo updateInfo = new UpdateInfo();
-        if(version != null) {
-            AppInfo appInfo = AppEngine.instance().getAppConfig();
-            updateInfo.updateUrl = version.url;
-            updateInfo.updateMessage = version.txt;
-            if (version.cversion > 65534) {
-                updateInfo.isServiceMainta = true;
-            } else {
-                if (appInfo.verCode < version.cversion) {
-                    updateInfo.needUpdate = true;
-                    if (appInfo.verCode < version.fversion) {
-                        updateInfo.isForceUpdate = true;
-                    }
-                }
-            }
-        } else {
-            updateInfo.isNetError = true;
-        }
-        processNextStep(updateInfo);
-    }
 
-
-    private void processNextStep(UpdateInfo updateInfo) {
-        boolean isOldUser = AppEngine.instance().getDataSource().getSharePreBoolean(Constants.ISOLDUSER);
-        if (isOldUser) {
-            updateInfo.nextGuidePage = false;
-        } else {
-            updateInfo.nextGuidePage = true;
-        }
-        AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISOLDUSER, true);
-        processNext(updateInfo);
-        AppEngine.instance().dataCore().removeForeverObserve(this);
-    }
 
     private void processNext(UpdateInfo updateInfo) {
         if (updateInfo.isNetError) {
@@ -131,6 +95,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
         } else {
             toMainPage();
         }
+        mViewModel.removeUpdateInfoObserver(this);
         finish();
     }
 
@@ -147,16 +112,7 @@ public class Welcome extends BaseSimpleBindActivity<WelecomModel, WelcomeBinding
     }
 
     @Override
-    public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
-        assert coreDataWrapper != null;
-        if(DataCore.VERSION == coreDataWrapper.dataType) {
-            Logger.i("Welcome--onChanged--" + coreDataWrapper.toString());
-            checkVersion(coreDataWrapper.version);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+    public void onChanged(@Nullable UpdateInfo updateInfo) {
+        processNext(updateInfo);
     }
 }

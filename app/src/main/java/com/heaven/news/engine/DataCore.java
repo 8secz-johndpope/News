@@ -117,7 +117,7 @@ public class DataCore {
     }
 
     private void prepareData() {
-        requestVersion();
+//        requestVersion();
         autoLogin();
         requestHomeConfig();
         homeConfigData = dataSource.getCacheEntity(DataSource.DISK, Constants.HOMECONFIG);
