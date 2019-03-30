@@ -210,10 +210,6 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         } else {
             adapter.updateItems(mViewModel.noticeList);
         }
-
-
-
-
     }
 
     private ArrayList organizeRecData() {

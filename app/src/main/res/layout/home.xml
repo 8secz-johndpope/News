@@ -74,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_margin="@dimen/_10dp"
+                android:id="@+id/notice_area"
                 >
                 <RelativeLayout
                     android:layout_width="match_parent"
