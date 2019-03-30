@@ -143,7 +143,6 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public void onAttachedToRecyclerView(@NonNull final RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
         RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
         if (manager instanceof GridLayoutManager) {
             //GridLayoutManager时设置每行的span
@@ -165,7 +164,6 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public void onViewAttachedToWindow(@NonNull BaseViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
         if (isStaggeredGridLayout) {
             ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
             StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;

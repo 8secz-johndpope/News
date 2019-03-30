@@ -1,7 +1,9 @@
 package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +24,7 @@ public class HomeHotHolder extends BaseMultItem<ImageInfo> {
 
     public HomeHotHolder(@NonNull Class<ImageInfo> modelBean, int itemLayoutId) {
         super(modelBean, itemLayoutId);
+        setSpanSize(1);
     }
 
     @Override
@@ -42,5 +45,10 @@ public class HomeHotHolder extends BaseMultItem<ImageInfo> {
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull ImageInfo imageInfo, Object payload) {
 
+    }
+
+    @Override
+    public int getSpanSize(int spanCount) {
+        return 1;
     }
 }

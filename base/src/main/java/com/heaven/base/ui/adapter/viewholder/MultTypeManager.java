@@ -53,6 +53,12 @@ public class MultTypeManager {
         return typeToMultItemMap.get(itemType);
     }
 
+    public BaseMultItem getMultiItemView(int itemViewType) {
+        return typeToMultItemMap.get(itemViewType);
+    }
+
+
+
     public <T> int getItemType(@NonNull T item, int position) {
         int type = -1;
         CopyOnWriteArrayList<BaseMultItem> itemList = beanToTypeListMap.get(item.getClass());

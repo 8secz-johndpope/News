@@ -1,6 +1,8 @@
 package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.ViewGroup;
 
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
@@ -32,5 +34,20 @@ public class HomeHotTitleHoler extends BaseMultItem<HomeHotTitle> {
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull HomeHotTitle homeHotTitle, Object payload) {
 
+    }
+
+    @Override
+    public void onViewAttachedToWindow(BaseViewHolder viewHolder) {
+        ViewGroup.LayoutParams lp = viewHolder.itemView.getLayoutParams();
+        if (lp != null
+                && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+            StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
+            p.setFullSpan(true);
+        }
+    }
+
+    @Override
+    public int getSpanSize(int spanCount) {
+        return 2;
     }
 }

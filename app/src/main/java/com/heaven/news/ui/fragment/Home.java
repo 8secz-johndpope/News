@@ -207,7 +207,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
             if(homeImageInfo.top != null && homeImageInfo.top.size() > 0) {
                 HomeHotTitle title = new HomeHotTitle(1,R.string.sz_easy_go,"",R.mipmap.home_easy_title);
                 dataList.add(title);
-                dataList.addAll(homeImageInfo.top);
+                dataList.addAll(homeImageInfo.hot);
             }
 
             if(homeImageInfo.hot != null && homeImageInfo.hot.size() > 0) {
@@ -231,6 +231,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         mViewBinding.recyclerview.setLayoutManager(layoutManager);
         mViewBinding.recyclerview.setAdapter(adapter);
         mViewBinding.recyclerview.setFocusableInTouchMode(false);
+        mViewBinding.recyclerview.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(getContext(),5),2));
         items = new ArrayList<>();
         for (int j = 0; j < 10; j++) {
             items.add(" 多数据 -> 多类型  ");
