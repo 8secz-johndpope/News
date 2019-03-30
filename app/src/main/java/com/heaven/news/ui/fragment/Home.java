@@ -60,7 +60,7 @@ import java.util.List;
  *
  * @version V1.0 首页
  */
-public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper>{
+public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper> {
     List<Object> items;
     BaseAdapter<ImageInfo> mBannerAdapter;
     BaseAdapter<HomeServiceItem> mServiceAdapter;
@@ -79,14 +79,14 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         initBookTab();
         initService();
         initRecommends();
-        initMult();
+//        initMult();
     }
 
     private void initTopBanner() {
         LoopRecyclerViewPager mRecyclerView = mViewBinding.imageViewPager;
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mBannerAdapter = new BaseAdapter<>(getContext());
-        mBannerAdapter.register(new HomeBanner(ImageInfo.class,R.layout.banner_item));
+        mBannerAdapter.register(new HomeBanner(ImageInfo.class, R.layout.banner_item));
 
         mRecyclerView.setLayoutManager(layout);
         mRecyclerView.setAdapter(mBannerAdapter);
@@ -96,8 +96,8 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         mRecyclerView.addOnScrollListener(bannerListener);
         mRecyclerView.addOnLayoutChangeListener(bannerListener);
         mRecyclerView.addOnPageChangedListener((oldPosition, newPosition) -> {
-                    if(mBannerAdapter.getItemCount() != 0) {
-                        Log.d("test", "oldPosition:" + oldPosition% mBannerAdapter.getItemCount() + " newPosition:" + newPosition% mBannerAdapter.getItemCount());
+                    if (mBannerAdapter.getItemCount() != 0) {
+                        Log.d("test", "oldPosition:" + oldPosition % mBannerAdapter.getItemCount() + " newPosition:" + newPosition % mBannerAdapter.getItemCount());
                     }
                 }
         );
@@ -171,13 +171,13 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mServiceAdapter = new BaseAdapter<>(getContext());
-        mServiceAdapter.register(new HomeServiceHolder(HomeServiceItem.class,R.layout.home_service_item));
+        mServiceAdapter.register(new HomeServiceHolder(HomeServiceItem.class, R.layout.home_service_item));
 
         mViewBinding.service.setLayoutManager(layout);
         mViewBinding.service.setAdapter(mServiceAdapter);
         mViewBinding.service.setHasFixedSize(true);
         mViewBinding.service.setLongClickable(true);
-        if(allServiceItem != null && allServiceItem.homeServiceInfos != null) {
+        if (allServiceItem != null && allServiceItem.homeServiceInfos != null) {
             mServiceAdapter.updateItems(allServiceItem.homeServiceInfos);
         }
         mViewBinding.service.setAutoLoop(false);
@@ -185,13 +185,13 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     }
 
     private void initRecommends() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         mViewBinding.recommendService.setLayoutManager(gridLayoutManager);
-        BaseMultAdapter adapter = new BaseMultAdapter(getContext(),organizeRecData());
-        adapter.register(new HomeRecHolder(ServiceItem.class,0));
-        adapter.register(new HomeHotHolder(ImageInfo.class,R.layout.home_hot));
-        adapter.register(new HomeHotTitleHoler(HomeHotTitle.class,R.layout.home_hot_title));
-        mViewBinding.recommendService.addItemDecoration(new ItemDecoration(ScreenUtil.dip2px(getContext(),5)));
+        BaseMultAdapter adapter = new BaseMultAdapter(getContext(), organizeRecData());
+        adapter.register(new HomeRecHolder(ServiceItem.class, 0));
+        adapter.register(new HomeHotHolder(ImageInfo.class, R.layout.home_hot));
+        adapter.register(new HomeHotTitleHoler(HomeHotTitle.class, R.layout.home_hot_title));
+        mViewBinding.recommendService.addItemDecoration(new ItemDecoration(ScreenUtil.dip2px(getContext(), 5)));
         mViewBinding.recommendService.setAdapter(adapter);
 
     }
@@ -199,20 +199,22 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     private ArrayList organizeRecData() {
         ArrayList dataList = new ArrayList();
         AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
-        HomeImageInfo homeImageInfo =  AppEngine.instance().dataCore().getHomeConfigData();
-        if(allServiceItem != null && allServiceItem.homeRecommendInfos != null && allServiceItem.homeRecommendInfos.size() > 0) {
-            dataList.addAll(allServiceItem.homeRecommendInfos);
-        }
-
-        if(homeImageInfo != null) {
-            if(homeImageInfo.top != null && homeImageInfo.top.size() > 0) {
-                HomeHotTitle title = new HomeHotTitle(1,R.string.sz_easy_go,"",R.mipmap.home_easy_title);
-                dataList.add(title);
-                dataList.addAll(homeImageInfo.hot);
+        HomeImageInfo homeImageInfo = AppEngine.instance().dataCore().getHomeConfigData();
+        if (allServiceItem != null) {
+            if (allServiceItem.homeRecommendInfos != null && allServiceItem.homeRecommendInfos.size() > 0) {
+                dataList.addAll(allServiceItem.homeRecommendInfos);
             }
 
-            if(homeImageInfo.hot != null && homeImageInfo.hot.size() > 0) {
-                HomeHotTitle title = new HomeHotTitle(2,R.string.sz_hot,"",R.mipmap.home_hot_city);
+            if (allServiceItem.homeEasyGoInfos != null && allServiceItem.homeEasyGoInfos.size() > 0) {
+                HomeHotTitle title = new HomeHotTitle(1, R.string.sz_easy_go, "", R.mipmap.home_easy_title);
+                dataList.add(title);
+                dataList.addAll(allServiceItem.homeEasyGoInfos);
+            }
+        }
+
+        if (homeImageInfo != null) {
+            if (homeImageInfo.hot != null && homeImageInfo.hot.size() > 0) {
+                HomeHotTitle title = new HomeHotTitle(2, R.string.sz_hot, "", R.mipmap.home_hot_city);
                 dataList.add(title);
                 dataList.addAll(homeImageInfo.hot);
             }
@@ -232,7 +234,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         mViewBinding.recyclerview.setLayoutManager(layoutManager);
         mViewBinding.recyclerview.setAdapter(adapter);
         mViewBinding.recyclerview.setFocusableInTouchMode(false);
-        mViewBinding.recyclerview.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(getContext(),5),2));
+        mViewBinding.recyclerview.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(getContext(), 5), 2));
         items = new ArrayList<>();
         for (int j = 0; j < 10; j++) {
             items.add(" 多数据 -> 多类型  ");

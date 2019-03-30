@@ -4,6 +4,7 @@
       "serviceType": 0,
       "homeServiceInfos": [
         {
+          "type":-1,
           "id": 0,
           "iconID": "@mipmap/flight_state",
           "name": "@string/flight_state",
@@ -12,6 +13,7 @@
           "rankNo": 0
         },
         {
+          "type":-1,
           "id": 1,
           "iconID": "@mipmap/flight_check_in",
           "name": "@string/flight_check_in",
@@ -20,6 +22,7 @@
           "rankNo": 0
         },
         {
+          "type":-1,
           "id": 2,
           "iconID": "@mipmap/flight_change_date",
           "name": "@string/flight_change_date",
@@ -28,6 +31,7 @@
           "rankNo": 0
         },
         {
+          "type":-1,
           "id": 3,
           "iconID": "@mipmap/flight_refund",
           "name": "@string/flight_refund",
@@ -36,6 +40,7 @@
           "rankNo": 0
         },
         {
+          "type":-1,
           "id": 4,
           "iconID": "@mipmap/flight_award",
           "name": "@string/flight_award",
@@ -44,6 +49,7 @@
           "rankNo": 0
         },
         {
+          "type":-1,
           "id": 5,
           "iconID": "@mipmap/flight_shuttle",
           "name": "@string/flight_shuttle",
@@ -52,6 +58,7 @@
           "rankNo": 0
         },
         {
+          "type":-1,
           "id": 6,
           "iconID": "@mipmap/flight_park",
           "name": "@string/flight_park",
@@ -60,6 +67,7 @@
           "rankNo": 0
         },
         {
+          "type":-1,
           "id": 7,
           "iconID": "@mipmap/flight_fast_check",
           "name": "@string/flight_fast_check",
@@ -73,6 +81,7 @@
       "serviceType": 1,
       "homeServiceInfos": [
         {
+          "type":-1,
           "id": 8,
           "iconID": "@mipmap/flight_state",
           "name": "@string/flight_state",
@@ -86,6 +95,7 @@
 
   "homeRecommendInfos":[
     {
+      "type":-1,
       "id": 100,
       "iconID": "@mipmap/home_cheap",
       "name": "飞享惠",
@@ -94,6 +104,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 101,
       "iconID": "@mipmap/home_welfare",
       "name": "福利专区",
@@ -102,6 +113,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 102,
       "iconID": "@mipmap/hom_user_info_bg",
       "name": "用户信息",
@@ -111,16 +123,18 @@
     }
   ],
 
-  "easyGoServiceInfos": [
+  "homeEasyGoInfos": [
     {
+      "type":-1,
       "id": 0,
-      "iconID": "@mipmap/access_net",
+      "iconID": "@mipmap/flight_state",
       "name": "@string/flight_state",
       "urlShort": "",
       "urlDetail": "",
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 1,
       "iconID": "@mipmap/flight_check_in",
       "name": "@string/flight_check_in",
@@ -129,6 +143,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 2,
       "iconID": "@mipmap/flight_change_date",
       "name": "@string/flight_change_date",
@@ -137,6 +152,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 3,
       "iconID": "@mipmap/flight_refund",
       "name": "@string/flight_refund",
@@ -145,6 +161,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 4,
       "iconID": "@mipmap/flight_award",
       "name": "@string/flight_award",
@@ -153,6 +170,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 5,
       "iconID": "@mipmap/flight_shuttle",
       "name": "@string/flight_shuttle",
@@ -161,6 +179,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 6,
       "iconID": "@mipmap/flight_park",
       "name": "@string/flight_park",
@@ -169,6 +188,82 @@
       "rankNo": 0
     },
     {
+      "type":-1,
+      "id": 7,
+      "iconID": "@mipmap/flight_fast_check",
+      "name": "@string/flight_fast_check",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    }
+  ],
+
+  "easyGoServiceInfos": [
+    {
+      "type":-1,
+      "id": 0,
+      "iconID": "@mipmap/access_net",
+      "name": "@string/flight_state",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "type":-1,
+      "id": 1,
+      "iconID": "@mipmap/flight_check_in",
+      "name": "@string/flight_check_in",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "type":-1,
+      "id": 2,
+      "iconID": "@mipmap/flight_change_date",
+      "name": "@string/flight_change_date",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "type":-1,
+      "id": 3,
+      "iconID": "@mipmap/flight_refund",
+      "name": "@string/flight_refund",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "type":-1,
+      "id": 4,
+      "iconID": "@mipmap/flight_award",
+      "name": "@string/flight_award",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "type":-1,
+      "id": 5,
+      "iconID": "@mipmap/flight_shuttle",
+      "name": "@string/flight_shuttle",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "type":-1,
+      "id": 6,
+      "iconID": "@mipmap/flight_park",
+      "name": "@string/flight_park",
+      "urlShort": "",
+      "urlDetail": "",
+      "rankNo": 0
+    },
+    {
+      "type":-1,
       "id": 7,
       "iconID": "@mipmap/flight_fast_check",
       "name": "@string/flight_fast_check",
@@ -179,6 +274,7 @@
   ],
   "phoenixServiceInfos": [
     {
+      "type":-1,
       "id": 0,
       "iconID": "@mipmap/access_net",
       "name": "@string/flight_state",
@@ -187,6 +283,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 1,
       "iconID": "@mipmap/flight_check_in",
       "name": "@string/flight_check_in",
@@ -195,6 +292,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 2,
       "iconID": "@mipmap/flight_change_date",
       "name": "@string/flight_change_date",
@@ -203,6 +301,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 3,
       "iconID": "@mipmap/flight_refund",
       "name": "@string/flight_refund",
@@ -211,6 +310,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 4,
       "iconID": "@mipmap/flight_award",
       "name": "@string/flight_award",
@@ -219,6 +319,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 5,
       "iconID": "@mipmap/flight_shuttle",
       "name": "@string/flight_shuttle",
@@ -227,6 +328,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 6,
       "iconID": "@mipmap/flight_park",
       "name": "@string/flight_park",
@@ -235,6 +337,7 @@
       "rankNo": 0
     },
     {
+      "type":-1,
       "id": 7,
       "iconID": "@mipmap/flight_fast_check",
       "name": "@string/flight_fast_check",

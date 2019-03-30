@@ -10,6 +10,8 @@ import java.io.Serializable;
  * 首页和服务页服务选项数据模型
  */
 public class ServiceItem implements Parcelable, Serializable {
+    //类型
+    int type = -1;
     //服务id
     public int id = -1;
     //服务icon id
@@ -31,6 +33,7 @@ public class ServiceItem implements Parcelable, Serializable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.type);
         dest.writeInt(this.id);
         dest.writeString(this.iconID);
         dest.writeString(this.name);
@@ -43,6 +46,7 @@ public class ServiceItem implements Parcelable, Serializable {
     }
 
     protected ServiceItem(Parcel in) {
+        this.type = in.readInt();
         this.id = in.readInt();
         this.iconID = in.readString();
         this.name = in.readString();
@@ -66,7 +70,8 @@ public class ServiceItem implements Parcelable, Serializable {
     @Override
     public String toString() {
         return "ServiceItem{" +
-                "id=" + id +
+                "type=" + type +
+                ", id=" + id +
                 ", iconID='" + iconID + '\'' +
                 ", name='" + name + '\'' +
                 ", urlShort='" + urlShort + '\'' +
