@@ -30,7 +30,7 @@ public class MainViewModel extends BaseViewModel<MainPt> {
 
     @Override
     public void initModel() {
-        requestNotice();
+//        requestNotice();
     }
 
     public void requestNotice() {

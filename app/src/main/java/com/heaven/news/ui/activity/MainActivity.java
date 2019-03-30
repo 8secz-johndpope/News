@@ -56,6 +56,7 @@ public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainB
     public void bindModel() {
         mViewBinding.setLoginHandlers(this);
         mViewBinding.setViewmodel(mViewModel);
+        mViewModel.requestNotice();
     }
 
     @Override
