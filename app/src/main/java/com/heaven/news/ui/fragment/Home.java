@@ -213,7 +213,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
             if(homeImageInfo.hot != null && homeImageInfo.hot.size() > 0) {
                 HomeHotTitle title = new HomeHotTitle(2,R.string.sz_hot,"",R.mipmap.home_hot_city);
                 dataList.add(title);
-                dataList.addAll(homeImageInfo.top);
+                dataList.addAll(homeImageInfo.hot);
             }
         }
         return dataList;
