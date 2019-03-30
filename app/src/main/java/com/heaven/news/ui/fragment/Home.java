@@ -37,6 +37,7 @@ import com.heaven.news.ui.vm.holder.GrideDecoration;
 import com.heaven.news.ui.vm.holder.HomeBanner;
 import com.heaven.news.ui.vm.holder.HomeHotHolder;
 import com.heaven.news.ui.vm.holder.HomeHotTitleHoler;
+import com.heaven.news.ui.vm.holder.ItemDecoration;
 import com.heaven.news.ui.vm.model.HomeHotTitle;
 import com.heaven.news.ui.vm.holder.HomeRecHolder;
 import com.heaven.news.ui.vm.holder.HomeServiceHolder;
@@ -190,7 +191,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         adapter.register(new HomeRecHolder(ServiceItem.class,0));
         adapter.register(new HomeHotHolder(ImageInfo.class,R.layout.home_hot));
         adapter.register(new HomeHotTitleHoler(HomeHotTitle.class,R.layout.home_hot_title));
-        mViewBinding.recommendService.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(getContext(),5),2));
+        mViewBinding.recommendService.addItemDecoration(new ItemDecoration(ScreenUtil.dip2px(getContext(),5)));
         mViewBinding.recommendService.setAdapter(adapter);
 
     }
