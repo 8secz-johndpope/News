@@ -69,12 +69,42 @@
                 android:layout_marginRight="@dimen/_10dp"
                 />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:orientation="vertical"
+                android:layout_margin="@dimen/_10dp"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/public_notice"
+                        android:layout_alignParentLeft="true"
+                        android:drawableLeft="@mipmap/home_notice"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:drawablePadding="@dimen/_4dp"
+                        android:drawableRight="@mipmap/go_arrow"
+                        android:text="@string/more"
+                        android:id="@+id/more"
+                        />
+                </RelativeLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/home_notice_banner"
+                    android:scaleType="fitXY"
+                    />
+
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

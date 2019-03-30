@@ -24,16 +24,8 @@ import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
-import com.heaven.news.manyData.adapter.ItemVIew01;
-import com.heaven.news.manyData.adapter.ItemVIew02;
-import com.heaven.news.manyData.adapter.ItemVIew03;
-import com.heaven.news.manyData.adapter.ItemVIewNormal;
-import com.heaven.news.manyData.bean.Bean01;
-import com.heaven.news.manyData.bean.Bean02;
-import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.view.AutofitHeightViewPager;
-import com.heaven.news.ui.vm.holder.GrideDecoration;
 import com.heaven.news.ui.vm.holder.HomeBanner;
 import com.heaven.news.ui.vm.holder.HomeHotHolder;
 import com.heaven.news.ui.vm.holder.HomeHotTitleHoler;
@@ -79,7 +71,6 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         initBookTab();
         initService();
         initRecommends();
-//        initMult();
     }
 
     private void initTopBanner() {
@@ -222,35 +213,6 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         return dataList;
     }
 
-
-    private void initMult() {
-        BaseMultAdapter adapter = new BaseMultAdapter(getContext());
-        adapter.register(new ItemVIewNormal(String.class, R.layout.item_go));
-        adapter.register(new ItemVIew01(Bean01.class, R.layout.item_one));
-        adapter.register(new ItemVIew02(Bean02.class, R.layout.item_two));
-        adapter.register(new ItemVIew03(Bean03.class, R.layout.item_three));
-
-        final GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 4);
-        mViewBinding.recyclerview.setLayoutManager(layoutManager);
-        mViewBinding.recyclerview.setAdapter(adapter);
-        mViewBinding.recyclerview.setFocusableInTouchMode(false);
-        mViewBinding.recyclerview.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(getContext(), 5), 2));
-        items = new ArrayList<>();
-        for (int j = 0; j < 10; j++) {
-            items.add(" 多数据 -> 多类型  ");
-            for (int i = 0; i < 8; i++) {
-                items.add(new Bean01("bean01_" + i));
-            }
-            for (int i = 0; i < 4; i++) {
-                items.add(new Bean02("bean02_" + i));
-            }
-            for (int i = 0; i < 2; i++) {
-                items.add(new Bean03("bean03_" + i));
-            }
-        }
-
-        adapter.updateItems(items);
-    }
 
     @Override
     public void bindModel() {
