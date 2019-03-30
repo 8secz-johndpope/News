@@ -20,9 +20,7 @@ import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.base.ui.view.widget.banner.RecyclerViewPagerListener;
 import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
 import com.heaven.base.utils.ScreenUtil;
-import com.heaven.data.net.DataResponse;
 import com.heaven.news.R;
-import com.heaven.news.api.LoginApi;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
@@ -42,11 +40,7 @@ import com.heaven.news.ui.vm.model.HomeServiceItem;
 import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.model.ServiceItem;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
-import com.heaven.news.utils.RxRepUtils;
-import com.neusoft.szair.model.memberbase.loginNewResponse;
-import com.neusoft.szair.model.noticelist.NoticeListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
-import com.neusoft.szair.model.noticelist.queryNoticeList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +57,6 @@ import io.reactivex.functions.Consumer;
  * @version V1.0 首页
  */
 public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper> {
-    List<Object> items;
     BaseAdapter<ImageInfo> mBannerAdapter;
     BaseAdapter<HomeServiceItem> mServiceAdapter;
     private List<Fragment> mainList = new ArrayList<>();
@@ -205,9 +198,14 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         mViewBinding.noticeList.setLayoutManager(manager);
         mViewBinding.noticeList.setAdapter(adapter);
         if(mViewModel.noticeList == null) {
+            mViewBinding.noticeArea.setVisibility(View.GONE);
+            mViewModel.observeNoticeList(this, noticeInfoListVOS -> {
+                adapter.updateItems(noticeInfoListVOS);
+                mViewBinding.noticeArea.setVisibility(View.VISIBLE);
+            });
             mViewModel.requestNotice();
-            mViewModel.observeNoticeList(this, adapter::updateItems);
         } else {
+            mViewBinding.noticeArea.setVisibility(View.VISIBLE);
             adapter.updateItems(mViewModel.noticeList);
         }
     }
