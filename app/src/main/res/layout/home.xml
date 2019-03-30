@@ -65,7 +65,8 @@
                 android:id="@+id/recommend_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10dp"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_10dp"
                 />
 
             <android.support.v7.widget.RecyclerView
