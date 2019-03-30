@@ -3,6 +3,8 @@ package com.heaven.news.api;
 import com.heaven.data.net.DataResponse;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNewResponse;
+import com.neusoft.szair.model.noticelist.NoticeListWebServiceServiceSoapBinding;
+import com.neusoft.szair.model.noticelist.queryNoticeListResponse;
 
 import io.reactivex.Flowable;
 import retrofit2.Call;
@@ -22,4 +24,10 @@ public interface LoginApi {
     @Headers({"Content-Type:text/xml; charset=utf-8"})
     @POST("memberLoginWebService?wsdl")
     Flowable<DataResponse<loginNewResponse>> login(@Body MemberLoginWebServiceImplServiceSoapBinding requestEnvelope);
+
+
+    @Headers({"Content-Type:text/xml; charset=utf-8"})
+    @POST("noticeListWebService?wsdl")
+    Flowable<DataResponse<queryNoticeListResponse>> queryNoticeList(@Body NoticeListWebServiceServiceSoapBinding requestEnvelope);
+
 }

@@ -20,7 +20,9 @@ import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.base.ui.view.widget.banner.RecyclerViewPagerListener;
 import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
 import com.heaven.base.utils.ScreenUtil;
+import com.heaven.data.net.DataResponse;
 import com.heaven.news.R;
+import com.heaven.news.api.LoginApi;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
@@ -29,6 +31,7 @@ import com.heaven.news.ui.view.AutofitHeightViewPager;
 import com.heaven.news.ui.vm.holder.HomeBanner;
 import com.heaven.news.ui.vm.holder.HomeHotHolder;
 import com.heaven.news.ui.vm.holder.HomeHotTitleHoler;
+import com.heaven.news.ui.vm.holder.HomeNoticeHolder;
 import com.heaven.news.ui.vm.holder.ItemDecoration;
 import com.heaven.news.ui.vm.model.HomeHotTitle;
 import com.heaven.news.ui.vm.holder.HomeRecHolder;
@@ -39,10 +42,17 @@ import com.heaven.news.ui.vm.model.HomeServiceItem;
 import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.model.ServiceItem;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
+import com.heaven.news.utils.RxRepUtils;
+import com.neusoft.szair.model.memberbase.loginNewResponse;
+import com.neusoft.szair.model.noticelist.NoticeListWebServiceServiceSoapBinding;
+import com.neusoft.szair.model.noticelist.noticeInfoListVO;
+import com.neusoft.szair.model.noticelist.queryNoticeList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * FileName: com.heaven.news.ui.fragment.Home.java
@@ -71,6 +81,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         initBookTab();
         initService();
         initRecommends();
+        initHomeNotice();
     }
 
     private void initTopBanner() {
@@ -184,6 +195,24 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         adapter.register(new HomeHotTitleHoler(HomeHotTitle.class, R.layout.home_hot_title));
         mViewBinding.recommendService.addItemDecoration(new ItemDecoration(ScreenUtil.dip2px(getContext(), 5)));
         mViewBinding.recommendService.setAdapter(adapter);
+
+    }
+
+    private void initHomeNotice() {
+        BaseAdapter<noticeInfoListVO> adapter = new BaseAdapter<>(getContext());
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        adapter.register(new HomeNoticeHolder(noticeInfoListVO.class,R.layout.home_notice_item));
+        mViewBinding.noticeList.setLayoutManager(manager);
+        mViewBinding.noticeList.setAdapter(adapter);
+        if(mViewModel.noticeList == null) {
+            mViewModel.requestNotice();
+            mViewModel.observeNoticeList(this, adapter::updateItems);
+        } else {
+            adapter.updateItems(mViewModel.noticeList);
+        }
+
+
+
 
     }
 

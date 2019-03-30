@@ -104,6 +104,14 @@
                     android:scaleType="fitXY"
                     />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/notice_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10dp"
+                    android:layout_marginRight="@dimen/_10dp"
+                    />
+
             </LinearLayout>
 
         </LinearLayout>
