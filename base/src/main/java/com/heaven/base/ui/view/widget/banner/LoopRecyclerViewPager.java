@@ -3,7 +3,6 @@ package com.heaven.base.ui.view.widget.banner;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 
 public class LoopRecyclerViewPager extends RecyclerViewPager {
 
@@ -50,7 +49,6 @@ public class LoopRecyclerViewPager extends RecyclerViewPager {
     public void smoothScrollToPosition(int position) {
         int transformedPosition = transformInnerPositionIfNeed(position);
         super.smoothScrollToPosition(transformedPosition);
-        Log.e("test", "transformedPosition:" + transformedPosition);
     }
 
     /**
@@ -91,8 +89,9 @@ public class LoopRecyclerViewPager extends RecyclerViewPager {
 
     private int transformInnerPositionIfNeed(int position) {
         final int actualItemCount = getActualItemCountFromAdapter();
-        if(actualItemCount == 0)
+        if(actualItemCount == 0) {
             return actualItemCount;
+        }
         final int actualCurrentPosition = getCurrentPosition() % actualItemCount;
         int bakPosition1 = getCurrentPosition()
                 - actualCurrentPosition
@@ -105,7 +104,6 @@ public class LoopRecyclerViewPager extends RecyclerViewPager {
                 - actualCurrentPosition
                 + actualItemCount
                 + position % actualItemCount;
-        Log.e("test", bakPosition1 + "/" + bakPosition2 + "/" + bakPosition3 + "/" + getCurrentPosition());
         // get position which is closer to current position
         if (Math.abs(bakPosition1 - getCurrentPosition()) > Math.abs(bakPosition2 -
                 getCurrentPosition())){

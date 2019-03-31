@@ -90,12 +90,6 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         RecyclerViewPagerListener bannerListener = new RecyclerViewPagerListener(mRecyclerView);
         mRecyclerView.addOnScrollListener(bannerListener);
         mRecyclerView.addOnLayoutChangeListener(bannerListener);
-        mRecyclerView.addOnPageChangedListener((oldPosition, newPosition) -> {
-                    if (mBannerAdapter.getItemCount() != 0) {
-                        Log.d("test", "oldPosition:" + oldPosition % mBannerAdapter.getItemCount() + " newPosition:" + newPosition % mBannerAdapter.getItemCount());
-                    }
-                }
-        );
         updateHomeImageData();
         mRecyclerView.setAutoLoop(true);
         mRecyclerView.startLoop();
@@ -105,7 +99,6 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         AutofitHeightViewPager viewPager = mViewBinding.bookArea.findViewById(R.id.viewpager);
         TabLayout tabLayout = mViewBinding.bookArea.findViewById(R.id.book_tab);
         viewPager.setOffscreenPageLimit(3);
-
         final String[] bottomBarList = getResources().getStringArray(R.array.book_type);
         Bundle paramBundleGo = new Bundle();
         paramBundleGo.putInt("wx_type", 1);
