@@ -34,7 +34,7 @@ public class NetStateWatcher {
 
     private static Context mContext;
 
-    NetworkInfo activeNetworkInfo;
+    private NetworkInfo activeNetworkInfo;
 
     public static NetStateWatcher init(Context context) {
         if (instance == null) {
@@ -46,27 +46,28 @@ public class NetStateWatcher {
 
     private NetStateWatcher(Context context) {
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        // 如果相等的话就说明网络状态发生了变化
+        // 接口回调传过去状态的类型
+        BroadcastReceiver netReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // 如果相等的话就说明网络状态发生了变化
+                if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+                    netWorkState = initNetWorkState();
+                    // 接口回调传过去状态的类型
+                    if (netWorkState == NETWORK_NONE) {
+                        Toast.makeText(mContext, "网络状态不可用", Toast.LENGTH_SHORT).show();
+                    } else if (netWorkState == NETWORK_MOBILE) {
+                        Toast.makeText(mContext, "移动网络状态", Toast.LENGTH_SHORT).show();
+                    } else if (netWorkState == NETWORK_WIFI) {
+                        Toast.makeText(mContext, "wifi网络状态", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        };
         context.registerReceiver(netReceiver, filter);
         netWorkState = initNetWorkState();
     }
-
-    BroadcastReceiver netReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // 如果相等的话就说明网络状态发生了变化
-            if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-                netWorkState = initNetWorkState();
-                // 接口回调传过去状态的类型
-                if (netWorkState == NETWORK_NONE) {
-                    Toast.makeText(mContext, "网络状态不可用", Toast.LENGTH_SHORT).show();
-                } else if (netWorkState == NETWORK_MOBILE) {
-                    Toast.makeText(mContext, "移动网络状态", Toast.LENGTH_SHORT).show();
-                } else if (netWorkState == NETWORK_WIFI) {
-                    Toast.makeText(mContext, "wifi网络状态", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    };
 
     /**
      * 初始化网络状态
@@ -96,8 +97,7 @@ public class NetStateWatcher {
      * @return 网络是否可用
      */
     public boolean isNetAvaliable() {
-        boolean isNetOk = netWorkState != NETWORK_NONE;
-        return isNetOk;
+        return netWorkState != NETWORK_NONE;
     }
 
 }
