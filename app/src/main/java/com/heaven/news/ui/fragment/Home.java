@@ -26,6 +26,7 @@ import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.view.AutofitHeightViewPager;
+import com.heaven.news.ui.vm.holder.BannerItemDecoration;
 import com.heaven.news.ui.vm.holder.HomeBanner;
 import com.heaven.news.ui.vm.holder.HomeHotHolder;
 import com.heaven.news.ui.vm.holder.HomeHotTitleHoler;
@@ -83,8 +84,8 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mBannerAdapter = new BaseAdapter<>(getContext());
         mBannerAdapter.register(new HomeBanner(ImageInfo.class, R.layout.banner_item));
-
         mRecyclerView.setLayoutManager(layout);
+//        mRecyclerView.addItemDecoration(new BannerItemDecoration(4));
         mRecyclerView.setAdapter(mBannerAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLongClickable(true);

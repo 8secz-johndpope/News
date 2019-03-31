@@ -17,14 +17,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/toolbar_bg"
+                android:clipChildren="false"
                 >
 
                 <com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager
                     android:id="@+id/image_viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_150dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
+                    android:paddingLeft="@dimen/_20dp"
+                    android:paddingRight="@dimen/_20dp"
                     app:rvp_triggerOffset="0.1"
                     app:rvp_singlePageFling="false"
                     app:rvp_inertia="true"
