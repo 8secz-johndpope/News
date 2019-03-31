@@ -12,7 +12,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.zip.GZIPInputStream;
@@ -50,8 +49,20 @@ public class NetInterceptor implements Interceptor {
         long startReqTime = System.nanoTime();
         Response response = chain.proceed(request);
         long endReqTime = System.nanoTime();
+
         if (BuildConfig.DEBUG) {
-            printLog(response, startReqTime, endReqTime);
+            printResponseLog(response, startReqTime, endReqTime);
+        }
+
+        String contentEncode = response.header("Content-Encoding");
+        if(response.body() != null) {
+            if (contentEncode != null && contentEncode.contains("gzip")) {
+                MediaType mediaType = response.body().contentType();
+                byte[] data = ByteStreams.toByteArray(new GZIPInputStream(response.body().byteStream()));
+                response = response.newBuilder()
+                        .body(ResponseBody.create(mediaType, data))
+                        .build();
+            }
         }
         return response;
     }
@@ -82,7 +93,7 @@ public class NetInterceptor implements Interceptor {
         }
     }
 
-    private void printLog(Response response, long startReqTime, long endReqTime) throws IOException {
+    private void printResponseLog(Response response, long startReqTime, long endReqTime) throws IOException {
         String contentType = response.header("Content-Type");
         String contectEncode = response.header("Content-Encoding");
         ResponseBody responseBody = response.body();
@@ -95,7 +106,7 @@ public class NetInterceptor implements Interceptor {
             String responseBodySize = "\n" + "bodySize:" + bodySize + "\n";
 
             if (contentLength < 102400) {
-                Buffer buffer = source.buffer();
+                Buffer buffer = source.getBuffer();
                 source.request(Long.MAX_VALUE); // Buffer the entire body.
                 responseBodyStr = getResponseBody(contentType, contectEncode, buffer.clone());
             } else {

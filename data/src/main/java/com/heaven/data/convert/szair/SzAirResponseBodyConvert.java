@@ -48,14 +48,7 @@ public class SzAirResponseBodyConvert<T> implements Converter<ResponseBody, T> {
         try {
             SOAPBinding binding = requestBodyConvert.getBinding();
             if (binding != null) {
-//                BufferedSource source = responseBody.source();
-//                Buffer buffer = source.buffer();
-//                source.request(Long.MAX_VALUE); // Buffer the entire body.
-//                String  repBody = new String(ByteStreams.toByteArray(new GZIPInputStream(buffer.inputStream())));
-//                SOAPEnvelope soapEnvelope = binding.makeResponse(new ByteArrayInputStream(repBody.getBytes()));
-                MediaType mediaType = responseBody.contentType();
-//                SOAPEnvelope soapEnvelope = binding.makeResponse(responseBody.byteStream());
-                SOAPEnvelope soapEnvelope = binding.makeResponse(new GZIPInputStream(responseBody.byteStream()));
+                SOAPEnvelope soapEnvelope = binding.makeResponse(responseBody.byteStream());
                 response.code = 0;
                 if (soapEnvelope.bodyElements.size() == 1) {
                     Object result = soapEnvelope.bodyElements.get(0);
