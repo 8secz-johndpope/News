@@ -60,6 +60,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     BaseAdapter<ImageInfo> mBannerAdapter;
     BaseAdapter<HomeServiceItem> mServiceAdapter;
     private List<Fragment> mainList = new ArrayList<>();
+    private List<noticeInfoListVO> noticeInfoList = null;
 
     @Override
     public int initLayoutResId() {
@@ -190,12 +191,12 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         adapter.register(new HomeNoticeHolder(noticeInfoListVO.class,R.layout.home_notice_item));
         mViewBinding.noticeList.setLayoutManager(manager);
         mViewBinding.noticeList.setAdapter(adapter);
+        mViewModel.observeNoticeList(this, noticeInfoListVOS -> {
+            adapter.updateItems(noticeInfoListVOS);
+            mViewBinding.noticeArea.setVisibility(View.VISIBLE);
+        });
         if(mViewModel.noticeList == null) {
             mViewBinding.noticeArea.setVisibility(View.GONE);
-            mViewModel.observeNoticeList(this, noticeInfoListVOS -> {
-                adapter.updateItems(noticeInfoListVOS);
-                mViewBinding.noticeArea.setVisibility(View.VISIBLE);
-            });
             mViewModel.requestNotice();
         } else {
             mViewBinding.noticeArea.setVisibility(View.VISIBLE);

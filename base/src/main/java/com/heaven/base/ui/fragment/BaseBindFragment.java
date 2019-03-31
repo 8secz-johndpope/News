@@ -35,12 +35,12 @@ public abstract class BaseBindFragment<P extends BasePresenter, VM extends BaseV
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         analyseGenerics();
         if(mViewModel != null) {
             bindModel();
             mViewModel.initModel();
         }
+        super.onCreate(savedInstanceState);
     }
 
     @Override

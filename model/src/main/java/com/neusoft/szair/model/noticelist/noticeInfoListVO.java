@@ -10,8 +10,9 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-public class noticeInfoListVO implements SOAPObject
+public class noticeInfoListVO implements SOAPObject, Serializable
 {
 
     public String _INFO_COVERTFLAG = null;

@@ -27,12 +27,12 @@ public abstract class BaseSimpleBindFragment<VM extends BaseViewModel, B extends
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         analyseGenerics();
         if(mViewModel != null) {
             bindModel();
             mViewModel.initModel();
         }
+        super.onCreate(savedInstanceState);
     }
 
 

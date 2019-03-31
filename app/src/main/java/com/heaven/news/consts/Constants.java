@@ -19,6 +19,7 @@ public class Constants {
     public static String ISAUTOLOGIN = "isautologin";//是否自动登录
     public static String USERINFO = "userinfo";//登录用户信息
     public static String ISOLDUSER = "isolduser";//是否是老用户
+    public static String NOTICE = "notice";//公告通知
 
     public static String getPassword(String passwords) {
         String password = passwords;

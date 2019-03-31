@@ -7,7 +7,9 @@ import android.arch.lifecycle.Observer;
 import android.databinding.ObservableField;
 
 import com.heaven.base.vm.BaseViewModel;
+import com.heaven.data.manager.DataSource;
 import com.heaven.news.api.LoginApi;
+import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.present.MainPt;
 import com.heaven.news.utils.RxRepUtils;
@@ -30,7 +32,7 @@ public class MainViewModel extends BaseViewModel<MainPt> {
 
     @Override
     public void initModel() {
-//        requestNotice();
+        noticeList = AppEngine.instance().getDataSource().getCacheEntity(DataSource.DISK,Constants.NOTICE);
     }
 
     public void requestNotice() {
@@ -44,6 +46,7 @@ public class MainViewModel extends BaseViewModel<MainPt> {
                 if(dataResponse.data._NOTICE_INFO_LIST != null && dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST != null) {
                     noticeList = dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST;
                     noticeListLive.setValue(noticeList);
+                    AppEngine.instance().getDataSource().cacheData(DataSource.DISK, Constants.NOTICE,noticeList);
                 }
             }
         });
