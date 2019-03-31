@@ -42,7 +42,6 @@ public class SzAirConvertFactory extends Converter.Factory {
     private SzAirRequestBodyConvert requestBodyConvert;
 
     private SzAirConvertFactory() {
-        requestBodyConvert = new SzAirRequestBodyConvert<>();
     }
 
 
@@ -60,6 +59,7 @@ public class SzAirConvertFactory extends Converter.Factory {
         if (!(type instanceof Class)) {
             return null;
         }
+        requestBodyConvert = new SzAirRequestBodyConvert<>();
         return requestBodyConvert;
     }
 
