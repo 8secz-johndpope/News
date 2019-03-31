@@ -235,7 +235,7 @@ public class DataCore {
             loginreqvo._DEVICE_TOKEN = "";
             login._LOGIN_PARAM = loginreqvo;
 
-
+            Logger.i("RequestLogin---" + loginreqvo.toString());
             MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
 
             Long loginTaskId = RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
