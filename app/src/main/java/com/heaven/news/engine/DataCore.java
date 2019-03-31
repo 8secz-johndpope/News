@@ -69,9 +69,6 @@ public class DataCore {
     private Map<Observer<CoreDataWrapper>, MutableLiveData<CoreDataWrapper>> observers = new HashMap<>();
 
 
-    ArrayList<Long> versionTaskList = new ArrayList();
-    ArrayList<Long> homeTaskList = new ArrayList();
-
     private DataSource dataSource;
 
     private Version version;
@@ -117,7 +114,6 @@ public class DataCore {
     }
 
     private void prepareData() {
-//        requestVersion();
         autoLogin();
         requestHomeConfig();
         homeConfigData = dataSource.getCacheEntity(DataSource.DISK, Constants.HOMECONFIG);
@@ -225,7 +221,7 @@ public class DataCore {
 
     public void login(String userCount, String pwd) {
         if (!TextUtils.isEmpty(userCount) && !TextUtils.isEmpty(pwd)) {
-            prepareLoginCache(userCount, pwd);
+//            prepareLoginCache(userCount, pwd);
 
             loginNew login = new loginNew();
             loginReqVO loginreqvo = new loginReqVO();
@@ -274,28 +270,6 @@ public class DataCore {
 
     private int reqVersionCount = 0;
 
-    @TraceTime
-    public void requestVersion() {
-        long taskId = RxRepUtils.instance().getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
-            if (configData.netCode == 0 && configData.androidversionnew != null) {
-                this.configData = configData;
-                this.version = configData.androidversionnew;
-                notifyCoreDataChange(getCoreDataWrapper(true, VERSION));
-//                cancelVersionTask();
-                Logger.i("requestVersion--" + configData.toString());
-            } else {
-                if (reqVersionCount < 2) {
-                    requestVersion();
-                    reqVersionCount++;
-                } else {
-                    notifyCoreDataChange(getCoreDataWrapper(false, VERSION));
-                }
-                Logger.i("requestVersion--" + configData.toString());
-            }
-        });
-        versionTaskList.add(taskId);
-    }
-
 
     private int requestHomeCount = 0;
 
@@ -315,23 +289,6 @@ public class DataCore {
                 }
             }
         });
-        homeTaskList.add(taskId);
-    }
-
-    private void cancelVersionTask() {
-        if (versionTaskList != null && versionTaskList.size() > 0) {
-            for (Long taskId : versionTaskList) {
-                RxRepUtils.cancelTask(taskId);
-            }
-        }
-    }
-
-    private void cancelHomeTask() {
-        if (homeTaskList != null && homeTaskList.size() > 0) {
-            for (Long taskId : homeTaskList) {
-                RxRepUtils.cancelTask(taskId);
-            }
-        }
     }
 
 
