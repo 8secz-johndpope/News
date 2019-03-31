@@ -1,18 +1,16 @@
 package com.heaven.news.engine;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.SparseIntArray;
-import android.util.SparseLongArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.data.manager.DataSource;
+import com.heaven.data.net.DataResponse;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.ConfigApi;
@@ -25,8 +23,11 @@ import com.heaven.news.ui.vm.model.UserLoginInfo;
 import com.heaven.news.ui.vm.model.UserSecret;
 import com.heaven.news.ui.vm.model.Version;
 import com.heaven.news.utils.RxRepUtils;
+import com.neusoft.szair.model.member.CRMFrequentFlyerWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.member.addressVo;
 import com.neusoft.szair.model.member.credentialVo;
+import com.neusoft.szair.model.member.queryMiles;
+import com.neusoft.szair.model.member.queryMilesConditionVO;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.emailVo;
 import com.neusoft.szair.model.memberbase.loginNew;
@@ -37,6 +38,10 @@ import com.neusoft.szair.model.memberbase.queryRespVO;
 import com.neusoft.szair.model.memberbase.vipDetails;
 import com.neusoft.szair.model.memberbase.vipDocument;
 import com.neusoft.szair.model.soap.SOAPConstants;
+import com.neusoft.szair.model.usercouponsearch.UserCouponSearchWebServiceServiceSoapBinding;
+import com.neusoft.szair.model.usercouponsearch.queryUseCouponCnt;
+import com.neusoft.szair.model.usercouponsearch.queryUseCouponCntResponse;
+import com.neusoft.szair.model.usercouponsearch.userCouponSearchConditionVO;
 import com.orhanobut.logger.Logger;
 
 import java.io.InputStream;
@@ -46,6 +51,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * FileName: com.heaven.news.engine.DataCore.java
@@ -60,7 +67,7 @@ public class DataCore {
     public static int VERSION = 0;
     public static int HOME = 1;
     public static int LOGIN = 2;
-    public static int MILE = 3;
+    public static int MINE = 3;
 
     private Context context;
 
@@ -78,6 +85,8 @@ public class DataCore {
 
     private boolean hasLogin;
 
+    private String userId;                                  //用户id
+    private String crmId;                                   //凤凰知音id
     private String userName;
     private String userSex;
     private String idNumber;                                //证件号码
@@ -94,8 +103,8 @@ public class DataCore {
     private String userCrmCardNumber;                       //常旅客卡号
     private String groupFlag;                               //大客户标示
     private String groupCode;                               //大客户编码
-
-
+    private String userMile;                                //用户可用里程
+    private String userCouponCount;                         //优惠券数量
     DataCore(DataSource dataSource, Context context) {
         this.dataSource = dataSource;
         dataSource.runWorkThread(this::prepareData);
@@ -136,6 +145,8 @@ public class DataCore {
             }
             if (userInfo._VIP != null) {
                 if (userInfo._VIP._VIPDETAILS != null) {
+                    userId = userInfo._VIP._VIPDETAILS._USER_ID;
+                    crmId = userInfo._VIP._VIPDETAILS._CLKCRM_ID;
                     initUserName(userInfo._VIP._VIPDETAILS);
                     if (userInfo._VIP._VIP_DOCUMENTS != null) {
                         userIdNumber(userInfo._VIP._VIP_DOCUMENTS);
@@ -238,16 +249,18 @@ public class DataCore {
             Logger.i("RequestLogin---" + loginreqvo.toString());
             MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
 
-            Long loginTaskId = RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginNewResponseDataResponse -> {
-                if (loginNewResponseDataResponse.code == 0 && loginNewResponseDataResponse.data != null && loginNewResponseDataResponse.data._LOGIN_RESULT != null) {
-                    if ("0000".equals(loginNewResponseDataResponse.data._LOGIN_RESULT._CODE)) {
+            Long loginTaskId = RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginResponse -> {
+                if (loginResponse.code == 0 && loginResponse.data != null && loginResponse.data._LOGIN_RESULT != null) {
+                    if ("0000".equals(loginResponse.data._LOGIN_RESULT._CODE)) {
                         UserSecret userSecret = new UserSecret(userCount, pwd);
                         UserLoginInfo userLoginInfo = new UserLoginInfo(userCount, pwd);
-                        userLoginInfo.userInfo = loginNewResponseDataResponse.data._LOGIN_RESULT;
-                        initLoginData(loginNewResponseDataResponse.data._LOGIN_RESULT);
+                        userLoginInfo.userInfo = loginResponse.data._LOGIN_RESULT;
+                        initLoginData(loginResponse.data._LOGIN_RESULT);
                         notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
                         dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userSecret);
                         dataSource.cacheData(DataSource.DISK, userLoginInfo.key, userLoginInfo);
+                        requestMileData();
+                        requestUserCouponNum();
                     } else {
                         notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
                     }
@@ -256,6 +269,40 @@ public class DataCore {
                 }
             });
         }
+    }
+
+    /**
+     * 请求用户里程
+     */
+    public void requestMileData() {
+        queryMiles parameters = new queryMiles();
+        parameters._QUERY_MILES_CONDITION = new queryMilesConditionVO();
+        parameters._QUERY_MILES_CONDITION._USER_ID = userId;
+        parameters._QUERY_MILES_CONDITION._CRM_MEMBER_ID = crmId;
+        parameters._QUERY_MILES_CONDITION._CRM_LEVEL = phoenixCardLevel;
+        CRMFrequentFlyerWebServiceImplServiceSoapBinding bind = new CRMFrequentFlyerWebServiceImplServiceSoapBinding("queryMiles",parameters);
+        RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).queryMile(bind), response -> {
+            if(response.code == 0 && response.data != null && response.data._QUERY_MILES_RESULT != null) {
+                if(response.data._QUERY_MILES_RESULT._FLIGHT_MILES != null) {
+                    userMile = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._SURPLUS_MILES;
+                }
+            }
+        });
+    }
+
+    public void requestUserCouponNum() {
+        userCouponSearchConditionVO reqvo = new userCouponSearchConditionVO();
+        reqvo._USER_ID = userId;
+
+        queryUseCouponCnt queryCoupon = new queryUseCouponCnt();
+        queryCoupon._USECOUPON_CNT_CONDITION = reqvo;
+        UserCouponSearchWebServiceServiceSoapBinding bind = new UserCouponSearchWebServiceServiceSoapBinding("queryUseCouponCnt",queryCoupon);
+
+        RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).queryUserCouponCount(bind), response -> {
+            if(response.code == 0 && response.data != null && response.data._USECOUPON_CNT_RESULT != null && "0".equals(response.data._USECOUPON_CNT_RESULT._OP_RESULT)) {
+                userCouponCount = response.data._USECOUPON_CNT_RESULT._COUNT;
+            }
+        });
     }
 
     private void prepareLoginCache(String userCount, String pwd) {
@@ -353,7 +400,7 @@ public class DataCore {
                 if (userAllInfo != null) {
                     coreDataWrapper.userAllInfo = userAllInfo;
                 }
-            } else if (MILE == dataType) {
+            } else if (MINE == dataType) {
 
             }
         }

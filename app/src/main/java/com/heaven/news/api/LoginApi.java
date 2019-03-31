@@ -1,10 +1,14 @@
 package com.heaven.news.api;
 
 import com.heaven.data.net.DataResponse;
+import com.neusoft.szair.model.member.CRMFrequentFlyerWebServiceImplServiceSoapBinding;
+import com.neusoft.szair.model.member.queryMilesResponse;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.loginNewResponse;
 import com.neusoft.szair.model.noticelist.NoticeListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.noticelist.queryNoticeListResponse;
+import com.neusoft.szair.model.usercouponsearch.UserCouponSearchWebServiceServiceSoapBinding;
+import com.neusoft.szair.model.usercouponsearch.queryUseCouponCntResponse;
 
 import io.reactivex.Flowable;
 import retrofit2.Call;
@@ -29,5 +33,13 @@ public interface LoginApi {
     @Headers({"Content-Type:text/xml; charset=utf-8"})
     @POST("noticeListWebService?wsdl")
     Flowable<DataResponse<queryNoticeListResponse>> queryNoticeList(@Body NoticeListWebServiceServiceSoapBinding requestEnvelope);
+
+    @Headers({"Content-Type:text/xml; charset=utf-8"})
+    @POST("CRMFrequentFlyerWebService?wsdl")
+    Flowable<DataResponse<queryMilesResponse>> queryMile(@Body CRMFrequentFlyerWebServiceImplServiceSoapBinding requestEnvelope);
+
+    @Headers({"Content-Type:text/xml; charset=utf-8"})
+    @POST("userCouponSearchWebService?wsdl")
+    Flowable<DataResponse<queryUseCouponCntResponse>> queryUserCouponCount(@Body UserCouponSearchWebServiceServiceSoapBinding requestEnvelope);
 
 }
