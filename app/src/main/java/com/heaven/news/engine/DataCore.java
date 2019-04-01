@@ -23,6 +23,10 @@ import com.heaven.news.ui.vm.model.UserLoginInfo;
 import com.heaven.news.ui.vm.model.UserSecret;
 import com.heaven.news.ui.vm.model.Version;
 import com.heaven.news.utils.RxRepUtils;
+import com.neusoft.szair.model.easycardmodel.EasyCardWebServiceServiceSoapBinding;
+import com.neusoft.szair.model.easycardmodel.WALLET_QUERY;
+import com.neusoft.szair.model.easycardmodel.queryBankCardResponse;
+import com.neusoft.szair.model.easycardmodel.walletInfoQuery;
 import com.neusoft.szair.model.member.CRMFrequentFlyerWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.member.addressVo;
 import com.neusoft.szair.model.member.credentialVo;
@@ -78,6 +82,7 @@ public class DataCore {
 
     private DataSource dataSource;
 
+    private CoreDataWrapper coreDataWrapper = new CoreDataWrapper();
     private Version version;
     private ConfigData configData;
     private HomeImageInfo homeConfigData;
@@ -261,6 +266,7 @@ public class DataCore {
                         dataSource.cacheData(DataSource.DISK, userLoginInfo.key, userLoginInfo);
                         requestMileData();
                         requestUserCouponNum();
+                        requestWalletInfo();
                     } else {
                         notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
                     }
@@ -285,6 +291,7 @@ public class DataCore {
             if(response.code == 0 && response.data != null && response.data._QUERY_MILES_RESULT != null) {
                 if(response.data._QUERY_MILES_RESULT._FLIGHT_MILES != null) {
                     userMile = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._SURPLUS_MILES;
+                    coreDataWrapper.userMile = userMile;
                 }
             }
         });
@@ -301,8 +308,26 @@ public class DataCore {
         RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).queryUserCouponCount(bind), response -> {
             if(response.code == 0 && response.data != null && response.data._USECOUPON_CNT_RESULT != null && "0".equals(response.data._USECOUPON_CNT_RESULT._OP_RESULT)) {
                 userCouponCount = response.data._USECOUPON_CNT_RESULT._COUNT;
+                coreDataWrapper.couponCount = userCouponCount;
             }
         });
+    }
+
+    public void requestWalletInfo() {
+        WALLET_QUERY walletQuery = new WALLET_QUERY();
+        walletQuery._USER_ID = userId;
+        walletQuery._BANKCARD_TYPE = "0";
+
+        walletInfoQuery walletInfoQuery = new walletInfoQuery();
+        walletInfoQuery._WALLET_QUERY_CONDITION = walletQuery;
+        EasyCardWebServiceServiceSoapBinding binding = new EasyCardWebServiceServiceSoapBinding("walletInfoQuery",walletInfoQuery);
+        RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).querywalletInfo(binding), response -> {
+            if(response.code == 0 && response.data != null && response.data._WALLET_QUERY_RESULT != null) {
+                coreDataWrapper.ecardNum = response.data._WALLET_QUERY_RESULT._EASYCARD_COUNT;
+                coreDataWrapper.walletLeftMoney = response.data._WALLET_QUERY_RESULT._USE_AMT;
+            }
+        });
+
     }
 
     private void prepareLoginCache(String userCount, String pwd) {
@@ -315,11 +340,8 @@ public class DataCore {
     }
 
 
-    private int reqVersionCount = 0;
-
 
     private int requestHomeCount = 0;
-
     public void requestHomeConfig() {
         long taskId = RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if (homeConfigData.netCode == 0) {
@@ -384,7 +406,6 @@ public class DataCore {
     }
 
     private CoreDataWrapper getCoreDataWrapper(boolean isSuccess, int dataType) {
-        CoreDataWrapper coreDataWrapper = new CoreDataWrapper();
         coreDataWrapper.isSuccess = isSuccess;
         coreDataWrapper.dataType = dataType;
         if (isSuccess) {
@@ -415,6 +436,11 @@ public class DataCore {
         public ConfigData configData;
         public HomeImageInfo homeConfigData;
         public queryRespVO userAllInfo;
+
+        public String userMile = "--";
+        public String ecardNum = "--";
+        public String walletLeftMoney = "--";
+        public String couponCount = "--";
 
         @Override
         public String toString() {

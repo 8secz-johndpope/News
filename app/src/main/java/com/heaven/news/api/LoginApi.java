@@ -1,6 +1,9 @@
 package com.heaven.news.api;
 
 import com.heaven.data.net.DataResponse;
+import com.neusoft.szair.model.easycardmodel.EasyCardWebServiceServiceSoapBinding;
+import com.neusoft.szair.model.easycardmodel.queryBankCardResponse;
+import com.neusoft.szair.model.easycardmodel.walletInfoQueryResponse;
 import com.neusoft.szair.model.member.CRMFrequentFlyerWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.member.queryMilesResponse;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
@@ -41,5 +44,9 @@ public interface LoginApi {
     @Headers({"Content-Type:text/xml; charset=utf-8"})
     @POST("userCouponSearchWebService?wsdl")
     Flowable<DataResponse<queryUseCouponCntResponse>> queryUserCouponCount(@Body UserCouponSearchWebServiceServiceSoapBinding requestEnvelope);
+
+    @Headers({"Content-Type:text/xml; charset=utf-8"})
+    @POST("EasyCardWebService?wsdl")
+    Flowable<DataResponse<walletInfoQueryResponse>> querywalletInfo(@Body EasyCardWebServiceServiceSoapBinding requestEnvelope);
 
 }
