@@ -19,7 +19,6 @@ import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.base.ui.view.widget.banner.RecyclerViewPager;
 import com.heaven.base.ui.view.widget.banner.RecyclerViewPagerListener;
 import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
-import com.heaven.base.ui.view.widget.banner.TabBindRecyclerUtil;
 import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
@@ -71,7 +70,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     @Override
     public void initView(View rootView) {
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
-//        initTopBanner();
+        initTopBanner();
         initBookTab();
         initService();
         initRecommends();
