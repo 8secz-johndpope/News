@@ -34,8 +34,8 @@ public abstract class BaseSimpleBindActivity<VM extends BaseViewModel, B extends
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        analyseGenerics();
         super.onCreate(savedInstanceState);
+        analyseGenerics();
         if(mViewModel != null) {
             mViewModel.initModel();
             bindModel();

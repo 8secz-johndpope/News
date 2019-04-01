@@ -37,7 +37,6 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ARouter.getInstance().inject(this);
         if(initLayoutResId() > 0) {
             LinearLayout rootView = (LinearLayout) getLayoutInflater().inflate(R.layout.base, null);
             if(iniTitleBarResId() > 0) {
@@ -53,6 +52,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
             initMmersionTitleBar();
             initView(rootView);
         }
+        ARouter.getInstance().inject(this);
     }
 
     protected void initMmersionTitleBar() {
