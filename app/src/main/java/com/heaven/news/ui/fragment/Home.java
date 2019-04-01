@@ -16,9 +16,12 @@ import android.widget.TextView;
 
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.BaseMultAdapter;
+import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
+import com.heaven.base.ui.view.widget.banner.RecyclerViewPager;
 import com.heaven.base.ui.view.widget.banner.RecyclerViewPagerListener;
 import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
+import com.heaven.base.ui.view.widget.banner.TabBindRecyclerUtil;
 import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
@@ -28,10 +31,14 @@ import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.view.AutofitHeightViewPager;
 import com.heaven.news.ui.vm.holder.BannerItemDecoration;
 import com.heaven.news.ui.vm.holder.HomeBanner;
+import com.heaven.news.ui.vm.holder.HomeBookGo;
+import com.heaven.news.ui.vm.holder.HomeBookGoBack;
+import com.heaven.news.ui.vm.holder.HomeBookMult;
 import com.heaven.news.ui.vm.holder.HomeHotHolder;
 import com.heaven.news.ui.vm.holder.HomeHotTitleHoler;
 import com.heaven.news.ui.vm.holder.HomeNoticeHolder;
 import com.heaven.news.ui.vm.holder.ItemDecoration;
+import com.heaven.news.ui.vm.model.BookData;
 import com.heaven.news.ui.vm.model.HomeHotTitle;
 import com.heaven.news.ui.vm.holder.HomeRecHolder;
 import com.heaven.news.ui.vm.holder.HomeServiceHolder;
@@ -72,8 +79,9 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     @Override
     public void initView(View rootView) {
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
-        initTopBanner();
-        initBookTab();
+//        initTopBanner();
+        initBookTabTest();
+//        initBookTab();
         initService();
         initRecommends();
         initHomeNotice();
@@ -97,8 +105,43 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         mRecyclerView.startLoop();
     }
 
+    private void initBookTabTest() {
+        LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        TabLayout tabLayout = mViewBinding.bookArea.findViewById(R.id.book_tab);
+        final String[] bottomBarList = getResources().getStringArray(R.array.book_type);
+        RecyclerViewPager bookPager = mViewBinding.bookArea.findViewById(R.id.viewpager);
+        BookData go = new BookData(1,mViewModel);
+        BookData goBack = new BookData(2,mViewModel);
+        BookData mult = new BookData(3,mViewModel);
+        ArrayList<BookData>  bookList = new ArrayList<>();
+        bookList.add(go);
+        bookList.add(goBack);
+        bookList.add(mult);
+        BaseAdapter<BookData> adapter = new BaseAdapter<>(getContext(),bookList);
+        adapter.register(new HomeBookGo(BookData.class,R.layout.book_info));
+        adapter.register(new HomeBookGoBack(BookData.class,R.layout.book_info));
+        adapter.register(new HomeBookMult(BookData.class,R.layout.book_info));
+        bookPager.setLayoutManager(layout);
+        bookPager.setAdapter(adapter);
+        bookPager.addOnPageChangedListener((oldPosition, newPosition) -> {
+//            tabLayout.selectTab(tabLayout.getTabAt(newPosition), 1);
+        });
+        TabBindRecyclerUtil.bind(bookPager,tabLayout);
+
+        if(bottomBarList.length > 0) {
+            for(String tabName : bottomBarList) {
+                View barItem = LayoutInflater.from(getContext()).inflate(R.layout.bottom_tab_item, null);
+                ViewGroup.LayoutParams params = barItem.getLayoutParams();
+                TextView barName = barItem.findViewById(R.id.bottom_bar_name);
+                barName.setText(tabName);
+                tabLayout.addTab(tabLayout.newTab().setCustomView(barItem));
+            }
+        }
+
+    }
+
     private void initBookTab() {
-        AutofitHeightViewPager viewPager = mViewBinding.bookArea.findViewById(R.id.viewpager);
+        ViewPager viewPager = mViewBinding.bookArea.findViewById(R.id.viewpager);
         TabLayout tabLayout = mViewBinding.bookArea.findViewById(R.id.book_tab);
         viewPager.setOffscreenPageLimit(3);
         final String[] bottomBarList = getResources().getStringArray(R.array.book_type);
@@ -109,18 +152,13 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         Bundle paramBundleMult = new Bundle();
         paramBundleMult.putInt("wx_type", 1);
 
-        AutofitHeightViewPager.ViewPosition viewPosition = viewPager::setViewPosition;
         BookGo go = BookGo.newInstance(paramBundleGo);
         BookGoBack goBack = BookGoBack.newInstance(paramBundleGoBack);
         BookMult mult = BookMult.newInstance(paramBundleMult);
-        go.setViewPosition(viewPosition);
-        goBack.setViewPosition(viewPosition);
-        mult.setViewPosition(viewPosition);
 
         mainList.add(go);
         mainList.add(goBack);
         mainList.add(mult);
-
 
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getActivity(), getChildFragmentManager());
         adapter.insertAll(mainList, Arrays.asList(bottomBarList));
@@ -139,22 +177,22 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
             }
         }
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                viewPager.updateHeight(i);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
+//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int i, float v, int i1) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int i) {
+//                viewPager.updateHeight(i);
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int i) {
+//
+//            }
+//        });
     }
 
     private void initService() {
