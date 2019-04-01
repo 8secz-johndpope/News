@@ -71,7 +71,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     @Override
     public void initView(View rootView) {
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
-        initTopBanner();
+//        initTopBanner();
         initBookTab();
         initService();
         initRecommends();
@@ -114,10 +114,12 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         adapter.register(new HomeBookMult(BookData.class,R.layout.book_mult));
         bookPager.setLayoutManager(layout);
         bookPager.setAdapter(adapter);
+        tabLayout.setScrollPosition(0, 0f, true);
+        bookPager.bindTabLayout(tabLayout);
         bookPager.addOnPageChangedListener((oldPosition, newPosition) -> {
 //            tabLayout.selectTab(tabLayout.getTabAt(newPosition), 1);
         });
-        TabBindRecyclerUtil.bind(bookPager,tabLayout);
+//        TabBindRecyclerUtil.bind(bookPager,tabLayout);
 
         if(bottomBarList.length > 0) {
             for(String tabName : bottomBarList) {

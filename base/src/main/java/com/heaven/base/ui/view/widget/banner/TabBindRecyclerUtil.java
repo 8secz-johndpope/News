@@ -14,14 +14,30 @@ import android.support.v7.widget.RecyclerView;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class TabBindRecyclerUtil {
+    private static boolean isTabSelect = false;
     public static void bind(RecyclerViewPager recyclerView, TabLayout tabLayout) {
         recyclerView.addOnPageChangedListener((oldPosition, newPosition) -> {
-            tabLayout.setScrollPosition(newPosition, 0f, true);
+            if(!isTabSelect) {
+                tabLayout.setScrollPosition(newPosition, 0f, true);
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
         });
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                isTabSelect = true;
                 int position = tab.getPosition();
                 recyclerView.smoothScrollToPosition(position);
             }

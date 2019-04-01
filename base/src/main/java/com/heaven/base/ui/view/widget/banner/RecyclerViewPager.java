@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 
 import com.heaven.base.R;
+import com.orhanobut.logger.Logger;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ import java.util.Locale;
  */
 public class RecyclerViewPager extends RecyclerView {
     private boolean mIsAutoLoop;
-
+    private TabLayout tabLayout;
     private RecyclerViewPagerAdapter<?> mViewPagerAdapter;
     private float mTriggerOffset = 0.25f;
     private float mFlingFactor = 0.15f;
@@ -582,6 +584,10 @@ public class RecyclerViewPager extends RecyclerView {
             }
             mCurView = null;
         } else if (state == SCROLL_STATE_IDLE) {
+            if(tabLayout != null) {
+                Logger.i("tablayout--position--" + mSmoothScrollTargetPosition);
+                tabLayout.setScrollPosition(mSmoothScrollTargetPosition, 0f, true);
+            }
             if (mNeedAdjust) {
                 int targetPosition = getLayoutManager().canScrollHorizontally() ? ViewUtils.getCenterXChildPosition(this) :
                         ViewUtils.getCenterYChildPosition(this);
@@ -676,5 +682,27 @@ public class RecyclerViewPager extends RecyclerView {
 
     public float getlLastY() {
         return mLastY;
+    }
+
+    public void bindTabLayout(TabLayout tabLayout) {
+        this.tabLayout = tabLayout;
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                smoothScrollToPosition(position);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                smoothScrollToPosition(position);
+            }
+        });
     }
 }
