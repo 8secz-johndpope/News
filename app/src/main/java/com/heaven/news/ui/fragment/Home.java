@@ -79,9 +79,8 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     @Override
     public void initView(View rootView) {
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
-//        initTopBanner();
-        initBookTabTest();
-//        initBookTab();
+        initTopBanner();
+        initBookTab();
         initService();
         initRecommends();
         initHomeNotice();
@@ -105,7 +104,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         mRecyclerView.startLoop();
     }
 
-    private void initBookTabTest() {
+    private void initBookTab() {
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         TabLayout tabLayout = mViewBinding.bookArea.findViewById(R.id.book_tab);
         final String[] bottomBarList = getResources().getStringArray(R.array.book_type);
@@ -138,61 +137,6 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
             }
         }
 
-    }
-
-    private void initBookTab() {
-        ViewPager viewPager = mViewBinding.bookArea.findViewById(R.id.viewpager);
-        TabLayout tabLayout = mViewBinding.bookArea.findViewById(R.id.book_tab);
-        viewPager.setOffscreenPageLimit(3);
-        final String[] bottomBarList = getResources().getStringArray(R.array.book_type);
-        Bundle paramBundleGo = new Bundle();
-        paramBundleGo.putInt("wx_type", 1);
-        Bundle paramBundleGoBack = new Bundle();
-        paramBundleGoBack.putInt("wx_type", 1);
-        Bundle paramBundleMult = new Bundle();
-        paramBundleMult.putInt("wx_type", 1);
-
-        BookGo go = BookGo.newInstance(paramBundleGo);
-        BookGoBack goBack = BookGoBack.newInstance(paramBundleGoBack);
-        BookMult mult = BookMult.newInstance(paramBundleMult);
-
-        mainList.add(go);
-        mainList.add(goBack);
-        mainList.add(mult);
-
-        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getActivity(), getChildFragmentManager());
-        adapter.insertAll(mainList, Arrays.asList(bottomBarList));
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(this);
-        tabLayout.setupWithViewPager(viewPager);
-        int tabCount = tabLayout.getTabCount();
-        for (int i = 0; i < tabCount; i++) {
-            View barItem = LayoutInflater.from(getContext()).inflate(R.layout.bottom_tab_item, null);
-            ViewGroup.LayoutParams params = barItem.getLayoutParams();
-            TextView barName = barItem.findViewById(R.id.bottom_bar_name);
-            barName.setText(bottomBarList[i]);
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            if (tab != null) {
-                tab.setCustomView(barItem);
-            }
-        }
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int i, float v, int i1) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int i) {
-//                viewPager.updateHeight(i);
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int i) {
-//
-//            }
-//        });
     }
 
     private void initService() {
