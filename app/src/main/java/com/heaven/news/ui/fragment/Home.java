@@ -58,8 +58,6 @@ import java.util.List;
 public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper> {
     BaseAdapter<ImageInfo> mBannerAdapter;
     BaseAdapter<HomeServiceItem> mServiceAdapter;
-    private List<Fragment> mainList = new ArrayList<>();
-    private List<noticeInfoListVO> noticeInfoList = null;
 
     @Override
     public int initLayoutResId() {
