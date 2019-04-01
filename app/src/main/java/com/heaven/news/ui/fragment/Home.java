@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -79,7 +78,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         LoopRecyclerViewPager mRecyclerView = mViewBinding.imageViewPager;
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mBannerAdapter = new BaseAdapter<>(getContext());
-        mBannerAdapter.register(new HomeBanner(ImageInfo.class, R.layout.banner_item));
+        mBannerAdapter.register(new HomeBanner(ImageInfo.class, R.layout.home_banner_item));
         mRecyclerView.setLayoutManager(layout);
 //        mRecyclerView.addItemDecoration(new BannerItemDecoration(4));
         mRecyclerView.setAdapter(mBannerAdapter);
