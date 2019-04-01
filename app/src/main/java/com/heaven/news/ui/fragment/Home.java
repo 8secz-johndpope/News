@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.BaseMultAdapter;
-import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.base.ui.view.widget.banner.RecyclerViewPager;
 import com.heaven.base.ui.view.widget.banner.RecyclerViewPagerListener;
@@ -27,9 +25,6 @@ import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
-import com.heaven.news.ui.adapter.FragmentPagerAdapter;
-import com.heaven.news.ui.view.AutofitHeightViewPager;
-import com.heaven.news.ui.vm.holder.BannerItemDecoration;
 import com.heaven.news.ui.vm.holder.HomeBanner;
 import com.heaven.news.ui.vm.holder.HomeBookGo;
 import com.heaven.news.ui.vm.holder.HomeBookGoBack;
@@ -51,10 +46,7 @@ import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * FileName: com.heaven.news.ui.fragment.Home.java
@@ -117,9 +109,9 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         bookList.add(goBack);
         bookList.add(mult);
         BaseAdapter<BookData> adapter = new BaseAdapter<>(getContext(),bookList);
-        adapter.register(new HomeBookGo(BookData.class,R.layout.book_info));
-        adapter.register(new HomeBookGoBack(BookData.class,R.layout.book_info));
-        adapter.register(new HomeBookMult(BookData.class,R.layout.book_info));
+        adapter.register(new HomeBookGo(BookData.class,R.layout.book_go));
+        adapter.register(new HomeBookGoBack(BookData.class,R.layout.book_go_back));
+        adapter.register(new HomeBookMult(BookData.class,R.layout.book_mult));
         bookPager.setLayoutManager(layout);
         bookPager.setAdapter(adapter);
         bookPager.addOnPageChangedListener((oldPosition, newPosition) -> {
