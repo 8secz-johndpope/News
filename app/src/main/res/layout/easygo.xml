@@ -7,11 +7,13 @@
         android:layout_height="match_parent"
         android:background="@color/base"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,8 +33,8 @@
                     android:id="@+id/indicators"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
                     app:vpi_default_color="@color/white"
                     app:vpi_distance="14dp"
                     app:vpi_distanceType="BY_DISTANCE"
@@ -49,42 +51,50 @@
                 >
 
                 <TextView
+                    android:id="@+id/search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:padding="@dimen/_10dp"
                     android:background="@drawable/round5_red_bg"
+                    android:padding="@dimen/_10dp"
                     android:text="@string/search_service"
-                    android:textSize="@dimen/_12sp"
                     android:textColor="@color/white"
-                    android:id="@+id/search"
+                    android:textSize="@dimen/_12sp"
                     />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_toLeftOf="@+id/search"
-                    android:background="@drawable/round5_f9f9f9_bg"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="@dimen/_10dp"
+                    android:layout_toLeftOf="@+id/search"
+                    android:background="@drawable/round5_f9f9f9_bg"
                     >
+
                     <EditText
+                        android:id="@+id/search_edit"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/search_edit"
-                        android:padding="@dimen/_4dp"
+                        android:background="@null"
                         android:drawableLeft="@mipmap/icon_search"
                         android:drawableRight="@mipmap/icon_delete"
                         android:hint="@string/easy_go_search_hint"
-                        android:textSize="@dimen/_14sp"
                         android:maxLength="20"
                         android:maxLines="1"
-                        android:background="@null"
+                        android:padding="@dimen/_4dp"
+                        android:textSize="@dimen/_14sp"
                         />
                 </RelativeLayout>
             </RelativeLayout>
+
             <View style="@style/driver_line_e4e4e4"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

@@ -16,10 +16,13 @@ import com.heaven.news.R;
 import com.heaven.news.databinding.EasygoBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
+import com.heaven.news.ui.vm.holder.EasyGoServiceHolder;
 import com.heaven.news.ui.vm.holder.HomeBanner;
+import com.heaven.news.ui.vm.model.base.EasyGoService;
 import com.heaven.news.ui.vm.model.base.HomeService;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 import com.heaven.news.ui.vm.model.base.ImageInfo;
+import com.heaven.news.ui.vm.model.base.ServiceInfo;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
@@ -105,7 +108,14 @@ public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> 
     }
 
     private void initGrid() {
-        HomeService allServiceItem = AppEngine.instance().dataCore().loadHomeService(getContext());
+        EasyGoService easyGoService = AppEngine.instance().dataCore().loadEasyGoService(getContext());
+        if(easyGoService != null && easyGoService.easyGoServiceInfos != null) {
+            LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            BaseAdapter<ServiceInfo>  adapter = new BaseAdapter<>(getContext(),easyGoService.easyGoServiceInfos);
+            adapter.register(new EasyGoServiceHolder(ServiceInfo.class,R.layout.easygo_service_item));
+            mViewBinding.service.setLayoutManager(manager);
+            mViewBinding.service.setAdapter(adapter);
+        }
     }
 
     @Override
