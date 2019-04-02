@@ -1,6 +1,8 @@
 package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.view.View;
 
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
@@ -27,6 +29,12 @@ public class ServiceItemHolder extends BaseMultItem<ServiceItem> {
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull ServiceItem serviceItem) {
         holder.setImageResource(R.id.service_icon, ScreenUtil.getImageResId(holder.context,serviceItem.iconID));
         holder.setText(R.id.service_name,ScreenUtil.getStringResId(holder.context,serviceItem.name));
+        if(!TextUtils.isEmpty(serviceItem.recIcon)) {
+            holder.getView(R.id.recommend_icon).setVisibility(View.VISIBLE);
+            holder.setImageResource(R.id.recommend_icon, ScreenUtil.getImageResId(holder.context,serviceItem.recIcon));
+        } else {
+            holder.getView(R.id.recommend_icon).setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

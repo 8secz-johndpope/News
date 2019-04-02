@@ -5,18 +5,31 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:clipChildren="false"
     >
+
     <ImageView
+        android:id="@+id/recommend_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/service_icon"
+        android:layout_marginLeft="@dimen/_20dp"
+        android:src="@mipmap/easygo_discount"
+        android:visibility="invisible"
         />
 
+    <ImageView
+        android:id="@+id/service_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recommend_icon"
+        />
+
+
     <TextView
+        android:id="@+id/service_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10dp"
-        android:id="@+id/service_name"
         />
 
 </LinearLayout>

@@ -19,6 +19,8 @@ public class ServiceItem implements Parcelable, Serializable {
     public int id = -1;
     //服务icon id
     public String iconID = null;
+    //推荐icon id
+    public String recIcon = null;
     //服务名字
     public String name = null;
     //服务url简短
@@ -39,6 +41,7 @@ public class ServiceItem implements Parcelable, Serializable {
         dest.writeInt(this.type);
         dest.writeInt(this.id);
         dest.writeString(this.iconID);
+        dest.writeString(this.recIcon);
         dest.writeString(this.name);
         dest.writeString(this.urlShort);
         dest.writeString(this.urlDetail);
@@ -52,6 +55,7 @@ public class ServiceItem implements Parcelable, Serializable {
         this.type = in.readInt();
         this.id = in.readInt();
         this.iconID = in.readString();
+        this.recIcon = in.readString();
         this.name = in.readString();
         this.urlShort = in.readString();
         this.urlDetail = in.readString();
@@ -69,17 +73,4 @@ public class ServiceItem implements Parcelable, Serializable {
             return new ServiceItem[size];
         }
     };
-
-    @Override
-    public String toString() {
-        return "ServiceItem{" +
-                "type=" + type +
-                ", id=" + id +
-                ", iconID='" + iconID + '\'' +
-                ", name='" + name + '\'' +
-                ", urlShort='" + urlShort + '\'' +
-                ", urlDetail='" + urlDetail + '\'' +
-                ", rankNo=" + rankNo +
-                '}';
-    }
 }
