@@ -9,7 +9,7 @@ import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
-import com.heaven.news.ui.vm.model.HomeServiceItem;
+import com.heaven.news.ui.vm.model.ServiceInfo;
 import com.heaven.news.ui.vm.model.ServiceItem;
 
 /**
@@ -20,15 +20,15 @@ import com.heaven.news.ui.vm.model.ServiceItem;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class HomeServiceHolder  extends BaseMultItem<HomeServiceItem> {
+public class HomeServiceHolder  extends BaseMultItem<ServiceInfo> {
 
-    public HomeServiceHolder(@NonNull Class<HomeServiceItem> modelBean, int itemLayoutId) {
+    public HomeServiceHolder(@NonNull Class<ServiceInfo> modelBean, int itemLayoutId) {
         super(modelBean, itemLayoutId);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull HomeServiceItem homeServiceItem) {
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull ServiceInfo homeServiceItem) {
         if(homeServiceItem.homeServiceInfos != null && homeServiceItem.homeServiceInfos.size() > 0) {
             RecyclerView recyclerView = holder.getView(R.id.service_list);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(holder.context,4);
@@ -42,7 +42,7 @@ public class HomeServiceHolder  extends BaseMultItem<HomeServiceItem> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull HomeServiceItem homeServiceItem, Object payload) {
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull ServiceInfo homeServiceItem, Object payload) {
 
     }
 }

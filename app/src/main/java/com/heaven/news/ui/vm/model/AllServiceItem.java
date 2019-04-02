@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @version V1.0 首页 易行 凤凰知音服务
  */
 public class AllServiceItem {
-    public ArrayList<HomeServiceItem> homeServiceInfos;
+    public ArrayList<ServiceInfo> homeServiceInfos;
     public ArrayList<ServiceItem> homeRecommendInfos;
     public ArrayList<ServiceItem> homeEasyGoInfos;
     public ArrayList<ServiceItem> easyGoServiceInfos;

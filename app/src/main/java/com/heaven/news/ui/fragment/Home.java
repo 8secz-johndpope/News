@@ -37,7 +37,7 @@ import com.heaven.news.ui.vm.holder.HomeRecHolder;
 import com.heaven.news.ui.vm.holder.HomeServiceHolder;
 import com.heaven.news.ui.vm.model.AllServiceItem;
 import com.heaven.news.ui.vm.model.HomeImageInfo;
-import com.heaven.news.ui.vm.model.HomeServiceItem;
+import com.heaven.news.ui.vm.model.ServiceInfo;
 import com.heaven.news.ui.vm.model.ImageInfo;
 import com.heaven.news.ui.vm.model.ServiceItem;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
@@ -56,7 +56,7 @@ import java.util.List;
  */
 public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper> {
     BaseAdapter<ImageInfo> mBannerAdapter;
-    BaseAdapter<HomeServiceItem> mServiceAdapter;
+    BaseAdapter<ServiceInfo> mServiceAdapter;
 
     @Override
     public int initLayoutResId() {
@@ -133,7 +133,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mServiceAdapter = new BaseAdapter<>(getContext());
-        mServiceAdapter.register(new HomeServiceHolder(HomeServiceItem.class, R.layout.home_service_item));
+        mServiceAdapter.register(new HomeServiceHolder(ServiceInfo.class, R.layout.home_service_item));
 
         mViewBinding.service.setLayoutManager(layout);
         mViewBinding.service.setAdapter(mServiceAdapter);
