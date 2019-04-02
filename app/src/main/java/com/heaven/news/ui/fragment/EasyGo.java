@@ -82,25 +82,21 @@ public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> 
 
     public void updateHomeImageData() {
         HomeImageInfo homeImageInfo = AppEngine.instance().dataCore().getHomeConfigData();
+        List<ImageInfo> bannerList = new ArrayList<>();
         if (mViewBinding != null) {
             if (homeImageInfo != null) {
                 if (homeImageInfo.easygotop != null && homeImageInfo.easygotop.size() > 0) {
-                    updateBannerData(homeImageInfo.easygotop);
-                } else {
-                    ArrayList<ImageInfo> bannerList = new ArrayList<>();
-                    bannerList.add(new ImageInfo());
-                    updateBannerData(bannerList);
+                    bannerList = homeImageInfo.easygotop;
                 }
             }
-        }
-    }
-
-    private void updateBannerData(List<ImageInfo> bannerList) {
-        if (bannerList != null && bannerList.size() > 0) {
+            if(bannerList.size() == 0) {
+                bannerList.add(new ImageInfo());
+            }
             mBannerAdapter.updateItems(bannerList);
             mViewBinding.indicators.setViewPager(mViewBinding.imageViewPager);
         }
     }
+
 
     private void initGrid() {
         EasyGoService easyGoService = AppEngine.instance().dataCore().loadEasyGoService(getContext());
