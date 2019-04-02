@@ -6,10 +6,13 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 /**
- * Created by heaven on 2016/5/8.
+ *
+ * @author heaven
+ * @date 2016/5/8
  * 首页和服务页服务选项数据模型
  */
 public class ServiceItem implements Parcelable, Serializable {
+    private static final long serialVersionUID = 4197333013789476569L;
     //类型
     int type = -1;
     //服务id

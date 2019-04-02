@@ -8,9 +8,11 @@ import java.io.Serializable;
  * email: heavenisme@aliyun.com
  * date: 2019-03-07 18:33
  *
+ * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class Version implements Serializable {
+    private static final long serialVersionUID = 2728747616660640294L;
     public String url;
     public int fversion;
     public int cversion;

@@ -3,7 +3,11 @@ package com.heaven.news.ui.vm.model.base;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * @author heaven
+ */
 public class ConfigData implements Serializable {
+	private static final long serialVersionUID = -8241685949732527971L;
 	public int netCode = 0;
 	public Version androidversion;
 	public Version androidversionnew;
