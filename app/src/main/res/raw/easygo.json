@@ -7,16 +7,7 @@
         {
           "type":-1,
           "id": 0,
-          "iconID": "@mipmap/flight_state",
-          "name": "@string/flight_state",
-          "urlShort": "",
-          "urlDetail": "",
-          "rankNo": 0
-        },
-        {
-          "type":-1,
-          "id": 1,
-          "iconID": "@mipmap/flight_check_in",
+          "iconID": "@mipmap/easygo_checkin",
           "name": "@string/flight_check_in",
           "urlShort": "",
           "urlDetail": "",
@@ -24,8 +15,17 @@
         },
         {
           "type":-1,
+          "id": 1,
+          "iconID": "@mipmap/easygo_change_date",
+          "name": "@string/flight_change_date",
+          "urlShort": "",
+          "urlDetail": "",
+          "rankNo": 0
+        },
+        {
+          "type":-1,
           "id": 2,
-          "iconID": "@mipmap/flight_change_date",
+          "iconID": "@mipmap/easygo_luggage",
           "name": "@string/flight_change_date",
           "urlShort": "",
           "urlDetail": "",
@@ -34,7 +34,7 @@
         {
           "type":-1,
           "id": 3,
-          "iconID": "@mipmap/flight_refund",
+          "iconID": "@mipmap/easygo_first_meal",
           "name": "@string/flight_refund",
           "urlShort": "",
           "urlDetail": "",
@@ -43,7 +43,7 @@
         {
           "type":-1,
           "id": 4,
-          "iconID": "@mipmap/flight_award",
+          "iconID": "@mipmap/easygo_special_guest",
           "name": "@string/flight_award",
           "urlShort": "",
           "urlDetail": "",
@@ -52,7 +52,7 @@
         {
           "type":-1,
           "id": 5,
-          "iconID": "@mipmap/flight_shuttle",
+          "iconID": "@mipmap/easygo_shuttle",
           "name": "@string/flight_shuttle",
           "urlShort": "",
           "urlDetail": "",
@@ -61,7 +61,7 @@
         {
           "type":-1,
           "id": 6,
-          "iconID": "@mipmap/flight_park",
+          "iconID": "@mipmap/easygo_parking",
           "name": "@string/flight_park",
           "urlShort": "",
           "urlDetail": "",
@@ -70,12 +70,49 @@
         {
           "type":-1,
           "id": 7,
-          "iconID": "@mipmap/flight_fast_check",
+          "iconID": "@mipmap/easygo_hkmacao",
+          "name": "@string/flight_fast_check",
+          "urlShort": "",
+          "urlDetail": "",
+          "rankNo": 0
+        },
+        {
+          "type":-1,
+          "id": 7,
+          "iconID": "@mipmap/easygo_drive",
+          "name": "@string/flight_fast_check",
+          "urlShort": "",
+          "urlDetail": "",
+          "rankNo": 0
+        },
+        {
+          "type":-1,
+          "id": 7,
+          "iconID": "@mipmap/easygo_hotel",
+          "name": "@string/flight_fast_check",
+          "urlShort": "",
+          "urlDetail": "",
+          "rankNo": 0
+        },
+        {
+          "type":-1,
+          "id": 7,
+          "iconID": "@mipmap/easygo_soldier",
+          "name": "@string/flight_fast_check",
+          "urlShort": "",
+          "urlDetail": "",
+          "rankNo": 0
+        },
+        {
+          "type":-1,
+          "id": 7,
+          "iconID": "@mipmap/easygo_zzzs",
           "name": "@string/flight_fast_check",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
         }
+
       ]
     },
     {
