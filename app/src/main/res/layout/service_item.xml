@@ -12,6 +12,7 @@
         android:id="@+id/recommend_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="-4dp"
         android:layout_marginLeft="@dimen/_20dp"
         android:src="@mipmap/easygo_discount"
         android:visibility="invisible"
@@ -30,6 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10dp"
+        android:textSize="@dimen/_12sp"
+        android:textColor="@color/black"
         />
 
 </LinearLayout>
