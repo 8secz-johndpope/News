@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.data.manager.DataSource;
-import com.heaven.data.net.DataResponse;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.ConfigApi;
@@ -25,7 +24,6 @@ import com.heaven.news.ui.vm.model.Version;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.easycardmodel.EasyCardWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.easycardmodel.WALLET_QUERY;
-import com.neusoft.szair.model.easycardmodel.queryBankCardResponse;
 import com.neusoft.szair.model.easycardmodel.walletInfoQuery;
 import com.neusoft.szair.model.member.CRMFrequentFlyerWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.member.addressVo;
@@ -44,7 +42,6 @@ import com.neusoft.szair.model.memberbase.vipDocument;
 import com.neusoft.szair.model.soap.SOAPConstants;
 import com.neusoft.szair.model.usercouponsearch.UserCouponSearchWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.usercouponsearch.queryUseCouponCnt;
-import com.neusoft.szair.model.usercouponsearch.queryUseCouponCntResponse;
 import com.neusoft.szair.model.usercouponsearch.userCouponSearchConditionVO;
 import com.orhanobut.logger.Logger;
 
@@ -55,8 +52,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * FileName: com.heaven.news.engine.DataCore.java
@@ -120,7 +115,7 @@ public class DataCore {
     public AllServiceItem loadAllServiceItem(Context context) {
         if (allServiceItem == null) {
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-            InputStream allServiceIn = context.getResources().openRawResource(R.raw.service);
+            InputStream allServiceIn = context.getResources().openRawResource(R.raw.home);
             Reader readerAll = new InputStreamReader(allServiceIn);
             allServiceItem = gson.fromJson(readerAll, AllServiceItem.class);
         }
