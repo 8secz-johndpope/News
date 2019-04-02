@@ -27,7 +27,7 @@
           "id": 2,
           "iconID": "@mipmap/easygo_luggage",
           "recIcon":"@mipmap/easygo_discount",
-          "name": "@string/flight_change_date",
+          "name": "@string/flight_luggage",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -36,7 +36,7 @@
           "type":-1,
           "id": 3,
           "iconID": "@mipmap/easygo_first_meal",
-          "name": "@string/flight_refund",
+          "name": "@string/flight_first_meal",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -45,7 +45,7 @@
           "type":-1,
           "id": 4,
           "iconID": "@mipmap/easygo_special_guest",
-          "name": "@string/flight_award",
+          "name": "@string/flight_special_guest",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -73,7 +73,7 @@
           "type":-1,
           "id": 7,
           "iconID": "@mipmap/easygo_hkmacao",
-          "name": "@string/flight_fast_check",
+          "name": "@string/flight_hkmacao",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -82,7 +82,7 @@
           "type":-1,
           "id": 7,
           "iconID": "@mipmap/easygo_drive",
-          "name": "@string/flight_fast_check",
+          "name": "@string/flight_drive",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -91,7 +91,7 @@
           "type":-1,
           "id": 7,
           "iconID": "@mipmap/easygo_hotel",
-          "name": "@string/flight_fast_check",
+          "name": "@string/flight_hotel",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -100,7 +100,7 @@
           "type":-1,
           "id": 7,
           "iconID": "@mipmap/easygo_soldier",
-          "name": "@string/flight_fast_check",
+          "name": "@string/flight_soldier",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -109,7 +109,7 @@
           "type":-1,
           "id": 7,
           "iconID": "@mipmap/easygo_zzzs",
-          "name": "@string/flight_fast_check",
+          "name": "@string/flight_zzzs",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -134,7 +134,7 @@
           "type":-1,
           "id": 1,
           "iconID": "@mipmap/easygo_security_check",
-          "name": "@string/flight_check_in",
+          "name": "@string/flight_fast_check",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -143,7 +143,7 @@
           "type":-1,
           "id": 2,
           "iconID": "@mipmap/easygo_2dboarding",
-          "name": "@string/flight_change_date",
+          "name": "@string/flight_2dboarding",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -152,7 +152,7 @@
           "type":-1,
           "id": 3,
           "iconID": "@mipmap/easygo_upgrade",
-          "name": "@string/flight_refund",
+          "name": "@string/flight_upgrade",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -161,7 +161,7 @@
           "type":-1,
           "id": 4,
           "iconID": "@mipmap/easygo_delay_prove",
-          "name": "@string/flight_award",
+          "name": "@string/flight_delay_prove",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -170,7 +170,7 @@
           "type":-1,
           "id": 5,
           "iconID": "@mipmap/easygo_luggage_search",
-          "name": "@string/flight_shuttle",
+          "name": "@string/flight_luggage_search",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -185,7 +185,7 @@
           "type":-1,
           "id": 0,
           "iconID": "@mipmap/easygo_refund",
-          "name": "@string/flight_state",
+          "name": "@string/flight_refund",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -194,7 +194,7 @@
           "type":-1,
           "id": 1,
           "iconID": "@mipmap/easygo_unusual_refund",
-          "name": "@string/flight_check_in",
+          "name": "@string/flight_unusual_refund",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -203,7 +203,7 @@
           "type":-1,
           "id": 2,
           "iconID": "@mipmap/easygo_search_refund_fee",
-          "name": "@string/flight_change_date",
+          "name": "@string/flight_search_refund_fee",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -212,7 +212,7 @@
           "type":-1,
           "id": 3,
           "iconID": "@mipmap/easygo_ticket_verify",
-          "name": "@string/flight_refund",
+          "name": "@string/flight_ticket_verify",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -221,7 +221,7 @@
           "type":-1,
           "id": 4,
           "iconID": "@mipmap/easygo_invoice",
-          "name": "@string/flight_award",
+          "name": "@string/flight_ticket_invoice",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -230,7 +230,7 @@
           "type":-1,
           "id": 5,
           "iconID": "@mipmap/easygo_loss",
-          "name": "@string/flight_shuttle",
+          "name": "@string/flight_loss",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -239,7 +239,7 @@
           "type":-1,
           "id": 6,
           "iconID": "@mipmap/easygo_zzoneday_travel",
-          "name": "@string/flight_park",
+          "name": "@string/flight_zzoneday_travel",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -248,7 +248,7 @@
           "type":-1,
           "id": 7,
           "iconID": "@mipmap/easygo_vip_travel",
-          "name": "@string/flight_fast_check",
+          "name": "@string/flight_vip_travel",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0

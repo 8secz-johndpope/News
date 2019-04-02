@@ -35,7 +35,7 @@ public class EasyGoServiceHolder extends BaseMultItem<ServiceInfo> {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(holder.context,4);
             BaseAdapter<ServiceItem> adapter = new BaseAdapter<>(holder.context,easyGoServiceItem.serviceItems);
             adapter.register(new ServiceItemHolder(ServiceItem.class,R.layout.service_item));
-            recyclerView.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(holder.context,5),4));
+//            recyclerView.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(holder.context,5),4));
             recyclerView.setLayoutManager(gridLayoutManager);
             recyclerView.setAdapter(adapter);
         }

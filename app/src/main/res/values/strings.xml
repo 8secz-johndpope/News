@@ -26,6 +26,25 @@
     <string name="flight_shuttle">机场接送</string>
     <string name="flight_park">乘机泊车</string>
     <string name="flight_fast_check">快速安检</string>
+    <string name="flight_luggage">额外行李</string>
+    <string name="flight_first_meal">公务舱点餐</string>
+    <string name="flight_special_guest">特殊旅客</string>
+    <string name="flight_hkmacao">港澳行</string>
+    <string name="flight_drive">悠自驾</string>
+    <string name="flight_hotel">酒店预订</string>
+    <string name="flight_soldier">军警残购票</string>
+    <string name="flight_zzzs">中转住宿</string>
+    <string name="flight_2dboarding">二维码登机牌</string>
+    <string name="flight_upgrade">登机口升舱</string>
+    <string name="flight_delay_prove">航延证明</string>
+    <string name="flight_luggage_search">行李查询</string>
+    <string name="flight_unusual_refund">不正常航班退票</string>
+    <string name="flight_search_refund_fee">退票费查询</string>
+    <string name="flight_ticket_verify">机票验真</string>
+    <string name="flight_ticket_invoice">电子发票</string>
+    <string name="flight_loss">遗失物品</string>
+    <string name="flight_zzoneday_travel">中转一日游</string>
+    <string name="flight_vip_travel">精品旅游</string>
 
     <string name="sz_easy_go">深航易行</string>
     <string name="sz_hot">热门目的地</string>
