@@ -23,6 +23,7 @@ import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
+import com.heaven.news.ui.view.RecyclerViewDivider;
 import com.heaven.news.ui.vm.holder.HomeBanner;
 import com.heaven.news.ui.vm.holder.HomeBookGo;
 import com.heaven.news.ui.vm.holder.HomeBookGoBack;
@@ -162,6 +163,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
         BaseAdapter<noticeInfoListVO> adapter = new BaseAdapter<>(getContext());
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         adapter.register(new HomeNoticeHolder(noticeInfoListVO.class,R.layout.home_notice_item));
+        mViewBinding.noticeList.addItemDecoration(new RecyclerViewDivider(getContext(),2,R.color.gray_e4));
         mViewBinding.noticeList.setLayoutManager(manager);
         mViewBinding.noticeList.setAdapter(adapter);
         mViewModel.observeNoticeList(this, noticeInfoListVOS -> {

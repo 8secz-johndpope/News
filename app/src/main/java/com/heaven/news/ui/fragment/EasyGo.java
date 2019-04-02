@@ -102,7 +102,7 @@ public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> 
         EasyGoService easyGoService = AppEngine.instance().dataCore().loadEasyGoService(getContext());
         if(easyGoService != null && easyGoService.easyGoServiceInfos != null) {
             LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            RecyclerViewDivider divider = new RecyclerViewDivider(30,getResources().getColor(R.color.transparent));
+            RecyclerViewDivider divider = new RecyclerViewDivider(getContext(),30,R.color.transparent);
             BaseAdapter<ServiceInfo>  adapter = new BaseAdapter<>(getContext(),easyGoService.easyGoServiceInfos);
             adapter.register(new EasyGoServiceHolder(ServiceInfo.class,R.layout.easygo_service_item));
             mViewBinding.service.addItemDecoration(divider);

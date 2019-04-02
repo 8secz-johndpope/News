@@ -1,5 +1,6 @@
 package com.heaven.news.ui.view;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -19,12 +20,12 @@ import android.view.View;
 public class RecyclerViewDivider extends RecyclerView.ItemDecoration{
     int mDividerHeight = 0;
     private Paint mPaint;
-    public RecyclerViewDivider(int dividerHeight,int dividerColor) {
+    public RecyclerViewDivider(Context context, int dividerHeight, int dividerColor) {
         super();
         mDividerHeight = dividerHeight;
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setColor(dividerColor);
+        mPaint.setColor(context.getResources().getColor(dividerColor));
     }
 
     @Override
