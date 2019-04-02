@@ -122,7 +122,7 @@
         {
           "type":-1,
           "id": 0,
-          "iconID": "@mipmap/flight_state",
+          "iconID": "@mipmap/easygo_dynamic",
           "name": "@string/flight_state",
           "urlShort": "",
           "urlDetail": "",
@@ -131,7 +131,7 @@
         {
           "type":-1,
           "id": 1,
-          "iconID": "@mipmap/flight_check_in",
+          "iconID": "@mipmap/easygo_security_check",
           "name": "@string/flight_check_in",
           "urlShort": "",
           "urlDetail": "",
@@ -140,7 +140,7 @@
         {
           "type":-1,
           "id": 2,
-          "iconID": "@mipmap/flight_change_date",
+          "iconID": "@mipmap/easygo_2dboarding",
           "name": "@string/flight_change_date",
           "urlShort": "",
           "urlDetail": "",
@@ -149,7 +149,7 @@
         {
           "type":-1,
           "id": 3,
-          "iconID": "@mipmap/flight_refund",
+          "iconID": "@mipmap/easygo_upgrade",
           "name": "@string/flight_refund",
           "urlShort": "",
           "urlDetail": "",
@@ -158,7 +158,7 @@
         {
           "type":-1,
           "id": 4,
-          "iconID": "@mipmap/flight_award",
+          "iconID": "@mipmap/easygo_delay_prove",
           "name": "@string/flight_award",
           "urlShort": "",
           "urlDetail": "",
@@ -167,26 +167,8 @@
         {
           "type":-1,
           "id": 5,
-          "iconID": "@mipmap/flight_shuttle",
+          "iconID": "@mipmap/easygo_luggage_search",
           "name": "@string/flight_shuttle",
-          "urlShort": "",
-          "urlDetail": "",
-          "rankNo": 0
-        },
-        {
-          "type":-1,
-          "id": 6,
-          "iconID": "@mipmap/flight_park",
-          "name": "@string/flight_park",
-          "urlShort": "",
-          "urlDetail": "",
-          "rankNo": 0
-        },
-        {
-          "type":-1,
-          "id": 7,
-          "iconID": "@mipmap/flight_fast_check",
-          "name": "@string/flight_fast_check",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -200,7 +182,7 @@
         {
           "type":-1,
           "id": 0,
-          "iconID": "@mipmap/flight_state",
+          "iconID": "@mipmap/easygo_refund",
           "name": "@string/flight_state",
           "urlShort": "",
           "urlDetail": "",
@@ -209,7 +191,7 @@
         {
           "type":-1,
           "id": 1,
-          "iconID": "@mipmap/flight_check_in",
+          "iconID": "@mipmap/easygo_unusual_refund",
           "name": "@string/flight_check_in",
           "urlShort": "",
           "urlDetail": "",
@@ -218,7 +200,7 @@
         {
           "type":-1,
           "id": 2,
-          "iconID": "@mipmap/flight_change_date",
+          "iconID": "@mipmap/easygo_search_refund_fee",
           "name": "@string/flight_change_date",
           "urlShort": "",
           "urlDetail": "",
@@ -227,7 +209,7 @@
         {
           "type":-1,
           "id": 3,
-          "iconID": "@mipmap/flight_refund",
+          "iconID": "@mipmap/easygo_ticket_verify",
           "name": "@string/flight_refund",
           "urlShort": "",
           "urlDetail": "",
@@ -236,7 +218,7 @@
         {
           "type":-1,
           "id": 4,
-          "iconID": "@mipmap/flight_award",
+          "iconID": "@mipmap/easygo_invoice",
           "name": "@string/flight_award",
           "urlShort": "",
           "urlDetail": "",
@@ -245,7 +227,7 @@
         {
           "type":-1,
           "id": 5,
-          "iconID": "@mipmap/flight_shuttle",
+          "iconID": "@mipmap/easygo_loss",
           "name": "@string/flight_shuttle",
           "urlShort": "",
           "urlDetail": "",
@@ -254,7 +236,7 @@
         {
           "type":-1,
           "id": 6,
-          "iconID": "@mipmap/flight_park",
+          "iconID": "@mipmap/easygo_zzoneday_travel",
           "name": "@string/flight_park",
           "urlShort": "",
           "urlDetail": "",
@@ -263,7 +245,7 @@
         {
           "type":-1,
           "id": 7,
-          "iconID": "@mipmap/flight_fast_check",
+          "iconID": "@mipmap/easygo_vip_travel",
           "name": "@string/flight_fast_check",
           "urlShort": "",
           "urlDetail": "",
