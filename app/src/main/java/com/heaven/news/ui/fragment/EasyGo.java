@@ -16,6 +16,7 @@ import com.heaven.news.R;
 import com.heaven.news.databinding.EasygoBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
+import com.heaven.news.ui.view.RecyclerViewDivider;
 import com.heaven.news.ui.vm.holder.EasyGoServiceHolder;
 import com.heaven.news.ui.vm.holder.HomeBanner;
 import com.heaven.news.ui.vm.model.base.EasyGoService;
@@ -111,8 +112,10 @@ public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> 
         EasyGoService easyGoService = AppEngine.instance().dataCore().loadEasyGoService(getContext());
         if(easyGoService != null && easyGoService.easyGoServiceInfos != null) {
             LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            RecyclerViewDivider divider = new RecyclerViewDivider(20,getResources().getColor(R.color.transparent));
             BaseAdapter<ServiceInfo>  adapter = new BaseAdapter<>(getContext(),easyGoService.easyGoServiceInfos);
             adapter.register(new EasyGoServiceHolder(ServiceInfo.class,R.layout.easygo_service_item));
+            mViewBinding.service.addItemDecoration(divider);
             mViewBinding.service.setLayoutManager(manager);
             mViewBinding.service.setAdapter(adapter);
         }
