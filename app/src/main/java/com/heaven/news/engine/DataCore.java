@@ -15,9 +15,11 @@ import com.heaven.news.R;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
+import com.heaven.news.ui.vm.model.base.EasyGoService;
 import com.heaven.news.ui.vm.model.base.HomeService;
 import com.heaven.news.ui.vm.model.base.ConfigData;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
+import com.heaven.news.ui.vm.model.base.PhoenixService;
 import com.heaven.news.ui.vm.model.base.UserLoginInfo;
 import com.heaven.news.ui.vm.model.base.UserSecret;
 import com.heaven.news.ui.vm.model.base.Version;
@@ -70,7 +72,9 @@ public class DataCore {
 
     private Context context;
 
-    private HomeService allServiceItem;//首页 易行 凤凰知音服务
+    private HomeService homeService;//首页服务
+    private EasyGoService easyGoService;//易行服务
+    private PhoenixService phoenixService;//凤凰知音服务
 
     private Map<Observer<CoreDataWrapper>, MutableLiveData<CoreDataWrapper>> observers = new HashMap<>();
 
@@ -108,19 +112,45 @@ public class DataCore {
     DataCore(DataSource dataSource, Context context) {
         this.dataSource = dataSource;
         dataSource.runWorkThread(this::prepareData);
-        dataSource.runWorkThread(() -> loadAllServiceItem(context));
+        dataSource.runWorkThread(() -> loadAllService(context));
     }
 
+    private void loadAllService(Context context) {
+        loadHomeService(context);
+        loadEasyGoService(context);
+        loadPhoenixService(context);
+    }
 
-    public HomeService loadAllServiceItem(Context context) {
-        if (allServiceItem == null) {
+    public HomeService loadHomeService(Context context) {
+        if (homeService == null) {
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             InputStream allServiceIn = context.getResources().openRawResource(R.raw.home);
             Reader readerAll = new InputStreamReader(allServiceIn);
-            allServiceItem = gson.fromJson(readerAll, HomeService.class);
+            homeService = gson.fromJson(readerAll, HomeService.class);
         }
-        return allServiceItem;
+        return homeService;
     }
+
+    public EasyGoService loadEasyGoService(Context context) {
+        if (easyGoService == null) {
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+            InputStream allServiceIn = context.getResources().openRawResource(R.raw.easygo);
+            Reader readerAll = new InputStreamReader(allServiceIn);
+            easyGoService = gson.fromJson(readerAll, EasyGoService.class);
+        }
+        return easyGoService;
+    }
+
+    public PhoenixService loadPhoenixService(Context context) {
+        if (phoenixService == null) {
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+            InputStream allServiceIn = context.getResources().openRawResource(R.raw.phoenix);
+            Reader readerAll = new InputStreamReader(allServiceIn);
+            phoenixService = gson.fromJson(readerAll, PhoenixService.class);
+        }
+        return phoenixService;
+    }
+
 
     private void prepareData() {
         autoLogin();

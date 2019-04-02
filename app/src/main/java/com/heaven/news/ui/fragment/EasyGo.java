@@ -92,7 +92,7 @@ public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> 
     }
 
     private void initGrid() {
-        HomeService allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
+        HomeService allServiceItem = AppEngine.instance().dataCore().loadHomeService(getContext());
     }
 
     @Override
