@@ -3,7 +3,7 @@
     {
       "serviceType": 0,
       "serviceName":"@string/easy_go_fly_before",
-      "easygoItems": [
+      "serviceItems": [
         {
           "type":-1,
           "id": 0,
@@ -81,7 +81,7 @@
     {
       "serviceType": 1,
       "serviceName":"@string/easy_go_air_port",
-      "easygoItems": [
+      "serviceItems": [
         {
           "type":-1,
           "id": 0,
@@ -159,7 +159,7 @@
     {
       "serviceType": 2,
       "serviceName":"@string/easy_go_after_sales",
-      "easygoItems": [
+      "serviceItems": [
         {
           "type":-1,
           "id": 0,

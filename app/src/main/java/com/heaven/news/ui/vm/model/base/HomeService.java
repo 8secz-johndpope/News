@@ -18,7 +18,7 @@ public class HomeService {
     @Override
     public String toString() {
         return "HomeService{" +
-                "homeServiceInfos=" + homeServiceInfos +
+                "serviceItems=" + homeServiceInfos +
                 ", homeRecommendInfos=" + homeRecommendInfos +
                 ", homeEasyGoInfos=" + homeEasyGoInfos +
                 '}';

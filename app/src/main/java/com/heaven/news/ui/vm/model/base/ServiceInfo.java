@@ -16,5 +16,5 @@ public class ServiceInfo implements Serializable {
     private static final long serialVersionUID = 49941190139005470L;
     public int serviceType;
     public String serviceName;
-    public ArrayList<ServiceItem> homeServiceInfos;
+    public ArrayList<ServiceItem> serviceItems;
 }

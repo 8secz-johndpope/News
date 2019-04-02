@@ -29,10 +29,10 @@ public class HomeServiceHolder  extends BaseMultItem<ServiceInfo> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull ServiceInfo homeServiceItem) {
-        if(homeServiceItem.homeServiceInfos != null && homeServiceItem.homeServiceInfos.size() > 0) {
+        if(homeServiceItem.serviceItems != null && homeServiceItem.serviceItems.size() > 0) {
             RecyclerView recyclerView = holder.getView(R.id.service_list);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(holder.context,4);
-            BaseAdapter<ServiceItem> adapter = new BaseAdapter<>(holder.context,homeServiceItem.homeServiceInfos);
+            BaseAdapter<ServiceItem> adapter = new BaseAdapter<>(holder.context,homeServiceItem.serviceItems);
             adapter.register(new ServiceItemHolder(ServiceItem.class,R.layout.service_item));
             recyclerView.addItemDecoration(new GrideDecoration(ScreenUtil.dip2px(holder.context,10),4));
             recyclerView.setLayoutManager(gridLayoutManager);

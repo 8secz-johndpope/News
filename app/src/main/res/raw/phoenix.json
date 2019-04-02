@@ -3,7 +3,7 @@
     {
       "serviceType": 0,
       "serviceName":"",
-      "homeServiceInfos": [
+      "serviceItems": [
         {
           "type":-1,
           "id": 0,
@@ -81,7 +81,7 @@
     {
       "serviceType": 1,
       "serviceName":"",
-      "homeServiceInfos": [
+      "serviceItems": [
         {
           "type":-1,
           "id": 8,
