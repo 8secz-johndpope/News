@@ -11,13 +11,10 @@ import com.heaven.news.api.ConfigApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.AppInfo;
-import com.heaven.news.ui.vm.model.UpdateInfo;
-import com.heaven.news.ui.vm.model.Version;
+import com.heaven.news.ui.vm.model.base.UpdateInfo;
+import com.heaven.news.ui.vm.model.base.Version;
 import com.heaven.news.utils.RxRepUtils;
-import com.neusoft.szair.model.noticelist.noticeInfoListVO;
 import com.orhanobut.logger.Logger;
-
-import java.util.List;
 
 /**
  * FileName: com.heaven.news.ui.vm.viewmodel.WelecomModel.java

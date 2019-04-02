@@ -1,9 +1,9 @@
-package com.heaven.news.ui.vm.model;
+package com.heaven.news.ui.vm.model.base;
 
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 /**
- * FileName: com.heaven.news.ui.vm.model.BookData.java
+ * FileName: com.heaven.news.ui.vm.model.base.BookData.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-04-01 20:07

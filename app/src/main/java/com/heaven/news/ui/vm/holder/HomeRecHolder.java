@@ -4,9 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
-import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
-import com.heaven.news.ui.vm.model.ServiceItem;
+import com.heaven.news.ui.vm.model.base.ServiceItem;
 
 /**
  * FileName: com.heaven.news.ui.vm.bean.ServiceItemHolder.java

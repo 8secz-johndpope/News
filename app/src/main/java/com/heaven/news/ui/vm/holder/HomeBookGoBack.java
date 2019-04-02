@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
-import com.heaven.news.ui.vm.model.BookData;
+import com.heaven.news.ui.vm.model.base.BookData;
 
 /**
  * FileName: com.heaven.news.ui.vm.holder.HomeBookGoBack.java

@@ -6,9 +6,8 @@ import android.view.ViewGroup;
 
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
-import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
-import com.heaven.news.ui.vm.model.HomeHotTitle;
+import com.heaven.news.ui.vm.model.base.HomeHotTitle;
 
 /**
  * FileName: com.heaven.news.ui.vm.holder.HomeHotTitleHoler.java

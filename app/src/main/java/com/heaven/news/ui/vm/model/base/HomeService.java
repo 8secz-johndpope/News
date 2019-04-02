@@ -1,30 +1,26 @@
-package com.heaven.news.ui.vm.model;
+package com.heaven.news.ui.vm.model.base;
 
 import java.util.ArrayList;
 
 /**
- * FileName: com.heaven.news.ui.vm.model.AllServiceItem.java
+ * FileName: com.heaven.news.ui.vm.model.base.HomeService.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-28 17:47
  *
  * @version V1.0 首页 易行 凤凰知音服务
  */
-public class AllServiceItem {
+public class HomeService {
     public ArrayList<ServiceInfo> homeServiceInfos;
     public ArrayList<ServiceItem> homeRecommendInfos;
     public ArrayList<ServiceItem> homeEasyGoInfos;
-    public ArrayList<ServiceItem> easyGoServiceInfos;
-    public ArrayList<ServiceItem> phoenixServiceInfos;
 
     @Override
     public String toString() {
-        return "AllServiceItem{" +
+        return "HomeService{" +
                 "homeServiceInfos=" + homeServiceInfos +
                 ", homeRecommendInfos=" + homeRecommendInfos +
                 ", homeEasyGoInfos=" + homeEasyGoInfos +
-                ", easyGoServiceInfos=" + easyGoServiceInfos +
-                ", phoenixServiceInfos=" + phoenixServiceInfos +
                 '}';
     }
 }

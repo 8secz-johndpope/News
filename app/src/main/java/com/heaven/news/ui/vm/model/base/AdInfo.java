@@ -1,4 +1,4 @@
-package com.heaven.news.ui.vm.model;
+package com.heaven.news.ui.vm.model.base;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 /**
- * FileName: com.heaven.news.ui.vm.model.AdInfo.java
+ * FileName: com.heaven.news.ui.vm.model.base.AdInfo.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-13 12:24

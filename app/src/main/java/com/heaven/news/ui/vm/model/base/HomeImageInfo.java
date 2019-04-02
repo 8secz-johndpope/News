@@ -1,10 +1,10 @@
-package com.heaven.news.ui.vm.model;
+package com.heaven.news.ui.vm.model.base;
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * FileName: com.heaven.news.ui.vm.model.HomeImageInfo.java
+ * FileName: com.heaven.news.ui.vm.model.base.HomeImageInfo.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-17 21:35

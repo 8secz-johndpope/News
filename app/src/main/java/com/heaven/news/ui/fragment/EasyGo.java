@@ -15,9 +15,9 @@ import com.heaven.news.databinding.EasygoBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.vm.holder.HomeBanner;
-import com.heaven.news.ui.vm.model.AllServiceItem;
-import com.heaven.news.ui.vm.model.HomeImageInfo;
-import com.heaven.news.ui.vm.model.ImageInfo;
+import com.heaven.news.ui.vm.model.base.HomeService;
+import com.heaven.news.ui.vm.model.base.HomeImageInfo;
+import com.heaven.news.ui.vm.model.base.ImageInfo;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> 
     }
 
     private void initGrid() {
-        AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
+        HomeService allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
     }
 
     @Override

@@ -31,15 +31,15 @@ import com.heaven.news.ui.vm.holder.HomeHotHolder;
 import com.heaven.news.ui.vm.holder.HomeHotTitleHoler;
 import com.heaven.news.ui.vm.holder.HomeNoticeHolder;
 import com.heaven.news.ui.vm.holder.ItemDecoration;
-import com.heaven.news.ui.vm.model.BookData;
-import com.heaven.news.ui.vm.model.HomeHotTitle;
+import com.heaven.news.ui.vm.model.base.BookData;
+import com.heaven.news.ui.vm.model.base.HomeHotTitle;
 import com.heaven.news.ui.vm.holder.HomeRecHolder;
 import com.heaven.news.ui.vm.holder.HomeServiceHolder;
-import com.heaven.news.ui.vm.model.AllServiceItem;
-import com.heaven.news.ui.vm.model.HomeImageInfo;
-import com.heaven.news.ui.vm.model.ServiceInfo;
-import com.heaven.news.ui.vm.model.ImageInfo;
-import com.heaven.news.ui.vm.model.ServiceItem;
+import com.heaven.news.ui.vm.model.base.HomeService;
+import com.heaven.news.ui.vm.model.base.HomeImageInfo;
+import com.heaven.news.ui.vm.model.base.ServiceInfo;
+import com.heaven.news.ui.vm.model.base.ImageInfo;
+import com.heaven.news.ui.vm.model.base.ServiceItem;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
 
@@ -130,7 +130,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
     }
 
     private void initService() {
-        AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
+        HomeService allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mServiceAdapter = new BaseAdapter<>(getContext());
         mServiceAdapter.register(new HomeServiceHolder(ServiceInfo.class, R.layout.home_service_item));
@@ -179,7 +179,7 @@ public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> imp
 
     private ArrayList organizeRecData() {
         ArrayList dataList = new ArrayList();
-        AllServiceItem allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
+        HomeService allServiceItem = AppEngine.instance().dataCore().loadAllServiceItem(getContext());
         HomeImageInfo homeImageInfo = AppEngine.instance().dataCore().getHomeConfigData();
         if (allServiceItem != null) {
             if (allServiceItem.homeRecommendInfos != null && allServiceItem.homeRecommendInfos.size() > 0) {

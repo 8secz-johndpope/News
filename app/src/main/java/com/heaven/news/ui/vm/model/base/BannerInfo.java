@@ -1,7 +1,7 @@
-package com.heaven.news.ui.vm.model;
+package com.heaven.news.ui.vm.model.base;
 
 /**
- * FileName: com.heaven.news.ui.vm.model.BannerInfo.java
+ * FileName: com.heaven.news.ui.vm.model.base.BannerInfo.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-27 13:55

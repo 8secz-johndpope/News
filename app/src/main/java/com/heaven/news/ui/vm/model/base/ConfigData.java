@@ -1,4 +1,4 @@
-package com.heaven.news.ui.vm.model;
+package com.heaven.news.ui.vm.model.base;
 
 import java.io.Serializable;
 import java.util.List;

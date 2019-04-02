@@ -1,7 +1,7 @@
-package com.heaven.news.ui.vm.model;
+package com.heaven.news.ui.vm.model.base;
 
 /**
- * FileName: com.heaven.news.ui.vm.model.HomeHotTitle.java
+ * FileName: com.heaven.news.ui.vm.model.base.HomeHotTitle.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-30 10:35

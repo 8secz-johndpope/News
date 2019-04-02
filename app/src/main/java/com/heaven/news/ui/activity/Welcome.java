@@ -1,22 +1,15 @@
 package com.heaven.news.ui.activity;
 
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.base.ui.activity.BaseSimpleBindActivity;
 import com.heaven.news.R;
-import com.heaven.news.consts.Constants;
 import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.WelcomeBinding;
-import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.AppInfo;
-import com.heaven.news.engine.DataCore;
-import com.heaven.news.ui.vm.model.ConfigData;
-import com.heaven.news.ui.vm.model.UpdateInfo;
-import com.heaven.news.ui.vm.model.Version;
+import com.heaven.news.ui.vm.model.base.UpdateInfo;
 import com.heaven.news.ui.vm.viewmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
 

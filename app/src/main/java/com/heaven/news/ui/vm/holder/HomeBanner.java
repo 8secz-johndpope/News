@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide;
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.news.R;
-import com.heaven.news.ui.vm.model.ImageInfo;
+import com.heaven.news.ui.vm.model.base.ImageInfo;
 
 /**
  * FileName: com.heaven.news.ui.vm.adapterbean.HomeBanner.java

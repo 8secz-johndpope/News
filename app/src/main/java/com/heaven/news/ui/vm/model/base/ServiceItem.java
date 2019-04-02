@@ -1,4 +1,4 @@
-package com.heaven.news.ui.vm.model;
+package com.heaven.news.ui.vm.model.base;
 
 import android.os.Parcel;
 import android.os.Parcelable;

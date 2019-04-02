@@ -1,11 +1,11 @@
-package com.heaven.news.ui.vm.model;
+package com.heaven.news.ui.vm.model.base;
 
 import com.neusoft.szair.model.memberbase.queryRespVO;
 
 import java.io.Serializable;
 
 /**
- * FileName: com.heaven.news.ui.vm.model.UserLoginInfo.java
+ * FileName: com.heaven.news.ui.vm.model.base.UserLoginInfo.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-09 01:05

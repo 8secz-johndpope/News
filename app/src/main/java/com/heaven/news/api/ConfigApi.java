@@ -1,7 +1,7 @@
 package com.heaven.news.api;
 
-import com.heaven.news.ui.vm.model.ConfigData;
-import com.heaven.news.ui.vm.model.HomeImageInfo;
+import com.heaven.news.ui.vm.model.base.ConfigData;
+import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;

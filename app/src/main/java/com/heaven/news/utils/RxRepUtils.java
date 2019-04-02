@@ -5,8 +5,8 @@ import android.support.v4.util.LongSparseArray;
 
 import com.heaven.data.net.DataResponse;
 import com.heaven.data.net.ExceptionHandle;
-import com.heaven.news.ui.vm.model.ConfigData;
-import com.heaven.news.ui.vm.model.HomeImageInfo;
+import com.heaven.news.ui.vm.model.base.ConfigData;
+import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 import com.orhanobut.logger.Logger;
 
 

@@ -15,12 +15,12 @@ import com.heaven.news.R;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
-import com.heaven.news.ui.vm.model.AllServiceItem;
-import com.heaven.news.ui.vm.model.ConfigData;
-import com.heaven.news.ui.vm.model.HomeImageInfo;
-import com.heaven.news.ui.vm.model.UserLoginInfo;
-import com.heaven.news.ui.vm.model.UserSecret;
-import com.heaven.news.ui.vm.model.Version;
+import com.heaven.news.ui.vm.model.base.HomeService;
+import com.heaven.news.ui.vm.model.base.ConfigData;
+import com.heaven.news.ui.vm.model.base.HomeImageInfo;
+import com.heaven.news.ui.vm.model.base.UserLoginInfo;
+import com.heaven.news.ui.vm.model.base.UserSecret;
+import com.heaven.news.ui.vm.model.base.Version;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.easycardmodel.EasyCardWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.easycardmodel.WALLET_QUERY;
@@ -70,7 +70,7 @@ public class DataCore {
 
     private Context context;
 
-    private AllServiceItem allServiceItem;//首页 易行 凤凰知音服务
+    private HomeService allServiceItem;//首页 易行 凤凰知音服务
 
     private Map<Observer<CoreDataWrapper>, MutableLiveData<CoreDataWrapper>> observers = new HashMap<>();
 
@@ -112,12 +112,12 @@ public class DataCore {
     }
 
 
-    public AllServiceItem loadAllServiceItem(Context context) {
+    public HomeService loadAllServiceItem(Context context) {
         if (allServiceItem == null) {
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             InputStream allServiceIn = context.getResources().openRawResource(R.raw.home);
             Reader readerAll = new InputStreamReader(allServiceIn);
-            allServiceItem = gson.fromJson(readerAll, AllServiceItem.class);
+            allServiceItem = gson.fromJson(readerAll, HomeService.class);
         }
         return allServiceItem;
     }

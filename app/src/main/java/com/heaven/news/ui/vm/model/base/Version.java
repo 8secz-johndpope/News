@@ -1,9 +1,9 @@
-package com.heaven.news.ui.vm.model;
+package com.heaven.news.ui.vm.model.base;
 
 import java.io.Serializable;
 
 /**
- * FileName: com.heaven.news.ui.vm.model.Version.java
+ * FileName: com.heaven.news.ui.vm.model.base.Version.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-07 18:33

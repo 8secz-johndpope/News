@@ -1,16 +1,14 @@
 package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.news.R;
-import com.heaven.news.ui.vm.model.ImageInfo;
+import com.heaven.news.ui.vm.model.base.ImageInfo;
 
 /**
  * FileName: com.heaven.news.ui.vm.holder.HomeHotHolder.java

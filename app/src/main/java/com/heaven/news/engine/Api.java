@@ -5,7 +5,7 @@ import android.support.v4.util.LongSparseArray;
 import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.DataResponse;
 import com.heaven.data.net.ExceptionHandle;
-import com.heaven.news.ui.vm.model.ConfigData;
+import com.heaven.news.ui.vm.model.base.ConfigData;
 import com.orhanobut.logger.Logger;
 
 import io.reactivex.Flowable;
