@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/title"
         android:textColor="@color/black"
-        android:textSize="@dimen/_16sp"
+        android:textSize="@dimen/_14sp"
         android:layout_marginBottom="@dimen/_10dp"
         />
 
