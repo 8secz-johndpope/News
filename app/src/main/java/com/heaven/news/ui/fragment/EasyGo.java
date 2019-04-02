@@ -1,6 +1,7 @@
 package com.heaven.news.ui.fragment;
 
 import android.arch.lifecycle.Observer;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
 import com.heaven.base.ui.view.widget.banner.RecyclerViewPagerListener;
+import com.heaven.base.utils.DrawableUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.EasygoBinding;
 import com.heaven.news.engine.AppEngine;
@@ -48,6 +50,17 @@ public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> 
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
+        DrawableUtil.bindDrawableListener(mViewBinding.searchEdit, new DrawableUtil.OnDrawableListener() {
+            @Override
+            public void onLeft(View v, Drawable left) {
+
+            }
+
+            @Override
+            public void onRight(View v, Drawable right) {
+                mViewBinding.searchEdit.setText("");
+            }
+        });
         initTopBanner();
         initGrid();
     }

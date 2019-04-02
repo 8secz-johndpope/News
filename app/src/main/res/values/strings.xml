@@ -36,4 +36,7 @@
     <string name="easy_go_fly_before">行前计划</string>
     <string name="easy_go_air_port">机场相关</string>
     <string name="easy_go_after_sales">售后服务</string>
+
+    <string name="search_service">搜索相关服务</string>
+    <string name="easy_go_search_hint">请输入证件号或票号</string>
 </resources>
