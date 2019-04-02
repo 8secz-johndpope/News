@@ -4,7 +4,10 @@ import android.Manifest;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.ObservableField;
+import android.text.TextUtils;
 
 import com.heaven.base.vm.BaseViewModel;
 import com.heaven.data.manager.DataSource;
@@ -28,11 +31,14 @@ import java.util.List;
  */
 public class MainViewModel extends BaseViewModel<MainPt> {
     public List<noticeInfoListVO> noticeList;
+
+    public EasyGoSearch easyGoSearch;
     public final MutableLiveData<List<noticeInfoListVO>> noticeListLive = new MutableLiveData<>();
 
     @Override
     public void initModel() {
         noticeList = AppEngine.instance().getDataSource().getCacheEntity(DataSource.DISK,Constants.NOTICE);
+        easyGoSearch = new EasyGoSearch();
     }
 
     public void requestNotice() {
@@ -52,7 +58,27 @@ public class MainViewModel extends BaseViewModel<MainPt> {
         });
     }
 
+    public void easyGoSearch() {
+        if(!TextUtils.isEmpty(easyGoSearch.getSearchKey())) {
+
+        }
+    }
+
     public void observeNoticeList(LifecycleOwner owner, Observer<List<noticeInfoListVO>> observer) {
         noticeListLive.observe(owner,observer);
+    }
+
+    public static class EasyGoSearch extends BaseObservable{
+        private String searchKey;
+
+        @Bindable
+        public String getSearchKey() {
+            return searchKey;
+        }
+
+        @Bindable
+        public void setSearchKey(String searchKey) {
+            this.searchKey = searchKey;
+        }
     }
 }

@@ -42,7 +42,8 @@ public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> 
 
     @Override
     public void bindModel() {
-
+        mViewBinding.setViewModel(mViewModel);
+        mViewBinding.setSearch(mViewModel.easyGoSearch);
     }
 
 

@@ -6,6 +6,9 @@ import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.heaven.base.vm.BaseViewModel;
 
@@ -29,12 +32,17 @@ public abstract class BaseSimpleBindFragment<VM extends BaseViewModel, B extends
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         analyseGenerics();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         if(mViewModel != null) {
             bindModel();
             mViewModel.initModel();
         }
+        return view;
     }
-
 
     @Override
     public void onAttach(Context context) {

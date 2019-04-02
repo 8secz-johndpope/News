@@ -2,6 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.heaven.news.ui.vm.viewmodel.MainViewModel" />
+
+        <variable
+            name="search"
+            type="com.heaven.news.ui.vm.viewmodel.MainViewModel.EasyGoSearch" />
+
+    </data>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -56,6 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:onClick="@{() -> viewModel.easyGoSearch()}"
                     android:background="@drawable/round5_red_bg"
                     android:padding="@dimen/_10dp"
                     android:text="@string/search_service"
@@ -76,6 +88,7 @@
                         android:id="@+id/search_edit"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:text="@={search.searchKey}"
                         android:background="@null"
                         android:drawableLeft="@mipmap/icon_search"
                         android:drawableRight="@mipmap/icon_delete"
