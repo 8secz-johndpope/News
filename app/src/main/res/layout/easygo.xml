@@ -84,14 +84,13 @@
                     android:background="@drawable/round5_f9f9f9_bg"
                     >
 
-                    <EditText
+                    <com.heaven.news.ui.view.ClearEditText
                         android:id="@+id/search_edit"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@={search.searchKey}"
-                        android:background="@null"
                         android:drawableLeft="@mipmap/icon_search"
-                        android:drawableRight="@mipmap/icon_delete"
+                        android:background="@null"
                         android:hint="@string/easy_go_search_hint"
                         android:maxLength="20"
                         android:maxLines="1"

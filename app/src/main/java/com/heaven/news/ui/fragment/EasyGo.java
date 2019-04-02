@@ -5,6 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 
 import com.heaven.base.ui.adapter.BaseAdapter;
@@ -55,19 +58,49 @@ public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> 
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        DrawableUtil.bindDrawableListener(mViewBinding.searchEdit, new DrawableUtil.OnDrawableListener() {
-            @Override
-            public void onLeft(View v, Drawable left) {
-
-            }
-
-            @Override
-            public void onRight(View v, Drawable right) {
-                mViewBinding.searchEdit.setText("");
-            }
-        });
         initTopBanner();
+        initEditText();
         initGrid();
+    }
+
+    private void initEditText() {
+//        DrawableUtil.bindDrawableListener(mViewBinding.searchEdit, new DrawableUtil.OnDrawableListener() {
+//            @Override
+//            public void onLeft(View v, Drawable left) {
+//
+//            }
+//
+//            @Override
+//            public void onRight(View v, Drawable right) {
+//                mViewBinding.searchEdit.setText("");
+//            }
+//        });
+//        Drawable drawableRight =  mViewBinding.searchEdit.getCompoundDrawables()[2];
+//        if(drawableRight != null) {
+//            drawableRight.setVisible(false,true);
+//        }
+//        mViewBinding.searchEdit.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if(TextUtils.isEmpty(s.toString())) {
+//                    if(drawableRight != null) {
+//                        drawableRight.setVisible(false,true);
+//                    }
+//                } else {
+//                    drawableRight.setVisible(true,true);
+//                }
+//            }
+//        });
     }
 
     private void initTopBanner() {
