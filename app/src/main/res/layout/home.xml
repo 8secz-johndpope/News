@@ -14,40 +14,29 @@
             android:orientation="vertical"
             >
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/toolbar_bg"
                 android:clipChildren="false"
+                android:paddingBottom="@dimen/_40dp"
                 >
 
-                <com.heaven.base.ui.view.widget.recyclerPager.LoopRecyclerViewPager
-                    android:id="@+id/image_viewPager"
+                <com.heaven.base.ui.view.widget.banner.XBanner
+                    android:id="@+id/banner"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_150dp"
-                    android:paddingLeft="@dimen/_20dp"
-                    android:paddingRight="@dimen/_20dp"
-                    app:rvp_triggerOffset="0.1"
-                    app:rvp_singlePageFling="false"
-                    app:rvp_inertia="true"
-                    android:clipToPadding="false"
-                    />
-
-                <com.heaven.news.ui.adapter.ViewPagerIndicator
-                    android:id="@+id/indicators"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_20dp"
-                    android:layout_below="@+id/image_viewPager"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_10dp"
-                    android:layout_marginBottom="@dimen/_40dp"
-                    app:vpi_default_color="@color/white"
-                    app:vpi_distance="14dp"
-                    app:vpi_distanceType="BY_DISTANCE"
-                    app:vpi_indicatorType="CIRCLE_LINE"
-                    app:vpi_length="14dp"
-                    app:vpi_radius="3dp"/>
-            </RelativeLayout>
+                    android:layout_height="wrap_content"
+                    app:AutoPlayTime="3000"
+                    app:clipChildrenLeftRightMargin="20dp"
+                    app:isAutoPlay="false"
+                    app:isClipChildrenMode="true"
+                    app:isHandLoop="true"
+                    app:isShowIndicatorOnlyOne="true"
+                    app:isShowNumberIndicator="false"
+                    app:pageChangeDuration="800"
+                    app:pointsContainerBackground="@android:color/transparent"
+                    app:pointsPosition="CENTER" />
+            </LinearLayout>
 
             <include layout="@layout/book_flight_area" android:id="@+id/book_area"/>
 
