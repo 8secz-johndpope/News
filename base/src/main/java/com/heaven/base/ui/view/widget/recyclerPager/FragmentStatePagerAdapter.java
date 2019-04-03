@@ -1,4 +1,4 @@
-package com.heaven.base.ui.view.widget.banner;
+package com.heaven.base.ui.view.widget.recyclerPager;
 
 import java.util.HashSet;
 import java.util.Random;

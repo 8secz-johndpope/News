@@ -1,29 +1,23 @@
 package com.heaven.news.ui.fragment;
 
 import android.arch.lifecycle.Observer;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
-import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
-import com.heaven.base.ui.view.widget.banner.RecyclerViewPagerListener;
-import com.heaven.base.utils.DrawableUtil;
+import com.heaven.base.ui.view.widget.recyclerPager.LoopRecyclerViewPager;
+import com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPagerListener;
 import com.heaven.news.R;
 import com.heaven.news.databinding.EasygoBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.view.RecyclerViewDivider;
+import com.heaven.news.ui.vm.holder.EasyGoBanner;
 import com.heaven.news.ui.vm.holder.EasyGoServiceHolder;
-import com.heaven.news.ui.vm.holder.HomeBanner;
 import com.heaven.news.ui.vm.model.base.EasyGoService;
-import com.heaven.news.ui.vm.model.base.HomeService;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 import com.heaven.news.ui.vm.model.base.ImageInfo;
 import com.heaven.news.ui.vm.model.base.ServiceInfo;
@@ -67,7 +61,7 @@ public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> 
         LoopRecyclerViewPager mRecyclerView = mViewBinding.imageViewPager;
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mBannerAdapter = new BaseAdapter<>(getContext());
-        mBannerAdapter.register(new HomeBanner(ImageInfo.class, R.layout.easygo_banner_item));
+        mBannerAdapter.register(new EasyGoBanner(ImageInfo.class, R.layout.easygo_banner_item));
         mRecyclerView.setLayoutManager(layout);
         mRecyclerView.setAdapter(mBannerAdapter);
         mRecyclerView.setHasFixedSize(true);

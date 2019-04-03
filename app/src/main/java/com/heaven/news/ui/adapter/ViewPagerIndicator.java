@@ -10,7 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.heaven.base.ui.view.widget.banner.RecyclerViewPager;
+import com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPager;
 import com.heaven.news.R;
 import com.orhanobut.logger.Logger;
 

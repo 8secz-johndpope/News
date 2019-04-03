@@ -31,11 +31,10 @@
                 android:background="@color/white"
                 >
 
-                <com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager
+                <com.heaven.base.ui.view.widget.recyclerPager.LoopRecyclerViewPager
                     android:id="@+id/image_viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_170dp"
-                    app:rvp_inertia="true"
                     app:rvp_singlePageFling="false"
                     app:rvp_triggerOffset="0.1"
                     />

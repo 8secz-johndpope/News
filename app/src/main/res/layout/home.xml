@@ -21,7 +21,7 @@
                 android:clipChildren="false"
                 >
 
-                <com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager
+                <com.heaven.base.ui.view.widget.recyclerPager.LoopRecyclerViewPager
                     android:id="@+id/image_viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_150dp"
@@ -52,7 +52,7 @@
             <include layout="@layout/book_flight_area" android:id="@+id/book_area"/>
 
 
-            <com.heaven.base.ui.view.widget.banner.RecyclerViewPager
+            <com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPager
                 android:id="@+id/service"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

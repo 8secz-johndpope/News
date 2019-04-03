@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
-import com.heaven.base.ui.view.widget.banner.LoopRecyclerViewPager;
-import com.heaven.base.ui.view.widget.banner.RecyclerViewPagerListener;
+import com.heaven.base.ui.view.widget.recyclerPager.LoopRecyclerViewPager;
+import com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPagerListener;
 import com.heaven.news.R;
 import com.heaven.news.databinding.PhoenixBinding;
 import com.heaven.news.engine.AppEngine;
