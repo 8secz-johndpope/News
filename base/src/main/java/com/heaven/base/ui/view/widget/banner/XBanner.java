@@ -530,7 +530,7 @@ public class XBanner extends RelativeLayout implements XBannerViewPager.AutoPlay
     /**
      * 设置bannner数据
      */
-    private void setBannerData(@NonNull List<View> views, @NonNull List<? extends SimpleBannerInfo> data) {
+    private void setBannerData(@NonNull List<View> views, @NonNull List<?> data) {
 
         if (mIsAutoPlay && views.size() < 3 && mLessViews == null) {
             mIsAutoPlay = false;
@@ -555,7 +555,7 @@ public class XBanner extends RelativeLayout implements XBannerViewPager.AutoPlay
         }
     }
 
-    public void setBannerData(@LayoutRes int layoutResId, @NonNull List<? extends SimpleBannerInfo> models) {
+    public void setBannerData(@LayoutRes int layoutResId, @NonNull List<?> models) {
         mViews = new ArrayList<>();
         if (models == null) {
             models = new ArrayList<>();
@@ -581,7 +581,7 @@ public class XBanner extends RelativeLayout implements XBannerViewPager.AutoPlay
      * 设置数据模型和文案，布局资源默认为ImageView
      * @param models 每一页的数据模型集合
      */
-    public void setBannerData(@NonNull List<? extends SimpleBannerInfo> models) {
+    public void setBannerData(@NonNull List<?> models) {
         setBannerData(R.layout.xbanner_item_image, models);
     }
 

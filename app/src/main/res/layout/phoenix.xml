@@ -10,35 +10,24 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <RelativeLayout
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <com.heaven.base.ui.view.widget.banner.XBanner
+                android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                >
+                android:layout_height="@dimen/_170dp"
+                app:AutoPlayTime="3000"
+                app:isAutoPlay="true"
+                app:isShowIndicatorOnlyOne="true"
+                app:pageChangeDuration="800"
+                app:pointNormal="@drawable/shape_noraml"
+                app:pointSelect="@drawable/shape_selected"
+                app:pointsContainerBackground="@color/transparent"
+                app:pointsPosition="CENTER"
+                app:tipTextSize="12sp"
+                />
 
-                <com.heaven.base.ui.view.widget.recyclerPager.LoopRecyclerViewPager
-                    android:id="@+id/image_viewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_170dp"
-                    app:rvp_inertia="true"
-                    app:rvp_singlePageFling="false"
-                    app:rvp_triggerOffset="0.1"
-                    />
-
-                <com.heaven.news.ui.adapter.ViewPagerIndicator
-                    android:id="@+id/indicators"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_20dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    app:vpi_default_color="@color/white"
-                    app:vpi_distance="14dp"
-                    app:vpi_distanceType="BY_DISTANCE"
-                    app:vpi_indicatorType="CIRCLE_LINE"
-                    app:vpi_length="14dp"
-                    app:vpi_radius="3dp"/>
-            </RelativeLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

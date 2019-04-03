@@ -214,7 +214,7 @@ dependencies {
     api uiDep.dagger
     annotationProcessor uiDep.daggerCompiler
     annotationProcessor uiDep.aroutercompiler
-
+    implementation 'com.facebook.fresco:fresco:1.13.0'
     //Development
 //    compile developmentDependencies.leakCanary
 }
