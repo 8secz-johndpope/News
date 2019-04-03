@@ -102,76 +102,7 @@ android {
         disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
     }
 
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('config/secret.properties').newDataInputStream())
-    signingConfigs {
-        debug {
-            keyAlias properties.getProperty("DEBUG_KEYALIAS")
-            keyPassword properties.getProperty("DEBUG_KEYPASSWORD")
-            storePassword properties.getProperty("DEBUG_STOREPASSWORD")
-            storeFile file(properties.getProperty("DEBUG_STORE_FILE"))
-        }
-        release {
-            keyAlias properties.getProperty("RELEASE_KEYALIAS")
-            keyPassword properties.getProperty("RELEASE_KEYPASSWORD")
-            storePassword properties.getProperty("RELEASE_STOREPASSWORD")
-            storeFile file(properties.getProperty("RELEASE_STORE_FILE"))
-        }
-    }
-
-    buildTypes {
-        release {
-            buildConfigField "String", "ROOT_URL", '"https://mobile.shenzhenair.com/develop/"'
-            buildConfigField "String", "CONFIG_URL", '"http://mobile.shenzhenair.com/file/"'
-            buildConfigField "String", "CHAT_ROOT_URL", '"http://ifilmo.me:8080/"'
-            buildConfigField "String", "QQ_APP_ID", '""'
-            buildConfigField "String", "WX_APP_ID", '"wxce1a7065bfc5d09e"'
-            buildConfigField "String", "WX_APP_SECRET", '"66811ce8142dd4a803a5c8e5020b6675"'
-            buildConfigField "boolean", "LOG_DEBUG", "true"
-//            buildConfigField "String", "ROOT_URL", '"http://api.ifilmo.com/ifilmo-toc/"'
-//            buildConfigField "String", "ROOT_URL", '"http://120.76.211.202:9098/ifilmo-toc/"'
-//            buildConfigField "String", "CHAT_ROOT_URL", '"http://ifilmo.me:8080/"'
-            versionNameSuffix "release"
-            minifyEnabled false
-            zipAlignEnabled true
-            shrinkResources false
-            signingConfig signingConfigs.release
-//            proguardFiles '../config/proguard-rules.pro'
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-//            applicationIdSuffix ".test"
-//            http://mobile.shenzhenair.com/szairMobileWS/
-//            http://m.shenzhenair.com/develop/szairMobileWS/
-//            buildConfigField "String", "ROOT_URL", '"http://47.90.2.202:8090/ifilmo-toc/"'
-//            https://waptest.shenzhenair.com
-            buildConfigField "String", "ROOT_URL", '"https://mobile.shenzhenair.com/szairMobileWS/services/"'
-            buildConfigField "String", "CONFIG_URL", '"http://mobile.shenzhenair.com/file/"'
-
-//            buildConfigField "String", "ROOT_URL", '"https://waptest.shenzhenair.com/szairMobileWS/services/"'
-//            buildConfigField "String", "CONFIG_URL", '"http://waptest.shenzhenair.com/file/"'
-
-//            buildConfigField "String", "ROOT_URL", '"https://mobile.shenzhenair.com/develop/szairMobileWS/services/"'
-//            buildConfigField "String", "CONFIG_URL", '"http://mobile.shenzhenair.com/file/develop/"'
-
-            buildConfigField "String", "QQ_APP_ID", '""'
-            buildConfigField "String", "WX_APP_ID", '"wxce1a7065bfc5d09e"'
-            buildConfigField "String", "WX_APP_SECRET", '"66811ce8142dd4a803a5c8e5020b6675"'
-//            buildConfigField "String", "ROOT_URL", '"http://www.webxml.com.cn/WebServices/"'
-//            buildConfigField "String", "ROOT_URL", '" http://m.shenzhenair.com/develop/szairMobileWS/services/"'
-            buildConfigField "String", "CHAT_ROOT_URL", '"http://47.89.42.150:8080/"'
-            buildConfigField "boolean", "LOG_DEBUG", "true"
-            versionNameSuffix "debug"
-            minifyEnabled false
-            zipAlignEnabled true
-            shrinkResources false
-            signingConfig signingConfigs.debug
-
-//            project.rootProject.file('config/secret.properties')
-//            proguardFiles  '../config/proguard-rules.pro'
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+    
     flavorDimensions "versionCode"
     productFlavors {
         xiaomi {
