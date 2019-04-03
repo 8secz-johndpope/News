@@ -102,7 +102,7 @@ public class Phoenix extends BaseSimpleBindFragment<MainViewModel,PhoenixBinding
             }
             //刷新数据之后，需要重新设置是否支持自动轮播
             mViewBinding.banner.setAutoPlayAble(bannerList.size() > 1);
-            mViewBinding.banner.setBannerData(R.layout.easygo_banner_item, bannerList);
+            mViewBinding.banner.setBannerData(R.layout.phoenix_banner_item, bannerList);
         }
     }
 
