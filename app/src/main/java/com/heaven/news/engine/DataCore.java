@@ -69,6 +69,7 @@ public class DataCore {
     public static int HOME = 1;
     public static int LOGIN = 2;
     public static int MINE = 3;
+    public static int MILE = 4;
 
     private Context context;
 
@@ -286,6 +287,7 @@ public class DataCore {
                         UserLoginInfo userLoginInfo = new UserLoginInfo(userCount, pwd);
                         userLoginInfo.userInfo = loginResponse.data._LOGIN_RESULT;
                         initLoginData(loginResponse.data._LOGIN_RESULT);
+                        resetCoreDataWrapper();
                         notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
                         dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userSecret);
                         dataSource.cacheData(DataSource.DISK, userLoginInfo.key, userLoginInfo);
@@ -302,6 +304,36 @@ public class DataCore {
         }
     }
 
+    private void resetCoreDataWrapper() {
+        coreDataWrapper.userName = userName;
+        coreDataWrapper.idNumber = idNumber;
+        coreDataWrapper.userId = userId;
+        coreDataWrapper.cardLevel = phoenixCardLevel;
+
+        if ("Gold".equalsIgnoreCase(phoenixCardLevel)) {
+            coreDataWrapper.cardLevelImgRes = R.mipmap.icon_golden_card;
+        } else if ("Lifetime Platinum".equalsIgnoreCase(phoenixCardLevel)) {
+            coreDataWrapper.cardLevelImgRes = R.mipmap.icon_lifetime_card;
+        } else if ("Normal".equalsIgnoreCase(phoenixCardLevel)) {
+            coreDataWrapper.cardLevelImgRes = R.mipmap.icon_blue_card;
+        } else if ("Platinum".equalsIgnoreCase(phoenixCardLevel)) {
+            coreDataWrapper.cardLevelImgRes = R.mipmap.icon_black_card;
+        } else if ("Silver".equalsIgnoreCase(phoenixCardLevel)) {
+            coreDataWrapper.cardLevelImgRes = R.mipmap.icon_silve_card;
+        } else {
+            coreDataWrapper.cardLevelImgRes = R.mipmap.icon_blue_card;
+        }
+
+        if ("F".equals(userSex)) {
+            coreDataWrapper.sexHeaderRes = R.mipmap.icon_header_femal;
+        } else if ("M".equals(userSex)) {
+            coreDataWrapper.sexHeaderRes = R.mipmap.icon_header_man;
+        } else {
+            coreDataWrapper.sexHeaderRes = R.mipmap.icon_header_null;
+        }
+    }
+
+
     /**
      * 请求用户里程
      */
@@ -317,6 +349,10 @@ public class DataCore {
                 if(response.data._QUERY_MILES_RESULT._FLIGHT_MILES != null) {
                     userMile = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._SURPLUS_MILES;
                     coreDataWrapper.userMile = userMile;
+                    coreDataWrapper.expiredMiles = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._EXPIRED_MILES;
+                    coreDataWrapper.nextExpiredMiles = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._NEXT_EXPIRED_MILES;
+                    resetCoreDataWrapper();
+                    notifyCoreDataChange(getCoreDataWrapper(true,MILE));
                 }
             }
         });
@@ -454,6 +490,10 @@ public class DataCore {
 
     }
 
+    public CoreDataWrapper getCoreDataWrapper() {
+        return coreDataWrapper;
+    }
+
     public class CoreDataWrapper {
         public boolean isSuccess = true;
         public int dataType = -1;
@@ -462,7 +502,15 @@ public class DataCore {
         public HomeImageInfo homeConfigData;
         public queryRespVO userAllInfo;
 
+        public String userName;
+        public int    sexHeaderRes;
+        public String idNumber;
+        public String userId;
+        public String cardLevel;
+        public int cardLevelImgRes;
         public String userMile = "--";
+        public String expiredMiles = "--";
+        public String nextExpiredMiles = "--";
         public String ecardNum = "--";
         public String walletLeftMoney = "--";
         public String couponCount = "--";
@@ -476,6 +524,18 @@ public class DataCore {
                     ", configData=" + configData +
                     ", homeConfigData=" + homeConfigData +
                     ", userAllInfo=" + userAllInfo +
+                    ", userName='" + userName + '\'' +
+                    ", sexHeaderRes=" + sexHeaderRes +
+                    ", idNumber='" + idNumber + '\'' +
+                    ", userId='" + userId + '\'' +
+                    ", cardLevel='" + cardLevel + '\'' +
+                    ", cardLevelImgRes=" + cardLevelImgRes +
+                    ", userMile='" + userMile + '\'' +
+                    ", expiredMiles='" + expiredMiles + '\'' +
+                    ", nextExpiredMiles='" + nextExpiredMiles + '\'' +
+                    ", ecardNum='" + ecardNum + '\'' +
+                    ", walletLeftMoney='" + walletLeftMoney + '\'' +
+                    ", couponCount='" + couponCount + '\'' +
                     '}';
         }
     }

@@ -1,7 +1,9 @@
 package com.heaven.news.ui.fragment;
 
+import android.arch.lifecycle.Observer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.PhoenixBinding;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.vm.holder.HomeBanner;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 import com.heaven.news.ui.vm.model.base.ImageInfo;
@@ -36,8 +39,9 @@ import java.util.List;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class Phoenix extends BaseSimpleBindFragment<MainViewModel,PhoenixBinding>{
+public class Phoenix extends BaseSimpleBindFragment<MainViewModel, PhoenixBinding> implements Observer<DataCore.CoreDataWrapper> {
     BaseAdapter<ImageInfo> mBannerAdapter;
+
     @Override
     public void bindModel() {
 
@@ -51,7 +55,10 @@ public class Phoenix extends BaseSimpleBindFragment<MainViewModel,PhoenixBinding
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
+        DataCore.CoreDataWrapper coreDataWrapper = AppEngine.instance().dataCore().getCoreDataWrapper();
         initBaner();
+        updateUserInfo(coreDataWrapper);
     }
 
     private void initBaner() {
@@ -70,7 +77,7 @@ public class Phoenix extends BaseSimpleBindFragment<MainViewModel,PhoenixBinding
         mViewBinding.banner.loadImage((banner, model, view, position) -> {
             ImageView imageView = view.findViewById(R.id.banner_image);
             ImageInfo iamgeInfo;
-            if(model instanceof ImageInfo) {
+            if (model instanceof ImageInfo) {
                 iamgeInfo = (ImageInfo) model;
             } else {
                 return;
@@ -97,7 +104,7 @@ public class Phoenix extends BaseSimpleBindFragment<MainViewModel,PhoenixBinding
                     bannerList = homeImageInfo.phoenix;
                 }
             }
-            if(bannerList.size() == 0) {
+            if (bannerList.size() == 0) {
                 bannerList.add(new ImageInfo());
             }
             //刷新数据之后，需要重新设置是否支持自动轮播
@@ -111,9 +118,47 @@ public class Phoenix extends BaseSimpleBindFragment<MainViewModel,PhoenixBinding
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    public static  Phoenix newInstance(Bundle paramBundle) {
+    public static Phoenix newInstance(Bundle paramBundle) {
         Phoenix fragment = new Phoenix();
         fragment.setArguments(paramBundle);
         return fragment;
+    }
+
+    @Override
+    public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
+        if (coreDataWrapper != null) {
+            if (DataCore.LOGIN == coreDataWrapper.dataType) {
+                updateUserInfo(coreDataWrapper);
+            } else if (DataCore.MILE == coreDataWrapper.dataType) {
+                updateUserInfo(coreDataWrapper);
+            } else if (DataCore.HOME == coreDataWrapper.dataType) {
+                updateBannerData();
+            }
+        }
+    }
+
+    private void updateUserInfo(DataCore.CoreDataWrapper coreDataWrapper) {
+        if(coreDataWrapper == null) {
+            return;
+        }
+        mViewBinding.userName.setText(coreDataWrapper.userName);
+        mViewBinding.userId.setText(coreDataWrapper.idNumber);
+        if(coreDataWrapper.cardLevelImgRes != 0) {
+            mViewBinding.cardLevel.setImageResource(coreDataWrapper.cardLevelImgRes);
+        }
+
+        if(coreDataWrapper.sexHeaderRes != 0) {
+            mViewBinding.userSexHeader.setImageResource(coreDataWrapper.sexHeaderRes);
+        }
+
+        mViewBinding.totalMile.setText(coreDataWrapper.userMile);
+        mViewBinding.currMouthInvalid.setText(coreDataWrapper.expiredMiles);
+        mViewBinding.nextMouthInvalid.setText(coreDataWrapper.nextExpiredMiles);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppEngine.instance().dataCore().removeForeverObserve(this);
     }
 }
