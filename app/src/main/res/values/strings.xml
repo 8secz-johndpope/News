@@ -74,8 +74,20 @@
     <string name="phoenix_cooperation">合作伙伴</string>
     <string name="phoenix_cancel_forever">永久注销账户</string>
 
+    <string name="mile">公里</string>
+    <string name="mile_invalid_mouth">本月将作废里程</string>
+    <string name="mile_invalid_next_mouth">下月将作废里程</string>
+
     <!--我的-->
     <string name="order_all">全部订单</string>
     <string name="order_paying">待付款</string>
     <string name="order_paied">已付款</string>
+
+    <string name="card_level_gold">金卡</string>
+    <string name="card_level_junior">儿童卡</string>
+    <string name="card_level_lifetime_platinum">终身白金卡</string>
+    <string name="card_level_normal">普卡</string>
+    <string name="card_level_platinum">白金卡</string>
+    <string name="card_level_silver">银卡</string>
+    <string name="card_info_fomat">%1$s: %2$s</string>
 </resources>

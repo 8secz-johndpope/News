@@ -92,7 +92,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/user_sex_header"
-                            android:text="刘洪涛"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_16sp"
                             />
@@ -104,7 +103,6 @@
                             android:layout_below="@+id/user_name"
                             android:layout_marginTop="@dimen/_2dp"
                             android:layout_toRightOf="@+id/user_sex_header"
-                            android:text="1343w54w543543"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14sp"
                             />
@@ -157,7 +155,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom"
-                                android:text="公里"
+                                android:text="@string/mile"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_15sp"
                                 />
@@ -172,7 +170,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="本月将作废里程"
+                                android:text="@string/mile_invalid_mouth"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12sp"
                                 />
@@ -189,7 +187,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="公里"
+                                android:text="@string/mile"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12sp"
                                 />
@@ -204,7 +202,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="下月将作废里程"
+                                android:text="@string/mile_invalid_next_mouth"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12sp"
                                 />
@@ -221,7 +219,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="公里"
+                                android:text="@string/mile"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12sp"
                                 />

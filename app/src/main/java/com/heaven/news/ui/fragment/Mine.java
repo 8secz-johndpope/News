@@ -1,11 +1,16 @@
 package com.heaven.news.ui.fragment;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
 import com.heaven.news.R;
 import com.heaven.news.databinding.MineBinding;
+import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 /**
@@ -16,7 +21,7 @@ import com.heaven.news.ui.vm.viewmodel.MainViewModel;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class Mine extends BaseSimpleBindFragment<MainViewModel,MineBinding> {
+public class Mine extends BaseSimpleBindFragment<MainViewModel,MineBinding> implements Observer<DataCore.CoreDataWrapper> {
 
     @Override
     public void bindModel() {
@@ -29,6 +34,34 @@ public class Mine extends BaseSimpleBindFragment<MainViewModel,MineBinding> {
     }
 
     @Override
+    public void initView(View rootView) {
+        super.initView(rootView);
+        AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
+        DataCore.CoreDataWrapper coreDataWrapper = AppEngine.instance().dataCore().getCoreDataWrapper();
+        initUserInfo(coreDataWrapper);
+    }
+
+
+    private void initUserInfo(DataCore.CoreDataWrapper coreDataWrapper) {
+        if(coreDataWrapper != null) {
+            mViewBinding.userName.setText(coreDataWrapper.userName);
+            if(coreDataWrapper.sexHeaderRes != 0) {
+                mViewBinding.userSexHeader.setImageResource(coreDataWrapper.sexHeaderRes);
+            }
+            if(coreDataWrapper.ffpIdentifyRes != 0) {
+                mViewBinding.identifyType.setImageResource(coreDataWrapper.ffpIdentifyRes);
+            }
+
+            if(coreDataWrapper.cardLevelRes != 0) {
+                mViewBinding.cardInfo.setText(String.format(getString(R.string.card_info_fomat),getString(coreDataWrapper.cardLevelRes),coreDataWrapper.phoenixNumber));
+            } else {
+                mViewBinding.cardInfo.setText(String.format(getString(R.string.card_info_fomat),"", TextUtils.isEmpty(coreDataWrapper.phoenixNumber)? "":coreDataWrapper.phoenixNumber));
+            }
+
+        }
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -37,5 +70,22 @@ public class Mine extends BaseSimpleBindFragment<MainViewModel,MineBinding> {
         Mine fragment = new Mine();
         fragment.setArguments(paramBundle);
         return fragment;
+    }
+
+    @Override
+    public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
+        if(coreDataWrapper != null) {
+            if (DataCore.LOGIN == coreDataWrapper.dataType) {
+                initUserInfo(coreDataWrapper);
+            } else if(DataCore.MINE == coreDataWrapper.dataType) {
+                initUserInfo(coreDataWrapper);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppEngine.instance().dataCore().removeForeverObserve(this);
     }
 }

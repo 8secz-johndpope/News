@@ -101,6 +101,7 @@ public class DataCore {
     private ArrayList<String> idNumberList;                 //用户证件数组
     private boolean isIdentify;                              //是否认证
     private String identifyType;                            //认证类型
+    private String ffpIdentify;                             //银联认证标识
     private boolean isRegistPhoenix;                        //凤凰知音是否注册
     private String phoenixNumber;                            //凤凰知音卡号
     private String phoenixCardLevel;                        //凤凰知音卡级别
@@ -178,6 +179,7 @@ public class DataCore {
                 if (userInfo._VIP._VIPDETAILS != null) {
                     userId = userInfo._VIP._VIPDETAILS._USER_ID;
                     crmId = userInfo._VIP._VIPDETAILS._CLKCRM_ID;
+                    ffpIdentify = userInfo._VIP._VIPDETAILS._FFP_IDENTIFY;
                     initUserName(userInfo._VIP._VIPDETAILS);
                     if (userInfo._VIP._VIP_DOCUMENTS != null) {
                         userIdNumber(userInfo._VIP._VIP_DOCUMENTS);
@@ -309,19 +311,25 @@ public class DataCore {
         coreDataWrapper.idNumber = idNumber;
         coreDataWrapper.userId = userId;
         coreDataWrapper.cardLevel = phoenixCardLevel;
-
+        coreDataWrapper.ffpIdentify = ffpIdentify;
+        coreDataWrapper.phoenixNumber = phoenixNumber;
         if ("Gold".equalsIgnoreCase(phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_golden_card;
+            coreDataWrapper.cardLevelRes = R.string.card_level_gold;
         } else if ("Lifetime Platinum".equalsIgnoreCase(phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_lifetime_card;
+            coreDataWrapper.cardLevelRes = R.string.card_level_lifetime_platinum;
         } else if ("Normal".equalsIgnoreCase(phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_blue_card;
+            coreDataWrapper.cardLevelRes = R.string.card_level_normal;
         } else if ("Platinum".equalsIgnoreCase(phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_black_card;
+            coreDataWrapper.cardLevelRes = R.string.card_level_platinum;
         } else if ("Silver".equalsIgnoreCase(phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_silve_card;
+            coreDataWrapper.cardLevelRes = R.string.card_level_silver;
         } else {
-            coreDataWrapper.cardLevelImgRes = R.mipmap.icon_blue_card;
+            coreDataWrapper.cardLevelRes = R.string.card_level_normal;
         }
 
         if ("F".equals(userSex)) {
@@ -330,6 +338,10 @@ public class DataCore {
             coreDataWrapper.sexHeaderRes = R.mipmap.icon_header_man;
         } else {
             coreDataWrapper.sexHeaderRes = R.mipmap.icon_header_null;
+        }
+
+        if("1".equals(ffpIdentify)) {
+            coreDataWrapper.ffpIdentifyRes = R.mipmap.bank_identify;
         }
     }
 
@@ -506,8 +518,12 @@ public class DataCore {
         public int    sexHeaderRes;
         public String idNumber;
         public String userId;
+        public String phoenixNumber;
         public String cardLevel;
+        public int cardLevelRes;
         public int cardLevelImgRes;
+        public String ffpIdentify;
+        public int  ffpIdentifyRes;
         public String userMile = "--";
         public String expiredMiles = "--";
         public String nextExpiredMiles = "--";

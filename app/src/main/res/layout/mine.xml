@@ -74,7 +74,6 @@
                                 android:id="@+id/user_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="刘洪涛"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_13sp"
                                 />
@@ -85,21 +84,19 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="@dimen/_4dp"
-                                android:src="@mipmap/bank_identify"
                                 />
 
                         </LinearLayout>
 
 
                         <TextView
-                            android:id="@+id/user_id"
+                            android:id="@+id/card_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_6dp"
                             android:drawableLeft="@mipmap/mine_card"
                             android:drawablePadding="@dimen/_4dp"
                             android:gravity="center_vertical"
-                            android:text="普卡:"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12sp"
                             />
