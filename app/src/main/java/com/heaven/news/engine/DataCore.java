@@ -382,6 +382,7 @@ public class DataCore {
             if(response.code == 0 && response.data != null && response.data._USECOUPON_CNT_RESULT != null && "0".equals(response.data._USECOUPON_CNT_RESULT._OP_RESULT)) {
                 userCouponCount = response.data._USECOUPON_CNT_RESULT._COUNT;
                 coreDataWrapper.couponCount = userCouponCount;
+                notifyCoreDataChange(getCoreDataWrapper(true,MINE));
             }
         });
     }
@@ -398,6 +399,7 @@ public class DataCore {
             if(response.code == 0 && response.data != null && response.data._WALLET_QUERY_RESULT != null) {
                 coreDataWrapper.ecardNum = response.data._WALLET_QUERY_RESULT._EASYCARD_COUNT;
                 coreDataWrapper.walletLeftMoney = response.data._WALLET_QUERY_RESULT._USE_AMT;
+                notifyCoreDataChange(getCoreDataWrapper(true,MINE));
             }
         });
 

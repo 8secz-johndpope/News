@@ -83,6 +83,8 @@ public class Mine extends BaseSimpleBindFragment<MainViewModel,MineBinding> impl
                 initUserInfo(coreDataWrapper);
             } else if(DataCore.MINE == coreDataWrapper.dataType) {
                 initUserInfo(coreDataWrapper);
+            } else if(DataCore.MILE == coreDataWrapper.dataType) {
+                initUserInfo(coreDataWrapper);
             }
         }
     }
