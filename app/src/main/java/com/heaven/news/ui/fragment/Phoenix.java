@@ -24,8 +24,13 @@ import com.heaven.news.databinding.PhoenixBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.vm.holder.HomeBanner;
+import com.heaven.news.ui.vm.holder.HomeServiceHolder;
+import com.heaven.news.ui.vm.holder.PhoenixServiceHolder;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
+import com.heaven.news.ui.vm.model.base.HomeService;
 import com.heaven.news.ui.vm.model.base.ImageInfo;
+import com.heaven.news.ui.vm.model.base.PhoenixService;
+import com.heaven.news.ui.vm.model.base.ServiceInfo;
 import com.heaven.news.ui.vm.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
@@ -59,6 +64,7 @@ public class Phoenix extends BaseSimpleBindFragment<MainViewModel, PhoenixBindin
         DataCore.CoreDataWrapper coreDataWrapper = AppEngine.instance().dataCore().getCoreDataWrapper();
         initBaner();
         updateUserInfo(coreDataWrapper);
+        initService();
     }
 
     private void initBaner() {
@@ -111,6 +117,23 @@ public class Phoenix extends BaseSimpleBindFragment<MainViewModel, PhoenixBindin
             mViewBinding.banner.setAutoPlayAble(bannerList.size() > 1);
             mViewBinding.banner.setBannerData(R.layout.phoenix_banner_item, bannerList);
         }
+    }
+
+    private void initService() {
+        PhoenixService phoenixService = AppEngine.instance().dataCore().loadPhoenixService(getContext());
+        LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        BaseAdapter<ServiceInfo> mServiceAdapter = new BaseAdapter<>(getContext());
+        mServiceAdapter.register(new PhoenixServiceHolder(ServiceInfo.class, R.layout.home_service_item));
+
+        mViewBinding.service.setLayoutManager(layout);
+        mViewBinding.service.setAdapter(mServiceAdapter);
+        mViewBinding.service.setHasFixedSize(true);
+        mViewBinding.service.setLongClickable(true);
+        if (phoenixService != null && phoenixService.phoenixServiceInfos != null) {
+            mServiceAdapter.updateItems(phoenixService.phoenixServiceInfos);
+        }
+        mViewBinding.service.setAutoLoop(false);
+
     }
 
     @Override

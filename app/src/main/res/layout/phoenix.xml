@@ -229,7 +229,16 @@
                 </RelativeLayout>
             </LinearLayout>
 
-
+            <com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPager
+                android:id="@+id/service"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_marginBottom="@dimen/_10dp"
+                app:rvp_triggerOffset="0.1"
+                app:rvp_singlePageFling="false"
+                app:rvp_inertia="true"
+                />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>
