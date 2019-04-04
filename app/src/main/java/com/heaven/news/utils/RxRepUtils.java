@@ -80,22 +80,22 @@ public class RxRepUtils {
 
 
     @SuppressWarnings("unchecked")
-    public synchronized <T> FlowableTransformer<T, T> ioMain() {
+    public <T> FlowableTransformer<T, T> ioMain() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER;
     }
 
     @SuppressWarnings("unchecked")
-    public synchronized <T> FlowableTransformer<T, T> ioMainConfig() {
+    public <T> FlowableTransformer<T, T> ioMainConfig() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_CONFIG;
     }
 
     @SuppressWarnings("unchecked")
-    public synchronized <T> FlowableTransformer<T, T> ioHomeConfig() {
+    public <T> FlowableTransformer<T, T> ioHomeConfig() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_HOME_CONFIG;
     }
 
 
-    public synchronized <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
+    public <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
         synchronized (this) {
             Disposable disposable = resultFlowable.compose(ioMain()).subscribe(getTaskConsumer(taskId, consumer));
@@ -113,7 +113,7 @@ public class RxRepUtils {
         return taskId;
     }
 
-    public synchronized <T> long getHomeConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
+    public <T> long getHomeConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
         synchronized (this) {
             Disposable disposable = resultFlowable.compose(ioHomeConfig()).subscribe(getTaskConsumer(taskId, consumer));
@@ -122,7 +122,7 @@ public class RxRepUtils {
         return taskId;
     }
 
-    private synchronized <T> TaskIdConsumer<T> getTaskConsumer(long taskId, Consumer<T> consumer) {
+    private <T> TaskIdConsumer<T> getTaskConsumer(long taskId, Consumer<T> consumer) {
         return new TaskIdConsumer<T>(taskId, consumer);
     }
 
