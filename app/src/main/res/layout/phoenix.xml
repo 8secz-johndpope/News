@@ -13,6 +13,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
+
             <com.heaven.base.ui.view.widget.banner.XBanner
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
@@ -27,6 +28,204 @@
                 app:pointsPosition="CENTER"
                 app:tipTextSize="12sp"
                 />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_15dp"
+                    android:paddingTop="@dimen/_6dp"
+                    android:paddingRight="@dimen/_15dp"
+                    android:paddingBottom="@dimen/_6dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/go_area"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/card_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/_10dp"
+                            android:src="@mipmap/icon_blue_card"
+                            />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/go_arrow"
+                            />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/user_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/go_area"
+                        android:gravity="center_vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/user_sex_header"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_10dp"
+                            android:src="@mipmap/icon_header_null"
+                            />
+
+                        <TextView
+                            android:id="@+id/user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/user_sex_header"
+                            android:text="刘洪涛"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_16sp"
+                            />
+
+                        <TextView
+                            android:id="@+id/user_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/user_name"
+                            android:layout_marginTop="@dimen/_2dp"
+                            android:layout_toRightOf="@+id/user_sex_header"
+                            android:text="1343w54w543543"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14sp"
+                            />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <View style="@style/driver_line_e4e4e4"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_15dp"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:layout_marginBottom="@dimen/_10dp"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/go_arrow"
+                        />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            >
+
+
+                            <TextView
+                                android:id="@+id/total_mile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:text="0"
+                                android:textColor="@color/red"
+                                android:textSize="33sp"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:text="公里"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_15sp"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="本月将作废里程"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sp"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/red"
+                                android:textSize="@dimen/_12sp"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="公里"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sp"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="下月将作废里程"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sp"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/red"
+                                android:textSize="@dimen/_12sp"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="公里"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sp"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
 
 
         </LinearLayout>
