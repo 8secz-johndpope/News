@@ -1,8 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/base"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/toolbar_bg"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15dp"
+                android:layout_marginRight="@dimen/_15dp"
+                android:layout_marginBottom="@dimen/_40dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/go_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/go_white_arrow"
+                        />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/user_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/go_area"
+                    android:gravity="center_vertical"
+                    >
+
+                    <ImageView
+                        android:id="@+id/user_sex_header"
+                        android:layout_width="@dimen/_50dp"
+                        android:layout_height="@dimen/_50dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:src="@mipmap/icon_header_null"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/user_sex_header"
+                        android:orientation="vertical"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/user_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="刘洪涛"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_13sp"
+                                />
+
+                            <ImageView
+                                android:id="@+id/identify_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_4dp"
+                                android:src="@mipmap/bank_identify"
+                                />
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/user_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_6dp"
+                            android:drawableLeft="@mipmap/mine_card"
+                            android:drawablePadding="@dimen/_4dp"
+                            android:gravity="center_vertical"
+                            android:text="普卡:"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_12sp"
+                            />
+
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/mine_order_type_bg"
+            android:layout_marginTop="-10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:drawableTop="@mipmap/mine_all_order"
+                android:padding="@dimen/_8dp"
+                android:drawablePadding="@dimen/_12dp"
+                android:textSize="@dimen/_12sp"
+                android:id="@+id/all_order"
+                android:text="@string/order_all"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:drawableTop="@mipmap/mine_order_paying"
+                android:padding="@dimen/_8dp"
+                android:drawablePadding="@dimen/_12dp"
+                android:textSize="@dimen/_12sp"
+                android:id="@+id/paying_order"
+                android:text="@string/order_paying"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:drawableTop="@mipmap/mine_order_paied"
+                android:padding="@dimen/_8dp"
+                android:drawablePadding="@dimen/_12dp"
+                android:textSize="@dimen/_12sp"
+                android:id="@+id/paied_order"
+                android:text="@string/order_paied"
+                />
+
+        </LinearLayout>
     </LinearLayout>
 </layout>

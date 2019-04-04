@@ -73,4 +73,9 @@
     <string name="phoenix_user_manual">会员手册</string>
     <string name="phoenix_cooperation">合作伙伴</string>
     <string name="phoenix_cancel_forever">永久注销账户</string>
+
+    <!--我的-->
+    <string name="order_all">全部订单</string>
+    <string name="order_paying">待付款</string>
+    <string name="order_paied">已付款</string>
 </resources>
