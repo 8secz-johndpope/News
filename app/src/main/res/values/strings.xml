@@ -90,4 +90,12 @@
     <string name="card_level_platinum">白金卡</string>
     <string name="card_level_silver">银卡</string>
     <string name="card_info_fomat">%1$s: %2$s</string>
+
+    <string name="mine_my_wallet">我的钱包</string>
+    <string name="mine_wallet_left">账号余额</string>
+    <string name="mine_ecard">易卡</string>
+    <string name="mine_coupon">优惠券</string>
+    <string name="mine_mile">里程</string>
+    <string name="yuan">元</string>
+    <string name="zhang">张</string>
 </resources>

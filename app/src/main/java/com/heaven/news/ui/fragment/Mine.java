@@ -58,6 +58,10 @@ public class Mine extends BaseSimpleBindFragment<MainViewModel,MineBinding> impl
                 mViewBinding.cardInfo.setText(String.format(getString(R.string.card_info_fomat),"", TextUtils.isEmpty(coreDataWrapper.phoenixNumber)? "":coreDataWrapper.phoenixNumber));
             }
 
+            mViewBinding.accountLeft.setText(coreDataWrapper.walletLeftMoney);
+            mViewBinding.ecardNum.setText(coreDataWrapper.ecardNum);
+            mViewBinding.couponCount.setText(coreDataWrapper.couponCount);
+            mViewBinding.mile.setText(coreDataWrapper.userMile);
         }
     }
 

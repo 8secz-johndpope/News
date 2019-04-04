@@ -5,8 +5,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/base"
+        android:orientation="vertical"
         >
 
         <LinearLayout
@@ -106,51 +106,242 @@
             </RelativeLayout>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/mine_order_type_bg"
             android:layout_marginTop="-10dp"
+            android:background="@drawable/mine_order_type_bg"
             >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:drawableTop="@mipmap/mine_all_order"
-                android:padding="@dimen/_8dp"
-                android:drawablePadding="@dimen/_12dp"
-                android:textSize="@dimen/_12sp"
                 android:id="@+id/all_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/mine_all_order"
+                android:drawablePadding="@dimen/_12dp"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/_8dp"
                 android:text="@string/order_all"
+                android:textSize="@dimen/_12sp"
                 />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:drawableTop="@mipmap/mine_order_paying"
-                android:padding="@dimen/_8dp"
-                android:drawablePadding="@dimen/_12dp"
-                android:textSize="@dimen/_12sp"
                 android:id="@+id/paying_order"
-                android:text="@string/order_paying"
-                />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:drawableTop="@mipmap/mine_order_paied"
-                android:padding="@dimen/_8dp"
+                android:drawableTop="@mipmap/mine_order_paying"
                 android:drawablePadding="@dimen/_12dp"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/_8dp"
+                android:text="@string/order_paying"
                 android:textSize="@dimen/_12sp"
-                android:id="@+id/paied_order"
-                android:text="@string/order_paied"
                 />
+
+            <TextView
+                android:id="@+id/paied_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/mine_order_paied"
+                android:drawablePadding="@dimen/_12dp"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/_8dp"
+                android:text="@string/order_paied"
+                android:textSize="@dimen/_12sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/_15dp"
+            android:paddingTop="@dimen/_4dp"
+            android:paddingRight="@dimen/_15dp"
+            android:paddingBottom="@dimen/_4dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/mine_my_wallet"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sp"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/go_arrow"
+                    />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_marginBottom="@dimen/_20dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        >
+
+                        <TextView
+                            android:id="@+id/account_left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.00"
+                            android:textColor="@color/red"
+                            android:textSize="@dimen/_16sp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/yuan"
+                            android:textSize="@dimen/_10sp"
+                            />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_6dp"
+                        android:text="@string/mine_wallet_left"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sp"
+                        />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:id="@+id/ecard_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="--"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/_16sp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ecard_num"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_6dp"
+                        android:text="@string/mine_ecard"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sp"
+                        />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        >
+
+                        <TextView
+                            android:id="@+id/coupon_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:textColor="@color/red"
+                            android:textSize="@dimen/_16sp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/zhang"
+                            android:textSize="@dimen/_10sp"
+                            />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_6dp"
+                        android:text="@string/mine_coupon"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sp"
+                        />
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    >
+
+                    <TextView
+                        android:id="@+id/mile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="--"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/_16sp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mile"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_6dp"
+                        android:text="@string/mine_mile"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sp"
+                        />
+                </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
