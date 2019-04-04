@@ -397,7 +397,8 @@ public class DataCore {
         EasyCardWebServiceServiceSoapBinding binding = new EasyCardWebServiceServiceSoapBinding("walletInfoQuery",walletInfoQuery);
         RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).querywalletInfo(binding), response -> {
             if(response.code == 0 && response.data != null && response.data._WALLET_QUERY_RESULT != null) {
-                coreDataWrapper.ecardNum = response.data._WALLET_QUERY_RESULT._EASYCARD_COUNT;
+                String ecardNum = response.data._WALLET_QUERY_RESULT._EASYCARD_COUNT;
+                coreDataWrapper.ecardNum = "0".equals(ecardNum)? "--" : ecardNum;
                 coreDataWrapper.walletLeftMoney = response.data._WALLET_QUERY_RESULT._USE_AMT;
                 notifyCoreDataChange(getCoreDataWrapper(true,MINE));
             }
