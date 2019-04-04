@@ -58,4 +58,19 @@
 
     <string name="search_service">搜索相关服务</string>
     <string name="easy_go_search_hint">请输入证件号或票号</string>
+
+    <!--凤凰知音-->
+    <string name="phoenix_award_ticket">奖励客票</string>
+    <string name="phoenix_shop">知音商城</string>
+    <string name="phoenix_mileage_detail">里程明细</string>
+    <string name="phoenix_mileage_billing">里程账单</string>
+    <string name="phoenix_mileage_supplement">里程补登</string>
+    <string name="phoenix_verify_online">在线认证</string>
+    <string name="phoenix_exchange_segment_search">兑换航段查询</string>
+    <string name="phoenix_redeem_person">兑奖受让人</string>
+
+    <string name="phoenix_city_mileage">城市间里程</string>
+    <string name="phoenix_user_manual">会员手册</string>
+    <string name="phoenix_cooperation">合作伙伴</string>
+    <string name="phoenix_cancel_forever">永久注销账户</string>
 </resources>

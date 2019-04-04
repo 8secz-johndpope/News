@@ -7,8 +7,8 @@
         {
           "type":-1,
           "id": 0,
-          "iconID": "@mipmap/flight_state",
-          "name": "@string/flight_state",
+          "iconID": "@mipmap/phoenix_award_ticket",
+          "name": "@string/phoenix_award_ticket",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -16,8 +16,8 @@
         {
           "type":-1,
           "id": 1,
-          "iconID": "@mipmap/flight_check_in",
-          "name": "@string/flight_check_in",
+          "iconID": "@mipmap/phoenix_shop",
+          "name": "@string/phoenix_shop",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -25,8 +25,8 @@
         {
           "type":-1,
           "id": 2,
-          "iconID": "@mipmap/flight_change_date",
-          "name": "@string/flight_change_date",
+          "iconID": "@mipmap/phoenix_mileage_detail",
+          "name": "@string/phoenix_mileage_detail",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -34,8 +34,8 @@
         {
           "type":-1,
           "id": 3,
-          "iconID": "@mipmap/flight_refund",
-          "name": "@string/flight_refund",
+          "iconID": "@mipmap/phoenix_mileage_billing",
+          "name": "@string/phoenix_mileage_billing",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -43,8 +43,8 @@
         {
           "type":-1,
           "id": 4,
-          "iconID": "@mipmap/flight_award",
-          "name": "@string/flight_award",
+          "iconID": "@mipmap/phoenix_mileage_supplement",
+          "name": "@string/phoenix_mileage_supplement",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -52,8 +52,8 @@
         {
           "type":-1,
           "id": 5,
-          "iconID": "@mipmap/flight_shuttle",
-          "name": "@string/flight_shuttle",
+          "iconID": "@mipmap/phoenix_verify_online",
+          "name": "@string/phoenix_verify_online",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -61,8 +61,8 @@
         {
           "type":-1,
           "id": 6,
-          "iconID": "@mipmap/flight_park",
-          "name": "@string/flight_park",
+          "iconID": "@mipmap/phoenix_exchange_segment_search",
+          "name": "@string/phoenix_exchange_segment_search",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -70,8 +70,8 @@
         {
           "type":-1,
           "id": 7,
-          "iconID": "@mipmap/flight_fast_check",
-          "name": "@string/flight_fast_check",
+          "iconID": "@mipmap/phoenix_redeem_person",
+          "name": "@string/phoenix_redeem_person",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
@@ -85,8 +85,35 @@
         {
           "type":-1,
           "id": 8,
-          "iconID": "@mipmap/flight_state",
-          "name": "@string/flight_state",
+          "iconID": "@mipmap/phoenix_city_mileage",
+          "name": "@string/phoenix_city_mileage",
+          "urlShort": "",
+          "urlDetail": "",
+          "rankNo": 0
+        },
+        {
+          "type":-1,
+          "id": 8,
+          "iconID": "@mipmap/phoenix_user_manual",
+          "name": "@string/phoenix_user_manual",
+          "urlShort": "",
+          "urlDetail": "",
+          "rankNo": 0
+        },
+        {
+          "type":-1,
+          "id": 8,
+          "iconID": "@mipmap/phoenix_cooperation",
+          "name": "@string/phoenix_cooperation",
+          "urlShort": "",
+          "urlDetail": "",
+          "rankNo": 0
+        },
+        {
+          "type":-1,
+          "id": 8,
+          "iconID": "@mipmap/phoenix_cancel_forever",
+          "name": "@string/phoenix_cancel_forever",
           "urlShort": "",
           "urlDetail": "",
           "rankNo": 0
