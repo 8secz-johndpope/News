@@ -74,8 +74,8 @@ public class RxRepUtils {
                 configData.message = dataResponse.reason;
                 return configData;
             })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread());
+            .subscribeOn(Schedulers.io());
+//            .observeOn(AndroidSchedulers.mainThread());
 
 
 
