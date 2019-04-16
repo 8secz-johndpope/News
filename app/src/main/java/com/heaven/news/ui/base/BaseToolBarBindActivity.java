@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.heaven.base.ui.activity.BaseSimpleBindActivity;
+import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public abstract class BaseToolBarSimpleActivity<VM extends BaseViewModel, B extends ViewDataBinding> extends BaseSimpleBindActivity<VM, B> {
+public abstract class BaseToolBarBindActivity<VM extends BaseViewModel, B extends ViewDataBinding> extends BaseBindActivity<VM, B> {
 
     LinearLayout titleLeftArea;
     ImageView goBack;

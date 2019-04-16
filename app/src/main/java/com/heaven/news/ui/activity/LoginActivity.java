@@ -11,14 +11,14 @@ import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.LoginBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
-import com.heaven.news.ui.base.BaseToolBarSimpleActivity;
+import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.vm.viewmodel.LoginViewModel;
 
 /**
  * @author heaven
  */
 @Route(path = RouterUrl.ROUTER_URL_LOGIN)
-public class LoginActivity extends BaseToolBarSimpleActivity<LoginViewModel, LoginBinding> implements Observer<DataCore.CoreDataWrapper> {
+public class LoginActivity extends BaseToolBarBindActivity<LoginViewModel, LoginBinding> implements Observer<DataCore.CoreDataWrapper> {
 
     @Override
     public void initView(View rootView) {

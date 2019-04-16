@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
+import com.heaven.base.ui.fragment.BaseBindFragment;
 import com.heaven.news.R;
 import com.heaven.news.databinding.MineBinding;
 import com.heaven.news.engine.AppEngine;
@@ -21,7 +21,7 @@ import com.heaven.news.ui.vm.viewmodel.MainViewModel;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class Mine extends BaseSimpleBindFragment<MainViewModel,MineBinding> implements Observer<DataCore.CoreDataWrapper> {
+public class Mine extends BaseBindFragment<MainViewModel,MineBinding> implements Observer<DataCore.CoreDataWrapper> {
 
     @Override
     public void bindModel() {

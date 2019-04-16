@@ -19,19 +19,15 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.BaseMultAdapter;
-import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
+import com.heaven.base.ui.fragment.BaseBindFragment;
 import com.heaven.base.ui.view.widget.banner.XBanner;
-import com.heaven.base.ui.view.widget.banner.transformers.Transformer;
 import com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPager;
-import com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPagerListener;
-import com.heaven.base.ui.view.widget.recyclerPager.LoopRecyclerViewPager;
 import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.view.RecyclerViewDivider;
-import com.heaven.news.ui.vm.holder.HomeBanner;
 import com.heaven.news.ui.vm.holder.HomeBookGo;
 import com.heaven.news.ui.vm.holder.HomeBookGoBack;
 import com.heaven.news.ui.vm.holder.HomeBookMult;
@@ -62,7 +58,7 @@ import java.util.List;
  *
  * @version V1.0 首页
  */
-public class Home extends BaseSimpleBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper> {
+public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper> {
     BaseAdapter<ServiceInfo> mServiceAdapter;
 
     @Override

@@ -1,17 +1,12 @@
 package com.heaven.news.ui.activity;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.heaven.base.ui.activity.BaseSimpleBindActivity;
+import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.news.R;
 import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.GuideBinding;
@@ -20,7 +15,6 @@ import com.heaven.news.ui.adapter.GuidePageAdapter;
 import com.heaven.news.ui.vm.viewmodel.GuideNewModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * FileName: com.heaven.news.ui.activity.GuideActivity.java
@@ -32,7 +26,7 @@ import java.util.Arrays;
  * @version V1.0 新用户首次进入的引导页
  */
 @Route(path = RouterUrl.ROUTER_URL_GUIDE)
-public class GuideActivity extends BaseSimpleBindActivity<GuideNewModel, GuideBinding> {
+public class GuideActivity extends BaseBindActivity<GuideNewModel, GuideBinding> {
     @Override
     public int initLayoutResId() {
         return R.layout.guide;

@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.heaven.base.ui.adapter.BaseMultAdapter;
-import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
+import com.heaven.base.ui.fragment.BaseBindFragment;
 import com.heaven.base.ui.view.rlview.OnLoadMoreListener;
 import com.heaven.base.ui.view.rlview.OnRefreshListener;
 import com.heaven.news.R;
@@ -32,7 +32,7 @@ import java.util.List;
  *
  * @version V1.0 行程
  */
-public class TravelRoute extends BaseSimpleBindFragment<MainViewModel,RouteBinding> implements OnRefreshListener, OnLoadMoreListener {
+public class TravelRoute extends BaseBindFragment<MainViewModel,RouteBinding> implements OnRefreshListener, OnLoadMoreListener {
     List<Object> items;
     @Override
     public void bindModel() {

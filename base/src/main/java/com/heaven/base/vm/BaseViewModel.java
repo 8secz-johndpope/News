@@ -16,11 +16,7 @@ import com.heaven.base.presenter.BasePresenter;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public abstract class BaseViewModel<P extends BasePresenter> extends ViewModel implements IViewModel{
+public abstract class BaseViewModel extends ViewModel implements IViewModel{
    public Application application;
-   public P mPresenter;
 
-    public void setPresenter(P presenter) {
-        this.mPresenter = presenter;
-    }
 }

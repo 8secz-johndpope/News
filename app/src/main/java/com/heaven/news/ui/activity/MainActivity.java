@@ -21,7 +21,7 @@ import com.heaven.news.databinding.MainBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
-import com.heaven.news.ui.base.BaseToolBarSimpleActivity;
+import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.fragment.EasyGo;
 import com.heaven.news.ui.fragment.Home;
 import com.heaven.news.ui.fragment.Mine;
@@ -44,7 +44,7 @@ import java.util.List;
  * @version V1.0 TODO <描述当前版本功能>
  */
 @Route(path= RouterUrl.ROUTER_URL_MAIN)
-public class MainActivity extends BaseToolBarSimpleActivity<MainViewModel, MainBinding> implements Observer<DataCore.CoreDataWrapper>,ViewPager.OnPageChangeListener, View.OnClickListener {
+public class MainActivity extends BaseToolBarBindActivity<MainViewModel, MainBinding> implements Observer<DataCore.CoreDataWrapper>,ViewPager.OnPageChangeListener, View.OnClickListener {
     private List<Fragment> mainList = new ArrayList<>();
 
     @Override

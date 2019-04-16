@@ -3,16 +3,13 @@ package com.heaven.base.ui.fragment;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.heaven.base.presenter.BasePresenter;
 import com.heaven.base.vm.BaseViewModel;
 
 import java.lang.reflect.ParameterizedType;
@@ -27,11 +24,9 @@ import java.lang.reflect.Type;
  * @version V1.0 TODO <描述当前版本功能>
  */
 @SuppressWarnings("unchecked")
-public abstract class BaseBindFragment<P extends BasePresenter, VM extends BaseViewModel<P>, B extends ViewDataBinding> extends BaseFragment<B> {
+public abstract class BaseBindFragment<VM extends BaseViewModel, B extends ViewDataBinding> extends BaseFragment<B> {
     protected VM mViewModel;
-    private P mPresenter;
     private BaseFragment.OnFragmentInteractionListener mListener;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,31 +68,19 @@ public abstract class BaseBindFragment<P extends BasePresenter, VM extends BaseV
             if (typeArr.length > 0) {
                 for (Type clazzType : typeArr) {
                     Class clazz = (Class) clazzType;
-                    String presentName = BasePresenter.class.getName();
                     String baseViewModelName = BaseViewModel.class.getName();
                     String clazzName = "";
                     if (clazz.getSuperclass() != null) {
                         clazzName = clazz.getSuperclass().getName();
                     }
 
-                    if (clazzName.equals(presentName)) {
-                        mPresenter = getInstance(clazz);
-                    } else if (clazzName.equals(baseViewModelName)) {
+                    if (clazzName.equals(baseViewModelName)) {
                         ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication());
                         mViewModel = (VM) ViewModelProviders.of(this, factory).get(clazz);
-                        mViewModel.setPresenter(mPresenter);
                     }
                 }
             }
         }
     }
 
-    protected P getInstance(Class clazz) {
-        try {
-            return (P) clazz.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

@@ -1,7 +1,6 @@
 package com.heaven.news.ui.fragment;
 
 import android.arch.lifecycle.Observer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,21 +12,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.heaven.base.ui.adapter.BaseAdapter;
-import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
+import com.heaven.base.ui.fragment.BaseBindFragment;
 import com.heaven.base.ui.view.widget.banner.XBanner;
 import com.heaven.base.ui.view.widget.banner.transformers.Transformer;
-import com.heaven.base.ui.view.widget.recyclerPager.LoopRecyclerViewPager;
-import com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPagerListener;
 import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.PhoenixBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
-import com.heaven.news.ui.vm.holder.HomeBanner;
-import com.heaven.news.ui.vm.holder.HomeServiceHolder;
 import com.heaven.news.ui.vm.holder.PhoenixServiceHolder;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
-import com.heaven.news.ui.vm.model.base.HomeService;
 import com.heaven.news.ui.vm.model.base.ImageInfo;
 import com.heaven.news.ui.vm.model.base.PhoenixService;
 import com.heaven.news.ui.vm.model.base.ServiceInfo;
@@ -44,7 +38,7 @@ import java.util.List;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class Phoenix extends BaseSimpleBindFragment<MainViewModel, PhoenixBinding> implements Observer<DataCore.CoreDataWrapper> {
+public class Phoenix extends BaseBindFragment<MainViewModel, PhoenixBinding> implements Observer<DataCore.CoreDataWrapper> {
     BaseAdapter<ImageInfo> mBannerAdapter;
 
     @Override

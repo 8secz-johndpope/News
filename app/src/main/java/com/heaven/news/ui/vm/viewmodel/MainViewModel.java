@@ -1,12 +1,10 @@
 package com.heaven.news.ui.vm.viewmodel;
 
-import android.Manifest;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.ObservableField;
 import android.text.TextUtils;
 
 import com.heaven.base.vm.BaseViewModel;
@@ -14,7 +12,6 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.ui.vm.present.MainPt;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.noticelist.NoticeListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
@@ -29,7 +26,7 @@ import java.util.List;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class MainViewModel extends BaseViewModel<MainPt> {
+public class MainViewModel extends BaseViewModel {
     public List<noticeInfoListVO> noticeList;
 
     public EasyGoSearch easyGoSearch;

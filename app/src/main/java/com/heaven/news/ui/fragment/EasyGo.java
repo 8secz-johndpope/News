@@ -12,18 +12,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.heaven.base.ui.adapter.BaseAdapter;
-import com.heaven.base.ui.fragment.BaseSimpleBindFragment;
+import com.heaven.base.ui.fragment.BaseBindFragment;
 import com.heaven.base.ui.view.widget.banner.XBanner;
 import com.heaven.base.ui.view.widget.banner.transformers.Transformer;
-import com.heaven.base.ui.view.widget.recyclerPager.LoopRecyclerViewPager;
-import com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPagerListener;
 import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.EasygoBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.view.RecyclerViewDivider;
-import com.heaven.news.ui.vm.holder.EasyGoBanner;
 import com.heaven.news.ui.vm.holder.EasyGoServiceHolder;
 import com.heaven.news.ui.vm.model.base.EasyGoService;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
@@ -42,7 +39,7 @@ import java.util.List;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class EasyGo extends BaseSimpleBindFragment<MainViewModel,EasygoBinding> implements  Observer<DataCore.CoreDataWrapper> {
+public class EasyGo extends BaseBindFragment<MainViewModel,EasygoBinding> implements  Observer<DataCore.CoreDataWrapper> {
     BaseAdapter<ImageInfo> mBannerAdapter;
 
     @Override
