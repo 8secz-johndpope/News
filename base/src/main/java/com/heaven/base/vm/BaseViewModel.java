@@ -17,6 +17,13 @@ import com.heaven.base.presenter.BasePresenter;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public abstract class BaseViewModel extends ViewModel implements IViewModel{
-   public Application application;
+   private Application application;
 
+   public Application getApplication() {
+      return application;
+   }
+
+   public void setApplication(Application application) {
+      this.application = application;
+   }
 }

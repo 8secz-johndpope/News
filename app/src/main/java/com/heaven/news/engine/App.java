@@ -52,7 +52,7 @@ public class App extends Application{
      * 取得代理
      * @return app代理
      */
-    protected static CoreComponent getCoreComponent() {
+    public static CoreComponent getCoreComponent() {
         return coreComponent;
     }
 

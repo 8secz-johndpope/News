@@ -24,7 +24,7 @@ import com.orhanobut.logger.Logger;
  *
  * @version V1.0 欢迎页版本检查
  */
-public class WelecomModel extends BaseViewModel {
+public class WelecomModel extends AbsViewModel {
     public UpdateInfo updateInfo;
     public final MutableLiveData<UpdateInfo> updateInfoLive = new MutableLiveData<>();
 
@@ -35,7 +35,7 @@ public class WelecomModel extends BaseViewModel {
 
     @TraceTime
     private void requestVersion() {
-        RxRepUtils.instance().getConfigResult(AppEngine.instance().api().getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
+        RxRepUtils.instance().getConfigResult(api.getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
             if (configData.netCode == 0 && configData.androidversionnew != null) {
                 checkVersion(configData.androidversionnew);
                 Logger.i("requestVersion--" + configData.toString());

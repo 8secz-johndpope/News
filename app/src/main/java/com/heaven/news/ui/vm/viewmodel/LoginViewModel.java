@@ -21,7 +21,7 @@ import java.io.Serializable;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class LoginViewModel extends BaseViewModel {
+public class LoginViewModel extends AbsViewModel {
 
     public UserInfo userInfo;
 

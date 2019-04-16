@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class MainViewModel extends BaseViewModel {
+public class MainViewModel extends AbsViewModel {
     public List<noticeInfoListVO> noticeList;
 
     public EasyGoSearch easyGoSearch;

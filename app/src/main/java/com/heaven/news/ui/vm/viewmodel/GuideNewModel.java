@@ -10,7 +10,7 @@ import com.heaven.base.vm.BaseViewModel;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class GuideNewModel extends BaseViewModel {
+public class GuideNewModel extends AbsViewModel {
 
     @Override
     public void initModel() {

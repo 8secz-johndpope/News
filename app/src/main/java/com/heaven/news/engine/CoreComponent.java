@@ -1,6 +1,6 @@
 package com.heaven.news.engine;
 
-import com.heaven.base.vm.BaseViewModel;
+import com.heaven.news.ui.vm.viewmodel.AbsViewModel;
 
 import javax.inject.Singleton;
 
@@ -25,7 +25,7 @@ public interface CoreComponent {
         CoreComponent build();
     }
 
-    void inject(BaseViewModel viewModel);
+    void inject(AbsViewModel viewModel);
 
     void inject(AppEngine appEngine);
 }
