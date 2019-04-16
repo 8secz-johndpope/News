@@ -38,12 +38,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Stack;
 
-//import com.netease.nimlib.sdk.NIMClient;
-//import com.netease.nimlib.sdk.SDKOptions;
-//import com.netease.nimlib.sdk.StatusBarNotificationConfig;
-//import com.netease.nimlib.sdk.auth.LoginInfo;
-//import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-//import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
+import javax.inject.Inject;
 
 /**
  * 作者:Heaven.
@@ -57,14 +52,17 @@ public final class AppEngine {
      */
     private static AppEngine instance;
 
+    @Inject
+    Context app;
     /**
      * 数据源网络和本地
      */
-    private DataSource mDataSource;
-
-    private DataCore mDataCore;
-
-    private Api mApi;
+    @Inject
+    DataSource mDataSource;
+    @Inject
+    DataCore mDataCore;
+    @Inject
+    Api mApi;
 
     /**
      * 后台服务中心
@@ -75,15 +73,6 @@ public final class AppEngine {
      * 当前activity存储栈.
      */
     private static Stack<Activity> store;
-    /**
-     * application代理.
-     */
-    private AppComponent appDelegate;
-
-    /**
-     * 依赖注入.
-     */
-    private EngineComponent engineComponent;
 
     private UserLoginInfo userInfo;
 
@@ -97,45 +86,52 @@ public final class AppEngine {
      */
     private AppEngine() {
         init();
-//        initNim();
-        getDataSource().runWorkThread(this::initAppInfo);
     }
 
     /**
      * 引擎初始化.
      */
-    private void init() {
+    private synchronized void init() {
         store = new Stack<>();
-        //上下文代理
-        appDelegate = App.getAppDelegate();
+        initDi();
+        initDayNightTheme();
         //启动后台服务
 //        ServiceCore.instance(appDelegate.context());
-        //白天黑夜切换
-        SpUtil.init(appDelegate.app());
-        int type = SpUtil.isNight() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
-        AppCompatDelegate.setDefaultNightMode(type);
-        //数据源和后台服务依赖注入
-        initializeInjector(appDelegate.context());
         //activity声明周期检测
         SwitchBackgroundCallbacks callbacks = new SwitchBackgroundCallbacks();
-        appDelegate.app().registerActivityLifecycleCallbacks(callbacks);
+        ((App)app).registerActivityLifecycleCallbacks(callbacks);
         initArouter();
+        getDataSource().runWorkThread(this::initAppInfo);
         //耗时初始化在线程中
         getDataSource().runWorkThread(this::initInThread);
 
     }
 
+    private void initDi() {
+        //上下文代理
+        CoreComponent coreComponent = App.getCoreComponent();
+        coreComponent.inject(this);
+    }
+
+
+    private void initDayNightTheme() {
+        //白天黑夜切换
+        SpUtil.init(app);
+        int type = SpUtil.isNight() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
+        AppCompatDelegate.setDefaultNightMode(type);
+    }
+
     private void initInThread() {
         //微信相关分享
-        initShare(appDelegate.context());
+        initShare(app);
         //初始化异常捕获类 CrashHandler
-        CrashHandler.getInstance().init(appDelegate.context());
+        CrashHandler.getInstance().init(app);
         //日志组件初始化
         initLogger();
         //qq X5浏览器内核初始化
-        initX5Core(appDelegate.context());
+        initX5Core(app);
         //应用优化组件初始化
-        initAppOptimizeTool(appDelegate.context());
+        initAppOptimizeTool(app);
     }
 
     private void initArouter() {
@@ -143,7 +139,7 @@ public final class AppEngine {
             ARouter.openLog();//打开日志
             ARouter.openDebug();//打开调式模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         }
-        ARouter.init(appDelegate.app());
+        ARouter.init((App)app);
     }
 
     private void initLogger() {
@@ -191,8 +187,8 @@ public final class AppEngine {
     /* 初始化应用信息 */
     private void initAppInfo() {
         appConfig = new AppInfo();
-        PackageManager pkManager = App.getAppDelegate().app().getPackageManager();
-        appConfig.packageName = App.getAppDelegate().app().getPackageName();
+        PackageManager pkManager = app.getPackageManager();
+        appConfig.packageName = app.getPackageName();
         PackageInfo info = null;
         if (pkManager != null) {
             try {
@@ -222,40 +218,7 @@ public final class AppEngine {
         iWXApi.registerApp(BuildConfig.WX_APP_ID);
     }
 
-//    void initNim() {
-//        // SDK初始化（启动后台服务，若已经存在用户登录信息， SDK 将完成自动登录）
-//        NIMClient.init(appDelegate.context(), loginInfo(), options());
-//
-//        // ... your codes
-//        if (inMainProcess()) {
-//            // 注意：以下操作必须在主进程中进行
-//            // 1、UI相关初始化操作
-//            // 2、相关Service调用
-//            // 初始化消息提醒
-//            NIMClient.toggleNotification(true);
-//        }
-//    }
 
-    public boolean inMainProcess() {
-        String packageName = appDelegate.context().getPackageName();
-        String processName = SystemUtil.getProcessName(appDelegate.context());
-        return packageName.equals(processName);
-    }
-
-
-    /**
-     * 初始化依赖注入器.
-     *
-     * @param context
-     *         上下文
-     */
-    private void initializeInjector(final Context context) {
-        engineComponent = DaggerEngineComponent.builder().engineModule(new EngineModule(context)).build();
-        mDataSource = engineComponent.dataSource();
-        mDataCore = engineComponent.dataCore();
-        mApi = engineComponent.api();
-//        mServiceCore = engineComponent.serviceCore();
-    }
 
     /**
      * 引擎单类.
@@ -275,27 +238,16 @@ public final class AppEngine {
     }
 
     /**
-     * 初始化.
-     */
-    static void initEngine() {
-        if (instance == null) {
-            instance = new AppEngine();
-        }
-    }
-
-    /**
      * 取得数据源
      *
      * @return 数据源
      */
     public DataSource getDataSource() {
-        mDataSource = engineComponent.dataSource();
         return mDataSource;
     }
 
 
     public DataCore dataCore() {
-        mDataCore = engineComponent.dataCore();
         return mDataCore;
     }
 
@@ -465,18 +417,10 @@ public final class AppEngine {
     }
 
 
-    public ServiceCore getServiceCore() {
-        return engineComponent.serviceCore();
-    }
+//    public ServiceCore getServiceCore() {
+//        return engineComponent.serviceCore();
+//    }
 
-    /**
-     * 取得注入器.
-     *
-     * @return 注入器
-     */
-    public EngineComponent getEngineComponent() {
-        return engineComponent;
-    }
 
     /**
      * 取得存储路径.
@@ -484,7 +428,7 @@ public final class AppEngine {
      * @return 存储路径
      */
     public String getFilesDir() {
-        return appDelegate.context().getFilesDir().getPath();
+        return app.getFilesDir().getPath();
     }
 
     /**

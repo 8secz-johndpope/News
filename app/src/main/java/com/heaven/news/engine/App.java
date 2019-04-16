@@ -16,14 +16,12 @@ import com.heaven.news.utils.SystemUtil;
  */
 
 public class App extends Application{
-    /**
-     * app代理.
-     */
-    private static AppComponent appDelegate;
+    private static CoreComponent coreComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        coreComponent = DaggerCoreComponent.builder().application(this).build();
         init();
     }
 
@@ -40,42 +38,24 @@ public class App extends Application{
      * app初始化
      */
     private void init(){
-        initializeInjector(this);
-        // ... your codes
-        if (inMainProcess()) {
-            // 注意：以下操作必须在主进程中进行
-            // 1、UI相关初始化操作
-            // 2、相关Service调用
-            AppEngine.initEngine();
-        } else {
-//            AppEngine.instance().initNim();
-        }
+        initDi();
+        AppEngine.instance();
 //        this.initializeLeakDetection();
     }
 
-    public boolean inMainProcess() {
-        String packageName = getPackageName();
-        String processName = SystemUtil.getProcessName(this);
-        return packageName.equals(processName);
-    }
+    private void initDi() {
 
-    /**
-     * 生成代理注入器.
-     * @param app app
-     */
-    private void initializeInjector(final App app) {
-        appDelegate = DaggerAppComponent.builder().appModule(new AppModule(app)).build();
     }
-
 
 
     /**
      * 取得代理
      * @return app代理
      */
-    public static AppComponent getAppDelegate() {
-        return  appDelegate;
+    protected static CoreComponent getCoreComponent() {
+        return coreComponent;
     }
+
 
     @Override
     public void onTerminate() {
