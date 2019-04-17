@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 
 import com.heaven.annotation.aspect.TraceTime;
-import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.consts.Constants;
@@ -24,7 +23,7 @@ import com.orhanobut.logger.Logger;
  *
  * @version V1.0 欢迎页版本检查
  */
-public class WelecomModel extends AbsViewModel {
+public class WelecomModel extends AbstractViewModel {
     public UpdateInfo updateInfo;
     public final MutableLiveData<UpdateInfo> updateInfoLive = new MutableLiveData<>();
 

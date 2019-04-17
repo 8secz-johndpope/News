@@ -7,7 +7,6 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.text.TextUtils;
 
-import com.heaven.base.vm.BaseViewModel;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
@@ -26,7 +25,7 @@ import java.util.List;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class MainViewModel extends AbsViewModel {
+public class MainViewModel extends AbstractViewModel {
     public List<noticeInfoListVO> noticeList;
 
     public EasyGoSearch easyGoSearch;

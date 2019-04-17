@@ -7,6 +7,7 @@ import android.databinding.BaseObservable;
 import android.support.annotation.NonNull;
 
 import com.heaven.base.presenter.BasePresenter;
+import com.heaven.model.ifilm.BaseModel;
 
 /**
  * FileName: com.heaven.base.vm.BaseContextViewModel.java
@@ -17,13 +18,10 @@ import com.heaven.base.presenter.BasePresenter;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public abstract class BaseViewModel extends ViewModel implements IViewModel{
-   private Application application;
+   public Application application;
 
-   public Application getApplication() {
-      return application;
-   }
+   @Override
+   public void inject() {
 
-   public void setApplication(Application application) {
-      this.application = application;
    }
 }

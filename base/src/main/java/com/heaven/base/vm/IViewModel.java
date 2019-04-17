@@ -1,5 +1,7 @@
 package com.heaven.base.vm;
 
+import com.heaven.model.ifilm.BaseModel;
+
 /**
  * FileName: com.heaven.base.vm.IViewModel.java
  * author: Heaven
@@ -10,4 +12,5 @@ package com.heaven.base.vm;
  */
 public interface IViewModel {
     public void initModel();
+    public void inject();
 }

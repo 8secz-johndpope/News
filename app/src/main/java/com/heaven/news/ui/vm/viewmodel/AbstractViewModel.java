@@ -10,7 +10,7 @@ import com.heaven.news.engine.App;
 import javax.inject.Inject;
 
 /**
- * FileName: com.heaven.news.ui.vm.viewmodel.AbsViewModel.java
+ * FileName: com.heaven.news.ui.vm.viewmodel.AbstractViewModel.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-04-16 13:37
@@ -18,13 +18,13 @@ import javax.inject.Inject;
  * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
-public abstract class AbsViewModel extends BaseViewModel {
+public abstract class AbstractViewModel extends BaseViewModel {
     @Inject
     Api api;
 
     @Override
-    public void setApplication(Application application) {
-        super.setApplication(application);
+    public void inject() {
+        super.inject();
         App.getCoreComponent().inject(this);
     }
 }

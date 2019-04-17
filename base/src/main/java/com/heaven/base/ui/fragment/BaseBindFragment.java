@@ -66,21 +66,10 @@ public abstract class BaseBindFragment<VM extends BaseViewModel, B extends ViewD
         if (type instanceof ParameterizedType) {
             Type[] typeArr = ((ParameterizedType) type).getActualTypeArguments();
             if (typeArr.length > 0) {
-                for (Type clazzType : typeArr) {
-                    Class clazz = (Class) clazzType;
-                    String baseViewModelName = BaseViewModel.class.getName();
-
-                    Class<?> suCl=clazz.getSuperclass();
-                    while(suCl != null) {
-                        if(baseViewModelName.equals(suCl.getName())) {
-                            ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication());
-                            mViewModel = (VM) ViewModelProviders.of(this, factory).get(clazz);
-                            mViewModel.setApplication(this.getActivity().getApplication());
-                            break;
-                        }
-                        suCl=suCl.getSuperclass();
-                    }
-                }
+                Class clazz = (Class) typeArr[0];
+                ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication());
+                mViewModel = (VM) ViewModelProviders.of(this, factory).get(clazz);
+                mViewModel.application = this.getActivity().getApplication();
             }
         }
     }

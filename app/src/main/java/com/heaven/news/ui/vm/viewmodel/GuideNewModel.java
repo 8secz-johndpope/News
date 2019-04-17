@@ -1,7 +1,5 @@
 package com.heaven.news.ui.vm.viewmodel;
 
-import com.heaven.base.vm.BaseViewModel;
-
 /**
  * FileName: com.heaven.news.ui.vm.viewmodel.GuideNewModel.java
  * author: Heaven
@@ -10,7 +8,7 @@ import com.heaven.base.vm.BaseViewModel;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class GuideNewModel extends AbsViewModel {
+public class GuideNewModel extends AbstractViewModel {
 
     @Override
     public void initModel() {

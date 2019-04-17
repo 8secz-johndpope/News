@@ -5,7 +5,6 @@ import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.text.TextUtils;
 
-import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.BR;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
@@ -21,7 +20,7 @@ import java.io.Serializable;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class LoginViewModel extends AbsViewModel {
+public class LoginViewModel extends AbstractViewModel {
 
     public UserInfo userInfo;
 
