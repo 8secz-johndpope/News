@@ -49,7 +49,6 @@ dependencies {
     api archDep.extensions
     api uiDep.arouterapi
     annotationProcessor uiDep.glideannotion
-    api 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 //    api uiDep.styleableToast
 
     api 'com.github.todou:appbarspring:1.0.3'

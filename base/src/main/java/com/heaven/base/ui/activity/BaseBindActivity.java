@@ -2,19 +2,9 @@ package com.heaven.base.ui.activity;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.view.View;
 
-import com.heaven.base.R;
-import com.heaven.base.ui.SpUtil;
-import com.heaven.base.ui.view.widget.SwipeBackLayout;
-import com.heaven.base.utils.MPermissionUtils;
 import com.heaven.base.vm.BaseViewModel;
 
 import java.lang.reflect.ParameterizedType;

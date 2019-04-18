@@ -11,7 +11,8 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBarOverlay">false</item>
         <item name="android:windowBackground">@color/transparent</item>
-
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
 
         //==================Color============//
         <item name="colorPrimary">@color/colorPrimary</item>

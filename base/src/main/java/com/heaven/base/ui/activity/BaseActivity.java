@@ -18,9 +18,9 @@ import android.widget.LinearLayout;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.base.R;
 import com.heaven.base.ui.SpUtil;
+import com.heaven.base.ui.view.SystemBarTintManager;
 import com.heaven.base.ui.view.widget.SwipeBackLayout;
 import com.heaven.base.utils.MPermissionUtils;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
  * FileName: com.heaven.base.ui.activity.BaseActivity.java

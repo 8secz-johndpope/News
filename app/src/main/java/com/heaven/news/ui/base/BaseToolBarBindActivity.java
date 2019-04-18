@@ -12,9 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.heaven.base.ui.activity.BaseBindActivity;
+import com.heaven.base.ui.view.SystemBarTintManager;
 import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.R;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
 
@@ -323,6 +323,8 @@ public abstract class BaseToolBarBindActivity<VM extends BaseViewModel, B extend
     @Override
     protected void setBarColor(SystemBarTintManager tintManager) {
         tintManager.setStatusBarTintResource(R.mipmap.toolbar_bg);
+//        tintManager.setTintColor(R.color.transparent);
+//        tintManager.setStatusBarAlpha(0);
     }
 
     public void addToolBarListener(View.OnClickListener toolBarListener) {
