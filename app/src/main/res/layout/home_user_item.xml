@@ -1,14 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scaleType="fitXY"
+        android:src="@mipmap/hom_user_info_bg"
         android:id="@+id/user_info_bg"
         />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/_15dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_header_null"
+            android:layout_marginTop="@dimen/_35dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15dp"
+            android:id="@+id/user_name"
+            android:textColor="@color/white"
+            android:text="张玉国"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/home_user_levle"
+            android:drawablePadding="@dimen/_10dp"
+            android:layout_marginTop="@dimen/_4dp"
+            android:textColor="@color/white"
+            android:id="@+id/user_level"
+            android:text="等级：普卡"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/home_user_mile"
+            android:drawablePadding="@dimen/_10dp"
+            android:layout_marginTop="@dimen/_4dp"
+            android:textColor="@color/white"
+            android:id="@+id/user_mile"
+            android:text="里程：36347"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/_10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_6dp"
+            android:drawablePadding="@dimen/_8dp"
+            android:background="@drawable/home_user_item_bg"
+            android:textColor="@color/white"
+            android:drawableLeft="@mipmap/home_user_award_ticket"
+            android:text="@string/phoenix_award_ticket"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6dp"
+            android:padding="@dimen/_6dp"
+            android:drawablePadding="@dimen/_8dp"
+            android:background="@drawable/home_user_item_bg"
+            android:textColor="@color/white"
+            android:drawableLeft="@mipmap/home_user_mileage_updata"
+            android:text="@string/phoenix_mileage_supplement"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6dp"
+            android:padding="@dimen/_6dp"
+            android:drawablePadding="@dimen/_8dp"
+            android:background="@drawable/home_user_item_bg"
+            android:textColor="@color/white"
+            android:drawableLeft="@mipmap/home_user_mileage_detail"
+            android:text="@string/phoenix_mileage_detail"
+            />
+
+    </LinearLayout>
+
+</FrameLayout>

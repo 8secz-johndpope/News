@@ -10,4 +10,6 @@
     <color name="red">#EE2934</color>
     <color name="f9f9f9">#F9F9F9</color>
 
+    <color name="half_transparent">#4d000000</color>
+
 </resources>
