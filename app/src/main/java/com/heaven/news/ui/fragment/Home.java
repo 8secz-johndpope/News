@@ -279,7 +279,9 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
             if(DataCore.HOME == coreDataWrapper.dataType) {
                 updateBannerData();
             } else if(DataCore.LOGIN == coreDataWrapper.dataType) {
-                recommendAdapter.notifyItemChanged(2);
+                recommendAdapter.notifyItemChanged(2,1);
+            } else if(DataCore.MILE == coreDataWrapper.dataType) {
+                recommendAdapter.notifyItemChanged(2,1);
             }
         }
     }

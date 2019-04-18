@@ -33,12 +33,15 @@ public class HomeUserHolder extends BaseMultItem<ServiceItem> {
         holder.setText(R.id.user_name,coreDataWrapper.userName);
         holder.setText(R.id.user_level,String.format(holder.context.getString(R.string.user_level),coreDataWrapper.cardLevelRes == 0? "--" : holder.context.getString(coreDataWrapper.cardLevelRes)));
         holder.setText(R.id.user_mile,String.format(holder.context.getString(R.string.user_level),coreDataWrapper.userMile));
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull ServiceItem serviceItem, Object payload) {
-
+        DataCore.CoreDataWrapper coreDataWrapper = AppEngine.instance().dataCore().getCoreDataWrapper();
+        holder.setImageResource(R.id.user_header, coreDataWrapper.sexHeaderRes);
+        holder.setText(R.id.user_name,coreDataWrapper.userName);
+        holder.setText(R.id.user_level,String.format(holder.context.getString(R.string.user_level),coreDataWrapper.cardLevelRes == 0? "--" : holder.context.getString(coreDataWrapper.cardLevelRes)));
+        holder.setText(R.id.user_mile,String.format(holder.context.getString(R.string.user_level),coreDataWrapper.userMile));
     }
 
     @Override
