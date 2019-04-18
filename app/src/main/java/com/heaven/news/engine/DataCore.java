@@ -517,8 +517,8 @@ public class DataCore {
         public HomeImageInfo homeConfigData;
         public queryRespVO userAllInfo;
 
-        public String userName;
-        public int    sexHeaderRes;
+        public String userName = "--";
+        public int    sexHeaderRes = R.mipmap.icon_header_null;
         public String idNumber;
         public String userId;
         public String phoenixNumber;

@@ -60,7 +60,7 @@ import java.util.List;
  */
 public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper> {
     BaseAdapter<ServiceInfo> mServiceAdapter;
-
+    BaseMultAdapter recommendAdapter;
     @Override
     public int initLayoutResId() {
         return R.layout.home;
@@ -167,12 +167,12 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
     private void initRecommends() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         mViewBinding.recommendService.setLayoutManager(gridLayoutManager);
-        BaseMultAdapter adapter = new BaseMultAdapter(getContext(), organizeRecData());
-        adapter.register(new HomeRecHolder(ServiceItem.class, 0));
-        adapter.register(new HomeHotHolder(ImageInfo.class, R.layout.home_hot));
-        adapter.register(new HomeHotTitleHoler(HomeHotTitle.class, R.layout.home_hot_title));
+        recommendAdapter = new BaseMultAdapter(getContext(), organizeRecData());
+        recommendAdapter.register(new HomeRecHolder(ServiceItem.class, 0));
+        recommendAdapter.register(new HomeHotHolder(ImageInfo.class, R.layout.home_hot));
+        recommendAdapter.register(new HomeHotTitleHoler(HomeHotTitle.class, R.layout.home_hot_title));
         mViewBinding.recommendService.addItemDecoration(new ItemDecoration(ScreenUtil.dip2px(getContext(), 5)));
-        mViewBinding.recommendService.setAdapter(adapter);
+        mViewBinding.recommendService.setAdapter(recommendAdapter);
 
     }
 
@@ -275,8 +275,12 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
 
     @Override
     public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
-        if (coreDataWrapper != null && DataCore.HOME == coreDataWrapper.dataType) {
-            updateBannerData();
+        if (coreDataWrapper != null) {
+            if(DataCore.HOME == coreDataWrapper.dataType) {
+                updateBannerData();
+            } else if(DataCore.LOGIN == coreDataWrapper.dataType) {
+                recommendAdapter.notifyItemChanged(2);
+            }
         }
     }
 

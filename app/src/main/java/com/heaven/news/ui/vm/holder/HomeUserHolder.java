@@ -6,6 +6,8 @@ import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
+import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.vm.model.base.ServiceItem;
 
 /**
@@ -25,7 +27,13 @@ public class HomeUserHolder extends BaseMultItem<ServiceItem> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull ServiceItem serviceItem) {
+        DataCore.CoreDataWrapper coreDataWrapper = AppEngine.instance().dataCore().getCoreDataWrapper();
         holder.setImageResource(R.id.user_info_bg, ScreenUtil.getImageResId(holder.context,serviceItem.iconID));
+        holder.setImageResource(R.id.user_header, coreDataWrapper.sexHeaderRes);
+        holder.setText(R.id.user_name,coreDataWrapper.userName);
+        holder.setText(R.id.user_level,String.format(holder.context.getString(R.string.user_level),coreDataWrapper.cardLevelRes == 0? "--" : holder.context.getString(coreDataWrapper.cardLevelRes)));
+        holder.setText(R.id.user_mile,String.format(holder.context.getString(R.string.user_level),coreDataWrapper.userMile));
+
     }
 
     @Override

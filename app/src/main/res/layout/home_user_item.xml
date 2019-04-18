@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_header_null"
             android:layout_marginTop="@dimen/_35dp"
+            android:id="@+id/user_header"
             />
 
         <TextView
@@ -31,7 +32,6 @@
             android:layout_marginTop="@dimen/_15dp"
             android:id="@+id/user_name"
             android:textColor="@color/white"
-            android:text="张玉国"
             />
 
         <TextView
@@ -42,7 +42,6 @@
             android:layout_marginTop="@dimen/_4dp"
             android:textColor="@color/white"
             android:id="@+id/user_level"
-            android:text="等级：普卡"
             />
 
         <TextView
@@ -53,7 +52,6 @@
             android:layout_marginTop="@dimen/_4dp"
             android:textColor="@color/white"
             android:id="@+id/user_mile"
-            android:text="里程：36347"
             />
 
 
