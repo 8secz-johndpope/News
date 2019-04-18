@@ -17,7 +17,7 @@
 
         //==================Color============//
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="backgroundCard">@color/backgroundCard</item>
         <item name="textColor">@color/textColor</item>

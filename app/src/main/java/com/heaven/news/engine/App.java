@@ -29,8 +29,6 @@ public class App extends Application{
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        long start = System.currentTimeMillis();
-        Log.d("ryg", "use time:" + (System.currentTimeMillis() - start));
     }
 
 
@@ -38,13 +36,8 @@ public class App extends Application{
      * app初始化
      */
     private void init(){
-        initDi();
         AppEngine.instance();
 //        this.initializeLeakDetection();
-    }
-
-    private void initDi() {
-
     }
 
 

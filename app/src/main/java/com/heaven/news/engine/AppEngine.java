@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.base.ui.SpUtil;
 import com.heaven.data.dbentity.DownEntity;
 import com.heaven.data.fileworker.DownLoadWorker;
@@ -40,6 +41,8 @@ import java.util.Stack;
 
 import javax.inject.Inject;
 
+import dagger.Lazy;
+
 /**
  * 作者:Heaven.
  * 时间: on 2017/3/31 14:05
@@ -58,11 +61,11 @@ public final class AppEngine {
      * 数据源网络和本地
      */
     @Inject
-    DataSource mDataSource;
+    Lazy<DataSource> mDataSource;
     @Inject
     DataCore mDataCore;
     @Inject
-    Api mApi;
+    Lazy<Api> mApi;
 
     /**
      * 后台服务中心
@@ -84,6 +87,7 @@ public final class AppEngine {
     /**
      * 私有构造方法.
      */
+    @TraceTime
     private AppEngine() {
         init();
     }
@@ -91,18 +95,18 @@ public final class AppEngine {
     /**
      * 引擎初始化.
      */
-    private synchronized void init() {
+    private void init() {
         store = new Stack<>();
         initDi();
         initDayNightTheme();
-        //启动后台服务
-//        ServiceCore.instance(appDelegate.context());
-        //activity声明周期检测
+//        //启动后台服务
+////        ServiceCore.instance(appDelegate.context());
+//        //activity声明周期检测
         SwitchBackgroundCallbacks callbacks = new SwitchBackgroundCallbacks();
         ((App)app).registerActivityLifecycleCallbacks(callbacks);
         initArouter();
         getDataSource().runWorkThread(this::initAppInfo);
-        //耗时初始化在线程中
+//        //耗时初始化在线程中
         getDataSource().runWorkThread(this::initInThread);
 
     }
@@ -243,7 +247,7 @@ public final class AppEngine {
      * @return 数据源
      */
     public DataSource getDataSource() {
-        return mDataSource;
+        return mDataSource.get();
     }
 
 
@@ -252,7 +256,7 @@ public final class AppEngine {
     }
 
     public Api api() {
-        return mApi;
+        return mApi.get();
     }
 
     /**
@@ -266,7 +270,7 @@ public final class AppEngine {
      *         数据
      */
     public void cacheData(int type, String key, Object entity) {
-        mDataSource.cacheData(type, key, entity);
+        mDataSource.get().cacheData(type, key, entity);
     }
 
     /**
@@ -276,7 +280,7 @@ public final class AppEngine {
      *         头数据
      */
     public void removeHeaderData(HashMap<String, String> hashMap) {
-        mDataSource.removeExtraHeader(hashMap);
+        mDataSource.get().removeExtraHeader(hashMap);
     }
 
 
@@ -291,7 +295,7 @@ public final class AppEngine {
      * @return 缓存数据
      */
     public <E> E getCacheData(String key) {
-        return mDataSource.getCacheEntity(key);
+        return mDataSource.get().getCacheEntity(key);
     }
 
     /**
@@ -307,7 +311,7 @@ public final class AppEngine {
      * @return 缓存数据
      */
     public <E> E getCacheData(int type, String key) {
-        return mDataSource.getCacheEntity(type, key);
+        return mDataSource.get().getCacheEntity(type, key);
     }
 
     /**
@@ -605,7 +609,7 @@ public final class AppEngine {
         if (mDataSource != null) {
             DownEntity entity = new DownEntity(true, -1, url, folderPath, 0, 0);
             entity.listener = listener;
-            mDataSource.downLoadFile(entity);
+            mDataSource.get().downLoadFile(entity);
         }
     }
 

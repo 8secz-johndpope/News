@@ -14,7 +14,9 @@
         >
 
 
-        <activity android:name=".ui.activity.Welcome">
+        <activity android:name=".ui.activity.Welcome"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/welcome_style">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
