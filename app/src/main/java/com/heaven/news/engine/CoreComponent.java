@@ -1,6 +1,6 @@
 package com.heaven.news.engine;
 
-import com.heaven.news.ui.vm.viewmodel.AbstractViewModel;
+import com.heaven.news.ui.vm.vmmodel.AbstractViewModel;
 
 import javax.inject.Singleton;
 

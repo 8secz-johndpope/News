@@ -27,7 +27,7 @@ import com.heaven.news.ui.fragment.Home;
 import com.heaven.news.ui.fragment.Mine;
 import com.heaven.news.ui.fragment.Phoenix;
 import com.heaven.news.ui.fragment.TravelRoute;
-import com.heaven.news.ui.vm.viewmodel.MainViewModel;
+import com.heaven.news.ui.vm.vmmodel.MainViewModel;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;

@@ -1,9 +1,6 @@
-package com.heaven.news.ui.vm.viewmodel;
-
-import android.app.Application;
+package com.heaven.news.ui.vm.vmmodel;
 
 import com.heaven.base.vm.BaseViewModel;
-import com.heaven.data.manager.DataSource;
 import com.heaven.news.engine.Api;
 import com.heaven.news.engine.App;
 

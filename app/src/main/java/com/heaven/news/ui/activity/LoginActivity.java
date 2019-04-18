@@ -12,7 +12,7 @@ import com.heaven.news.databinding.LoginBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
-import com.heaven.news.ui.vm.viewmodel.LoginViewModel;
+import com.heaven.news.ui.vm.vmmodel.LoginViewModel;
 
 /**
  * @author heaven

@@ -12,7 +12,7 @@ import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.GuideBinding;
 import com.heaven.news.ui.adapter.CardTransformer;
 import com.heaven.news.ui.adapter.GuidePageAdapter;
-import com.heaven.news.ui.vm.viewmodel.GuideNewModel;
+import com.heaven.news.ui.vm.vmmodel.GuideNewModel;
 
 import java.util.ArrayList;
 

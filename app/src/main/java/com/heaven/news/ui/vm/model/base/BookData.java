@@ -1,6 +1,6 @@
 package com.heaven.news.ui.vm.model.base;
 
-import com.heaven.news.ui.vm.viewmodel.MainViewModel;
+import com.heaven.news.ui.vm.vmmodel.MainViewModel;
 
 /**
  * FileName: com.heaven.news.ui.vm.model.base.BookData.java

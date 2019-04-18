@@ -25,7 +25,7 @@ import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 import com.heaven.news.ui.vm.model.base.ImageInfo;
 import com.heaven.news.ui.vm.model.base.PhoenixService;
 import com.heaven.news.ui.vm.model.base.ServiceInfo;
-import com.heaven.news.ui.vm.viewmodel.MainViewModel;
+import com.heaven.news.ui.vm.vmmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

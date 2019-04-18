@@ -11,7 +11,7 @@ import com.heaven.news.R;
 import com.heaven.news.databinding.MineBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
-import com.heaven.news.ui.vm.viewmodel.MainViewModel;
+import com.heaven.news.ui.vm.vmmodel.MainViewModel;
 
 /**
  * FileName: com.heaven.news.ui.fragment.Home.java

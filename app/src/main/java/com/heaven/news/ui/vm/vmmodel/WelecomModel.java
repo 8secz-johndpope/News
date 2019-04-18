@@ -1,4 +1,4 @@
-package com.heaven.news.ui.vm.viewmodel;
+package com.heaven.news.ui.vm.vmmodel;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;

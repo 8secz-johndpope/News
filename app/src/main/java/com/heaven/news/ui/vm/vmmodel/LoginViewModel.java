@@ -1,4 +1,4 @@
-package com.heaven.news.ui.vm.viewmodel;
+package com.heaven.news.ui.vm.vmmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;

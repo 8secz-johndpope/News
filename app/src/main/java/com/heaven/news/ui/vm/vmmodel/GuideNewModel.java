@@ -1,4 +1,4 @@
-package com.heaven.news.ui.vm.viewmodel;
+package com.heaven.news.ui.vm.vmmodel;
 
 /**
  * FileName: com.heaven.news.ui.vm.viewmodel.GuideNewModel.java

@@ -44,7 +44,7 @@ import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 import com.heaven.news.ui.vm.model.base.ServiceInfo;
 import com.heaven.news.ui.vm.model.base.ImageInfo;
 import com.heaven.news.ui.vm.model.base.ServiceItem;
-import com.heaven.news.ui.vm.viewmodel.MainViewModel;
+import com.heaven.news.ui.vm.vmmodel.MainViewModel;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
 
 import java.util.ArrayList;
@@ -139,7 +139,6 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
         if(bottomBarList.length > 0) {
             for(String tabName : bottomBarList) {
                 View barItem = LayoutInflater.from(getContext()).inflate(R.layout.bottom_tab_item, null);
-                ViewGroup.LayoutParams params = barItem.getLayoutParams();
                 TextView barName = barItem.findViewById(R.id.bottom_bar_name);
                 barName.setText(tabName);
                 tabLayout.addTab(tabLayout.newTab().setCustomView(barItem));

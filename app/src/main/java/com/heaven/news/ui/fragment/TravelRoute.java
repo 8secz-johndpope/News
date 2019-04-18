@@ -19,7 +19,7 @@ import com.heaven.news.manyData.adapter.ItemVIewNormal;
 import com.heaven.news.manyData.bean.Bean01;
 import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
-import com.heaven.news.ui.vm.viewmodel.MainViewModel;
+import com.heaven.news.ui.vm.vmmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
