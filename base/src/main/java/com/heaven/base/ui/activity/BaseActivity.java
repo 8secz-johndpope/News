@@ -37,6 +37,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initMmersionTitleBar();
         if(initLayoutResId() > 0) {
             LinearLayout rootView = (LinearLayout) getLayoutInflater().inflate(R.layout.base, null);
             if(iniTitleBarResId() > 0) {
@@ -49,7 +50,6 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
             rootView.addView(mainView);
             this.makeContentView(rootView);
             getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
-            initMmersionTitleBar();
             initView(rootView);
         }
         ARouter.getInstance().inject(this);
@@ -88,7 +88,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     }
 
     @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
+    protected void setTranslucentStatus(boolean on) {
         Window win = getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
         final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;

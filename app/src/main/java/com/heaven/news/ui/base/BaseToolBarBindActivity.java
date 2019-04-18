@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -323,8 +324,6 @@ public abstract class BaseToolBarBindActivity<VM extends BaseViewModel, B extend
     @Override
     protected void setBarColor(SystemBarTintManager tintManager) {
         tintManager.setStatusBarTintResource(R.mipmap.toolbar_bg);
-//        tintManager.setTintColor(R.color.transparent);
-//        tintManager.setStatusBarAlpha(0);
     }
 
     public void addToolBarListener(View.OnClickListener toolBarListener) {
