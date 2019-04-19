@@ -93,7 +93,7 @@
                 android:layout_gravity="end|bottom"
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/ic_done"
-                android:onClick="@{() -> viewModel.login()}"
+                android:onClick="@{viewModel::login}"
                 />
         </LinearLayout>
     </LinearLayout>

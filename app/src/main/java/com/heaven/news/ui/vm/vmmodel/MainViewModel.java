@@ -54,6 +54,11 @@ public class MainViewModel extends AbstractViewModel {
         });
     }
 
+
+    public void flightSearch() {
+
+    }
+
     public void easyGoSearch() {
         if(!TextUtils.isEmpty(easyGoSearch.getSearchKey())) {
 

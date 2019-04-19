@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.heaven.news.BR;
 import com.heaven.news.consts.Constants;
@@ -26,7 +27,7 @@ public class LoginViewModel extends AbstractViewModel {
 
     //    @Permission(value = Manifest.permission.READ_CONTACTS)
 //    @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    public void login() {
+    public void login(View view) {
         AppEngine.instance().getDataSource().addHeader("Content-Type", "text/xml;charset=UTF-8");
         String count = userInfo.count;
         String passwords = userInfo.password;
