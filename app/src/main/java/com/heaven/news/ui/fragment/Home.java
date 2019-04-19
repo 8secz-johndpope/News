@@ -113,9 +113,9 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
 
     private void initBookTab() {
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        TabLayout tabLayout = mViewBinding.bookArea.findViewById(R.id.book_tab);
+        TabLayout tabLayout = mViewBinding.bookArea.bookTab;
         final String[] bottomBarList = getResources().getStringArray(R.array.book_type);
-        RecyclerViewPager bookPager = mViewBinding.bookArea.findViewById(R.id.viewpager);
+        RecyclerViewPager bookPager = mViewBinding.bookArea.viewpager;
         BookData go = new BookData(1,mViewModel);
         BookData goBack = new BookData(2,mViewModel);
         BookData mult = new BookData(3,mViewModel);

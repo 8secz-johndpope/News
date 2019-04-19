@@ -1,107 +1,120 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/_20dp"
-    android:layout_marginTop="-30dp"
-    android:layout_marginRight="@dimen/_20dp"
-    app:cardCornerRadius="@dimen/_10dp"
-    app:cardPreventCornerOverlap = "true"
-    >
-    <LinearLayout
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+        <variable
+            name="MainModel"
+            type="com.heaven.news.ui.vm.vmmodel.MainViewModel" />
+
+    </data>
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/_20dp"
+        android:layout_marginTop="-30dp"
+        android:layout_marginRight="@dimen/_20dp"
+        app:cardCornerRadius="@dimen/_10dp"
+        app:cardPreventCornerOverlap="true"
         >
-        <android.support.design.widget.TabLayout
-            android:id="@+id/book_tab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/MyCustomTabLayout"
-            app:tabPaddingBottom="@dimen/_0dp"
-            app:tabPaddingTop="@dimen/_0dp"
-            app:tabIndicatorGravity="bottom"
-            />
-        <View style="@style/driver_line_e4e4e4" android:layout_marginTop="-2dp"/>
-        <com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/_30dp"
-            android:paddingRight="@dimen/_30dp"
             >
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/book_tab"
+                style="@style/MyCustomTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabIndicatorGravity="bottom"
+                app:tabPaddingBottom="@dimen/_0dp"
+                app:tabPaddingTop="@dimen/_0dp"
+                />
+
+            <View
+                style="@style/driver_line_e4e4e4"
+                android:layout_marginTop="-2dp"/>
+
+            <com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10dp"
-                android:layout_marginBottom="@dimen/_10dp"
-                android:weightSum="3"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_30dp"
+                android:paddingRight="@dimen/_30dp"
                 >
 
-                <TextView
-                    android:id="@+id/common_city_one"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="深圳-大阪"
-                    android:textSize="@dimen/_12sp"
-                    />
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:layout_marginBottom="@dimen/_10dp"
+                    android:weightSum="3"
+                    >
+
+                    <TextView
+                        android:id="@+id/common_city_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="深圳-大阪"
+                        android:textSize="@dimen/_12sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/common_city_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="深圳-北京"
+                        android:textSize="@dimen/_12sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/common_city_three"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="北京-深圳"
+                        android:textSize="@dimen/_12sp"
+                        />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/common_city_two"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:background="@drawable/button_bg"
                     android:gravity="center"
-                    android:text="深圳-北京"
-                    android:textSize="@dimen/_12sp"
+                    android:padding="@dimen/_14dp"
+                    android:text="@string/search_book"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_18sp"
                     />
 
                 <TextView
-                    android:id="@+id/common_city_three"
+                    android:id="@+id/home_price_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="北京-深圳"
-                    android:textSize="@dimen/_12sp"
-                    />
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:layout_marginBottom="@dimen/_10dp"
+                    android:drawableLeft="@mipmap/one_price"
+                    android:drawablePadding="@dimen/_5dp"
+                    android:text="@string/one_price"
+                    android:textColor="@color/red"/>
+
             </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_bg"
-                android:gravity="center"
-                android:padding="@dimen/_14dp"
-                android:text="@string/search_book"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_18sp"
-                />
-
-            <TextView
-                android:id="@+id/home_price_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10dp"
-                android:layout_marginBottom="@dimen/_10dp"
-                android:drawableLeft="@mipmap/one_price"
-                android:drawablePadding="@dimen/_5dp"
-                android:text="@string/one_price"
-                android:textColor="@color/red" />
 
         </LinearLayout>
 
-    </LinearLayout>
-
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</layout>

@@ -2,6 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="MainViewModel"
+            type="com.heaven.news.ui.vm.vmmodel.MainViewModel" />
+
+    </data>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,7 +46,7 @@
                     app:pointsPosition="CENTER" />
             </LinearLayout>
 
-            <include layout="@layout/book_flight_area" android:id="@+id/book_area"/>
+            <include layout="@layout/book_flight_area" android:id="@+id/book_area" app:MainModel="@{MainViewModel}"/>
 
 
             <com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPager

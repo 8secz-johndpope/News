@@ -34,6 +34,12 @@ import java.util.List;
  */
 public class TravelRoute extends BaseBindFragment<MainViewModel,RouteBinding> implements OnRefreshListener, OnLoadMoreListener {
     List<Object> items;
+
+    @Override
+    public int initLayoutResId() {
+        return R.layout.route;
+    }
+
     @Override
     public void bindModel() {
 
@@ -71,11 +77,6 @@ public class TravelRoute extends BaseBindFragment<MainViewModel,RouteBinding> im
         }
 
         adapter.updateItems(items);
-    }
-
-    @Override
-    public int initLayoutResId() {
-        return R.layout.route;
     }
 
     @Override
