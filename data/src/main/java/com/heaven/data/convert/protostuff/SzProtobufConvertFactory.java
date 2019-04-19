@@ -46,7 +46,7 @@ public class SzProtobufConvertFactory extends Converter.Factory{
     @Nullable
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        return new ProtoBufResBodyConvert<>();
+        return new ProtoBufResBodyConvert<>(type);
     }
 
     @Nullable

@@ -2,10 +2,12 @@ package com.heaven.data.convert.protostuff;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.internal.$Gson$Types;
 import com.heaven.data.util.ProtoStuffUtil;
 import com.neusoft.szair.model.flightsearchnew.flightSearchDomesticResponse;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 import javax.annotation.Nullable;
 
@@ -21,9 +23,18 @@ import retrofit2.Converter;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class ProtoBufResBodyConvert<T> implements Converter<ResponseBody, T> {
+    @SuppressWarnings("unchecked")
+    private Class<? super T> targetClass;
+
+    @SuppressWarnings("unchecked")
+    ProtoBufResBodyConvert(Type type) {
+        this.targetClass = (Class<? super T>) $Gson$Types.getRawType(type);
+    }
+
+    @SuppressWarnings("unchecked")
     @Nullable
     @Override
     public T convert(@NonNull ResponseBody responseBody) throws IOException {
-        return (T) ProtoStuffUtil.deserializer(responseBody.byteStream(), flightSearchDomesticResponse.class);
+        return (T) ProtoStuffUtil.deserializer(responseBody.byteStream(), targetClass);
     }
 }
