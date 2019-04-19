@@ -113,9 +113,7 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
 
     private void initBookTab() {
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        TabLayout tabLayout = mViewBinding.bookArea.bookTab;
         final String[] bottomBarList = getResources().getStringArray(R.array.book_type);
-        RecyclerViewPager bookPager = mViewBinding.bookArea.viewpager;
         BookData go = new BookData(1,mViewModel);
         BookData goBack = new BookData(2,mViewModel);
         BookData mult = new BookData(3,mViewModel);
@@ -127,11 +125,11 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
         adapter.register(new HomeBookGo(BookData.class,R.layout.book_go));
         adapter.register(new HomeBookGoBack(BookData.class,R.layout.book_go_back));
         adapter.register(new HomeBookMult(BookData.class,R.layout.book_mult));
-        bookPager.setLayoutManager(layout);
-        bookPager.setAdapter(adapter);
-        tabLayout.setScrollPosition(0, 0f, true);
-        bookPager.bindTabLayout(tabLayout);
-        bookPager.addOnPageChangedListener((oldPosition, newPosition) -> {
+        mViewBinding.bookArea.viewpager.setLayoutManager(layout);
+        mViewBinding.bookArea.viewpager.setAdapter(adapter);
+        mViewBinding.bookArea.bookTab.setScrollPosition(0, 0f, true);
+        mViewBinding.bookArea.viewpager.bindTabLayout(mViewBinding.bookArea.bookTab);
+        mViewBinding.bookArea.viewpager.addOnPageChangedListener((oldPosition, newPosition) -> {
 //            tabLayout.selectTab(tabLayout.getTabAt(newPosition), 1);
         });
 //        TabBindRecyclerUtil.bind(bookPager,tabLayout);
@@ -141,7 +139,7 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
                 View barItem = LayoutInflater.from(getContext()).inflate(R.layout.bottom_tab_item, null);
                 TextView barName = barItem.findViewById(R.id.bottom_bar_name);
                 barName.setText(tabName);
-                tabLayout.addTab(tabLayout.newTab().setCustomView(barItem));
+                mViewBinding.bookArea.bookTab.addTab(mViewBinding.bookArea.bookTab.newTab().setCustomView(barItem));
             }
         }
 
