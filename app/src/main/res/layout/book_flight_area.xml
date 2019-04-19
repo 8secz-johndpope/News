@@ -3,7 +3,7 @@
     <data>
 
         <variable
-            name="MainModel"
+            name="mainViewModel"
             type="com.heaven.news.ui.vm.vmmodel.MainViewModel" />
 
     </data>
@@ -98,6 +98,7 @@
                     android:text="@string/search_book"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_18sp"
+                    android:onClick="@{mainViewModel::flightSearch}"
                     />
 
                 <TextView

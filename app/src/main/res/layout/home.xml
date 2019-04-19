@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="MainViewModel"
+            name="mainViewModel"
             type="com.heaven.news.ui.vm.vmmodel.MainViewModel" />
 
     </data>
@@ -46,7 +47,7 @@
                     app:pointsPosition="CENTER" />
             </LinearLayout>
 
-            <include layout="@layout/book_flight_area" android:id="@+id/book_area" app:MainModel="@{MainViewModel}"/>
+            <include layout="@layout/book_flight_area" android:id="@+id/book_area" app:mainViewModel="@{mainViewModel}"/>
 
 
             <com.heaven.base.ui.view.widget.recyclerPager.RecyclerViewPager

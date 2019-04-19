@@ -6,6 +6,7 @@ import android.arch.lifecycle.Observer;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.api.LoginApi;
@@ -15,6 +16,8 @@ import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.noticelist.NoticeListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
 import com.neusoft.szair.model.noticelist.queryNoticeList;
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
 /**
@@ -55,8 +58,8 @@ public class MainViewModel extends AbstractViewModel {
     }
 
 
-    public void flightSearch() {
-
+    public void flightSearch(View view) {
+        Logger.i("flightSearch------");
     }
 
     public void easyGoSearch() {

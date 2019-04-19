@@ -77,6 +77,11 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
         initHomeNotice();
     }
 
+    @Override
+    public void bindModel() {
+        mViewBinding.setMainViewModel(mViewModel);
+    }
+
     private void initTopBanner() {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtil.getScreenWidth(getContext()) / 2);
         mViewBinding.banner.setLayoutParams(layoutParams);
@@ -220,11 +225,6 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
         return dataList;
     }
 
-
-    @Override
-    public void bindModel() {
-
-    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
