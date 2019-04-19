@@ -9,16 +9,26 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.heaven.data.manager.DataSource;
+import com.heaven.news.BuildConfig;
+import com.heaven.news.api.FlightApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.utils.RxRepUtils;
+import com.neusoft.szair.model.flightsearch.FlightSearchWebServiceServiceSoapBinding;
+import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
+import com.neusoft.szair.model.flightsearch.flightSearchDomesticConditionVO;
+import com.neusoft.szair.model.flightsearch.flightSearchDomesticResponse;
+import com.neusoft.szair.model.flightsearch.tripInfoVO;
 import com.neusoft.szair.model.noticelist.NoticeListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
 import com.neusoft.szair.model.noticelist.queryNoticeList;
 import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * FileName: com.heaven.news.ui.vm.viewmodel.MainViewModel.java
@@ -46,7 +56,7 @@ public class MainViewModel extends AbstractViewModel {
         noticelist._PAGE_NO = 0;
         noticelist._PAGE_COUNT = 3;
         NoticeListWebServiceServiceSoapBinding binding = new NoticeListWebServiceServiceSoapBinding("queryNoticeList",noticelist);
-        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(LoginApi.class).queryNoticeList(binding), dataResponse -> {
+        RxRepUtils.instance().getResult(api.getApi(LoginApi.class).queryNoticeList(binding), dataResponse -> {
             if(dataResponse.code == 0 && dataResponse.data != null) {
                 if(dataResponse.data._NOTICE_INFO_LIST != null && dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST != null) {
                     noticeList = dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST;
@@ -60,6 +70,26 @@ public class MainViewModel extends AbstractViewModel {
 
     public void flightSearch(View view) {
         Logger.i("flightSearch------");
+
+        List<tripInfoVO> flightLIst = new ArrayList<>();
+        tripInfoVO flightVo = new tripInfoVO();
+        flightVo.ORG_CITY = "SZX";
+        flightVo.DST_CITY = "PEK";
+        flightVo.DEPARTURE_DATE = "2019-04-20";
+        flightVo.INDEX = "1";
+        flightLIst.add(flightVo);
+        flightSearchDomestic req = new flightSearchDomestic();
+        req.FLIGHT_SEARCH_CONDITION = new flightSearchDomesticConditionVO();
+        req.FLIGHT_SEARCH_CONDITION.TRIP_INFO_LIST = flightLIst;
+        req.FLIGHT_SEARCH_CONDITION.QUERY_FLAG = "DC";
+        req.FLIGHT_SEARCH_CONDITION.USER_ID = AppEngine.instance().dataCore().getCoreDataWrapper().userId;
+        req.FLIGHT_SEARCH_CONDITION.CRM_MEMBER_ID = AppEngine.instance().dataCore().getCoreDataWrapper().crmId;
+
+        FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
+
+        RxRepUtils.instance().getResult(api.getApi(BuildConfig.FLIGHT_URL, FlightApi.class).searchFlight(binding), response -> {
+            Logger.i(response.toString());
+        });
     }
 
     public void easyGoSearch() {

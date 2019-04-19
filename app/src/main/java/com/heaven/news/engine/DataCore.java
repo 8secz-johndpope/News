@@ -313,6 +313,7 @@ public class DataCore {
         coreDataWrapper.cardLevel = phoenixCardLevel;
         coreDataWrapper.ffpIdentify = ffpIdentify;
         coreDataWrapper.phoenixNumber = phoenixNumber;
+        coreDataWrapper.crmId = crmId;
         if ("Gold".equalsIgnoreCase(phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_golden_card;
             coreDataWrapper.cardLevelRes = R.string.card_level_gold;
@@ -521,6 +522,7 @@ public class DataCore {
         public int    sexHeaderRes = R.mipmap.icon_header_null;
         public String idNumber;
         public String userId;
+        public String crmId;
         public String phoenixNumber;
         public String cardLevel;
         public int cardLevelRes;
