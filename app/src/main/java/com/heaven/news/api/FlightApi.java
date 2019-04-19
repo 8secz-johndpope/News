@@ -17,7 +17,7 @@ import retrofit2.http.POST;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public interface FlightApi {
-    @Headers({"Content-Type:protoful; charset=utf-8","Connection:close","DATA-TYPE:PROTOFUL"})
+    @Headers({"Content-Type: application/x-protobuf; charset=utf-8","Connection:close","DATA-TYPE:PROTOFUL"})
     @POST("services/flightSearchWebService?wsdl")
     Flowable<flightSearchDomesticResponse> searchFlight(@Body FlightSearchWebServiceServiceSoapBinding requestEnvelope);
 }

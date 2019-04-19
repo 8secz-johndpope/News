@@ -56,7 +56,7 @@ public class MainViewModel extends AbstractViewModel {
         noticelist._PAGE_NO = 0;
         noticelist._PAGE_COUNT = 3;
         NoticeListWebServiceServiceSoapBinding binding = new NoticeListWebServiceServiceSoapBinding("queryNoticeList",noticelist);
-        RxRepUtils.instance().getResult(api.getApi(LoginApi.class).queryNoticeList(binding), dataResponse -> {
+        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(LoginApi.class).queryNoticeList(binding), dataResponse -> {
             if(dataResponse.code == 0 && dataResponse.data != null) {
                 if(dataResponse.data._NOTICE_INFO_LIST != null && dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST != null) {
                     noticeList = dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST;
@@ -87,7 +87,7 @@ public class MainViewModel extends AbstractViewModel {
 
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
 
-        RxRepUtils.instance().getResult(api.getApi(BuildConfig.FLIGHT_URL, FlightApi.class).searchFlight(binding), response -> {
+        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.FLIGHT_URL, FlightApi.class).searchFlight(binding), response -> {
             Logger.i(response.toString());
         });
     }

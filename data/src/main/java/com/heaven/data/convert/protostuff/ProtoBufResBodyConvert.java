@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.internal.$Gson$Types;
 import com.heaven.data.util.ProtoStuffUtil;
-import com.neusoft.szair.model.flightsearchnew.flightSearchDomesticResponse;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -35,6 +34,7 @@ public class ProtoBufResBodyConvert<T> implements Converter<ResponseBody, T> {
     @Nullable
     @Override
     public T convert(@NonNull ResponseBody responseBody) throws IOException {
-        return (T) ProtoStuffUtil.deserializer(responseBody.byteStream(), targetClass);
+        T response = (T) ProtoStuffUtil.deserializer(responseBody.byteStream(), targetClass);
+        return response;
     }
 }
