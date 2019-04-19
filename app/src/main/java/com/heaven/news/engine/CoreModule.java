@@ -2,6 +2,7 @@ package com.heaven.news.engine;
 
 import android.content.Context;
 
+import com.heaven.data.convert.protostuff.SzProtobufConvertFactory;
 import com.heaven.data.convert.szair.SzAirConvertFactory;
 import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.NetGlobalConfig;
@@ -35,6 +36,7 @@ public class CoreModule {
         DataSource.Builder builder = new DataSource.Builder(context);
         builder.addNetRepo(BuildConfig.ROOT_URL, SzAirConvertFactory.create());
         builder.addNetRepo(BuildConfig.CONFIG_URL, GsonConverterFactory.create());
+        builder.addNetRepo(BuildConfig.FLIGHT_URL, SzProtobufConvertFactory.create());
         DataSource dataSource = builder.build();
         dataSource.addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
         dataSource.addHeader("Connection", "close");

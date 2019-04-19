@@ -152,6 +152,7 @@ android {
 //            buildConfigField "String", "CONFIG_URL", '"http://waptest.shenzhenair.com/file/"'
 
             buildConfigField "String", "ROOT_URL", '"https://mobile.shenzhenair.com/develop/szairMobileWS/services/"'
+            buildConfigField "String", "FLIGHT_URL", '"https://mobile.shenzhenair.com/develop/szairMobileWS/"'
             buildConfigField "String", "CONFIG_URL", '"http://mobile.shenzhenair.com/file/develop/"'
 
             buildConfigField "String", "QQ_APP_ID", '""'

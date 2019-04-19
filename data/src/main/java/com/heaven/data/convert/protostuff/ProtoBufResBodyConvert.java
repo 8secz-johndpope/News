@@ -1,0 +1,29 @@
+package com.heaven.data.convert.protostuff;
+
+import android.support.annotation.NonNull;
+
+import com.heaven.data.util.ProtoStuffUtil;
+import com.neusoft.szair.model.flightsearchnew.flightSearchDomesticResponse;
+
+import java.io.IOException;
+
+import javax.annotation.Nullable;
+
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
+
+/**
+ * FileName: com.heaven.data.convert.protostuff.ProtoBufResBodyConvert.java
+ * author: Heaven
+ * email: heavenisme@aliyun.com
+ * date: 2019-04-19 12:11
+ *
+ * @version V1.0 TODO <描述当前版本功能>
+ */
+public class ProtoBufResBodyConvert<T> implements Converter<ResponseBody, T> {
+    @Nullable
+    @Override
+    public T convert(@NonNull ResponseBody responseBody) throws IOException {
+        return (T) ProtoStuffUtil.deserializer(responseBody.byteStream(), flightSearchDomesticResponse.class);
+    }
+}

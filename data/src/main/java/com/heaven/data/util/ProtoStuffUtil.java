@@ -3,6 +3,7 @@ package com.heaven.data.util;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -66,6 +67,24 @@ public class ProtoStuffUtil {
             T obj = clazz.newInstance();
             Schema<T> schema = getSchema(clazz);
             ProtostuffIOUtil.mergeFrom(data, obj, schema);
+            return obj;
+        } catch (Exception e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 反序列化
+     *
+     * @param data 序列化后的byte[]值
+     * @param clazz 反序列化后的对象
+     * @return 返回的对象
+     */
+    public static <T> T deserializer(InputStream in, Class<T> clazz) {
+        try {
+            T obj = clazz.newInstance();
+            Schema<T> schema = getSchema(clazz);
+            ProtostuffIOUtil.mergeFrom(in, obj, schema);
             return obj;
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage(), e);
