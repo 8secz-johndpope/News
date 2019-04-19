@@ -2,7 +2,7 @@ package com.heaven.news.engine;
 
 import android.content.Context;
 
-import com.facebook.stetho.Stetho;
+//import com.facebook.stetho.Stetho;
 
 /**
  * FileName: com.heaven.flybetter.engine.AppOptimizeTool.java
@@ -15,13 +15,13 @@ import com.facebook.stetho.Stetho;
 public class AppOptimizeTool {
 
     public static void toolInit(Context context) {
-        Stetho.initializeWithDefaults(context);
-
-        Stetho.initialize(Stetho
-                .newInitializerBuilder(context)
-                .enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
-                .enableWebKitInspector(
-                        Stetho.defaultInspectorModulesProvider(context)).build());
+//        Stetho.initializeWithDefaults(context);
+//
+//        Stetho.initialize(Stetho
+//                .newInitializerBuilder(context)
+//                .enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
+//                .enableWebKitInspector(
+//                        Stetho.defaultInspectorModulesProvider(context)).build());
     }
 
 }

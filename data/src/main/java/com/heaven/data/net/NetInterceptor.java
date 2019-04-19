@@ -106,7 +106,7 @@ public class NetInterceptor implements Interceptor {
             String responseBodySize = "\n" + "bodySize:" + bodySize + "\n";
 
             if (contentLength < 102400) {
-                Buffer buffer = source.getBuffer();
+                Buffer buffer = source.buffer();
                 source.request(Long.MAX_VALUE); // Buffer the entire body.
                 responseBodyStr = getResponseBody(contentType, contectEncode, buffer.clone());
             } else {

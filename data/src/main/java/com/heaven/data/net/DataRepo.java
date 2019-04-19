@@ -3,7 +3,6 @@ package com.heaven.data.net;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.heaven.data.net.cookie.CookiesManager;
 import com.heaven.data.util.MD5Utils;
 import com.orhanobut.logger.Logger;
@@ -210,7 +209,6 @@ public class DataRepo {
                     .addInterceptor(headerInterceptor)
                     .addInterceptor(new NetInterceptor())
 //                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                    .addInterceptor(new StethoInterceptor())
                     .connectionPool(new ConnectionPool(5, 5, TimeUnit.MINUTES))
                     .followRedirects(isRedirect)
                     .retryOnConnectionFailure(isRetryFailure)//连接失败后是否重新连接
