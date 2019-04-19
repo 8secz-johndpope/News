@@ -1,4 +1,4 @@
-package com.heaven.data.convert.protostuff;
+package com.heaven.news.engine.convert.protostuff;
 
 import android.support.annotation.NonNull;
 
@@ -14,7 +14,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Converter;
 
 /**
- * FileName: com.heaven.data.convert.protostuff.ProtoBufResBodyConvert.java
+ * FileName: com.heaven.news.engine.convert.protostuff.ProtoBufResBodyConvert.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-04-19 12:11
@@ -34,7 +34,7 @@ public class ProtoBufResBodyConvert<T> implements Converter<ResponseBody, T> {
     @Nullable
     @Override
     public T convert(@NonNull ResponseBody responseBody) throws IOException {
-        T response = (T) ProtoStuffUtil.deserializer(responseBody.byteStream(), targetClass);
+        T response = (T) ProtoStuffUtil.deserializer(responseBody.source().readByteArray(), targetClass);
         return response;
     }
 }

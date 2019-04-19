@@ -1,7 +1,6 @@
-package com.heaven.data.convert.normal;
+package com.heaven.news.engine.convert.protostuff;
 
-import com.heaven.data.convert.szair.SzAirConvertFactory;
-import com.heaven.data.convert.szair.SzAirRequestBodyConvert;
+import com.heaven.news.engine.convert.szair.SzAirRequestBodyConvert;
 
 import org.simpleframework.xml.core.Persister;
 
@@ -16,36 +15,36 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 /**
- * FileName: com.heaven.data.convert.normal.ProtoStuffConvertFactory.java
+ * FileName: com.heaven.news.engine.convert.protostuff.SzProtobufConvertFactory.java
  * author: Heaven
  * email: heavenisme@aliyun.com
- * date: 2019-03-12 15:20
+ * date: 2019-04-19 12:08
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class ProtoStuffConvertFactory  extends Converter.Factory{
+public class SzProtobufConvertFactory extends Converter.Factory{
 
     /** Create an instance using a default {@link Persister} instance for conversion. */
-    public static ProtoStuffConvertFactory create() {
+    public static SzProtobufConvertFactory create() {
         return createInstance();
     }
 
     /** Create an instance using {@code serializer} for conversion. */
-    public static ProtoStuffConvertFactory createInstance() {
-        return new ProtoStuffConvertFactory();
+    public static SzProtobufConvertFactory createInstance() {
+        return new SzProtobufConvertFactory();
     }
+
 
     private SzAirRequestBodyConvert requestBodyConvert;
 
-    private ProtoStuffConvertFactory() {
-        requestBodyConvert = new SzAirRequestBodyConvert<>();
+    private SzProtobufConvertFactory() {
     }
 
 
     @Nullable
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        return super.responseBodyConverter(type, annotations, retrofit);
+        return new ProtoBufResBodyConvert<>(type);
     }
 
     @Nullable
@@ -54,6 +53,8 @@ public class ProtoStuffConvertFactory  extends Converter.Factory{
         if (!(type instanceof Class)) {
             return null;
         }
+        requestBodyConvert = new SzAirRequestBodyConvert<>();
         return requestBodyConvert;
     }
+
 }

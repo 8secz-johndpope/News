@@ -2,11 +2,13 @@ package com.heaven.news.engine;
 
 import android.content.Context;
 
-import com.heaven.data.convert.protostuff.SzProtobufConvertFactory;
-import com.heaven.data.convert.szair.SzAirConvertFactory;
+import com.heaven.news.engine.convert.protostuff.SzProtobufConvertFactory;
+import com.heaven.news.engine.convert.szair.SzAirConvertFactory;
 import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.NetGlobalConfig;
 import com.heaven.news.BuildConfig;
+
+import java.util.HashMap;
 
 import javax.inject.Singleton;
 
@@ -38,9 +40,30 @@ public class CoreModule {
         builder.addNetRepo(BuildConfig.CONFIG_URL, GsonConverterFactory.create());
         builder.addNetRepo(BuildConfig.FLIGHT_URL, SzProtobufConvertFactory.create());
         DataSource dataSource = builder.build();
+        addMainSourceHeader(dataSource);
+        addFlightSourceHeader(dataSource);
+        addConfigSourceHeader(dataSource);
+        return dataSource;
+    }
+
+    private void addMainSourceHeader(DataSource dataSource) {
         dataSource.addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
         dataSource.addHeader("Connection", "close");
-        return dataSource;
+    }
+
+    private void addFlightSourceHeader(DataSource dataSource) {
+        HashMap<String,String> headerMap = new HashMap<>();
+        headerMap.put(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
+        headerMap.put("Connection", "close");
+        headerMap.put("DATA-TYPE", "PROTOFUL");
+        dataSource.addExtraHeader(BuildConfig.FLIGHT_URL,headerMap);
+    }
+
+    private void addConfigSourceHeader(DataSource dataSource) {
+        HashMap<String,String> headerMap = new HashMap<>();
+        headerMap.put(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEJSON);
+        headerMap.put("Connection", "close");
+        dataSource.addExtraHeader(BuildConfig.CONFIG_URL,headerMap);
     }
 
 

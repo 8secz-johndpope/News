@@ -4,26 +4,20 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
-import com.heaven.data.convert.normal.ProtoStuffConvertFactory;
-import com.heaven.data.convert.szair.SzAirConvertFactory;
 import com.heaven.data.net.cookie.CookiesManager;
 import com.heaven.data.util.MD5Utils;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -37,13 +31,10 @@ import okhttp3.ConnectionSpec;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.TlsVersion;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 import static com.heaven.data.net.NetGlobalConfig.PROTOTYPE.JSON;
 

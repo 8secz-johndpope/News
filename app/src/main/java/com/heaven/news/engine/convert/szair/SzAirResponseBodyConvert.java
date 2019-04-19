@@ -1,30 +1,19 @@
-package com.heaven.data.convert.szair;
+package com.heaven.news.engine.convert.szair;
 
 import android.support.annotation.NonNull;
 
-import com.google.common.io.ByteStreams;
 import com.heaven.data.net.DataResponse;
 import com.neusoft.szair.model.soap.SOAPBinding;
 import com.neusoft.szair.model.soap.SOAPEnvelope;
 import com.neusoft.szair.model.soap.SOAPFault;
-import com.neusoft.szair.model.soap.SOAPObject;
 
-import org.simpleframework.xml.Serializer;
-
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.zip.GZIPInputStream;
 
-import javax.annotation.Nullable;
-
-import okhttp3.MediaType;
 import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSource;
 import retrofit2.Converter;
 
 /**
- * FileName: com.heaven.data.convert.szair.SzAirResponseBodyConvert.java
+ * FileName: com.heaven.news.engine.convert.szair.SzAirResponseBodyConvert.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-04 12:21

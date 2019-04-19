@@ -1,4 +1,4 @@
-package com.heaven.data.convert.szair;
+package com.heaven.news.engine.convert.szair;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -8,7 +8,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 
 /**
- * FileName: com.heaven.data.convert.szair.PackageName.java
+ * FileName: com.heaven.news.engine.convert.szair.PackageName.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-04 13:59

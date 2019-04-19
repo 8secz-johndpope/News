@@ -1,14 +1,10 @@
-package com.heaven.data.convert.szair;
+package com.heaven.news.engine.convert.normal;
 
-import com.heaven.data.net.DataResponse;
-import com.neusoft.szair.model.soap.SOAPBinding;
-import com.orhanobut.logger.Logger;
+import com.heaven.news.engine.convert.szair.SzAirRequestBodyConvert;
 
-import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import javax.annotation.Nullable;
@@ -19,38 +15,36 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 /**
- * FileName: com.heaven.data.convert.szair.SzAirConvertFactory.java
+ * FileName: com.heaven.news.engine.convert.normal.ProtoStuffConvertFactory.java
  * author: Heaven
  * email: heavenisme@aliyun.com
- * date: 2019-03-04 12:14
+ * date: 2019-03-12 15:20
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class SzAirConvertFactory extends Converter.Factory {
+public class ProtoStuffConvertFactory  extends Converter.Factory{
 
     /** Create an instance using a default {@link Persister} instance for conversion. */
-    public static SzAirConvertFactory create() {
+    public static ProtoStuffConvertFactory create() {
         return createInstance();
     }
 
     /** Create an instance using {@code serializer} for conversion. */
-    public static SzAirConvertFactory createInstance() {
-        return new SzAirConvertFactory();
+    public static ProtoStuffConvertFactory createInstance() {
+        return new ProtoStuffConvertFactory();
     }
-
 
     private SzAirRequestBodyConvert requestBodyConvert;
 
-    private SzAirConvertFactory() {
+    private ProtoStuffConvertFactory() {
+        requestBodyConvert = new SzAirRequestBodyConvert<>();
     }
 
 
     @Nullable
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        SzAirResponseBodyConvert responseBodyConvert = new SzAirResponseBodyConvert<>();
-        responseBodyConvert.setBinding(requestBodyConvert);
-        return responseBodyConvert;
+        return super.responseBodyConverter(type, annotations, retrofit);
     }
 
     @Nullable
@@ -59,8 +53,6 @@ public class SzAirConvertFactory extends Converter.Factory {
         if (!(type instanceof Class)) {
             return null;
         }
-        requestBodyConvert = new SzAirRequestBodyConvert<>();
         return requestBodyConvert;
     }
-
 }
