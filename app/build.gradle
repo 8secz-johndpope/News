@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'heaven'
 apply plugin: 'realm-android'
+apply plugin: 'com.google.protobuf'
 //apply from: '../config/quality.gradle'
 def fileArray = []
 android {
@@ -216,6 +217,26 @@ dependencies {
     annotationProcessor uiDep.daggerCompiler
     annotationProcessor uiDep.aroutercompiler
     implementation 'com.facebook.fresco:fresco:1.13.0'
+    implementation 'com.google.protobuf:protobuf-java:3.5.1'
+    implementation 'com.google.protobuf:protoc:3.5.1'
     //Development
 //    compile developmentDependencies.leakCanary
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.5.1' // 也可以配置本地编译器路径
+    }
+
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                remove java
+            }
+            task.builtins {
+                java {}// 生产java源码
+            }
+        }
+    }
+    generatedFilesBaseDir = "$projectDir/src/main"
 }
