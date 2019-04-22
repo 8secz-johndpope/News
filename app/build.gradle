@@ -186,9 +186,7 @@ android {
 
 
     applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+        variant.outputs.all {
                 def fileName
                 if (variant.buildType.name == "release") {
                     // 输出apk名称为
@@ -197,10 +195,26 @@ android {
                     fileName = rootProject.getName()+ "_vcode${variant.versionCode}"+ "_vname${variant.versionName}" + "_${variant.productFlavors[0].name}_${buildTime}_&${hostName}_${revision}_debug.apk"
                 }
                 outputFileName = fileName
-            }
 
         }
     }
+
+//    applicationVariants.all { variant ->
+//        variant.outputs.all { output ->
+//            def outputFile = output.outputFile
+//            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                def fileName
+//                if (variant.buildType.name == "release") {
+//                    // 输出apk名称为
+//                    fileName = rootProject.getName() + "_vcode_${variant.versionCode}" + "_vname${variant.versionName}" + "_${variant.productFlavors[0].name}_${releaseTime}_&${hostName}_${revision}_relsase.apk"
+//                } else {
+//                    fileName = rootProject.getName()+ "_vcode${variant.versionCode}"+ "_vname${variant.versionName}" + "_${variant.productFlavors[0].name}_${buildTime}_&${hostName}_${revision}_debug.apk"
+//                }
+//                outputFileName = fileName
+//            }
+//
+//        }
+//    }
 
 }
 
