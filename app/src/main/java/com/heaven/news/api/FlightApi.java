@@ -1,5 +1,6 @@
 package com.heaven.news.api;
 
+import com.neusoft.szair.model.flightproto.FlightSearchDomesticResultVO;
 import com.neusoft.szair.model.flightsearch.FlightSearchWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.flightsearch.flightSearchDomesticResponse;
 import com.neusoft.szair.model.flightsearch.flightSearchDomesticResultVO;
@@ -20,5 +21,5 @@ import retrofit2.http.POST;
 public interface FlightApi {
     @Headers({"Content-Type: application/x-protobuf; charset=utf-8","Connection:close","DATA-TYPE:PROTOFUL"})
     @POST("services/flightSearchWebService?wsdl")
-    Flowable<flightSearchDomesticResultVO> searchFlight(@Body FlightSearchWebServiceServiceSoapBinding requestEnvelope);
+    Flowable<FlightSearchDomesticResultVO> searchFlight(@Body FlightSearchWebServiceServiceSoapBinding requestEnvelope);
 }

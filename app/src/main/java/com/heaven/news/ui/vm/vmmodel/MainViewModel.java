@@ -75,7 +75,7 @@ public class MainViewModel extends AbstractViewModel {
         tripInfoVO flightVo = new tripInfoVO();
         flightVo.ORG_CITY = "SZX";
         flightVo.DST_CITY = "PEK";
-        flightVo.DEPARTURE_DATE = "2019-04-20";
+        flightVo.DEPARTURE_DATE = "2019-04-25";
         flightVo.INDEX = "1";
         flightLIst.add(flightVo);
         flightSearchDomestic req = new flightSearchDomestic();

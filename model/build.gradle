@@ -33,6 +33,9 @@ android {
     }
 
     dependencies {
+        compile 'javax.xml.bind:jaxb-api:2.3.0'
+        api netDep.protostuffcore
+        api netDep.protostuffruntime
         api(netDep.converterxml)
                 {
                     exclude module: 'stax'
