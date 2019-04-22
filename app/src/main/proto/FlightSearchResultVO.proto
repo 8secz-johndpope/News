@@ -1,0 +1,200 @@
+syntax = "proto3";// 使用3.5.1生成器生成代码
+
+option java_package = "com.heaven.news.proto";
+option java_outer_classname = "FlightSearchResultProtobuf";//生成的数据访问类的类名  
+
+message FlightSearchResultVO {
+	string opResult												= 1001;//WS执行结果
+	string isAuthed												= 1002;//可信用户
+	string hcType												= 1003;//航程类型（DC、WF）
+	string orgCity												= 1004;//出发城市（三字码）
+	string dstCity												= 1005;//到达城市（三字码）
+	string depTime												= 1006;//去程日期
+	string depTime2												= 1007;//回程日期
+	string oiltaxAdult											= 1008;//燃油附加税（成人）
+	string oiltaxChild											= 1009;//燃油附加税（儿童）
+	string airportDuty											= 1010;//机场建设费
+	string discountChild										= 1011;//儿童票折扣
+	string m3dCaptchaStatus										= 1012;//3D验证码状态open开,close关
+	string crmYjyd												= 1013;//常客会员价一键预定展示标识
+	string flightChannel										= 1014;//航班查询渠道 0:原航班查询，1：一票多场航班查询
+	repeated FlightInfoVO flightInfoList						= 1015;//航班信息
+	repeated FlightInfoVO flightInfoList2						= 1016;// 航班信息（第二航程）
+	repeated OnwardInfoVO onwardInfoList						= 1017;// 航班信息（中转联程信息）
+	string caSearchId											= 1018;// 国航查询ID
+	
+	message FlightInfoVO {
+		string flightNo											= 1101;//航班号
+		string orgCity											= 1102;//出发城市（三字码）
+		string dstCity											= 1103;//到达城市（三字码）
+		string orgDate											= 1104;//出发日期
+		string dstDate											= 1105;//到达日期
+		string orgTime											= 1106;//起飞时间
+		string dstTime											= 1107;//到达时间
+		string duration											= 1108;//飞行时长
+		string isCodeShare										= 1109;//是否为共享航班(0-false;1-true)
+		string codeShareText									= 1110;//共享航班提示文字
+		string carrier											= 1111;// 实际承运人
+		string carrierFlightNo									= 1112;//实际承运航班号
+		string stopCity											= 1113;//经停城市(三字码)
+		string stopCityCh										= 1114;//经停城市(中文)
+		string meal												= 1115;//是否有餐食 0：无1：有
+		string specialMeal										= 1116;//特殊餐食 0:无特殊餐食； 1:提供特殊餐食但始发地不是深圳； 2:深圳始发的航班提供更多特殊餐食
+		string acType											= 1117;//机型
+		string airportDuty										= 1118;//机建费
+		repeated ClassInfoVO classInfoList						= 1119;//旧-舱位列表
+		repeated ClassListVO classList							= 1120;//舱位信息
+		string basePrice										= 1121;//航段公布运价
+		string isCheckSegment									= 1122;//该行段是否需要验证码0不、1需要
+		string oiltaxAdult										= 1123;//燃油附加税（成人）
+		string oiltaxChild										= 1124;//燃油附加税（儿童）
+		string oiltaxBaby										= 1125;//燃油附加税（婴儿）
+		string ontimeRate										= 1126;//准点率
+		ClassInfoVO wfGroupClassInfo							= 1127;//套票使用舱位信息
+		string caFlightFlag										= 1128;//国航航班标志（国航）
+	}
+	
+	message ClassInfoVO {
+		string classCode										= 1201; //舱位代码
+		string clzzName											= 1202;// 舱位名称
+		string productValue										= 1203;//与舱位名称对应
+		string realProductValue									= 1204;//当该舱位为常客会员价时
+		string spolCode											= 1205;//运价编码
+		string classPrice										= 1206;//舱位价格
+		string publicClassPrice									= 1207;//公布运价
+		string discount											= 1208;//舱位折扣
+		string baseDiscount										= 1209;//舱位相对折扣
+		string storge											= 1210;//库存座位数
+		string changeRefund										= 1211;//退改签规定（使用说明）
+		string mileAccPro										= 1212;//里程累积
+		string lowestAcc										= 1213;//最低里程累积
+		string saveMoney										= 1214;//立省
+		string classType										= 1215;//舱位类型
+		string delayInsure										= 1216;//飞偿等待（0:否；1-是）
+		string giveCoupon										= 1217;//是否赠送优惠券（0：否1：是）
+		string afterCouponPrice									= 1218;//优惠后价格
+		string minrefundMoney									= 1219;//飞行前2小时的退票金额
+		string maxrefundMoney									= 1220;//飞行2小时(含)之后的退票金额
+		string minrescheduleMoney								= 1221;//飞行前2小时的改期金额
+		string maxrescheduleMoney								= 1222;//飞行2小时(含)之后的改期金额
+		string childTicketPrice									= 1223;//该舱位的儿童票价格
+		string babyTicketPrice									= 1224;//该舱位的婴儿价格
+		repeated MileageDeductionVO mileageDeductionList		= 1225;//里程抵扣产品
+		string mileageType										= 1226;//里程抵扣类型0：定额，1：非定额
+		int32 mileagePoints										= 1227;//里程积分
+		string caIndex											= 1228;//舱位索引（国航）
+		string choseFlightShow									= 1229;//航班选择页面
+		string ticketInfoShow									= 1230;//旅客信息填写页面
+		string passengerInfoShow								= 1231;//订单信息确认页面
+		string cutPrice											= 1232;//直减金额
+		string airportShuttle									= 1233;//机场接送
+		string beforeWeekReschedule								= 1234;//自愿变更：航班规定离站时间前 7 天( 含) 之前
+		string beforeDaysReschedule								= 1235;//自愿变更：航班规定离站时间前 7 天至72 小时( 含) 之前
+		string beforeHoursReschedule							= 1236;//自愿变更：航班规定离站时间前 72 小时至4 小时( 含) 之前
+		string afterHoursReschedule								= 1237;//自愿变更：航班规定离站时间前 4 小时之后
+
+		string beforeWeekRefund									= 1238;//自愿退票：航班规定离站时间 7 天( 含) 之前
+		string beforeDaysRefund									= 1239;//自愿退票：航班规定离站时间 7 天至72 小时( 含) 之前
+		string beforeHoursRefund								= 1240;//自愿退票：航班规定离站时间 72 小时至4 小时( 含) 之前
+		string afterHoursRefund									= 1241;//自愿退票：航班规定离站时间 4 小时之后
+
+		string beforeWeekRescheduleMoney						= 1242;//自愿变更：航班规定离站时间前 7 天( 含) 之前
+		string beforeDaysRescheduleMoney						= 1243;//自愿变更：航班规定离站时间前 7 天至72 小时( 含) 之前
+		string beforeHoursRescheduleMoney						= 1244;//自愿变更：航班规定离站时间前 72 小时至4 小时( 含) 之前
+		string afterHoursRescheduleMoney						= 1245;//自愿变更：航班规定离站时间前 4 小时之后
+
+		string beforeWeekRefundMoney							= 1246;//自愿退票：航班规定离站时间 7 天( 含) 之前
+		string beforeDaysRefundMoney							= 1247;//自愿退票：航班规定离站时间 7 天至72 小时( 含) 之前
+		string beforeHoursRefundMoney							= 1248;//自愿退票：航班规定离站时间 72 小时至4 小时( 含) 之前
+		string afterHoursRefundMoney							= 1249;//自愿退票：航班规定离站时间 4 小时之后
+		string isNewRefundReschedule							= 1250;//是否采用新退改签规则
+
+
+	}
+	
+	message MileageDeductionVO {
+		string deductibleMile									= 1301;//抵扣里程数
+		string deductibleAmount									= 1302;//抵扣金额
+		string deductibleCode									= 1303;//产品编码DH
+	}
+	message ClassListVO {
+		repeated ClassInfoVO classInfoList						= 1401;//仓位列表
+	}
+	
+	message OnwardInfoVO {
+		repeated ZZFlightInfoVO flightInfoList					= 1501;//航班信息 
+		repeated ZZClassInfoVO classInfoList					= 1502;//仓位信息
+		repeated ZZCityVO zzCityList							= 1503;//经停城市
+		string stopTime											= 1504;//经停时间
+	}
+	
+	message ZZFlightInfoVO {
+		string searchId											= 1601;//查询id
+		string tripId											= 1602;//航程id
+		string tripOptionId										= 1603;//校验id
+		string fbrRuleCode										= 1604;//运价政策编号
+		string fbrProductCode									= 1605;//运价产品编码
+		string flightNo											= 1606;//航班号
+		string segmentId										= 1607;//航段id
+		string orgCity											= 1608;//出发城市
+		string dstCity											= 1609;//到底城市
+		string orgDate											= 1610;//出发日期
+		string orgTime											= 1611;//出发时间
+		string dstTime											= 1612;//到达时间
+		string dstDate											= 1613;//到达日期
+		string duration											= 1614;//飞行时长
+		string codeShareText									= 1615;//共享提示信息
+		string isCodeShare										= 1616;//是否为共享航班
+		string carrier											= 1617;//实际承运人
+		string carrierFlightNo									= 1618;//实际承运航班号
+		string stopCity											= 1619;//中转城市
+		string stopCityCh										= 1620;//中转城市中文名称
+		string stopDeptDate										= 1621;//经停城市起飞时间
+		string stopDstDate										= 1622;//经停城市到达时间
+		string meal												= 1623;//是否有餐食
+		string acType											= 1624;//机型
+		string orgAirportName									= 1625;//起飞机场中文简称
+		string orgAirportFullName								= 1626;//起飞机场中文全称
+		string dstAirportName									= 1627;//到达机场中文简称
+		string dstAirportFullName								= 1628;//到达机场中文全称
+		string etkt												= 1629;//是否是电子客票
+		string orgCityCh										= 1630;//出发城市（中文）
+		string dstCityCh										= 1631;//到达城市（中文）
+		string dstAirport										= 1632;//到达机场（三字码）
+		string orgAirport										= 1633;//起飞机场（三字码）
+		string operateAirline									= 1634;//承运公司
+		string pulicClassPriceY									= 1635;//Y舱价格
+		string pulicClassPriceC									= 1636;//C舱价格
+		string pulicClassPriceF									= 1637;//F舱价格
+		string classStorageY									= 1638;//Y舱库存
+		string classStorageC									= 1639;//C舱库存
+		string classStorageF									= 1640;//F舱库存
+		repeated FlightInfoTaxVO flightInfoTax					= 1641;//税费信息
+		string airportDuty										= 1642;//机场建设费
+		string oiltaxAdult										= 1643;//燃油附加税（成人）
+		string oiltaxChild										= 1644;//燃油附加税（儿童）
+	}
+	message FlightInfoTaxVO {
+		double amount											= 1701;//金额
+		string currencyCode										= 1702;//币种代码
+		string taxCode											= 1703;//税费代码
+		string taxName											= 1704;//税费名称
+		string taxNameChn										= 1705;//税费中文名称
+		string personType										= 1706;//类型（0:成人1:儿童2:婴儿）
+		 
+	}
+	message ZZClassInfoVO {
+		string classCode										= 1801;//舱位代码
+		repeated ClassFlightInfoVO classList					= 1802;//舱位信息
+	}
+	message ClassFlightInfoVO {
+		string flightNo											= 1901;//航班号
+		ClassInfoVO classInfo									= 1902;//舱位信息
+	}
+	message ZZCityVO {
+		int32 index												= 2001;//经停序列
+		string city												= 2002;//经停城市
+		string stopTime											= 2003;//经停时间
+	}
+
+}  
