@@ -24,7 +24,6 @@ import com.heaven.news.manyData.bean.Bean01;
 import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.vm.vmmodel.MainViewModel;
-import com.neusoft.szair.model.fullchannel.fullchannelVO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ import java.util.List;
  *
  * @version V1.0 行程
  */
-public class TravelRoute extends BaseBindFragment<MainViewModel, RouteBinding> implements OnRefreshListener, OnLoadMoreListener, Observer<DataCore.CoreDataWrapper> {
+public class Route extends BaseBindFragment<MainViewModel, RouteBinding> implements OnRefreshListener, OnLoadMoreListener, Observer<DataCore.CoreDataWrapper> {
     List<Object> items;
 
     @Override
@@ -56,6 +55,10 @@ public class TravelRoute extends BaseBindFragment<MainViewModel, RouteBinding> i
     public void initView(View rootView) {
         super.initView(rootView);
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
+        initRoute();
+    }
+
+    private void initRoute() {
         mViewBinding.swipeToLoadLayout.setOnLoadMoreListener(this);
         mViewBinding.swipeToLoadLayout.setOnRefreshListener(this);
         RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
@@ -92,12 +95,15 @@ public class TravelRoute extends BaseBindFragment<MainViewModel, RouteBinding> i
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-
+            if(AppEngine.instance().dataCore().isLogin()) {
+                mViewBinding.swipeToLoadLayout.setRefreshing(true);
+                mViewModel.searchUserRoute(1);
+            }
         }
     }
 
-    public static TravelRoute newInstance(Bundle paramBundle) {
-        TravelRoute fragment = new TravelRoute();
+    public static Route newInstance(Bundle paramBundle) {
+        Route fragment = new Route();
         fragment.setArguments(paramBundle);
         return fragment;
     }
