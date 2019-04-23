@@ -85,9 +85,9 @@ public class MainViewModel extends AbstractViewModel {
 
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
 
-//        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.FLIGHT_URL, FlightProtoApi.class).searchFlight(binding), response -> {
-//            Logger.i(response.toString());
-//        });
+        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.FLIGHT_URL, FlightProtoApi.class).searchFlight(binding), response -> {
+            Logger.i(response.toString());
+        });
 
         RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, FlightApi.class).searchFlightXml(binding), response -> {
             Logger.i(response.toString());
