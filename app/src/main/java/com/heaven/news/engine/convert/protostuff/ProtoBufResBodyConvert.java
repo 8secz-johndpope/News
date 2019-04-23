@@ -3,7 +3,9 @@ package com.heaven.news.engine.convert.protostuff;
 import android.support.annotation.NonNull;
 
 import com.google.gson.internal.$Gson$Types;
+import com.heaven.data.net.DataResponse;
 import com.heaven.data.util.ProtoStuffUtil;
+import com.neusoft.szair.model.flightproto.FlightSearchDomesticResultVO;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -34,7 +36,8 @@ public class ProtoBufResBodyConvert<T> implements Converter<ResponseBody, T> {
     @Nullable
     @Override
     public T convert(@NonNull ResponseBody responseBody) throws IOException {
-        T rep = (T) ProtoStuffUtil.deserializer(responseBody.source().readByteArray(),targetClass);
-        return rep;
+        DataResponse response = new DataResponse();
+        response.data = ProtoStuffUtil.deserializer(responseBody.source().inputStream(), FlightSearchDomesticResultVO.class);
+        return (T) response;
     }
 }

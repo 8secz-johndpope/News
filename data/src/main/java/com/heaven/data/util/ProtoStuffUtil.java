@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import io.protostuff.LinkedBuffer;
+import io.protostuff.ProtobufIOUtil;
 import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.runtime.RuntimeSchema;
@@ -47,7 +48,7 @@ public class ProtoStuffUtil {
         LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
         try {
             Schema<T> schema = getSchema(clazz);
-            return ProtostuffIOUtil.toByteArray(obj, schema, buffer);
+            return ProtobufIOUtil.toByteArray(obj, schema, buffer);
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage(), e);
         } finally {
@@ -66,7 +67,7 @@ public class ProtoStuffUtil {
         try {
             T obj = clazz.newInstance();
             Schema<T> schema = getSchema(clazz);
-            ProtostuffIOUtil.mergeFrom(data, obj, schema);
+            ProtobufIOUtil.mergeFrom(data, obj, schema);
             return obj;
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage(), e);
@@ -84,7 +85,7 @@ public class ProtoStuffUtil {
         try {
             T obj = clazz.newInstance();
             Schema<T> schema = getSchema(clazz);
-            ProtostuffIOUtil.mergeFrom(in, obj, schema);
+            ProtobufIOUtil.mergeFrom(in, obj, schema);
             return obj;
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage(), e);
@@ -103,7 +104,7 @@ public class ProtoStuffUtil {
         ByteArrayOutputStream bos = null;
         try {
             bos = new ByteArrayOutputStream();
-            ProtostuffIOUtil.writeListTo(bos, objList, schema, buffer);
+            ProtobufIOUtil.writeListTo(bos, objList, schema, buffer);
             protostuff = bos.toByteArray();
         } catch (Exception e) {
             throw new RuntimeException("序列化对象列表(" + objList + ")发生异常!", e);
@@ -130,7 +131,7 @@ public class ProtoStuffUtil {
         Schema<T> schema = RuntimeSchema.getSchema(targetClass);
         List<T> result;
         try {
-            result = ProtostuffIOUtil.parseListFrom(new ByteArrayInputStream(paramArrayOfByte), schema);
+            result = ProtobufIOUtil.parseListFrom(new ByteArrayInputStream(paramArrayOfByte), schema);
         } catch (IOException e) {
             throw new RuntimeException("反序列化对象列表发生异常!",e);
         }
