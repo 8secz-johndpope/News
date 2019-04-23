@@ -27,6 +27,7 @@ import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * FileName: com.heaven.news.ui.vm.viewmodel.MainViewModel.java
@@ -84,14 +85,16 @@ public class MainViewModel extends AbstractViewModel {
         req._FLIGHT_SEARCH_CONDITION._CRM_MEMBER_ID = AppEngine.instance().dataCore().getCoreDataWrapper().crmId;
 
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
-
+        long startNanos = System.nanoTime();
         RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.FLIGHT_URL, FlightProtoApi.class).searchFlight(binding), response -> {
-            Logger.i(response.toString());
+            long stopNanos = System.nanoTime();
+            Logger.i("mainmodel_time:proto" + TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
         });
-
-        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, FlightApi.class).searchFlightXml(binding), response -> {
-            Logger.i(response.toString());
-        });
+//        long startNanos1 = System.nanoTime();
+//        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, FlightApi.class).searchFlightXml(binding), response -> {
+//            long stopNanos1 = System.nanoTime();
+//            Logger.i("mainmodel_time:xml" + TimeUnit.NANOSECONDS.toMillis(stopNanos1 - startNanos1));
+//        });
     }
 
     public void easyGoSearch() {
