@@ -24,6 +24,7 @@ import com.heaven.news.manyData.bean.Bean01;
 import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.vm.vmmodel.MainViewModel;
+import com.neusoft.szair.model.fullchannel.fullchannelVO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +47,17 @@ public class TravelRoute extends BaseBindFragment<MainViewModel, RouteBinding> i
 
     @Override
     public void bindModel() {
-
+        mViewModel.observeRouteList(this, fullchannelVOS -> {
+            mViewBinding.swipeToLoadLayout.setRefreshing(false);
+        });
     }
 
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
+        mViewBinding.swipeToLoadLayout.setOnLoadMoreListener(this);
+        mViewBinding.swipeToLoadLayout.setOnRefreshListener(this);
         RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -104,7 +109,7 @@ public class TravelRoute extends BaseBindFragment<MainViewModel, RouteBinding> i
 
     @Override
     public void onRefresh() {
-
+        mViewModel.searchUserRoute(1);
     }
 
     @Override

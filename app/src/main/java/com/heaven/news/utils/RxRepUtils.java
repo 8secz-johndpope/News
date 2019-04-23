@@ -96,7 +96,7 @@ public class RxRepUtils {
     }
 
     public static Api getCommonApi() {
-        return AppEngine.instance().api().getApi(BuildConfig.FLIGHT_URL, Api.class);
+        return AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, Api.class);
     }
 
     public static <T> long getConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {

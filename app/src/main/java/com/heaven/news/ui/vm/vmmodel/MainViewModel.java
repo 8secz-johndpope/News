@@ -23,6 +23,7 @@ import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
 import com.neusoft.szair.model.flightsearch.flightSearchDomesticConditionVO;
 import com.neusoft.szair.model.flightsearch.tripInfoVO;
 import com.neusoft.szair.model.fullchannel.SearchFullchannelWebServiceImplServiceSoapBinding;
+import com.neusoft.szair.model.fullchannel.fullchannelVO;
 import com.neusoft.szair.model.fullchannel.searchByTrace;
 import com.neusoft.szair.model.fullchannel.searchByTraceConditionVO;
 import com.neusoft.szair.model.fullchannel.searchByTraceResponse;
@@ -50,7 +51,8 @@ public class MainViewModel extends AbstractViewModel {
     public List<noticeInfoListVO> noticeList;
 
     public EasyGoSearch easyGoSearch;
-    public final MutableLiveData<List<noticeInfoListVO>> noticeListLive = new MutableLiveData<>();
+    private final MutableLiveData<List<noticeInfoListVO>> noticeListLive = new MutableLiveData<>();
+    private final MutableLiveData<List<fullchannelVO>> routeListLive = new MutableLiveData<>();
 
     @Override
     public void initModel() {
@@ -154,7 +156,11 @@ public class MainViewModel extends AbstractViewModel {
             SearchFullchannelWebServiceImplServiceSoapBinding binding = new SearchFullchannelWebServiceImplServiceSoapBinding("searchByTrace",req);
 
             RxRepUtils.getResult(RxRepUtils.getCommonApi().searchByTrace(binding), response -> {
-
+                if(response.code == 0 && response.data != null && response.data._SEARCH_TRACE_RESULT != null) {
+                    routeListLive.setValue(response.data._SEARCH_TRACE_RESULT._FULL_CHANNEL);
+                } else {
+                    routeListLive.setValue(null);
+                }
             });
 
         }
@@ -171,6 +177,10 @@ public class MainViewModel extends AbstractViewModel {
 
     public void observeNoticeList(LifecycleOwner owner, Observer<List<noticeInfoListVO>> observer) {
         noticeListLive.observe(owner,observer);
+    }
+
+    public void observeRouteList(LifecycleOwner owner, Observer<List<fullchannelVO>> observer) {
+        routeListLive.observe(owner,observer);
     }
 
     public static class EasyGoSearch extends BaseObservable{
