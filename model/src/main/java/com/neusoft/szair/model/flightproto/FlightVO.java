@@ -69,7 +69,7 @@ public class FlightVO {
 	 * 到达时间
 	 * XmlElement:DST_TIME
 	 */
-	@Tag(400)
+	@Tag(4008)
 	private String dstTime;
 	
 	/**
