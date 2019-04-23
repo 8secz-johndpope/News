@@ -34,7 +34,7 @@ public class WelecomModel extends AbstractViewModel {
 
     @TraceTime
     private void requestVersion() {
-        RxRepUtils.instance().getConfigResult(api.getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
+        RxRepUtils.getConfigResult(api.getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
             if (configData.netCode == 0 && configData.androidversionnew != null) {
                 checkVersion(configData.androidversionnew);
                 Logger.i("requestVersion--" + configData.toString());

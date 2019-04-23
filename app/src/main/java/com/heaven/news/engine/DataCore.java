@@ -41,6 +41,7 @@ import com.neusoft.szair.model.memberbase.phoneVo;
 import com.neusoft.szair.model.memberbase.queryRespVO;
 import com.neusoft.szair.model.memberbase.vipDetails;
 import com.neusoft.szair.model.memberbase.vipDocument;
+import com.neusoft.szair.model.memberbase.wrappedQueryRespVO;
 import com.neusoft.szair.model.soap.SOAPConstants;
 import com.neusoft.szair.model.usercouponsearch.UserCouponSearchWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.usercouponsearch.queryUseCouponCnt;
@@ -93,6 +94,8 @@ public class DataCore {
     private String userId;                                  //用户id
     private String crmId;                                   //凤凰知音id
     private String userName;
+    private String userNameCh;
+    private String userNameEn;
     private String userSex;
     private String idNumber;                                //证件号码
     private phoneVo phone;                                  //用户手机号
@@ -221,6 +224,32 @@ public class DataCore {
             if (!TextUtils.isEmpty(userVipDetails._IDENTIFY_TYPE)) {
                 identifyType = userVipDetails._IDENTIFY_TYPE;
             }
+            setNameChEn(userVipDetails);
+        }
+    }
+
+    private void setNameChEn(vipDetails userVipDetails) {
+        if (userVipDetails != null) {
+            if (!TextUtils.isEmpty(userVipDetails._SURNAME_CN)
+                    && !TextUtils.isEmpty(userVipDetails._FIRSTNAME_CN)) {
+                userNameCh  = userVipDetails._SURNAME_CN + userVipDetails._FIRSTNAME_CN;
+
+            } else if (!TextUtils.isEmpty(userVipDetails._SURNAME_CN)
+                    && TextUtils.isEmpty(userVipDetails._FIRSTNAME_CN)) {
+                userNameCh = userVipDetails._SURNAME_CN;
+
+            } else if (TextUtils.isEmpty(userVipDetails._SURNAME_CN)
+                    && !TextUtils.isEmpty(userVipDetails._FIRSTNAME_CN)) {
+                userNameCh = userVipDetails._FIRSTNAME_CN;
+            }
+
+            if (TextUtils.isEmpty(userVipDetails._SURNAME_EN) && !TextUtils.isEmpty(userVipDetails._FIRSTNAME_EN)) {
+                userNameEn = userVipDetails._FIRSTNAME_EN;
+            } else if (TextUtils.isEmpty(userVipDetails._FIRSTNAME_EN) && !TextUtils.isEmpty(userVipDetails._SURNAME_EN)) {
+                userNameEn = userVipDetails._SURNAME_EN;
+            } else if (!TextUtils.isEmpty(userVipDetails._FIRSTNAME_EN) && !TextUtils.isEmpty(userVipDetails._SURNAME_EN)) {
+                userNameEn = userVipDetails._SURNAME_EN + "/" + userVipDetails._FIRSTNAME_EN;
+            }
         }
     }
 
@@ -282,7 +311,7 @@ public class DataCore {
             Logger.i("RequestLogin---" + loginreqvo.toString());
             MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
 
-            Long loginTaskId = RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginResponse -> {
+            Long loginTaskId = RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginResponse -> {
                 if (loginResponse.code == 0 && loginResponse.data != null && loginResponse.data._LOGIN_RESULT != null) {
                     if ("0000".equals(loginResponse.data._LOGIN_RESULT._CODE)) {
                         UserSecret userSecret = new UserSecret(userCount, pwd);
@@ -308,12 +337,17 @@ public class DataCore {
 
     private void resetCoreDataWrapper() {
         coreDataWrapper.userName = userName;
+        coreDataWrapper.userNameCh = userNameCh;
+        coreDataWrapper.userNameEn = userNameEn;
         coreDataWrapper.idNumber = idNumber;
         coreDataWrapper.userId = userId;
         coreDataWrapper.cardLevel = phoenixCardLevel;
         coreDataWrapper.ffpIdentify = ffpIdentify;
         coreDataWrapper.phoenixNumber = phoenixNumber;
         coreDataWrapper.crmId = crmId;
+        coreDataWrapper.idNumberList = idNumberList;
+        coreDataWrapper.phoenixIdList = phoenixIdList;
+
         if ("Gold".equalsIgnoreCase(phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_golden_card;
             coreDataWrapper.cardLevelRes = R.string.card_level_gold;
@@ -357,7 +391,7 @@ public class DataCore {
         parameters._QUERY_MILES_CONDITION._CRM_MEMBER_ID = crmId;
         parameters._QUERY_MILES_CONDITION._CRM_LEVEL = phoenixCardLevel;
         CRMFrequentFlyerWebServiceImplServiceSoapBinding bind = new CRMFrequentFlyerWebServiceImplServiceSoapBinding("queryMiles",parameters);
-        RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).queryMile(bind), response -> {
+        RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).queryMile(bind), response -> {
             if(response.code == 0 && response.data != null && response.data._QUERY_MILES_RESULT != null) {
                 if(response.data._QUERY_MILES_RESULT._FLIGHT_MILES != null) {
                     userMile = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._SURPLUS_MILES;
@@ -379,7 +413,7 @@ public class DataCore {
         queryCoupon._USECOUPON_CNT_CONDITION = reqvo;
         UserCouponSearchWebServiceServiceSoapBinding bind = new UserCouponSearchWebServiceServiceSoapBinding("queryUseCouponCnt",queryCoupon);
 
-        RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).queryUserCouponCount(bind), response -> {
+        RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).queryUserCouponCount(bind), response -> {
             if(response.code == 0 && response.data != null && response.data._USECOUPON_CNT_RESULT != null && "0".equals(response.data._USECOUPON_CNT_RESULT._OP_RESULT)) {
                 userCouponCount = response.data._USECOUPON_CNT_RESULT._COUNT;
                 coreDataWrapper.couponCount = userCouponCount;
@@ -396,7 +430,7 @@ public class DataCore {
         walletInfoQuery walletInfoQuery = new walletInfoQuery();
         walletInfoQuery._WALLET_QUERY_CONDITION = walletQuery;
         EasyCardWebServiceServiceSoapBinding binding = new EasyCardWebServiceServiceSoapBinding("walletInfoQuery",walletInfoQuery);
-        RxRepUtils.instance().getResult(dataSource.getNetApi(LoginApi.class).querywalletInfo(binding), response -> {
+        RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).querywalletInfo(binding), response -> {
             if(response.code == 0 && response.data != null && response.data._WALLET_QUERY_RESULT != null) {
                 String ecardNum = response.data._WALLET_QUERY_RESULT._EASYCARD_COUNT;
                 coreDataWrapper.ecardNum = "0".equals(ecardNum)? "--" : ecardNum;
@@ -420,7 +454,7 @@ public class DataCore {
 
     private int requestHomeCount = 0;
     public void requestHomeConfig() {
-        long taskId = RxRepUtils.instance().getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
+        long taskId = RxRepUtils.getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if (homeConfigData.netCode == 0) {
                 this.homeConfigData = homeConfigData;
                 dataSource.cacheData(DataSource.DISK, Constants.HOMECONFIG, homeConfigData);
@@ -519,11 +553,15 @@ public class DataCore {
         public queryRespVO userAllInfo;
 
         public String userName = "--";
+        public String userNameCh;
+        public String userNameEn;
         public int    sexHeaderRes = R.mipmap.icon_header_null;
         public String idNumber;
         public String userId;
         public String crmId;
         public String phoenixNumber;
+        public ArrayList<String> idNumberList;                 //用户证件数组
+        public ArrayList<String> phoenixIdList;                 //凤凰知音证件列表
         public String cardLevel;
         public int cardLevelRes;
         public int cardLevelImgRes;

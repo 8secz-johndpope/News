@@ -9,17 +9,24 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.heaven.data.manager.DataSource;
+import com.heaven.data.net.DataResponse;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.FlightApi;
 import com.heaven.news.api.FlightProtoApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.DataCore;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.flightsearch.FlightSearchWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
 import com.neusoft.szair.model.flightsearch.flightSearchDomesticConditionVO;
 import com.neusoft.szair.model.flightsearch.tripInfoVO;
+import com.neusoft.szair.model.fullchannel.SearchFullchannelWebServiceImplServiceSoapBinding;
+import com.neusoft.szair.model.fullchannel.searchByTrace;
+import com.neusoft.szair.model.fullchannel.searchByTraceConditionVO;
+import com.neusoft.szair.model.fullchannel.searchByTraceResponse;
+import com.neusoft.szair.model.fullchannel.traceParamVO;
 import com.neusoft.szair.model.noticelist.NoticeListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
 import com.neusoft.szair.model.noticelist.queryNoticeList;
@@ -28,6 +35,8 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * FileName: com.heaven.news.ui.vm.viewmodel.MainViewModel.java
@@ -47,15 +56,19 @@ public class MainViewModel extends AbstractViewModel {
     public void initModel() {
         noticeList = AppEngine.instance().getDataSource().getCacheEntity(DataSource.DISK,Constants.NOTICE);
         easyGoSearch = new EasyGoSearch();
+        searchUserRoute(1);
     }
 
+    /**
+     * 请求首页公告
+     */
     public void requestNotice() {
         queryNoticeList noticelist = new queryNoticeList();
 
         noticelist._PAGE_NO = 0;
         noticelist._PAGE_COUNT = 3;
         NoticeListWebServiceServiceSoapBinding binding = new NoticeListWebServiceServiceSoapBinding("queryNoticeList",noticelist);
-        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(LoginApi.class).queryNoticeList(binding), dataResponse -> {
+        RxRepUtils.getResult(AppEngine.instance().api().getApi(LoginApi.class).queryNoticeList(binding), dataResponse -> {
             if(dataResponse.code == 0 && dataResponse.data != null) {
                 if(dataResponse.data._NOTICE_INFO_LIST != null && dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST != null) {
                     noticeList = dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST;
@@ -67,6 +80,10 @@ public class MainViewModel extends AbstractViewModel {
     }
 
 
+    /**
+     * 航班查询
+     * @param view 查询view
+     */
     public void flightSearch(View view) {
         Logger.i("flightSearch------");
 
@@ -86,7 +103,7 @@ public class MainViewModel extends AbstractViewModel {
 
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
         long startNanos = System.nanoTime();
-        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.FLIGHT_URL, FlightProtoApi.class).searchFlight(binding), response -> {
+        RxRepUtils.getResult(AppEngine.instance().api().getApi(BuildConfig.FLIGHT_URL, FlightProtoApi.class).searchFlight(binding), response -> {
             long stopNanos = System.nanoTime();
             Logger.i("mainmodel_time:proto" + TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
         });
@@ -97,6 +114,55 @@ public class MainViewModel extends AbstractViewModel {
 //        });
     }
 
+    public void searchUserRoute(int pageIndex) {
+        DataCore dataCore = AppEngine.instance().dataCore();
+        if(dataCore.isLogin()) {
+            DataCore.CoreDataWrapper coreDataWrapper = dataCore.getCoreDataWrapper();
+            searchByTrace req = new searchByTrace();
+            req._SEARCH_TRACE_CONDITION = new searchByTraceConditionVO();
+            req._SEARCH_TRACE_CONDITION._MEMBER_ID = coreDataWrapper.userId;
+            req._SEARCH_TRACE_CONDITION._PAGE_INDEX = String.valueOf(pageIndex);
+            req._SEARCH_TRACE_CONDITION._PAGE_COUNT = "4";
+            req._SEARCH_TRACE_CONDITION._FLIGHT_TYPE = "UNUSED";
+            req._SEARCH_TRACE_CONDITION._PARAM_LIST = new ArrayList<>();
+            if(coreDataWrapper.phoenixIdList != null && coreDataWrapper.phoenixIdList.size() > 0) {
+                for(String phoenixId : coreDataWrapper.phoenixIdList) {
+                    traceParamVO traceVoCh = new traceParamVO();
+                    traceVoCh._CERT_NO = phoenixId;
+                    traceVoCh._PSGR_NAME = coreDataWrapper.userNameCh;
+                    traceParamVO traceVoEn = new traceParamVO();
+                    traceVoEn._CERT_NO = phoenixId;
+                    traceVoEn._PSGR_NAME = coreDataWrapper.userNameEn;
+                    req._SEARCH_TRACE_CONDITION._PARAM_LIST.add(traceVoCh);
+                    req._SEARCH_TRACE_CONDITION._PARAM_LIST.add(traceVoEn);
+                }
+            } else {
+                if(coreDataWrapper.idNumberList != null && coreDataWrapper.idNumberList.size() > 0) {
+                    for(String idNum : coreDataWrapper.idNumberList) {
+                        traceParamVO traceVoCh = new traceParamVO();
+                        traceVoCh._CERT_NO = idNum;
+                        traceVoCh._PSGR_NAME = coreDataWrapper.userNameCh;
+                        traceParamVO traceVoEn = new traceParamVO();
+                        traceVoEn._CERT_NO = idNum;
+                        traceVoEn._PSGR_NAME = coreDataWrapper.userNameEn;
+                        req._SEARCH_TRACE_CONDITION._PARAM_LIST.add(traceVoCh);
+                        req._SEARCH_TRACE_CONDITION._PARAM_LIST.add(traceVoEn);
+                    }
+                }
+
+            }
+            SearchFullchannelWebServiceImplServiceSoapBinding binding = new SearchFullchannelWebServiceImplServiceSoapBinding("searchByTrace",req);
+
+            RxRepUtils.getResult(RxRepUtils.getCommonApi().searchByTrace(binding), response -> {
+
+            });
+
+        }
+    }
+
+    /**
+     * 易行查询
+     */
     public void easyGoSearch() {
         if(!TextUtils.isEmpty(easyGoSearch.getSearchKey())) {
 

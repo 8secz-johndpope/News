@@ -5,6 +5,10 @@ import android.support.v4.util.LongSparseArray;
 
 import com.heaven.data.net.DataResponse;
 import com.heaven.data.net.ExceptionHandle;
+import com.heaven.news.BuildConfig;
+import com.heaven.news.api.Api;
+import com.heaven.news.api.FlightProtoApi;
+import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.base.ConfigData;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 import com.orhanobut.logger.Logger;
@@ -30,30 +34,19 @@ public class RxRepUtils {
     private static long currentTaskId = 1000000000000000L;
     private static LongSparseArray<Disposable> reqTasks = new LongSparseArray<>();
 
-    public static RxRepUtils instance() {
-        if (instance == null) {
-            synchronized (RxRepUtils.class) {
-                if (instance == null) {
-                    instance = new RxRepUtils();
-                }
-            }
-        }
-        return instance;
-    }
-
-    private synchronized long getTaskId() {
+    private static synchronized long getTaskId() {
         currentTaskId += 10;
         Logger.i("createTaskid----" + currentTaskId);
         return currentTaskId;
     }
 
-    private final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER
+    private static final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER
             = flowable -> flowable
             .onErrorReturn((Function<Throwable, DataResponse>) ExceptionHandle::handleException)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
 
-    private final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER_CONFIG
+    private static final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER_CONFIG
             = flowable -> flowable
             .onErrorReturn((Function<Throwable, ConfigData>) throwable -> {
                 ConfigData configData = new ConfigData();
@@ -65,7 +58,7 @@ public class RxRepUtils {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
 
-    private final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER_HOME_CONFIG
+    private static final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER_HOME_CONFIG
             = flowable -> flowable
             .onErrorReturn((Function<Throwable, HomeImageInfo>) throwable -> {
                 HomeImageInfo configData = new HomeImageInfo();
@@ -80,53 +73,51 @@ public class RxRepUtils {
 
 
     @SuppressWarnings("unchecked")
-    public <T> FlowableTransformer<T, T> ioMain() {
+    private static <T> FlowableTransformer<T, T> ioMain() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> FlowableTransformer<T, T> ioMainConfig() {
+    private static <T> FlowableTransformer<T, T> ioMainConfig() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_CONFIG;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> FlowableTransformer<T, T> ioHomeConfig() {
+    private static <T> FlowableTransformer<T, T> ioHomeConfig() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_HOME_CONFIG;
     }
 
 
-    public <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
+    public static  <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
-        synchronized (this) {
             Disposable disposable = resultFlowable.compose(ioMain()).subscribe(getTaskConsumer(taskId, consumer));
             reqTasks.put(taskId, disposable);
-        }
         return taskId;
     }
 
-    public <T> long getConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
+    public static Api getCommonApi() {
+        return AppEngine.instance().api().getApi(BuildConfig.FLIGHT_URL, Api.class);
+    }
+
+    public static <T> long getConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
-        synchronized (this) {
             Disposable disposable = resultFlowable.compose(ioMainConfig()).subscribe(getTaskConsumer(taskId, consumer));
             reqTasks.put(taskId, disposable);
-        }
         return taskId;
     }
 
-    public <T> long getHomeConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
+    public static <T> long getHomeConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
-        synchronized (this) {
             Disposable disposable = resultFlowable.compose(ioHomeConfig()).subscribe(getTaskConsumer(taskId, consumer));
             reqTasks.put(taskId, disposable);
-        }
         return taskId;
     }
 
-    private <T> TaskIdConsumer<T> getTaskConsumer(long taskId, Consumer<T> consumer) {
+    private static <T> TaskIdConsumer<T> getTaskConsumer(long taskId, Consumer<T> consumer) {
         return new TaskIdConsumer<T>(taskId, consumer);
     }
 
-    class TaskIdConsumer<T> implements Consumer<T> {
+    static class TaskIdConsumer<T> implements Consumer<T> {
         long taskid;
         Consumer<T> resultConsumer;
 

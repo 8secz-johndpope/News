@@ -58,7 +58,7 @@ import java.util.List;
  *
  * @version V1.0 首页
  */
-public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implements ViewPager.OnPageChangeListener, Observer<DataCore.CoreDataWrapper> {
+public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implements Observer<DataCore.CoreDataWrapper> {
     BaseAdapter<ServiceInfo> mServiceAdapter;
     BaseMultAdapter recommendAdapter;
     @Override
@@ -254,21 +254,6 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
         Home fragment = new Home();
         fragment.setArguments(paramBundle);
         return fragment;
-    }
-
-    @Override
-    public void onPageScrolled(int i, float v, int i1) {
-
-    }
-
-    @Override
-    public void onPageSelected(int i) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
-
     }
 
     @Override
