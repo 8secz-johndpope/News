@@ -4,6 +4,9 @@ import com.heaven.data.net.DataResponse;
 import com.neusoft.szair.model.easycardmodel.EasyCardWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.easycardmodel.queryBankCardResponse;
 import com.neusoft.szair.model.easycardmodel.walletInfoQueryResponse;
+import com.neusoft.szair.model.flightproto.FlightSearchDomesticResultVO;
+import com.neusoft.szair.model.flightsearch.FlightSearchWebServiceServiceSoapBinding;
+import com.neusoft.szair.model.flightsearch.flightSearchDomesticResponse;
 import com.neusoft.szair.model.member.CRMFrequentFlyerWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.member.queryMilesResponse;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
@@ -49,4 +52,8 @@ public interface LoginApi {
     @POST("EasyCardWebService?wsdl")
     Flowable<DataResponse<walletInfoQueryResponse>> querywalletInfo(@Body EasyCardWebServiceServiceSoapBinding requestEnvelope);
 
+
+    @Headers({"Content-Type:text/xml; charset=utf-8"})
+    @POST("flightSearchWebService?wsdl")
+    Flowable<DataResponse<flightSearchDomesticResponse>> searchFlight(@Body FlightSearchWebServiceServiceSoapBinding requestEnvelope);
 }

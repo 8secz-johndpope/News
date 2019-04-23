@@ -361,12 +361,12 @@ public class DataRepo {
         private class TrustAllManager implements X509TrustManager {
             @Override
             public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType);
+//                Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType);
             }
 
             @Override
             public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType);
+//                Logger.i("checkClientTrusted--X509Certificate:" + Arrays.toString(chain) + "--authType:" + authType);
             }
 
             @Override

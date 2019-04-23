@@ -11,6 +11,7 @@ import android.view.View;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.FlightApi;
+import com.heaven.news.api.FlightProtoApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
@@ -18,7 +19,6 @@ import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.flightsearch.FlightSearchWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
 import com.neusoft.szair.model.flightsearch.flightSearchDomesticConditionVO;
-import com.neusoft.szair.model.flightsearch.flightSearchDomesticResponse;
 import com.neusoft.szair.model.flightsearch.tripInfoVO;
 import com.neusoft.szair.model.noticelist.NoticeListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
@@ -27,8 +27,6 @@ import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * FileName: com.heaven.news.ui.vm.viewmodel.MainViewModel.java
@@ -73,21 +71,25 @@ public class MainViewModel extends AbstractViewModel {
 
         List<tripInfoVO> flightLIst = new ArrayList<>();
         tripInfoVO flightVo = new tripInfoVO();
-        flightVo.ORG_CITY = "SZX";
-        flightVo.DST_CITY = "PEK";
-        flightVo.DEPARTURE_DATE = "2019-04-25";
-        flightVo.INDEX = "1";
+        flightVo._ORG_CITY = "SZX";
+        flightVo._DST_CITY = "PEK";
+        flightVo._DEPARTURE_DATE = "2019-04-25";
+        flightVo._INDEX = "1";
         flightLIst.add(flightVo);
         flightSearchDomestic req = new flightSearchDomestic();
-        req.FLIGHT_SEARCH_CONDITION = new flightSearchDomesticConditionVO();
-        req.FLIGHT_SEARCH_CONDITION.TRIP_INFO_LIST = flightLIst;
-        req.FLIGHT_SEARCH_CONDITION.QUERY_FLAG = "DC";
-        req.FLIGHT_SEARCH_CONDITION.USER_ID = AppEngine.instance().dataCore().getCoreDataWrapper().userId;
-        req.FLIGHT_SEARCH_CONDITION.CRM_MEMBER_ID = AppEngine.instance().dataCore().getCoreDataWrapper().crmId;
+        req._FLIGHT_SEARCH_CONDITION = new flightSearchDomesticConditionVO();
+        req._FLIGHT_SEARCH_CONDITION._TRIP_INFO_LIST = flightLIst;
+        req._FLIGHT_SEARCH_CONDITION._QUERY_FLAG = "DC";
+        req._FLIGHT_SEARCH_CONDITION._USER_ID = AppEngine.instance().dataCore().getCoreDataWrapper().userId;
+        req._FLIGHT_SEARCH_CONDITION._CRM_MEMBER_ID = AppEngine.instance().dataCore().getCoreDataWrapper().crmId;
 
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
 
-        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.FLIGHT_URL, FlightApi.class).searchFlight(binding), response -> {
+//        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.FLIGHT_URL, FlightProtoApi.class).searchFlight(binding), response -> {
+//            Logger.i(response.toString());
+//        });
+
+        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, FlightApi.class).searchFlightXml(binding), response -> {
             Logger.i(response.toString());
         });
     }
