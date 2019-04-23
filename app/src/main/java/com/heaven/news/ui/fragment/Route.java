@@ -24,6 +24,7 @@ import com.heaven.news.manyData.bean.Bean01;
 import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.vm.vmmodel.MainViewModel;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +100,15 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
                 mViewBinding.swipeToLoadLayout.setRefreshing(true);
                 mViewModel.searchUserRoute(1);
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(AppEngine.instance().dataCore().isLogin()) {
+            mViewBinding.swipeToLoadLayout.setRefreshing(true);
+            mViewModel.searchUserRoute(1);
         }
     }
 
