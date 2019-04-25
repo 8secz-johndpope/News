@@ -5,10 +5,11 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.news.R;
 import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.WelcomeBinding;
+import com.heaven.news.engine.AppEngine;
+import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.vm.model.base.UpdateInfo;
 import com.heaven.news.ui.vm.vmmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
@@ -22,7 +23,12 @@ import com.orhanobut.logger.Logger;
  * @author heaven
  * @version V1.0 欢迎页
  */
-public class Welcome extends BaseBindActivity<WelecomModel, WelcomeBinding> implements Observer<UpdateInfo>{
+public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBinding> implements Observer<UpdateInfo>{
+
+    @Override
+    public int iniTitleBarResId() {
+        return 0;
+    }
 
     @Override
     public int initLayoutResId() {
@@ -32,6 +38,7 @@ public class Welcome extends BaseBindActivity<WelecomModel, WelcomeBinding> impl
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
+        AppEngine.APP_STATUS = AppEngine.STATUS_NORMAL;
     }
 
     @Override

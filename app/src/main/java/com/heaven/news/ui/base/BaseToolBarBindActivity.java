@@ -1,6 +1,8 @@
 package com.heaven.news.ui.base;
 
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.os.Bundle;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.SparseArray;
@@ -16,6 +18,8 @@ import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.base.ui.view.SystemBarTintManager;
 import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.R;
+import com.heaven.news.engine.AppEngine;
+import com.heaven.news.ui.activity.Welcome;
 
 import java.util.ArrayList;
 
@@ -68,6 +72,16 @@ public abstract class BaseToolBarBindActivity<VM extends BaseViewModel, B extend
             }
         }
     };
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (AppEngine.APP_STATUS != AppEngine.STATUS_NORMAL) { // 非正常启动流程，直接重新初始化应用界面
+            AppEngine.instance().reInitApp();
+            finish();
+        }
+    }
 
     private void showOnlineHelp() {
 

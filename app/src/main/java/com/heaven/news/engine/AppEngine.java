@@ -21,6 +21,7 @@ import com.heaven.data.fileworker.DownLoadWorker;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.ui.activity.MainActivity;
+import com.heaven.news.ui.activity.Welcome;
 import com.heaven.news.utils.CrashHandler;
 import com.heaven.news.utils.SystemUtil;
 import com.heaven.news.ui.vm.model.base.UserLoginInfo;
@@ -50,6 +51,9 @@ import dagger.Lazy;
  */
 
 public final class AppEngine {
+    public static final int STATUS_FORCE_KILLED = -1;//应用在后台被强杀了
+    public static final int STATUS_NORMAL = 2; //APP正常态
+    public static int APP_STATUS = STATUS_FORCE_KILLED; //默认为被后台回收了
     /**
      * 应用程序引擎.
      */
@@ -465,31 +469,32 @@ public final class AppEngine {
             } else {
                 mainActivity = (MainActivity) activity;
             }
+            Logger.i("onActivityCreated--" + activity);
         }
 
         @Override
         public void onActivityStarted(final Activity activity) {
-
+            Logger.i("onActivityStarted--" + activity);
         }
 
         @Override
         public void onActivityResumed(final Activity activity) {
-
+            Logger.i("onActivityResumed--" + activity);
         }
 
         @Override
         public void onActivityPaused(final Activity activity) {
-
+            Logger.i("onActivityPaused--" + activity);
         }
 
         @Override
         public void onActivityStopped(final Activity activity) {
-
+            Logger.i("onActivityStopped--" + activity);
         }
 
         @Override
         public void onActivitySaveInstanceState(final Activity activity, final Bundle bundle) {
-
+            Logger.i("onActivitySaveInstanceState--" + activity);
         }
 
         @Override
@@ -498,6 +503,7 @@ public final class AppEngine {
                 mDataCore.removeForeverObserve((Observer) activity);
             }
             store.remove(activity);
+            Logger.i("onActivityDestroyed--" + activity);
         }
     }
 
@@ -619,5 +625,14 @@ public final class AppEngine {
 
     public AppInfo getAppConfig() {
         return appConfig;
+    }
+
+    /**
+     * 重新初始化应用界面，清空当前Activity棧，并启动欢迎页面
+     */
+    public void reInitApp() {
+        Intent intent = new Intent(app, Welcome.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        app.startActivity(intent);
     }
 }
