@@ -17,7 +17,7 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/trynow"
         android:layout_marginBottom="@dimen/_100dp"
-        android:background="@drawable/round_tran_bg"
+        android:background="@drawable/shape_corners_5_tran"
         android:padding="@dimen/_20dp"
         android:gravity="center"
         android:layout_marginLeft="@dimen/_50dp"

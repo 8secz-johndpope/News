@@ -2,7 +2,9 @@ package com.heaven.news.ui.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -62,6 +64,16 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
     private void initRoute() {
         mViewBinding.swipeToLoadLayout.setOnLoadMoreListener(this);
         mViewBinding.swipeToLoadLayout.setOnRefreshListener(this);
+        ((RecyclerView)mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target)).addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE ){
+                    if (!ViewCompat.canScrollVertically(recyclerView, 1)){
+                        mViewBinding.swipeToLoadLayout.setLoadingMore(true);
+                    }
+                }
+            }
+        });
         RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

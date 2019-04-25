@@ -55,7 +55,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:onClick="@{() -> viewModel.easyGoSearch()}"
-                    android:background="@drawable/round5_red_bg"
+                    android:background="@drawable/shape_corners_5_red"
                     android:padding="@dimen/_10dp"
                     android:text="@string/search_service"
                     android:textColor="@color/white"
@@ -68,7 +68,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="@dimen/_10dp"
                     android:layout_toLeftOf="@+id/search"
-                    android:background="@drawable/round5_f9f9f9_bg"
+                    android:background="@drawable/shape_corners_5_f9f9f9"
                     >
 
                     <com.heaven.news.ui.view.ClearEditText

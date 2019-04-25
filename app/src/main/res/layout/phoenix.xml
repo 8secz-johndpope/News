@@ -147,7 +147,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom"
                                 android:text="0"
-                                android:textColor="@color/red"
+                                android:textColor="@color/color_ee2934"
                                 android:textSize="33sp"
                                 />
 
@@ -180,7 +180,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/curr_mouth_invalid"
                                 android:text="0"
-                                android:textColor="@color/red"
+                                android:textColor="@color/color_ee2934"
                                 android:textSize="@dimen/_12sp"
                                 />
 
@@ -212,7 +212,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/next_mouth_invalid"
                                 android:text="0"
-                                android:textColor="@color/red"
+                                android:textColor="@color/color_ee2934"
                                 android:textSize="@dimen/_12sp"
                                 />
 

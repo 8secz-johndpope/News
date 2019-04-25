@@ -111,7 +111,7 @@
                     android:drawableLeft="@mipmap/one_price"
                     android:drawablePadding="@dimen/_5dp"
                     android:text="@string/one_price"
-                    android:textColor="@color/red"/>
+                    android:textColor="@color/color_ee2934"/>
 
             </LinearLayout>
 

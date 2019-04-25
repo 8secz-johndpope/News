@@ -1,7 +1,7 @@
 <resources>
 
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">@color/red</item>
+        <item name="tabIndicatorColor">@color/color_ee2934</item>
         <item name="tabIndicatorHeight">0dp</item>
         <item name="tabPaddingTop">0dp</item>
         <item name="tabPaddingBottom">0dp</item>
