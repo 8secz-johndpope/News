@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseBindFragment;
 import com.heaven.base.ui.view.rlview.OnLoadMoreListener;
@@ -25,7 +26,10 @@ import com.heaven.news.manyData.adapter.ItemVIewNormal;
 import com.heaven.news.manyData.bean.Bean01;
 import com.heaven.news.manyData.bean.Bean02;
 import com.heaven.news.manyData.bean.Bean03;
+import com.heaven.news.ui.decoration.RouteTimeDecorationn;
+import com.heaven.news.ui.vm.holder.RouteItemHolder;
 import com.heaven.news.ui.vm.vmmodel.MainViewModel;
+import com.neusoft.szair.model.fullchannel.fullchannelVO;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -40,7 +44,6 @@ import java.util.List;
  * @version V1.0 行程
  */
 public class Route extends BaseBindFragment<MainViewModel, RouteBinding> implements OnRefreshListener, OnLoadMoreListener, Observer<DataCore.CoreDataWrapper> {
-    List<Object> items;
 
     @Override
     public int initLayoutResId() {
@@ -49,9 +52,7 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
 
     @Override
     public void bindModel() {
-        mViewModel.observeRouteList(this, fullchannelVOS -> {
-            mViewBinding.swipeToLoadLayout.setRefreshing(false);
-        });
+
     }
 
     @Override
@@ -64,20 +65,40 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
     private void initRoute() {
         mViewBinding.swipeToLoadLayout.setOnLoadMoreListener(this);
         mViewBinding.swipeToLoadLayout.setOnRefreshListener(this);
-        ((RecyclerView)mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target)).addOnScrollListener(new RecyclerView.OnScrollListener() {
+        ((RecyclerView) mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target)).addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE ){
-                    if (!ViewCompat.canScrollVertically(recyclerView, 1)){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (!ViewCompat.canScrollVertically(recyclerView, 1)) {
                         mViewBinding.swipeToLoadLayout.setLoadingMore(true);
                     }
                 }
             }
         });
-        multAdapterTest();
+        RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new RouteTimeDecorationn());
+        BaseAdapter<fullchannelVO> adapter = new BaseAdapter<>(getContext());
+        adapter.register(new RouteItemHolder(fullchannelVO.class, R.layout.route_item));
+        recyclerView.setAdapter(adapter);
+        mViewModel.observeRouteList(this, fullchannelVOS -> {
+            if (fullchannelVOS != null && fullchannelVOS.size() > 0) {
+                mViewBinding.swipeToLoadLayout.setRefreshing(false);
+                mViewBinding.swipeToLoadLayout.setLoadingMore(false);
+                if (mViewBinding.swipeToLoadLayout.isRefreshing()) {
+                    adapter.updateBatch(fullchannelVOS,true);
+                } else {
+                    adapter.updateBatch(fullchannelVOS,false);
+                }
+            }
+        });
+
+//        multAdapterTest();
     }
 
+
     private void multAdapterTest() {
+        List<Object> items;
         RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -112,7 +133,7 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-            if(AppEngine.instance().dataCore().isLogin()) {
+            if (AppEngine.instance().dataCore().isLogin()) {
                 mViewBinding.swipeToLoadLayout.setRefreshing(true);
                 mViewModel.searchUserRoute(1);
             }
@@ -122,7 +143,7 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
     @Override
     public void onResume() {
         super.onResume();
-        if(AppEngine.instance().dataCore().isLogin()) {
+        if (AppEngine.instance().dataCore().isLogin()) {
             mViewBinding.swipeToLoadLayout.setRefreshing(true);
             mViewModel.searchUserRoute(1);
         }

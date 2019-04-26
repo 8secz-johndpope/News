@@ -39,14 +39,12 @@ import io.reactivex.disposables.Disposable;
  * @version V1.0 多类型适配器
  */
 public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
-    protected List<E> dataItems;
-    private List<E> diffNewDataItems = new ArrayList<>();
+    protected List<E> dataItems = new ArrayList<>();
     protected MultTypeManager multTypeManager = new MultTypeManager();
     protected Context context;
     protected @Nullable
     LayoutInflater inflater;
 
-    private DiffCallBack diffCallBack;
     private boolean openAnimationEnable = false;
     private boolean firstOnlyEnable = true;
     private int lastPosition = 15;
@@ -61,13 +59,11 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
     public BaseAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-        diffCallBack = new DiffCallBack();
     }
 
     public BaseAdapter(Context context,List<E> dataItems) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-        diffCallBack = new DiffCallBack();
         this.dataItems = dataItems;
     }
 
@@ -187,12 +183,11 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         }
     }
 
-    public void diffUpdate(List<E> diffNewDataItems, boolean append, int begin) {
-        this.diffNewDataItems = diffNewDataItems;
-        if (append) {
-            updateBatch(diffNewDataItems, begin);
+    public void diffUpdate(List<E> diffNewDataItems, boolean isRefresh) {
+        if (isRefresh) {
+            updateBatch(diffNewDataItems, true);
         } else {
-            Disposable disposable = Flowable.just(DiffUtil.calculateDiff(diffCallBack, true))
+            Disposable disposable = Flowable.just(DiffUtil.calculateDiff(new DiffCallBack(diffNewDataItems), true))
                     .compose(RxDataSchedulers.io_main())
                     .subscribe(diffResult -> {
                         diffResult.dispatchUpdatesTo(this);
@@ -203,24 +198,29 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void updateItems(List<E> items) {
-        this.dataItems = items;
-        notifyDataSetChanged();
+        if(items != null && items.size() > 0) {
+            this.dataItems = items;
+            notifyDataSetChanged();
+        }
     }
 
-    public void updateBatch(List<E> data, int begin) {
+    public void updateBatch(List<E> data, boolean isRefresh) {
         Logger.i("current:" + Thread.currentThread());
-        int position = getDataCount();
-        if (data == null) {
-            data = new ArrayList<>();
+        if(data != null && data.size() > 0) {
+            int position = getDataCount();
+            if (dataItems == null) {
+                dataItems = new ArrayList<>();
+            }
+
+            if (isRefresh) {
+                dataItems.clear();
+                position = 0;
+                this.dataItems.addAll(data);
+            } else {
+                this.dataItems.addAll(data);
+            }
+            notifyItemRangeChanged(position, data.size());
         }
-        if (begin > 1) {
-            this.dataItems.addAll(data);
-        } else {
-            dataItems.clear();
-            position = 0;
-            this.dataItems.addAll(data);
-        }
-        notifyItemRangeChanged(position, data.size());
     }
 
     /**
@@ -245,6 +245,11 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public class DiffCallBack extends DiffUtil.Callback {
+        private List<E> diffNewDataItems;
+
+        public DiffCallBack(List<E> diffNewDataItems) {
+            this.diffNewDataItems = diffNewDataItems;
+        }
 
         @Override
         public int getOldListSize() {
