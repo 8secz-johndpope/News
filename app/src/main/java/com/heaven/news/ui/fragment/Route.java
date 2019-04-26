@@ -44,7 +44,7 @@ import java.util.List;
  * @version V1.0 行程
  */
 public class Route extends BaseBindFragment<MainViewModel, RouteBinding> implements OnRefreshListener, OnLoadMoreListener, Observer<DataCore.CoreDataWrapper> {
-
+    BaseAdapter<fullchannelVO> routeAdapter;
     @Override
     public int initLayoutResId() {
         return R.layout.route;
@@ -78,20 +78,23 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
         RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new RouteTimeDecorationn());
-        BaseAdapter<fullchannelVO> adapter = new BaseAdapter<>(getContext());
-        adapter.register(new RouteItemHolder(fullchannelVO.class, R.layout.route_item));
-        recyclerView.setAdapter(adapter);
+        routeAdapter = new BaseAdapter<>(getContext());
+        routeAdapter.register(new RouteItemHolder(fullchannelVO.class, R.layout.route_item));
+        recyclerView.setAdapter(routeAdapter);
         mViewModel.observeRouteList(this, fullchannelVOS -> {
             if (fullchannelVOS != null && fullchannelVOS.size() > 0) {
                 if (mViewBinding.swipeToLoadLayout.isRefreshing()) {
-                    if(adapter.getItemCount() > 0) {
-                        adapter.diffUpdate(fullchannelVOS,false);
+                    if(routeAdapter.getItemCount() > 0) {
+                        routeAdapter.diffUpdate(fullchannelVOS,false);
                     } else {
-                        adapter.updateBatch(fullchannelVOS,true);
+                        routeAdapter.updateBatch(fullchannelVOS,true);
                     }
                 } else {
-                    adapter.updateBatch(fullchannelVOS,false);
+                    routeAdapter.updateBatch(fullchannelVOS,false);
                 }
+                mViewBinding.swipeToLoadLayout.setRefreshing(false);
+                mViewBinding.swipeToLoadLayout.setLoadingMore(false);
+            } else {
                 mViewBinding.swipeToLoadLayout.setRefreshing(false);
                 mViewBinding.swipeToLoadLayout.setLoadingMore(false);
             }
@@ -172,7 +175,8 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
 
     @Override
     public void onLoadMore() {
-
+        int index = routeAdapter.getItemCount() == 0? 1 : routeAdapter.getItemCount() + 1;
+        mViewModel.searchUserRoute(index);
     }
 
     @Override
