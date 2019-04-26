@@ -145,7 +145,17 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
     }
 
     private void drawRouteTimeFlag(int index, Canvas c, RecyclerView parent, View view) {
+        int height = mRouteTimeFlag.getHeight();
+        int width = mRouteTimeFlag.getWidth();
 
+        View timeArea = view.findViewById(R.id.route_time_area);
+        int timeMeasureH = timeArea.getMeasuredHeight();
+        int left = view.getLeft() - lefPadding - width/2;
+        int top = (int) (view.getTop() + timeArea.getY() + (timeMeasureH >> 1) - height/2);
+
+        c.save();
+        c.drawBitmap(mRouteTimeFlag,left,top,bitmapPaint);
+        c.restore();
     }
 
     private void drawRouteInfoFlag(int index, Canvas c, RecyclerView parent, View view) {
