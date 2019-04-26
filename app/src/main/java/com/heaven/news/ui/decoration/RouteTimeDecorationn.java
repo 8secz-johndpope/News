@@ -1,6 +1,8 @@
 package com.heaven.news.ui.decoration;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -26,12 +28,13 @@ import com.heaven.news.R;
  */
 public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
     private Context mContext;
-    private Drawable mRouteIndexFlag;
-    private Drawable mRouteTimeFlag;
-    private Drawable mRouteInfoFlag;
+    private Bitmap mRouteIndexFlag;
+    private Bitmap mRouteTimeFlag;
+    private Bitmap mRouteInfoFlag;
 
     private Paint mLinePaint;
     private Paint mGapLinePaint;
+    private Paint bitmapPaint = new Paint();
 
     private int lefPadding;
     private int topPadding;
@@ -40,9 +43,9 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
 
     public RouteTimeDecorationn(Context mContext) {
         this.mContext = mContext;
-        mRouteIndexFlag = getDrawable(R.mipmap.route_start_flag);
-        mRouteTimeFlag = getDrawable(R.mipmap.route_time_flag);
-        mRouteInfoFlag = getDrawable(R.mipmap.route_info_flag);
+        mRouteIndexFlag = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.route_start_flag);
+        mRouteTimeFlag = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.route_time_flag);
+        mRouteInfoFlag = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.route_info_flag);
 
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
@@ -121,12 +124,25 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
         float left = view.getLeft() - lefPadding;
         float top = view.getBottom() - (flightInfoH >> 1);
         float right = view.getLeft() - lefPadding;
-        float bottom = view.getBottom() + bottomPadding + topPadding + (titleMeasureH>>1);
+        float bottom = view.getBottom() + bottomPadding + topPadding + (titleMeasureH >> 1);
 
         c.drawLine(left, top, right, bottom, test);
     }
 
     private void drawIndexFlag(int index, Canvas c, RecyclerView parent, View view) {
+        int height = mRouteIndexFlag.getHeight();
+        int width = mRouteIndexFlag.getWidth();
+
+        View titleIndex = view.findViewById(R.id.route_index_title);
+        int titleMeasureH = titleIndex.getMeasuredHeight();
+        int left = view.getLeft() - lefPadding - width/2;
+        int top = view.getTop() + (titleMeasureH >> 1) - height/2;
+        int right = view.getLeft() + width;
+        int bottom = top + height;
+
+        c.save();
+        c.drawBitmap(mRouteIndexFlag,left,top,bitmapPaint);
+        c.restore();
 
     }
 
