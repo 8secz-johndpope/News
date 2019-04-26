@@ -83,13 +83,13 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
         recyclerView.setAdapter(adapter);
         mViewModel.observeRouteList(this, fullchannelVOS -> {
             if (fullchannelVOS != null && fullchannelVOS.size() > 0) {
-                mViewBinding.swipeToLoadLayout.setRefreshing(false);
-                mViewBinding.swipeToLoadLayout.setLoadingMore(false);
                 if (mViewBinding.swipeToLoadLayout.isRefreshing()) {
                     adapter.updateBatch(fullchannelVOS,true);
                 } else {
                     adapter.updateBatch(fullchannelVOS,false);
                 }
+                mViewBinding.swipeToLoadLayout.setRefreshing(false);
+                mViewBinding.swipeToLoadLayout.setLoadingMore(false);
             }
         });
 

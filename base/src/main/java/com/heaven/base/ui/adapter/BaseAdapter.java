@@ -190,9 +190,9 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
             Disposable disposable = Flowable.just(DiffUtil.calculateDiff(new DiffCallBack(diffNewDataItems), true))
                     .compose(RxDataSchedulers.io_main())
                     .subscribe(diffResult -> {
+                        dataItems = diffNewDataItems;
                         diffResult.dispatchUpdatesTo(this);
                     });
-            dataItems = diffNewDataItems;
         }
 
     }
