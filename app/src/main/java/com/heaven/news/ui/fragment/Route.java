@@ -139,8 +139,13 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
         if (isVisibleToUser) {
             if (AppEngine.instance().dataCore().isLogin()) {
                 if(mViewBinding != null) {
+                    mViewBinding.swipeToLoadLayout.setRefreshEnabled(true);
+                    mViewBinding.swipeToLoadLayout.setLoadMoreEnabled(true);
                     mViewBinding.swipeToLoadLayout.setRefreshing(true);
                 }
+            } else {
+                mViewBinding.swipeToLoadLayout.setRefreshEnabled(false);
+                mViewBinding.swipeToLoadLayout.setLoadMoreEnabled(false);
             }
         } else {
             if(mViewBinding != null) {
@@ -179,7 +184,6 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
     public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
         if (coreDataWrapper != null) {
             if (DataCore.LOGIN == coreDataWrapper.dataType) {
-
             }
         }
     }
