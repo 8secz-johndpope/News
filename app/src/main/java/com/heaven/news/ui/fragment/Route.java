@@ -78,7 +78,7 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
         });
         RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new RouteTimeDecorationn());
+        recyclerView.addItemDecoration(new RouteTimeDecorationn(getContext()));
         routeAdapter = new BaseAdapter<>(getContext());
         routeAdapter.register(new RouteItemHolder(fullchannelVO.class, R.layout.route_item));
         recyclerView.setAdapter(routeAdapter);
