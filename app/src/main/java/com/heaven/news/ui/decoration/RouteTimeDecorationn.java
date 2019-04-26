@@ -137,8 +137,6 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
         int titleMeasureH = titleIndex.getMeasuredHeight();
         int left = view.getLeft() - lefPadding - width/2;
         int top = view.getTop() + (titleMeasureH >> 1) - height/2;
-        int right = view.getLeft() + width;
-        int bottom = top + height;
 
         c.save();
         c.drawBitmap(mRouteIndexFlag,left,top,bitmapPaint);
