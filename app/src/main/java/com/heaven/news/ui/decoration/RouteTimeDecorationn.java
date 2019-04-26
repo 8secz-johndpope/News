@@ -121,7 +121,7 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
         float left = view.getLeft() - lefPadding;
         float top = view.getBottom() - (flightInfoH >> 1);
         float right = view.getLeft() - lefPadding;
-        float bottom = view.getBottom() + bottomPadding + (titleMeasureH>>1);
+        float bottom = view.getBottom() + bottomPadding + topPadding + (titleMeasureH>>1);
 
         c.drawLine(left, top, right, bottom, test);
     }

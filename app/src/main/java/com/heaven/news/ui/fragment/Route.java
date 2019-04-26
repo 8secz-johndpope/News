@@ -85,11 +85,11 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
         mViewModel.observeRouteList(this, fullchannelVOS -> {
             if (fullchannelVOS != null && fullchannelVOS.size() > 0) {
                 if (mViewBinding.swipeToLoadLayout.isRefreshing()) {
-                    if (routeAdapter.getItemCount() > 0) {
-                        routeAdapter.diffUpdate(fullchannelVOS, false);
-                    } else {
-                        routeAdapter.updateBatch(fullchannelVOS, true);
-                    }
+//                    if (routeAdapter.getItemCount() > 0) {
+//                        routeAdapter.diffUpdate(fullchannelVOS, false);
+//                    } else {
+                        routeAdapter.updateBatch(fullchannelVOS, false);
+//                    }
                 } else {
                     routeAdapter.updateBatch(fullchannelVOS, false);
                 }
