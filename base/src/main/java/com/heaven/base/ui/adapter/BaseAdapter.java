@@ -286,6 +286,11 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
             return isSame;
         }
 
+        @Nullable
+        @Override
+        public Object getChangePayload(int oldItemPosition, int newItemPosition) {
+            return super.getChangePayload(oldItemPosition, newItemPosition);
+        }
     }
 
     /**

@@ -138,7 +138,14 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             if (AppEngine.instance().dataCore().isLogin()) {
-                mViewBinding.swipeToLoadLayout.setRefreshing(true);
+                if(mViewBinding != null) {
+                    mViewBinding.swipeToLoadLayout.setRefreshing(true);
+                }
+            }
+        } else {
+            if(mViewBinding != null) {
+                mViewBinding.swipeToLoadLayout.setRefreshing(false);
+                mViewBinding.swipeToLoadLayout.setLoadingMore(false);
             }
         }
     }

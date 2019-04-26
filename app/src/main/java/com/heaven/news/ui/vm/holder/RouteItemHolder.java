@@ -29,4 +29,15 @@ public class RouteItemHolder extends BaseMultItem<fullchannelVO> {
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull fullchannelVO fullchannelVO, Object payload) {
 
     }
+
+
+    @Override
+    public boolean isItemSame(fullchannelVO oldItem, fullchannelVO newItem) {
+        return true;
+    }
+
+    @Override
+    public boolean isContentSame(fullchannelVO oldItem, fullchannelVO newItem) {
+        return true;
+    }
 }
