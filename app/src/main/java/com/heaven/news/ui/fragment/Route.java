@@ -74,6 +74,10 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
                 }
             }
         });
+        multAdapterTest();
+    }
+
+    private void multAdapterTest() {
         RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
