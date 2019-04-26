@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -34,8 +33,9 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
     private Paint mLinePaint;
     private Paint mGapLinePaint;
 
-    private int paddingLeft;
-    private int firstPaddingTop;
+    private int lefPadding;
+    private int topPadding;
+    private int bottomPadding;
     Paint test;
 
     public RouteTimeDecorationn(Context mContext) {
@@ -56,8 +56,9 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
         mGapLinePaint.setColor(Color.parseColor("#4d7aad"));
         mGapLinePaint.setPathEffect(new DashPathEffect(new float[]{4, 4}, 0));
         //绘制长度为4的实线后再绘制长度为4的空白区域，0位间隔
-        firstPaddingTop = dip2px(20);
-        paddingLeft = dip2px(10);
+        topPadding = dip2px(20);
+        bottomPadding = dip2px(40);
+        lefPadding = dip2px(10);
 
         test = new Paint(Paint.ANTI_ALIAS_FLAG);
         test.setStyle(Paint.Style.STROKE);
@@ -91,45 +92,36 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         int pos = parent.getChildAdapterPosition(view);
-        outRect.top = firstPaddingTop;
-        outRect.left = paddingLeft;
+        outRect.top = topPadding;
+        outRect.left = lefPadding;
+        outRect.bottom = bottomPadding;
     }
 
     private void drawStrokLine(int index, Canvas c, RecyclerView parent, View view) {
 
         //int index = parent.getChildAdapterPosition(view);
 
-        float paddingBottom = view.getPaddingBottom();
-
         View titleIndex = view.findViewById(R.id.route_index_title);
         View flighInfoView = view.findViewById(R.id.route_info_area);
-        int titleMeasureH = titleIndex.getMeasuredWidth();
-        int titleRealH = titleIndex.getMeasuredWidth();
+        int titleMeasureH = titleIndex.getMeasuredHeight();
         int flightInfoH = flighInfoView.getMeasuredHeight();
-        float left = view.getLeft() - paddingLeft;
+        float left = view.getLeft() - lefPadding;
         float top = view.getTop();
-        float right = view.getLeft() - paddingLeft;
-        float bottom = view.getBottom() - paddingBottom - (flightInfoH >> 1);
-        float halfTitle = titleMeasureH / 2;
-        float halfTitle1 = titleMeasureH >> 1;
-
-        if (index == 0) {
-            top = view.getTop() + halfTitle1;
-        } else {
-            top = view.getTop() + firstPaddingTop - (titleMeasureH >> 1);
-        }
+        float right = view.getLeft() - lefPadding;
+        float bottom = view.getBottom() - (flightInfoH >> 1);
+        top = top + (titleMeasureH >> 1);
 
         c.drawLine(left, top, right, bottom, mLinePaint);
     }
 
     private void drawDashLine(int index, Canvas c, RecyclerView parent, View view) {
         View flighInfoView = view.findViewById(R.id.route_info_area);
+        int titleMeasureH = view.findViewById(R.id.route_index_title).getMeasuredHeight();
         int flightInfoH = flighInfoView.getMeasuredHeight();
-        float paddingBottom = view.getPaddingBottom();
-        float left = view.getLeft() - paddingLeft;
-        float top = view.getBottom() - paddingBottom - (flightInfoH >> 1);
-        float right = view.getLeft() - paddingLeft;
-        float bottom = view.getBottom() + firstPaddingTop;
+        float left = view.getLeft() - lefPadding;
+        float top = view.getBottom() - (flightInfoH >> 1);
+        float right = view.getLeft() - lefPadding;
+        float bottom = view.getBottom() + bottomPadding + (titleMeasureH>>1);
 
         c.drawLine(left, top, right, bottom, test);
     }
