@@ -84,7 +84,11 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
         mViewModel.observeRouteList(this, fullchannelVOS -> {
             if (fullchannelVOS != null && fullchannelVOS.size() > 0) {
                 if (mViewBinding.swipeToLoadLayout.isRefreshing()) {
-                    adapter.updateBatch(fullchannelVOS,true);
+                    if(adapter.getItemCount() > 0) {
+                        adapter.diffUpdate(fullchannelVOS,false);
+                    } else {
+                        adapter.updateBatch(fullchannelVOS,true);
+                    }
                 } else {
                     adapter.updateBatch(fullchannelVOS,false);
                 }
@@ -135,7 +139,6 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
         if (isVisibleToUser) {
             if (AppEngine.instance().dataCore().isLogin()) {
                 mViewBinding.swipeToLoadLayout.setRefreshing(true);
-                mViewModel.searchUserRoute(1);
             }
         }
     }

@@ -184,15 +184,17 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void diffUpdate(List<E> diffNewDataItems, boolean isRefresh) {
-        if (isRefresh) {
-            updateBatch(diffNewDataItems, true);
-        } else {
-            Disposable disposable = Flowable.just(DiffUtil.calculateDiff(new DiffCallBack(diffNewDataItems), true))
-                    .compose(RxDataSchedulers.io_main())
-                    .subscribe(diffResult -> {
-                        dataItems = diffNewDataItems;
-                        diffResult.dispatchUpdatesTo(this);
-                    });
+        if(diffNewDataItems != null && diffNewDataItems.size() > 0) {
+            if (isRefresh) {
+                updateBatch(diffNewDataItems, true);
+            } else {
+                Disposable disposable = Flowable.just(DiffUtil.calculateDiff(new DiffCallBack(diffNewDataItems), true))
+                        .compose(RxDataSchedulers.io_main())
+                        .subscribe(diffResult -> {
+                            dataItems = diffNewDataItems;
+                            diffResult.dispatchUpdatesTo(this);
+                        });
+            }
         }
 
     }
