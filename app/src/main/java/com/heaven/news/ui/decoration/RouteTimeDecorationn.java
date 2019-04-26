@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
@@ -34,7 +35,8 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
     private Paint mGapLinePaint;
 
     private int paddingLeft;
-
+    private int firstPaddingTop;
+    Paint test;
     public RouteTimeDecorationn(Context mContext) {
         this.mContext = mContext;
         mRouteIndexFlag = getDrawable(R.mipmap.route_start_flag);
@@ -53,14 +55,22 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
         mGapLinePaint.setColor(Color.parseColor("#4d7aad"));
         mGapLinePaint.setPathEffect(new DashPathEffect(new float[]{4, 4}, 0));
         //绘制长度为4的实线后再绘制长度为4的空白区域，0位间隔
+        firstPaddingTop = dip2px(20);
         paddingLeft = dip2px(10);
+
+        test = new Paint(Paint.ANTI_ALIAS_FLAG);
+        test.setStyle(Paint.Style.STROKE);
+        test.setColor(Color.RED);
+        test.setStrokeWidth(1);
+        PathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
+        test.setPathEffect(effects);
     }
 
     @Override
     public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.onDraw(c, parent, state);
         int childCount = parent.getChildCount();
-
+        parent.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         for (int i = 0; i < childCount; i++) {
             View view = parent.getChildAt(i);
             drawStrokLine(c,parent,view);
@@ -75,6 +85,10 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
+        int pos = parent.getChildAdapterPosition(view);
+        if(pos == 0) {
+            outRect.top = firstPaddingTop;
+        }
         outRect.left = paddingLeft;
     }
 
@@ -88,10 +102,19 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
         float paddingBottom = view.getPaddingBottom();
 
         float left = view.getLeft() - paddingLeft;
-        float top = view.getTop();
+        float top = view.getTop() + paddingTop;
         float right = view.getLeft() - paddingLeft;
         float bottom = view.getBottom();
-        c.drawLine(left,top,right,bottom,mLinePaint);
+
+       View titleIndex = view.findViewById(R.id.route_index_title);
+       int w = titleIndex.getWidth();
+       int h = titleIndex.getHeight();
+       titleIndex.getY();
+
+       int meW = titleIndex.getMeasuredHeight();
+       int meH = titleIndex.getMeasuredWidth();
+
+        c.drawLine(left,top,right,bottom,test);
     }
 
     private void drawDashLine(Canvas c,RecyclerView parent,View view) {

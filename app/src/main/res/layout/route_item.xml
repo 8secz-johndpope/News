@@ -9,7 +9,6 @@
         android:layout_marginLeft="@dimen/_20dp"
         android:layout_marginRight="@dimen/_20dp"
         android:paddingBottom="@dimen/_40dp"
-        android:paddingTop="@dimen/_20dp"
         >
 
         <TextView
