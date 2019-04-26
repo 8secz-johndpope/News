@@ -1,6 +1,8 @@
 package com.heaven.news.ui.activity;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -23,7 +25,7 @@ import com.orhanobut.logger.Logger;
  * @author heaven
  * @version V1.0 欢迎页
  */
-public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBinding> implements Observer<UpdateInfo>{
+public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBinding> implements Observer<UpdateInfo> {
 
     @Override
     public int iniTitleBarResId() {
@@ -35,10 +37,16 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
         return R.layout.welcome;
     }
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        AppEngine.APP_STATUS = AppEngine.STATUS_NORMAL;
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        AppEngine.APP_STATUS = AppEngine.STATUS_NORMAL;
     }
 
     @Override
@@ -53,16 +61,15 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
     @Override
     public void bindModel() {
         mViewBinding.setViewmodel(mViewModel);
-        mViewModel.obserUpdateInfo(this,this);
+        mViewModel.obserUpdateInfo(this, this);
         prepareVersion();
     }
 
     private void prepareVersion() {
-        if(mViewModel.updateInfo != null) {
+        if (mViewModel.updateInfo != null) {
             processNext(mViewModel.updateInfo);
         }
     }
-
 
 
     private void processNext(UpdateInfo updateInfo) {
@@ -87,7 +94,7 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
         if (updateInfo.nextGuidePage) {
             toGuidePage();
         } else if (updateInfo.isShowAd) {
-            if(updateInfo.adInfo != null) {
+            if (updateInfo.adInfo != null) {
                 toAdPage();
             } else {
                 toMainPage();

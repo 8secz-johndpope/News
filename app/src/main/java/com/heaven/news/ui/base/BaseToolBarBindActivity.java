@@ -77,10 +77,9 @@ public abstract class BaseToolBarBindActivity<VM extends BaseViewModel, B extend
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (AppEngine.APP_STATUS != AppEngine.STATUS_NORMAL) { // 非正常启动流程，直接重新初始化应用界面
-            AppEngine.instance().reInitApp();
-            finish();
-        }
+//        if (AppEngine.APP_STATUS != AppEngine.STATUS_NORMAL) { // 非正常启动流程，直接重新初始化应用界面
+//            AppEngine.instance().reInitApp();
+//        }
     }
 
     private void showOnlineHelp() {

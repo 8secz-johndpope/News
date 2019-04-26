@@ -632,7 +632,7 @@ public final class AppEngine {
      */
     public void reInitApp() {
         Intent intent = new Intent(app, Welcome.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         app.startActivity(intent);
     }
 }
