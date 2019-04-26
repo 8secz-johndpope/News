@@ -159,7 +159,17 @@ public class RouteTimeDecorationn extends RecyclerView.ItemDecoration {
     }
 
     private void drawRouteInfoFlag(int index, Canvas c, RecyclerView parent, View view) {
+        int height = mRouteInfoFlag.getHeight();
+        int width = mRouteInfoFlag.getWidth();
 
+        View infoArea = view.findViewById(R.id.route_info_area);
+        int infoMeasureH = infoArea.getMeasuredHeight();
+        int left = view.getLeft() - lefPadding - width/2;
+        int top = (int) (view.getTop() + infoArea.getY() + (infoMeasureH >> 1) - height/2);
+
+        c.save();
+        c.drawBitmap(mRouteInfoFlag,left,top,bitmapPaint);
+        c.restore();
     }
 
 
