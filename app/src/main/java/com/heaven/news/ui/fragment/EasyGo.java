@@ -117,7 +117,7 @@ public class EasyGo extends BaseBindFragment<MainViewModel,EasygoBinding> implem
 
 
     private void initGrid() {
-        EasyGoService easyGoService = AppEngine.instance().dataCore().loadEasyGoService(getContext());
+        EasyGoService easyGoService = AppEngine.instance().confManager().loadEasyGoService(getContext());
         if(easyGoService != null && easyGoService.easyGoServiceInfos != null) {
             LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             RecyclerViewDivider divider = new RecyclerViewDivider(getContext(),30,R.color.transparent);

@@ -114,7 +114,7 @@ public class Phoenix extends BaseBindFragment<MainViewModel, PhoenixBinding> imp
     }
 
     private void initService() {
-        PhoenixService phoenixService = AppEngine.instance().dataCore().loadPhoenixService(getContext());
+        PhoenixService phoenixService = AppEngine.instance().confManager().loadPhoenixService(getContext());
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         BaseAdapter<ServiceInfo> mServiceAdapter = new BaseAdapter<>(getContext());
         mServiceAdapter.register(new PhoenixServiceHolder(ServiceInfo.class, R.layout.home_service_item));

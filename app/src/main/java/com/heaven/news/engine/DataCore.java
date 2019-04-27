@@ -117,44 +117,44 @@ public class DataCore {
     DataCore(DataSource dataSource, Context context) {
         this.dataSource = dataSource;
         dataSource.runWorkThread(this::prepareData);
-        dataSource.runWorkThread(() -> loadAllService(context));
+//        dataSource.runWorkThread(() -> loadAllService(context));
     }
 
-    private void loadAllService(Context context) {
-        loadHomeService(context);
-        loadEasyGoService(context);
-        loadPhoenixService(context);
-    }
-
-    public HomeService loadHomeService(Context context) {
-        if (homeService == null) {
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-            InputStream allServiceIn = context.getResources().openRawResource(R.raw.home);
-            Reader readerAll = new InputStreamReader(allServiceIn);
-            homeService = gson.fromJson(readerAll, HomeService.class);
-        }
-        return homeService;
-    }
-
-    public EasyGoService loadEasyGoService(Context context) {
-        if (easyGoService == null) {
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-            InputStream allServiceIn = context.getResources().openRawResource(R.raw.easygo);
-            Reader readerAll = new InputStreamReader(allServiceIn);
-            easyGoService = gson.fromJson(readerAll, EasyGoService.class);
-        }
-        return easyGoService;
-    }
-
-    public PhoenixService loadPhoenixService(Context context) {
-        if (phoenixService == null) {
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-            InputStream allServiceIn = context.getResources().openRawResource(R.raw.phoenix);
-            Reader readerAll = new InputStreamReader(allServiceIn);
-            phoenixService = gson.fromJson(readerAll, PhoenixService.class);
-        }
-        return phoenixService;
-    }
+//    private void loadAllService(Context context) {
+//        loadHomeService(context);
+//        loadEasyGoService(context);
+//        loadPhoenixService(context);
+//    }
+//
+//    public HomeService loadHomeService(Context context) {
+//        if (homeService == null) {
+//            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+//            InputStream allServiceIn = context.getResources().openRawResource(R.raw.home);
+//            Reader readerAll = new InputStreamReader(allServiceIn);
+//            homeService = gson.fromJson(readerAll, HomeService.class);
+//        }
+//        return homeService;
+//    }
+//
+//    public EasyGoService loadEasyGoService(Context context) {
+//        if (easyGoService == null) {
+//            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+//            InputStream allServiceIn = context.getResources().openRawResource(R.raw.easygo);
+//            Reader readerAll = new InputStreamReader(allServiceIn);
+//            easyGoService = gson.fromJson(readerAll, EasyGoService.class);
+//        }
+//        return easyGoService;
+//    }
+//
+//    public PhoenixService loadPhoenixService(Context context) {
+//        if (phoenixService == null) {
+//            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+//            InputStream allServiceIn = context.getResources().openRawResource(R.raw.phoenix);
+//            Reader readerAll = new InputStreamReader(allServiceIn);
+//            phoenixService = gson.fromJson(readerAll, PhoenixService.class);
+//        }
+//        return phoenixService;
+//    }
 
 
     private void prepareData() {

@@ -151,7 +151,7 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
     }
 
     private void initService() {
-        HomeService allServiceItem = AppEngine.instance().dataCore().loadHomeService(getContext());
+        HomeService allServiceItem = AppEngine.instance().confManager().loadHomeService(getContext());
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mServiceAdapter = new BaseAdapter<>(getContext());
         mServiceAdapter.register(new HomeServiceHolder(ServiceInfo.class, R.layout.home_service_item));
@@ -201,7 +201,7 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
 
     private ArrayList organizeRecData() {
         ArrayList dataList = new ArrayList();
-        HomeService allServiceItem = AppEngine.instance().dataCore().loadHomeService(getContext());
+        HomeService allServiceItem = AppEngine.instance().confManager().loadHomeService(getContext());
         HomeImageInfo homeImageInfo = AppEngine.instance().dataCore().getHomeConfigData();
         if (allServiceItem != null) {
             if (allServiceItem.homeRecommendInfos != null && allServiceItem.homeRecommendInfos.size() > 0) {
