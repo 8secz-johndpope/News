@@ -88,10 +88,11 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
 //                    if (routeAdapter.getItemCount() > 0) {
 //                        routeAdapter.diffUpdate(fullchannelVOS, false);
 //                    } else {
-                        routeAdapter.updateBatch(fullchannelVOS, false);
+                        routeAdapter.updateBatch(fullchannelVOS, true);
 //                    }
                 } else {
                     routeAdapter.updateBatch(fullchannelVOS, false);
+                    recyclerView.scrollToPosition(routeAdapter.getItemCount()-1);
                 }
             }
             mViewBinding.swipeToLoadLayout.setRefreshing(false);
@@ -174,7 +175,7 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
     @Override
     public void onLoadMore() {
         int index = routeAdapter.getItemCount() == 0 ? 1 : routeAdapter.getItemCount() + 1;
-        mViewModel.searchUserRoute(index);
+        mViewModel.searchUserRoute(1);
     }
 
     @Override

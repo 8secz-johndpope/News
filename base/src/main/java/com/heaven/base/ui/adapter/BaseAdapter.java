@@ -218,10 +218,11 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
                 dataItems.clear();
                 position = 0;
                 this.dataItems.addAll(data);
+                notifyDataSetChanged();
             } else {
                 this.dataItems.addAll(data);
+                notifyItemRangeChanged(position, data.size());
             }
-            notifyItemRangeChanged(position, data.size());
         }
     }
 
