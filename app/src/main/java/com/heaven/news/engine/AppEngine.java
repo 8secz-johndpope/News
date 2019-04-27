@@ -61,6 +61,9 @@ public final class AppEngine {
 
     @Inject
     Context app;
+
+    @Inject
+    ConfigManager mConfigManager;
     /**
      * 数据源网络和本地
      */
@@ -257,6 +260,10 @@ public final class AppEngine {
 
     public DataCore dataCore() {
         return mDataCore;
+    }
+
+    public ConfigManager confManager() {
+        return mConfigManager;
     }
 
     public Api api() {

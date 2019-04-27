@@ -1,0 +1,167 @@
+[
+{"_AIRPORT":"开罗国际机场","_AIRPORT_EN":"Cairo International Airport","_CITY_TYPE":"1","_FC_NAME":"KL","_FULLNAME_EN":"Cairo","_FULL_NAME":"开罗","_IS_CKI":"1","_PY_NAME":"Cairo","_SHORT_NAME":"CAI"}
+,{"_AIRPORT":"岘港机场","_AIRPORT_EN":"Da Nang Airport","_CITY_TYPE":"1","_FC_NAME":"XG","_FULLNAME_EN":"DaNang","_FULL_NAME":"岘港","_IS_CKI":"0","_PY_NAME":"DaNang","_SHORT_NAME":"DAD"}
+,{"_AIRPORT":"内排机场","_AIRPORT_EN":"Hanoi Airport","_CITY_TYPE":"1","_FC_NAME":"HN","_FULLNAME_EN":"Ha Noi","_FULL_NAME":"河内","_IS_CKI":"0","_PY_NAME":"HENEI","_SHORT_NAME":"HAN"}
+,{"_AIRPORT":"苏加诺－哈达国际机场","_AIRPORT_EN":"Soekarno-Hatta International Airport","_CITY_TYPE":"1","_FC_NAME":"YJD","_FULLNAME_EN":"Jakarta","_FULL_NAME":"雅加达","_IS_CKI":"0","_PY_NAME":"Jakarta","_SHORT_NAME":"CGK"}
+,{"_AIRPORT":"希思罗机场","_AIRPORT_EN":"London Heathrow International Airport","_AIRPORT_TDN":"希思罗机场","_CITY_TYPE":"1","_FC_NAME":"LD","_FULLNAME_EN":"London","_FULLNAME_TDN":"伦敦","_FULL_NAME":"伦敦","_IS_CKI":"1","_PY_NAME":"LUNDUN","_SHORT_NAME":"LHR"}
+,{"_AIRPORT":"亚庇国际机场","_AIRPORT_EN":"Kota Kinabalu International Airpor","_CITY_TYPE":"1","_FC_NAME":"SB","_FULLNAME_EN":"Negeri Sabah","_FULL_NAME":"沙巴","_IS_CKI":"0","_PY_NAME":"Negeri Sabah","_SHORT_NAME":"BKI"}
+,{"_AIRPORT":"哈尔滨太平机场T2","_AIRPORT_EN":"Harbin Taiping","_CITY_TYPE":"0","_FC_NAME":"heb","_FULLNAME_EN":"Harbin","_FULL_NAME":"哈尔滨","_IS_CKI":"1","_PY_NAME":"haerbin","_SHORT_NAME":"HRB"}
+,{"_AIRPORT":"宝安机场T3","_AIRPORT_EN":"Shenzhen Baoan","_CITY_TYPE":"0","_FC_NAME":"sz","_FULLNAME_EN":"Shenzhen","_FULL_NAME":"深圳","_IS_CKI":"1","_PY_NAME":"shenzhen","_SHORT_NAME":"SZX"}
+,{"_AIRPORT":"南京禄口机场T2","_AIRPORT_EN":"Nanjing Lukou","_CITY_TYPE":"0","_FC_NAME":"nj","_FULLNAME_EN":"Nanjing","_FULL_NAME":"南京","_IS_CKI":"1","_PY_NAME":"nanjing","_SHORT_NAME":"NKG"}
+,{"_AIRPORT":"沈阳桃仙机场T3","_AIRPORT_EN":"Shenyang Taoxian","_CITY_TYPE":"0","_FC_NAME":"sy","_FULLNAME_EN":"Shenyang","_FULL_NAME":"沈阳","_IS_CKI":"1","_PY_NAME":"shenyang","_SHORT_NAME":"SHE"}
+,{"_AIRPORT":"郑州新郑机场T2","_AIRPORT_EN":"Zhengzhou Xinzheng","_CITY_TYPE":"0","_FC_NAME":"zz","_FULLNAME_EN":"Zhengzhou","_FULL_NAME":"郑州","_IS_CKI":"1","_PY_NAME":"zhengzhou","_SHORT_NAME":"CGO"}
+,{"_AIRPORT":"北京首都机场T3","_AIRPORT_EN":"Beijing Capital Intl","_CITY_TYPE":"0","_FC_NAME":"bj","_FULLNAME_EN":"Beijing","_FULL_NAME":"北京","_IS_CKI":"1","_PY_NAME":"beijing","_SHORT_NAME":"PEK"}
+,{"_AIRPORT":"南宁吴圩机场T2","_AIRPORT_EN":"Nanning Wuxu","_CITY_TYPE":"0","_FC_NAME":"nn","_FULLNAME_EN":"Nanning","_FULL_NAME":"南宁","_IS_CKI":"1","_PY_NAME":"nanning","_SHORT_NAME":"NNG"}
+,{"_AIRPORT":"白云机场T1","_AIRPORT_EN":"Guangzhou Baiyun","_CITY_TYPE":"0","_FC_NAME":"gz","_FULLNAME_EN":"Guangzhou","_FULL_NAME":"广州","_IS_CKI":"1","_PY_NAME":"guangzhou","_SHORT_NAME":"CAN"}
+,{"_AIRPORT":"合肥新桥国际机场","_AIRPORT_EN":"Hefei Xinqiao Intl","_CITY_TYPE":"0","_FC_NAME":"hf","_FULLNAME_EN":"Hefei","_FULL_NAME":"合肥","_IS_CKI":"1","_PY_NAME":"hefei","_SHORT_NAME":"HFE"}
+,{"_AIRPORT":"厦门高崎机场T4","_AIRPORT_EN":"Xiamen Gaoqi","_CITY_TYPE":"0","_FC_NAME":"xm","_FULLNAME_EN":"Xiamen","_FULL_NAME":"厦门","_IS_CKI":"1","_PY_NAME":"xiamen","_SHORT_NAME":"XMN"}
+,{"_AIRPORT":"青岛流亭机场","_AIRPORT_EN":"Tsingdao Liuting","_CITY_TYPE":"0","_FC_NAME":"qd","_FULLNAME_EN":"Tsingdao","_FULL_NAME":"青岛","_IS_CKI":"1","_PY_NAME":"qingdao","_SHORT_NAME":"TAO"}
+,{"_AIRPORT":"重庆江北机场T3","_AIRPORT_EN":"Chongqing Jiangbei","_CITY_TYPE":"0","_FC_NAME":"cq","_FULLNAME_EN":"Chongqing","_FULL_NAME":"重庆","_IS_CKI":"1","_PY_NAME":"chongqing","_SHORT_NAME":"CKG"}
+,{"_AIRPORT":"成都双流机场T2","_AIRPORT_EN":"Chengdu Shuangliu","_CITY_TYPE":"0","_FC_NAME":"cd","_FULLNAME_EN":"Chengdu","_FULL_NAME":"成都","_IS_CKI":"1","_PY_NAME":"chengdu","_SHORT_NAME":"CTU"}
+,{"_AIRPORT":"泉州机场","_AIRPORT_EN":"Quanzhou","_CITY_TYPE":"0","_FC_NAME":"jj","_FULLNAME_EN":"Quanzhou","_FULL_NAME":"泉州","_IS_CKI":"1","_PY_NAME":"Quanzhou","_SHORT_NAME":"JJN"}
+,{"_AIRPORT":"三亚凤凰机场","_AIRPORT_EN":"Sanya Fenghuang","_CITY_TYPE":"0","_FC_NAME":"sy","_FULLNAME_EN":"Sanya","_FULL_NAME":"三亚","_IS_CKI":"1","_PY_NAME":"sanya","_SHORT_NAME":"SYX"}
+,{"_AIRPORT":"西安咸阳机场T2","_AIRPORT_EN":"Xian Xianyang","_CITY_TYPE":"0","_FC_NAME":"xa","_FULLNAME_EN":"Xian","_FULL_NAME":"西安","_IS_CKI":"1","_PY_NAME":"xian","_SHORT_NAME":"XIY"}
+,{"_AIRPORT":"无锡硕放机场","_AIRPORT_EN":"Wuxi Shuofang","_CITY_TYPE":"0","_FC_NAME":"wx","_FULLNAME_EN":"Wuxi","_FULL_NAME":"无锡","_IS_CKI":"1","_PY_NAME":"wuxi","_SHORT_NAME":"WUX"}
+,{"_AIRPORT":"南通兴东机场","_AIRPORT_EN":"Nantong Xingdong","_CITY_TYPE":"0","_FC_NAME":"nt","_FULLNAME_EN":"Nantong","_FULL_NAME":"南通","_IS_CKI":"1","_PY_NAME":"nantong","_SHORT_NAME":"NTG"}
+,{"_AIRPORT":"吉隆坡国际机场","_AIRPORT_EN":"Kuala Lumpur Intl","_CITY_TYPE":"1","_FC_NAME":"Kuala Lumpur","_FULLNAME_EN":"Kuala Lumpur","_FULL_NAME":"吉隆坡","_IS_CKI":"1","_PY_NAME":"Kuala Lumpur","_SHORT_NAME":"KUL"}
+,{"_AIRPORT":"乌塔堡机场","_AIRPORT_EN":"utapao","_CITY_TYPE":"1","_FC_NAME":"BTY","_FULLNAME_EN":"Pattaya","_FULL_NAME":"芭提雅","_IS_CKI":"1","_PY_NAME":"Pattaya","_SHORT_NAME":"UTP"}
+,{"_AIRPORT":"金边国际机场","_AIRPORT_EN":" Pochentong Intl","_CITY_TYPE":"1","_FC_NAME":"JB","_FULLNAME_EN":"Phnom Penh","_FULL_NAME":"金边","_IS_CKI":"0","_PY_NAME":"Phnom Penh","_SHORT_NAME":"PNH"}
+,{"_AIRPORT":"素万那普国际机场","_AIRPORT_EN":"Bangkok Suvarnabhumi","_CITY_TYPE":"1","_FC_NAME":"bangkok","_FULLNAME_EN":"Bangkok","_FULL_NAME":"曼谷","_IS_CKI":"1","_PY_NAME":"bangkok","_SHORT_NAME":"BKK"}
+,{"_AIRPORT":"法兰克福国际机场","_AIRPORT_EN":"Frankfurt Intl","_CITY_TYPE":"1","_FC_NAME":"flkf","_FULLNAME_EN":"Frankfurt","_FULL_NAME":"法兰克福","_IS_CKI":"0","_PY_NAME":"frankfurt","_SHORT_NAME":"FRA"}
+,{"_AIRPORT":"香港赤喇角机场","_AIRPORT_EN":"Hongkong Intl","_CITY_TYPE":"1","_FC_NAME":"hongkong","_FULLNAME_EN":"HongKong(China)","_FULL_NAME":"中国香港","_IS_CKI":"1","_PY_NAME":"hongkong","_SHORT_NAME":"HKG"}
+,{"_AIRPORT":"济州国际机场","_AIRPORT_EN":"Jeju","_CITY_TYPE":"1","_FC_NAME":"jzd","_FULLNAME_EN":"Jeju","_FULL_NAME":"济州岛","_IS_CKI":"1","_PY_NAME":"jejuisland","_SHORT_NAME":"CJU"}
+,{"_AIRPORT":"澳门国际机场","_AIRPORT_EN":"Macau Intl","_CITY_TYPE":"1","_FC_NAME":"macau","_FULLNAME_EN":"Macau(China)","_FULL_NAME":"中国澳门","_IS_CKI":"1","_PY_NAME":"macau","_SHORT_NAME":"MFM"}
+,{"_AIRPORT":"名古屋中部国际机场","_AIRPORT_EN":"Nagoya","_CITY_TYPE":"1","_FC_NAME":"mgw","_FULLNAME_EN":"Nagoya","_FULL_NAME":"名古屋","_IS_CKI":"0","_PY_NAME":"nagoya","_SHORT_NAME":"NGO"}
+,{"_AIRPORT":"大阪关西国际机场","_AIRPORT_EN":"Osaka Kansai Intl","_CITY_TYPE":"1","_FC_NAME":"osaka","_FULLNAME_EN":"Osaka","_FULL_NAME":"大阪","_IS_CKI":"1","_PY_NAME":"osaka","_SHORT_NAME":"KIX"}
+,{"_AIRPORT":"普吉国际机场","_AIRPORT_EN":"Phuket Intl","_CITY_TYPE":"1","_FC_NAME":"phuketisland","_FULLNAME_EN":"Phuket","_FULL_NAME":"普吉岛","_IS_CKI":"0","_PY_NAME":"phuketisland","_SHORT_NAME":"HKT"}
+,{"_AIRPORT":"仁川国际机场","_AIRPORT_EN":"Seoul Incheon Intl","_CITY_TYPE":"1","_FC_NAME":"seoul","_FULLNAME_EN":"Seoul ","_FULL_NAME":"首尔","_IS_CKI":"1","_PY_NAME":"seoul","_SHORT_NAME":"ICN"}
+,{"_AIRPORT":"新加坡樟宜机场","_AIRPORT_EN":"Singapore Changi","_CITY_TYPE":"1","_FC_NAME":"singapore","_FULLNAME_EN":"Singapore","_FULL_NAME":"新加坡","_IS_CKI":"1","_PY_NAME":"singapore","_SHORT_NAME":"SIN"}
+,{"_AIRPORT":"台北桃园机场","_AIRPORT_EN":"Taipei Taoyuan","_CITY_TYPE":"1","_FC_NAME":"taibei","_FULLNAME_EN":"Taipei(China)","_FULL_NAME":"中国台北","_IS_CKI":"1","_PY_NAME":"taibei","_SHORT_NAME":"TPE"}
+,{"_AIRPORT":"东京成田国际机场","_AIRPORT_EN":"Tokyo Narita Intl","_CITY_TYPE":"1","_FC_NAME":"tokyo","_FULLNAME_EN":"Tokyo","_FULL_NAME":"东京","_IS_CKI":"1","_PY_NAME":"tokyo","_SHORT_NAME":"NRT"}
+,{"_AIRPORT":"马克坦机场","_AIRPORT_EN":"Mactan-Cebu International Airport","_CITY_TYPE":"1","_FC_NAME":"SW","_FULLNAME_EN":"Cebu","_FULL_NAME":"宿务","_IS_CKI":"0","_PY_NAME":"Cebu","_SHORT_NAME":"CEB"}
+,{"_AIRPORT":"迪庆机场","_AIRPORT_EN":"Diqing ","_CITY_TYPE":"0","_FC_NAME":"DQ","_FULLNAME_EN":"Diqing ","_FULL_NAME":"迪庆","_IS_CKI":"0","_PY_NAME":"DIQING","_SHORT_NAME":"DIG"}
+,{"_AIRPORT":"漠河古莲机场 ","_AIRPORT_EN":"Mohe county","_CITY_TYPE":"0","_FC_NAME":"MH","_FULLNAME_EN":"Mohe county","_FULL_NAME":"漠河","_IS_CKI":"0","_PY_NAME":"MOHE","_SHORT_NAME":"OHE"}
+,{"_AIRPORT":"十堰武当山机场 ","_AIRPORT_EN":"Shiyan Wudang Mountain Airport ","_CITY_TYPE":"0","_FC_NAME":"SY","_FULLNAME_EN":"Shiyan ","_FULL_NAME":"十堰","_IS_CKI":"0","_PY_NAME":"Shiyan ","_SHORT_NAME":"WDS"}
+,{"_AIRPORT":"五大连池德都机场","_AIRPORT_EN":"WUDALIANCHI","_CITY_TYPE":"0","_FC_NAME":"WDLC","_FULLNAME_EN":"WUDALIANCHI","_FULL_NAME":"五大连池","_IS_CKI":"0","_PY_NAME":"WUDALIANCHI","_SHORT_NAME":"DTU"}
+,{"_AIRPORT":"阿勒泰机场","_AIRPORT_EN":"Aletai ","_CITY_TYPE":"0","_FC_NAME":"alt","_FULLNAME_EN":"Aletai ","_FULL_NAME":"阿勒泰","_IS_CKI":"0","_PY_NAME":"aletai","_SHORT_NAME":"AAT"}
+,{"_AIRPORT":"乌鲁木齐地窝铺机场T2","_AIRPORT_EN":"Urumqi Diwobao","_CITY_TYPE":"0","_FC_NAME":"wlmq","_FULLNAME_EN":"Urumqi","_FULL_NAME":"乌鲁木齐","_IS_CKI":"1","_PY_NAME":"wulumuqi","_SHORT_NAME":"URC"}
+,{"_AIRPORT":"宜昌三峡机场","_AIRPORT_EN":"Yichang Sanxia","_CITY_TYPE":"0","_FC_NAME":"yc","_FULLNAME_EN":"Yichang","_FULL_NAME":"宜昌","_IS_CKI":"1","_PY_NAME":"yichang","_SHORT_NAME":"YIH"}
+,{"_AIRPORT":"宁波栎社机场","_AIRPORT_EN":"Ningbo Leshe","_CITY_TYPE":"0","_FC_NAME":"nb","_FULLNAME_EN":"Ningbo","_FULL_NAME":"宁波","_IS_CKI":"1","_PY_NAME":"ningbo","_SHORT_NAME":"NGB"}
+,{"_AIRPORT":"天津滨海机场T2","_AIRPORT_EN":"Tianjin Binhai","_CITY_TYPE":"0","_FC_NAME":"tj","_FULLNAME_EN":"Tianjin","_FULL_NAME":"天津","_IS_CKI":"1","_PY_NAME":"tianjin","_SHORT_NAME":"TSN"}
+,{"_AIRPORT":"日喀则机场","_AIRPORT_EN":"Rikaze Airport","_CITY_TYPE":"0","_FC_NAME":"RKZ","_FULLNAME_EN":"Rikaze","_FULL_NAME":"日喀则","_IS_CKI":"1","_PY_NAME":"rikaze","_SHORT_NAME":"RKZ"}
+,{"_AIRPORT":"南昌昌北机场","_AIRPORT_EN":"Nanchang Changbei","_CITY_TYPE":"0","_FC_NAME":"nc","_FULLNAME_EN":"Nanchang","_FULL_NAME":"南昌","_IS_CKI":"1","_PY_NAME":"nanchang","_SHORT_NAME":"KHN"}
+,{"_AIRPORT":"武汉天河机场T3","_AIRPORT_EN":"Wuhan Tianhe","_CITY_TYPE":"0","_FC_NAME":"wh","_FULLNAME_EN":"Wuhan","_FULL_NAME":"武汉","_IS_CKI":"1","_PY_NAME":"wuhan","_SHORT_NAME":"WUH"}
+,{"_AIRPORT":"珠海金湾机场","_AIRPORT_EN":"Zhuhai Sanzao","_CITY_TYPE":"0","_FC_NAME":"zh","_FULLNAME_EN":"Zhuhai","_FULL_NAME":"珠海","_IS_CKI":"1","_PY_NAME":"zhuhai","_SHORT_NAME":"ZUH"}
+,{"_AIRPORT":"上海浦东机场T2","_AIRPORT_EN":"SH Pudong Intl","_CITY_TYPE":"0","_FC_NAME":"shpd","_FULLNAME_EN":"SH Pudong","_FULL_NAME":"上海浦东","_IS_CKI":"1","_PY_NAME":"shanghaipudong","_SHORT_NAME":"PVG"}
+,{"_AIRPORT":"海口美兰机场","_AIRPORT_EN":"Haikou Meilan","_CITY_TYPE":"0","_FC_NAME":"hk","_FULLNAME_EN":"Haikou","_FULL_NAME":"海口","_IS_CKI":"1","_PY_NAME":"haikou","_SHORT_NAME":"HAK"}
+,{"_AIRPORT":"大连周水子机场","_AIRPORT_EN":"Dalian Zhoushuizi","_CITY_TYPE":"0","_FC_NAME":"dl","_FULLNAME_EN":"Dalian","_FULL_NAME":"大连","_IS_CKI":"1","_PY_NAME":"dalian","_SHORT_NAME":"DLC"}
+,{"_AIRPORT":"长沙黄花机场T1","_AIRPORT_EN":"Changsha Huanghua","_CITY_TYPE":"0","_FC_NAME":"cs","_FULLNAME_EN":"Changsha","_FULL_NAME":"长沙","_IS_CKI":"1","_PY_NAME":"changsha","_SHORT_NAME":"CSX"}
+,{"_AIRPORT":"太原武宿机场T1","_AIRPORT_EN":"Taiyuan Wusu","_CITY_TYPE":"0","_FC_NAME":"ty","_FULLNAME_EN":"Taiyuan","_FULL_NAME":"太原","_IS_CKI":"1","_PY_NAME":"taiyuan","_SHORT_NAME":"TYN"}
+,{"_AIRPORT":"龙嘉国际机场","_AIRPORT_EN":"Changchun Longjia","_CITY_TYPE":"0","_FC_NAME":"cc","_FULLNAME_EN":"Changchun","_FULL_NAME":"长春","_IS_CKI":"1","_PY_NAME":"changchun","_SHORT_NAME":"CGQ"}
+,{"_AIRPORT":"贵阳龙洞堡机场T2","_AIRPORT_EN":"Guiyang Longdongbao","_CITY_TYPE":"0","_FC_NAME":"gy","_FULLNAME_EN":"Guiyang","_FULL_NAME":"贵阳","_IS_CKI":"1","_PY_NAME":"guiyang","_SHORT_NAME":"KWE"}
+,{"_AIRPORT":"福州长乐机场","_AIRPORT_EN":"Fuzhou Changle","_CITY_TYPE":"0","_FC_NAME":"fz","_FULLNAME_EN":"Fuzhou","_FULL_NAME":"福州","_IS_CKI":"1","_PY_NAME":"fuzhou","_SHORT_NAME":"FOC"}
+,{"_AIRPORT":"兰州中川机场T2","_AIRPORT_EN":"Lanzhou Zhongchuan","_CITY_TYPE":"0","_FC_NAME":"lz","_FULLNAME_EN":"Lanzhou","_FULL_NAME":"兰州","_IS_CKI":"1","_PY_NAME":"lanzhou","_SHORT_NAME":"LHW"}
+,{"_AIRPORT":"银川河东机场T3","_AIRPORT_EN":"Yinchuan Hedong","_CITY_TYPE":"0","_FC_NAME":"yc","_FULLNAME_EN":"Yinchuan","_FULL_NAME":"银川","_IS_CKI":"1","_PY_NAME":"yinchuan","_SHORT_NAME":"INC"}
+,{"_AIRPORT":"昆明长水机场","_AIRPORT_EN":"Kunming Changshui Intl","_CITY_TYPE":"0","_FC_NAME":"km","_FULLNAME_EN":"Kunming","_FULL_NAME":"昆明","_IS_CKI":"1","_PY_NAME":"kunming","_SHORT_NAME":"KMG"}
+,{"_AIRPORT":"上海虹桥机场T2","_AIRPORT_EN":"SH Hongqiao Intl","_CITY_TYPE":"0","_FC_NAME":"shhq","_FULLNAME_EN":"SH Hongqiao","_FULL_NAME":"上海虹桥","_IS_CKI":"1","_PY_NAME":"shanghaihongqiao","_SHORT_NAME":"SHA"}
+,{"_AIRPORT":"扬泰机场","_AIRPORT_EN":"Yangzhou Taizhou","_CITY_TYPE":"0","_FC_NAME":"yz","_FULLNAME_EN":"Yangzhou","_FULL_NAME":"扬州","_IS_CKI":"1","_PY_NAME":"yangzhou","_SHORT_NAME":"YTY"}
+,{"_AIRPORT":"萧山机场","_AIRPORT_EN":"Hangzhou Xiaoshan","_CITY_TYPE":"0","_FC_NAME":"hz","_FULLNAME_EN":"Hangzhou","_FULL_NAME":"杭州","_IS_CKI":"1","_PY_NAME":"hangzhou","_SHORT_NAME":"HGH"}
+,{"_AIRPORT":"济南遥墙机场","_AIRPORT_EN":"Jinan Yaoqiang","_CITY_TYPE":"0","_FC_NAME":"jn","_FULLNAME_EN":"Jinan","_FULL_NAME":"济南","_IS_CKI":"1","_PY_NAME":"jinan","_SHORT_NAME":"TNA"}
+,{"_AIRPORT":"温州龙湾国际机场T2","_AIRPORT_EN":"Wenzhou Longwan Intl","_CITY_TYPE":"0","_FC_NAME":"wz","_FULLNAME_EN":"Wenzhou","_FULL_NAME":"温州","_IS_CKI":"1","_PY_NAME":"wenzhou","_SHORT_NAME":"WNZ"}
+,{"_AIRPORT":"曹家堡机场","_AIRPORT_EN":"Xining Caojiabao","_CITY_TYPE":"0","_FC_NAME":"xn","_FULLNAME_EN":"Xining","_FULL_NAME":"西宁","_IS_CKI":"1","_PY_NAME":"xining","_SHORT_NAME":"XNN"}
+,{"_AIRPORT":"路桥机场","_AIRPORT_EN":" Luqiao","_CITY_TYPE":"0","_FC_NAME":"hy","_FULLNAME_EN":"Huangyan","_FULL_NAME":"黄岩","_IS_CKI":"1","_PY_NAME":"huangyan","_SHORT_NAME":"HYN"}
+,{"_AIRPORT":"淮安涟水国际机场","_AIRPORT_EN":"Huaian Lianshui Airport","_CITY_TYPE":"0","_FC_NAME":"HA","_FULLNAME_EN":"Huaian","_FULL_NAME":"淮安","_IS_CKI":"0","_PY_NAME":"HUAIAN","_SHORT_NAME":"HIA"}
+,{"_AIRPORT":"怀化芷江机场","_AIRPORT_EN":"Huaihua Zhijiang","_CITY_TYPE":"0","_FC_NAME":"HH","_FULLNAME_EN":"Huaihua","_FULL_NAME":"怀化","_IS_CKI":"1","_PY_NAME":"HuaiHua","_SHORT_NAME":"HJJ"}
+,{"_AIRPORT":"南充高坪机场","_AIRPORT_EN":"Nanchong Gaoping","_CITY_TYPE":"0","_FC_NAME":"nc","_FULLNAME_EN":"Nanchong","_FULL_NAME":"南充","_IS_CKI":"0","_PY_NAME":"Nanchong","_SHORT_NAME":"NAO"}
+,{"_AIRPORT":"邵阳机场 ","_AIRPORT_EN":"Shaoyangwugang","_CITY_TYPE":"0","_FC_NAME":"SY","_FULLNAME_EN":"shaoyang","_FULL_NAME":"邵阳","_IS_CKI":"0","_PY_NAME":"Shaoyang","_SHORT_NAME":"WGN"}
+,{"_AIRPORT":"铜仁凤凰机场","_AIRPORT_EN":"Tongren Daxing","_CITY_TYPE":"0","_FC_NAME":"tr","_FULLNAME_EN":"Tongren","_FULL_NAME":"铜仁","_IS_CKI":"0","_PY_NAME":"Tongren","_SHORT_NAME":"TEN"}
+,{"_AIRPORT":"温宿机场","_AIRPORT_EN":"Aksu","_CITY_TYPE":"0","_FC_NAME":"aks","_FULLNAME_EN":"Aksu","_FULL_NAME":"阿克苏","_IS_CKI":"0","_PY_NAME":"aksu","_SHORT_NAME":"AKU"}
+,{"_AIRPORT":"包头机场","_AIRPORT_EN":"Baotou Erliban","_CITY_TYPE":"0","_FC_NAME":"bt","_FULLNAME_EN":"Baotou","_FULL_NAME":"包头","_IS_CKI":"0","_PY_NAME":"baotou","_SHORT_NAME":"BAV"}
+,{"_AIRPORT":"巴彦淖尔机场","_AIRPORT_EN":"Bayannur","_CITY_TYPE":"0","_FC_NAME":"byne","_FULLNAME_EN":"Bayannur","_FULL_NAME":"巴彦淖尔","_IS_CKI":"0","_PY_NAME":"bayannaoer","_SHORT_NAME":"RLK"}
+,{"_AIRPORT":"北海福城机场","_AIRPORT_EN":"Beihai Fucheng","_CITY_TYPE":"0","_FC_NAME":"bh","_FULLNAME_EN":"Beihai","_FULL_NAME":"北海","_IS_CKI":"1","_PY_NAME":"beihai","_SHORT_NAME":"BHY"}
+,{"_AIRPORT":"博鳌机场","_AIRPORT_EN":"Boao Intl","_CITY_TYPE":"0","_FC_NAME":"BA","_FULLNAME_EN":"Boao","_FULL_NAME":"博鳌","_IS_CKI":"0","_PY_NAME":"boao","_SHORT_NAME":"BAR"}
+,{"_AIRPORT":"长白山机场","_AIRPORT_EN":"Changbaishang","_CITY_TYPE":"0","_FC_NAME":"cbs","_FULLNAME_EN":"Changbaishan","_FULL_NAME":"长白山","_IS_CKI":"0","_PY_NAME":"changbaishan","_SHORT_NAME":"NBS"}
+,{"_AIRPORT":"西藏昌都邦达机场","_AIRPORT_EN":"Changdu Bangda","_CITY_TYPE":"0","_FC_NAME":"CD","_FULLNAME_EN":"Changdu","_FULL_NAME":"昌都","_IS_CKI":"0","_PY_NAME":"changdu","_SHORT_NAME":"BPX"}
+,{"_AIRPORT":"长治王村机场","_AIRPORT_EN":"Changzhi Wangcun","_CITY_TYPE":"0","_FC_NAME":"cz","_FULLNAME_EN":"Changzhi","_FULL_NAME":"长治","_IS_CKI":"0","_PY_NAME":"changzhi","_SHORT_NAME":"CIH"}
+,{"_AIRPORT":"常州奔牛机场","_AIRPORT_EN":"Changzhou Benniu","_CITY_TYPE":"0","_FC_NAME":"cz","_FULLNAME_EN":"Changzhou","_FULL_NAME":"常州","_IS_CKI":"1","_PY_NAME":"changzhou","_SHORT_NAME":"CZX"}
+,{"_AIRPORT":"朝阳机场","_AIRPORT_EN":"Chaoyang","_CITY_TYPE":"0","_FC_NAME":"cy","_FULLNAME_EN":"Chaoyang","_FULL_NAME":"朝阳","_IS_CKI":"0","_PY_NAME":"chaoyang","_SHORT_NAME":"CHG"}
+,{"_AIRPORT":"赤峰玉龙机场","_AIRPORT_EN":"Chifeng Yulong","_CITY_TYPE":"0","_FC_NAME":"chf","_FULLNAME_EN":"Chifeng","_FULL_NAME":"赤峰","_IS_CKI":"0","_PY_NAME":"chifeng","_SHORT_NAME":"CIF"}
+,{"_AIRPORT":"金城江","_AIRPORT_EN":"Chihe","_CITY_TYPE":"0","_FC_NAME":"CH","_FULLNAME_EN":"Chihe","_FULL_NAME":"池河","_IS_CKI":"0","_PY_NAME":"chihe","_SHORT_NAME":"HCJ"}
+,{"_AIRPORT":"池州九华山机场","_AIRPORT_EN":"Chizhou Jiuhuashan","_CITY_TYPE":"0","_FC_NAME":"cz","_FULLNAME_EN":"Chizhou","_FULL_NAME":"池州","_IS_CKI":"1","_PY_NAME":"chizhou","_SHORT_NAME":"JUH"}
+,{"_AIRPORT":"大理荒草坝机场","_AIRPORT_EN":"Dali Huangcaoba","_CITY_TYPE":"0","_FC_NAME":"dl","_FULLNAME_EN":"Dali","_FULL_NAME":"大理","_IS_CKI":"0","_PY_NAME":"dali","_SHORT_NAME":"DLU"}
+,{"_AIRPORT":"丹东浪头国际机场","_AIRPORT_EN":"Dandong Langtou","_CITY_TYPE":"0","_FC_NAME":"dd","_FULLNAME_EN":"Dandong","_FULL_NAME":"丹东","_IS_CKI":"0","_PY_NAME":"dandong","_SHORT_NAME":"DDG"}
+,{"_AIRPORT":"稻城亚丁机场","_AIRPORT_EN":"Daocheng Yading","_CITY_TYPE":"0","_FC_NAME":"dcy","_FULLNAME_EN":"Daocheng","_FULL_NAME":"稻城","_IS_CKI":"0","_PY_NAME":"daocheng yading","_SHORT_NAME":"DCY"}
+,{"_AIRPORT":"大庆萨尔图机场","_AIRPORT_EN":"Daqing Saertu","_CITY_TYPE":"0","_FC_NAME":"dq","_FULLNAME_EN":"Daqing","_FULL_NAME":"大庆","_IS_CKI":"0","_PY_NAME":"daqing","_SHORT_NAME":"DQA"}
+,{"_AIRPORT":"大同云冈机场","_AIRPORT_EN":"Datong","_CITY_TYPE":"0","_FC_NAME":"dt","_FULLNAME_EN":"Datong","_FULL_NAME":"大同","_IS_CKI":"0","_PY_NAME":"datong","_SHORT_NAME":"DAT"}
+,{"_AIRPORT":"达州河市机场","_AIRPORT_EN":"Dazhou Heshiba","_CITY_TYPE":"0","_FC_NAME":"dz","_FULLNAME_EN":"Dazhou","_FULL_NAME":"达州","_IS_CKI":"0","_PY_NAME":"dazhou","_SHORT_NAME":"DAX"}
+,{"_AIRPORT":"敦煌机场","_AIRPORT_EN":"Dunhuang","_CITY_TYPE":"0","_FC_NAME":"dh","_FULLNAME_EN":"Dunhuang","_FULL_NAME":"敦煌","_IS_CKI":"0","_PY_NAME":"dunhuang","_SHORT_NAME":"DNH"}
+,{"_AIRPORT":"鄂尔多斯机场","_AIRPORT_EN":"Erdos Yijinhuoluo","_CITY_TYPE":"0","_FC_NAME":"eeds","_FULLNAME_EN":"Erdos","_FULL_NAME":"鄂尔多斯","_IS_CKI":"0","_PY_NAME":"eerduosi","_SHORT_NAME":"DSN"}
+,{"_AIRPORT":"阜阳西关机场","_AIRPORT_EN":"Fuyang Xiguan","_CITY_TYPE":"0","_FC_NAME":"fy","_FULLNAME_EN":"Fuyang","_FULL_NAME":"阜阳","_IS_CKI":"0","_PY_NAME":"fuyang","_SHORT_NAME":"FUG"}
+,{"_AIRPORT":"赣州黄金机场","_AIRPORT_EN":"Ganzhou Huangjin","_CITY_TYPE":"0","_FC_NAME":"gz","_FULLNAME_EN":"Ganzhou","_FULL_NAME":"赣州","_IS_CKI":"0","_PY_NAME":"ganzhou","_SHORT_NAME":"KOW"}
+,{"_AIRPORT":"广元盘龙机场","_AIRPORT_EN":"Guangyuan","_CITY_TYPE":"0","_FC_NAME":"gy","_FULLNAME_EN":"Guangyuan","_FULL_NAME":"广元","_IS_CKI":"0","_PY_NAME":"guangyuan","_SHORT_NAME":"GYS"}
+,{"_AIRPORT":"桂林两江机场","_AIRPORT_EN":"Guilin Liangjiang","_CITY_TYPE":"0","_FC_NAME":"gl","_FULLNAME_EN":"Guilin","_FULL_NAME":"桂林","_IS_CKI":"1","_PY_NAME":"guilin","_SHORT_NAME":"KWL"}
+,{"_AIRPORT":"海拉尔东山机场","_AIRPORT_EN":"Hailar Dongshan","_CITY_TYPE":"0","_FC_NAME":"hlr","_FULLNAME_EN":"Hailar","_FULL_NAME":"海拉尔","_IS_CKI":"0","_PY_NAME":"hailaer","_SHORT_NAME":"HLD"}
+,{"_AIRPORT":"哈密机场","_AIRPORT_EN":"Hami","_CITY_TYPE":"0","_FC_NAME":"hm","_FULLNAME_EN":"Hami","_FULL_NAME":"哈密","_IS_CKI":"0","_PY_NAME":"hami","_SHORT_NAME":"HMI"}
+,{"_AIRPORT":"邯郸机场","_AIRPORT_EN":"Handan","_CITY_TYPE":"0","_FC_NAME":"hd","_FULLNAME_EN":"Handan","_FULL_NAME":"邯郸","_IS_CKI":"0","_PY_NAME":"handan","_SHORT_NAME":"HDG"}
+,{"_AIRPORT":"和田机场","_AIRPORT_EN":"Hetian","_CITY_TYPE":"0","_FC_NAME":"ht","_FULLNAME_EN":"Hetian","_FULL_NAME":"和田","_IS_CKI":"0","_PY_NAME":"hotan","_SHORT_NAME":"HTN"}
+,{"_AIRPORT":"黄山屯溪机场","_AIRPORT_EN":"Huangshan Tunxi","_CITY_TYPE":"0","_FC_NAME":"hs","_FULLNAME_EN":"Huangshan","_FULL_NAME":"黄山","_IS_CKI":"0","_PY_NAME":"huangshan","_SHORT_NAME":"TXN"}
+,{"_AIRPORT":"呼和浩特白塔机场","_AIRPORT_EN":"Hohhot Baita","_CITY_TYPE":"0","_FC_NAME":"hhht","_FULLNAME_EN":"Hohhot","_FULL_NAME":"呼和浩特","_IS_CKI":"1","_PY_NAME":"huhehaote","_SHORT_NAME":"HET"}
+,{"_AIRPORT":"惠州平潭机场","_AIRPORT_EN":"Huizhou","_CITY_TYPE":"0","_FC_NAME":"hz","_FULLNAME_EN":"Huizhou","_FULL_NAME":"惠州","_IS_CKI":"0","_PY_NAME":"huizhou","_SHORT_NAME":"HUZ"}
+,{"_AIRPORT":"佳木斯机场","_AIRPORT_EN":"Jiamusi","_CITY_TYPE":"0","_FC_NAME":"jms","_FULLNAME_EN":"Jiamusi","_FULL_NAME":"佳木斯","_IS_CKI":"0","_PY_NAME":"jiamusi","_SHORT_NAME":"JMU"}
+,{"_AIRPORT":"揭阳潮汕机场","_AIRPORT_EN":"Jieyang Chaoshan","_CITY_TYPE":"0","_FC_NAME":"jy","_FULLNAME_EN":"Jieyang","_FULL_NAME":"揭阳","_IS_CKI":"0","_PY_NAME":"jieyang","_SHORT_NAME":"SWA"}
+,{"_AIRPORT":"景德镇罗家机场","_AIRPORT_EN":"Jingdezhen Luojia","_CITY_TYPE":"0","_FC_NAME":"jdz","_FULLNAME_EN":"Jingdezhen","_FULL_NAME":"景德镇","_IS_CKI":"1","_PY_NAME":"jingdezhen","_SHORT_NAME":"JDZ"}
+,{"_AIRPORT":"井冈山机场","_AIRPORT_EN":"Jinggangshan","_CITY_TYPE":"0","_FC_NAME":"jgs","_FULLNAME_EN":"Jinggangshan","_FULL_NAME":"井冈山","_IS_CKI":"0","_PY_NAME":"jinggangshan","_SHORT_NAME":"JGS"}
+,{"_AIRPORT":"景洪西双版纳嘎洒机场","_AIRPORT_EN":"Xishuangbanna Intl","_CITY_TYPE":"0","_FC_NAME":"jh","_FULLNAME_EN":"Jinghong","_FULL_NAME":"景洪","_IS_CKI":"0","_PY_NAME":"jinghong","_SHORT_NAME":"JHG"}
+,{"_AIRPORT":"济宁曲阜机场","_AIRPORT_EN":"Jining","_CITY_TYPE":"0","_FC_NAME":"jin","_FULLNAME_EN":"Jining","_FULL_NAME":"济宁","_IS_CKI":"0","_PY_NAME":"jining","_SHORT_NAME":"JNG"}
+,{"_AIRPORT":"九寨沟黄龙机场","_AIRPORT_EN":"Jiuzhaigou Huanglong","_CITY_TYPE":"0","_FC_NAME":"jzg","_FULLNAME_EN":"Jiuzhaigou","_FULL_NAME":"九寨沟","_IS_CKI":"0","_PY_NAME":"jiuzhaigou","_SHORT_NAME":"JZH"}
+,{"_AIRPORT":"鸡西机场","_AIRPORT_EN":"Jixi Xingkai Lake","_CITY_TYPE":"0","_FC_NAME":"jx","_FULLNAME_EN":"Jixi","_FULL_NAME":"鸡西","_IS_CKI":"0","_PY_NAME":"jixi","_SHORT_NAME":"JXA"}
+,{"_AIRPORT":"克拉玛依机场","_AIRPORT_EN":"Karamay","_CITY_TYPE":"0","_FC_NAME":"klmy","_FULLNAME_EN":"Karamay","_FULL_NAME":"克拉玛依","_IS_CKI":"1","_PY_NAME":"karamay","_SHORT_NAME":"KRY"}
+,{"_AIRPORT":"喀什机场","_AIRPORT_EN":"Kashgar","_CITY_TYPE":"0","_FC_NAME":"ks","_FULLNAME_EN":"Kashgar","_FULL_NAME":"喀什","_IS_CKI":"0","_PY_NAME":"kashi","_SHORT_NAME":"KHG"}
+,{"_AIRPORT":"库尔勒机场","_AIRPORT_EN":"Korla","_CITY_TYPE":"0","_FC_NAME":"krl","_FULLNAME_EN":"Korla","_FULL_NAME":"库尔勒","_IS_CKI":"0","_PY_NAME":"korla","_SHORT_NAME":"KRL"}
+,{"_AIRPORT":"丽江三义机场","_AIRPORT_EN":"Lijiang Sanyi","_CITY_TYPE":"0","_FC_NAME":"lj","_FULLNAME_EN":"Lijiang","_FULL_NAME":"丽江","_IS_CKI":"1","_PY_NAME":"lijiang","_SHORT_NAME":"LJG"}
+,{"_AIRPORT":"临沂机场","_AIRPORT_EN":"Linyi Shubuling","_CITY_TYPE":"0","_FC_NAME":"ly","_FULLNAME_EN":"Linyi","_FULL_NAME":"临沂","_IS_CKI":"1","_PY_NAME":"linyi","_SHORT_NAME":"LYI"}
+,{"_AIRPORT":"林芝米林机场","_AIRPORT_EN":"Nyingchi Mainling","_CITY_TYPE":"0","_FC_NAME":"lz","_FULLNAME_EN":"Nyingchi","_FULL_NAME":"林芝","_IS_CKI":"0","_PY_NAME":"linzhi","_SHORT_NAME":"LZY"}
+,{"_AIRPORT":"六盘山机场","_AIRPORT_EN":"NINGXIAGUYUAN","_CITY_TYPE":"0","_FC_NAME":"LPS","_FULLNAME_EN":"Guyuan","_FULL_NAME":"六盘山","_IS_CKI":"0","_PY_NAME":"liupanshan","_SHORT_NAME":"GYU"}
+,{"_AIRPORT":"六盘水机场","_AIRPORT_EN":"Liupanshui","_CITY_TYPE":"0","_FC_NAME":"lps","_FULLNAME_EN":"Liupanshui","_FULL_NAME":"六盘水","_IS_CKI":"0","_PY_NAME":"liupanshui","_SHORT_NAME":"LPF"}
+,{"_AIRPORT":"柳州白莲机场","_AIRPORT_EN":"Liuzhou Bailian","_CITY_TYPE":"0","_FC_NAME":"lz","_FULLNAME_EN":"Liuzhou","_FULL_NAME":"柳州","_IS_CKI":"0","_PY_NAME":"liuzhou","_SHORT_NAME":"LZH"}
+,{"_AIRPORT":"泸州机场","_AIRPORT_EN":"Luzhou Lantian","_CITY_TYPE":"0","_FC_NAME":"lz","_FULLNAME_EN":"Luzhou","_FULL_NAME":"泸州","_IS_CKI":"0","_PY_NAME":"luzhou","_SHORT_NAME":"LZO"}
+,{"_AIRPORT":"芒市机场","_AIRPORT_EN":"Mangshi","_CITY_TYPE":"0","_FC_NAME":"ms","_FULLNAME_EN":"Mangshi","_FULL_NAME":"芒市","_IS_CKI":"0","_PY_NAME":"mangshi","_SHORT_NAME":"LUM"}
+,{"_AIRPORT":"满洲里机场","_AIRPORT_EN":"Manzhouli Xijiao","_CITY_TYPE":"0","_FC_NAME":"mzl","_FULLNAME_EN":"Manzhouli","_FULL_NAME":"满洲里","_IS_CKI":"0","_PY_NAME":"manzhouli","_SHORT_NAME":"NZH"}
+,{"_AIRPORT":"绵阳机场","_AIRPORT_EN":"Mianyang Nanjiao","_CITY_TYPE":"0","_FC_NAME":"my","_FULLNAME_EN":"Mianyang","_FULL_NAME":"绵阳","_IS_CKI":"1","_PY_NAME":"mianyang","_SHORT_NAME":"MIG"}
+,{"_AIRPORT":"牡丹江机场","_AIRPORT_EN":"Mudanjiang Hailang","_CITY_TYPE":"0","_FC_NAME":"mdj","_FULLNAME_EN":"Mudanjiang","_FULL_NAME":"牡丹江","_IS_CKI":"0","_PY_NAME":"mudanjiang","_SHORT_NAME":"MDG"}
+,{"_AIRPORT":"攀枝花保安营机场","_AIRPORT_EN":"Panzhihua","_CITY_TYPE":"0","_FC_NAME":"pzh","_FULLNAME_EN":"Panzhihua","_FULL_NAME":"攀枝花","_IS_CKI":"1","_PY_NAME":"panzhihua","_SHORT_NAME":"PZI"}
+,{"_AIRPORT":"秦皇岛山海关机场","_AIRPORT_EN":"Qinhuangdao Shanhaiguan","_CITY_TYPE":"0","_FC_NAME":"qhd","_FULLNAME_EN":"Qinhuangdao","_FULL_NAME":"秦皇岛","_IS_CKI":"0","_PY_NAME":"qinhuangdao","_SHORT_NAME":"SHP"}
+,{"_AIRPORT":"齐齐哈尔三家子机场","_AIRPORT_EN":"Qiqihaer Sanjiazi","_CITY_TYPE":"0","_FC_NAME":"qqhe","_FULLNAME_EN":"Qiqihar","_FULL_NAME":"齐齐哈尔","_IS_CKI":"0","_PY_NAME":"qiqihaer","_SHORT_NAME":"NDG"}
+,{"_AIRPORT":"衢州机场","_AIRPORT_EN":"Quzhou","_CITY_TYPE":"0","_FC_NAME":"qz","_FULLNAME_EN":"Quzhou","_FULL_NAME":"衢州","_IS_CKI":"0","_PY_NAME":"quzhou","_SHORT_NAME":"JUZ"}
+,{"_AIRPORT":"汕头外砂机场","_AIRPORT_EN":"Jieyang Chaoshan","_CITY_TYPE":"0","_FC_NAME":"st","_FULLNAME_EN":"Shantou","_FULL_NAME":"汕头","_IS_CKI":"0","_PY_NAME":"shantou","_SHORT_NAME":"SWA"}
+,{"_AIRPORT":"石家庄正定机场","_AIRPORT_EN":"Shijiazhuang Zhengding","_CITY_TYPE":"0","_FC_NAME":"sjz","_FULLNAME_EN":"Shijiazhuang","_FULL_NAME":"石家庄","_IS_CKI":"1","_PY_NAME":"shijiazhuang","_SHORT_NAME":"SJW"}
+,{"_AIRPORT":"台州路桥机场","_AIRPORT_EN":"Taizhou Luqiao","_CITY_TYPE":"0","_FC_NAME":"tz","_FULLNAME_EN":"Taizhou","_FULL_NAME":"台州","_IS_CKI":"1","_PY_NAME":"taizhou","_SHORT_NAME":"HYN"}
+,{"_AIRPORT":"腾冲驼峰机场","_AIRPORT_EN":"Tengchong Tuofeng","_CITY_TYPE":"0","_FC_NAME":"tc","_FULLNAME_EN":"Tengchong","_FULL_NAME":"腾冲","_IS_CKI":"1","_PY_NAME":"tengchong","_SHORT_NAME":"TCZ"}
+,{"_AIRPORT":"通化三源浦机场","_AIRPORT_EN":"Tonghua Sanyuanpu","_CITY_TYPE":"0","_FC_NAME":"th","_FULLNAME_EN":"Tonghua","_FULL_NAME":"通化","_IS_CKI":"0","_PY_NAME":"tonghua","_SHORT_NAME":"TNH"}
+,{"_AIRPORT":"通辽机场","_AIRPORT_EN":"Tongliao","_CITY_TYPE":"0","_FC_NAME":"tl","_FULLNAME_EN":"Tongliao","_FULL_NAME":"通辽","_IS_CKI":"0","_PY_NAME":"tongliao","_SHORT_NAME":"TGO"}
+,{"_AIRPORT":"万州五桥机场","_AIRPORT_EN":"Wanzhou","_CITY_TYPE":"0","_FC_NAME":"wz","_FULLNAME_EN":"Wanzhou","_FULL_NAME":"万州","_IS_CKI":"1","_PY_NAME":"wanzhou","_SHORT_NAME":"WXN"}
+,{"_AIRPORT":"威海文登机场","_AIRPORT_EN":"Weihai Dashuibo","_CITY_TYPE":"0","_FC_NAME":"wh","_FULLNAME_EN":"Weihai","_FULL_NAME":"威海","_IS_CKI":"0","_PY_NAME":"weihai","_SHORT_NAME":"WEH"}
+,{"_AIRPORT":"乌海机场","_AIRPORT_EN":"Wuhai","_CITY_TYPE":"0","_FC_NAME":"wuh","_FULLNAME_EN":"Wuhai","_FULL_NAME":"乌海","_IS_CKI":"0","_PY_NAME":"wuhai","_SHORT_NAME":"WUA"}
+,{"_AIRPORT":"乌兰浩特机场","_AIRPORT_EN":"Ulanhot","_CITY_TYPE":"0","_FC_NAME":"wlht","_FULLNAME_EN":"Ulanhot","_FULL_NAME":"乌兰浩特","_IS_CKI":"0","_PY_NAME":"wulanhaote","_SHORT_NAME":"HLH"}
+,{"_AIRPORT":"武夷山机场","_AIRPORT_EN":"Wuyishan","_CITY_TYPE":"0","_FC_NAME":"wys","_FULLNAME_EN":"Wuyishan","_FULL_NAME":"武夷山","_IS_CKI":"0","_PY_NAME":"wuyishan","_SHORT_NAME":"WUS"}
+,{"_AIRPORT":"襄阳刘集机场","_AIRPORT_EN":"Xiangyang Liuji Airport","_CITY_TYPE":"0","_FC_NAME":"xy","_FULLNAME_EN":"xiangyang","_FULL_NAME":"襄阳","_IS_CKI":"1","_PY_NAME":"xiangyang","_SHORT_NAME":"XFN"}
+,{"_AIRPORT":"西昌青山机场","_AIRPORT_EN":"Xichang Qingshan","_CITY_TYPE":"0","_FC_NAME":"xc","_FULLNAME_EN":"Xichang","_FULL_NAME":"西昌","_IS_CKI":"0","_PY_NAME":"xichang","_SHORT_NAME":"XIC"}
+,{"_AIRPORT":"锡林浩特机场","_AIRPORT_EN":"Xilinhaote","_CITY_TYPE":"0","_FC_NAME":"xlht","_FULLNAME_EN":"Xilinhaote","_FULL_NAME":"锡林浩特","_IS_CKI":"0","_PY_NAME":"xilinhaote","_SHORT_NAME":"XIL"}
+,{"_AIRPORT":"五台山机场","_AIRPORT_EN":"Xinzhou Wutaishan","_CITY_TYPE":"0","_FC_NAME":"XZ","_FULLNAME_EN":"Xinzhou Wutaishan","_FULL_NAME":"忻州","_IS_CKI":"1","_PY_NAME":"xinzhou","_SHORT_NAME":"WUT"}
+,{"_AIRPORT":"徐州观音国际机场","_AIRPORT_EN":"Xuzhou Guanyin","_CITY_TYPE":"0","_FC_NAME":"xz","_FULLNAME_EN":"Xuzhou","_FULL_NAME":"徐州","_IS_CKI":"0","_PY_NAME":"xuzhou","_SHORT_NAME":"XUZ"}
+,{"_AIRPORT":"延安机场","_AIRPORT_EN":"Yanan","_CITY_TYPE":"0","_FC_NAME":"ya","_FULLNAME_EN":"Yanan","_FULL_NAME":"延安","_IS_CKI":"0","_PY_NAME":"yanan","_SHORT_NAME":"ENY"}
+,{"_AIRPORT":"盐城南洋国际机场","_AIRPORT_EN":"Yancheng","_CITY_TYPE":"0","_FC_NAME":"yc","_FULLNAME_EN":"Yancheng","_FULL_NAME":"盐城","_IS_CKI":"0","_PY_NAME":"yancheng","_SHORT_NAME":"YNZ"}
+,{"_AIRPORT":"延吉机场","_AIRPORT_EN":"Yanji Chaoyangchuan","_CITY_TYPE":"0","_FC_NAME":"yj","_FULLNAME_EN":"Yanji","_FULL_NAME":"延吉","_IS_CKI":"0","_PY_NAME":"yanji","_SHORT_NAME":"YNJ"}
+,{"_AIRPORT":"烟台蓬莱国际机场","_AIRPORT_EN":"Yantai Penglai","_CITY_TYPE":"0","_FC_NAME":"yt","_FULLNAME_EN":"Yantai","_FULL_NAME":"烟台","_IS_CKI":"1","_PY_NAME":"yantai","_SHORT_NAME":"YNT"}
+,{"_AIRPORT":"宜宾菜坝机场","_AIRPORT_EN":"Yibin Caiba","_CITY_TYPE":"0","_FC_NAME":"yb","_FULLNAME_EN":"Yibin","_FULL_NAME":"宜宾","_IS_CKI":"1","_PY_NAME":"yibin","_SHORT_NAME":"YBP"}
+,{"_AIRPORT":"宜春机场","_AIRPORT_EN":"Yichun","_CITY_TYPE":"0","_FC_NAME":"yc","_FULLNAME_EN":"Yichun","_FULL_NAME":"宜春","_IS_CKI":"1","_PY_NAME":"yichun","_SHORT_NAME":"YIC"}
+,{"_AIRPORT":"伊宁机场","_AIRPORT_EN":"Yining","_CITY_TYPE":"0","_FC_NAME":"yn","_FULLNAME_EN":"Yining","_FULL_NAME":"伊宁","_IS_CKI":"0","_PY_NAME":"yining","_SHORT_NAME":"YIN"}
+,{"_AIRPORT":"义乌机场","_AIRPORT_EN":"Yiwu","_CITY_TYPE":"0","_FC_NAME":"yw","_FULLNAME_EN":"Yiwu","_FULL_NAME":"义乌","_IS_CKI":"0","_PY_NAME":"yiwu","_SHORT_NAME":"YIW"}
+,{"_AIRPORT":"榆林机场","_AIRPORT_EN":"Yulin Xisha","_CITY_TYPE":"0","_FC_NAME":"yl","_FULLNAME_EN":"Yulin","_FULL_NAME":"榆林","_IS_CKI":"0","_PY_NAME":"yulin","_SHORT_NAME":"UYN"}
+,{"_AIRPORT":"关公机场","_AIRPORT_EN":"Yuncheng","_CITY_TYPE":"0","_FC_NAME":"yc","_FULLNAME_EN":"Yuncheng","_FULL_NAME":"运城","_IS_CKI":"1","_PY_NAME":"yuncheng","_SHORT_NAME":"YCU"}
+,{"_AIRPORT":"张家界荷花国际机场","_AIRPORT_EN":"Zhangjiajie Hehua","_CITY_TYPE":"0","_FC_NAME":"zjj","_FULLNAME_EN":"Zhangjiajie","_FULL_NAME":"张家界","_IS_CKI":"0","_PY_NAME":"zhangjiajie","_SHORT_NAME":"DYG"}
+,{"_AIRPORT":"湛江机场","_AIRPORT_EN":"Zhanjiang","_CITY_TYPE":"0","_FC_NAME":"zj","_FULLNAME_EN":"Zhanjiang","_FULL_NAME":"湛江","_IS_CKI":"1","_PY_NAME":"zhanjiang","_SHORT_NAME":"ZHA"}
+,{"_AIRPORT":"昭通机场","_AIRPORT_EN":"Zhaotong","_CITY_TYPE":"0","_FC_NAME":"zt","_FULLNAME_EN":"Zhaotong","_FULL_NAME":"昭通","_IS_CKI":"1","_PY_NAME":"zhaotong","_SHORT_NAME":"ZAT"}
+,{"_AIRPORT":"普陀山/舟山机场","_AIRPORT_EN":"Zhoushan Putuoshan","_CITY_TYPE":"0","_FC_NAME":"zs","_FULLNAME_EN":"Zhoushan","_FULL_NAME":"舟山","_IS_CKI":"0","_PY_NAME":"zhoushan","_SHORT_NAME":"HSN"}
+,{"_AIRPORT":"茅台机场","_AIRPORT_EN":"maotai","_CITY_TYPE":"0","_FC_NAME":"ZYMT","_FULLNAME_EN":"Zunyi Maotai","_FULL_NAME":"遵义茅台","_IS_CKI":"1","_PY_NAME":"zunyimaotai","_SHORT_NAME":"WMT"}
+]

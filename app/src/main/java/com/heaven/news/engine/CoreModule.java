@@ -86,4 +86,10 @@ public class CoreModule {
         return new Api(dataSource);
     }
 
+    @Provides
+    @Singleton
+    ConfigManager configManage(DataSource dataSource,Context app) {
+        return new ConfigManager(dataSource,app);
+    }
+
 }
