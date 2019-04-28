@@ -2,6 +2,7 @@ package com.heaven.news.ui.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
@@ -46,6 +47,8 @@ import java.util.List;
 public class Route extends BaseBindFragment<MainViewModel, RouteBinding> implements OnRefreshListener, OnLoadMoreListener, Observer<DataCore.CoreDataWrapper> {
     BaseAdapter<fullchannelVO> routeAdapter;
 
+    Handler handler = new Handler();
+
     @Override
     public int initLayoutResId() {
         return R.layout.route;
@@ -85,14 +88,18 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
         mViewModel.observeRouteList(this, fullchannelVOS -> {
             if (fullchannelVOS != null && fullchannelVOS.size() > 0) {
                 if (mViewBinding.swipeToLoadLayout.isRefreshing()) {
-//                    if (routeAdapter.getItemCount() > 0) {
-//                        routeAdapter.diffUpdate(fullchannelVOS, false);
-//                    } else {
+                    if (routeAdapter.getItemCount() > 0) {
+                        routeAdapter.diffUpdate(fullchannelVOS, false);
+                    } else {
                         routeAdapter.updateBatch(fullchannelVOS, true);
-//                    }
+                    }
                 } else {
                     routeAdapter.updateBatch(fullchannelVOS, false);
-                    recyclerView.scrollToPosition(routeAdapter.getItemCount()-1);
+                    if(routeAdapter.getItemCount() > 0) {
+                        recyclerView.smoothScrollToPosition(routeAdapter.getItemCount()-1);
+                    }
+//                    handler.postDelayed(() -> recyclerView.smoothScrollToPosition(routeAdapter.getItemCount()-1),500);
+
                 }
             }
             mViewBinding.swipeToLoadLayout.setRefreshing(false);
