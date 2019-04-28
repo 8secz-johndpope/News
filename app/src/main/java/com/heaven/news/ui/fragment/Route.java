@@ -96,9 +96,9 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
                 } else {
                     routeAdapter.updateBatch(fullchannelVOS, false);
                     if(routeAdapter.getItemCount() > 0) {
-                        recyclerView.smoothScrollToPosition(routeAdapter.getItemCount()-1);
+//                        recyclerView.smoothScrollToPosition(routeAdapter.getItemCount()-1);
+                        handler.postDelayed(() -> recyclerView.smoothScrollToPosition(routeAdapter.getItemCount()-1),200);
                     }
-//                    handler.postDelayed(() -> recyclerView.smoothScrollToPosition(routeAdapter.getItemCount()-1),500);
 
                 }
             }
