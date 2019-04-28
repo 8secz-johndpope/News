@@ -120,49 +120,21 @@ public class DataCore {
 //        dataSource.runWorkThread(() -> loadAllService(context));
     }
 
-//    private void loadAllService(Context context) {
-//        loadHomeService(context);
-//        loadEasyGoService(context);
-//        loadPhoenixService(context);
-//    }
-//
-//    public HomeService loadHomeService(Context context) {
-//        if (homeService == null) {
-//            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-//            InputStream allServiceIn = context.getResources().openRawResource(R.raw.home);
-//            Reader readerAll = new InputStreamReader(allServiceIn);
-//            homeService = gson.fromJson(readerAll, HomeService.class);
-//        }
-//        return homeService;
-//    }
-//
-//    public EasyGoService loadEasyGoService(Context context) {
-//        if (easyGoService == null) {
-//            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-//            InputStream allServiceIn = context.getResources().openRawResource(R.raw.easygo);
-//            Reader readerAll = new InputStreamReader(allServiceIn);
-//            easyGoService = gson.fromJson(readerAll, EasyGoService.class);
-//        }
-//        return easyGoService;
-//    }
-//
-//    public PhoenixService loadPhoenixService(Context context) {
-//        if (phoenixService == null) {
-//            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-//            InputStream allServiceIn = context.getResources().openRawResource(R.raw.phoenix);
-//            Reader readerAll = new InputStreamReader(allServiceIn);
-//            phoenixService = gson.fromJson(readerAll, PhoenixService.class);
-//        }
-//        return phoenixService;
-//    }
-
-
     private void prepareData() {
+        requestVersion();
         autoLogin();
         requestHomeConfig();
         homeConfigData = dataSource.getCacheEntity(DataSource.DISK, Constants.HOMECONFIG);
-        Logger.i("DataCore----prepareData--homeConfigData--" + homeConfigData);
-//        getAdInfo();
+    }
+
+    private void requestVersion() {
+        RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
+            if (configData.netCode == 0 && configData.androidversionnew != null) {
+                CheckVersion.checkVersion(configData.androidversionnew,dataSource);
+            } else {
+                CheckVersion.checkVersion(null,dataSource);
+            }
+        });
     }
 
     public void initLoginData(queryRespVO userInfo) {
@@ -453,7 +425,7 @@ public class DataCore {
 
 
     private int requestHomeCount = 0;
-    public void requestHomeConfig() {
+    private void requestHomeConfig() {
         long taskId = RxRepUtils.getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if (homeConfigData.netCode == 0) {
                 this.homeConfigData = homeConfigData;

@@ -20,7 +20,12 @@ public class City {
      * _PY_NAME : Cairo
      * _SHORT_NAME : CAI
      */
-
+    public static int CURRENT = 0;//当前城市
+    public static int OFFTEN = 1;//常用城市
+    public static int NORMAL = 2;//正常
+    public int tag = 2;//
+    public boolean isGroupTitle;
+    public String groupTitle;
     public String _AIRPORT;
     public String _AIRPORT_EN;
     public String _CITY_TYPE;

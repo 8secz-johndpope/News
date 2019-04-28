@@ -10,7 +10,7 @@ import com.heaven.news.api.ConfigApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.AppInfo;
-import com.heaven.news.ui.vm.model.base.UpdateInfo;
+import com.heaven.news.ui.vm.model.base.VersionUpdate;
 import com.heaven.news.ui.vm.model.base.Version;
 import com.heaven.news.utils.RxRepUtils;
 import com.orhanobut.logger.Logger;
@@ -24,8 +24,8 @@ import com.orhanobut.logger.Logger;
  * @version V1.0 欢迎页版本检查
  */
 public class WelecomModel extends AbstractViewModel {
-    public UpdateInfo updateInfo;
-    public final MutableLiveData<UpdateInfo> updateInfoLive = new MutableLiveData<>();
+    public VersionUpdate updateInfo;
+    public final MutableLiveData<VersionUpdate> updateInfoLive = new MutableLiveData<>();
 
     @Override
     public void initModel() {
@@ -46,7 +46,7 @@ public class WelecomModel extends AbstractViewModel {
     }
 
     private void checkVersion(Version version) {
-        UpdateInfo updateInfo = new UpdateInfo();
+        VersionUpdate updateInfo = new VersionUpdate();
         if(version != null) {
             AppInfo appInfo = AppEngine.instance().getAppConfig();
             updateInfo.updateUrl = version.url;
@@ -68,7 +68,7 @@ public class WelecomModel extends AbstractViewModel {
     }
 
 
-    private void processNextStep(UpdateInfo updateInfo) {
+    private void processNextStep(VersionUpdate updateInfo) {
         boolean isOldUser = AppEngine.instance().getDataSource().getSharePreBoolean(Constants.ISOLDUSER);
         if (isOldUser) {
             updateInfo.nextGuidePage = false;
@@ -80,11 +80,11 @@ public class WelecomModel extends AbstractViewModel {
         updateInfoLive.setValue(updateInfo);
     }
 
-    public void obserUpdateInfo(LifecycleOwner owner, Observer<UpdateInfo> observer) {
+    public void obserUpdateInfo(LifecycleOwner owner, Observer<VersionUpdate> observer) {
         updateInfoLive.observeForever(observer);
     }
 
-    public void removeUpdateInfoObserver(Observer<UpdateInfo> observer) {
+    public void removeUpdateInfoObserver(Observer<VersionUpdate> observer) {
         updateInfoLive.removeObserver(observer);
     }
 

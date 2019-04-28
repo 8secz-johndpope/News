@@ -1,14 +1,14 @@
 package com.heaven.news.ui.vm.model.base;
 
 /**
- * FileName: com.heaven.news.ui.vm.model.base.UpdateInfo.java
+ * FileName: com.heaven.news.ui.vm.model.base.VersionUpdate.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-24 09:43
  *
  * @version V1.0 升级信息
  */
-public class UpdateInfo {
+public class VersionUpdate {
     public boolean isNetError;
     public String reason;
     public long requestTime;
@@ -31,7 +31,7 @@ public class UpdateInfo {
 
     @Override
     public String toString() {
-        return "UpdateInfo{" +
+        return "VersionUpdate{" +
                 "isSuccess=" + isNetError +
                 ", reason='" + reason + '\'' +
                 ", requestTime=" + requestTime +

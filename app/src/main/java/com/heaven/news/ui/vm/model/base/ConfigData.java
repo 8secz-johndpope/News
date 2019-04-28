@@ -9,6 +9,7 @@ import java.util.List;
 public class ConfigData implements Serializable {
 	private static final long serialVersionUID = -8241685949732527971L;
 	public int netCode = 0;
+	public TimeStamp timestamp;
 	public Version androidversion;
 	public Version androidversionnew;
 	public String message;

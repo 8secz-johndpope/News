@@ -1,7 +1,6 @@
 package com.heaven.news.ui.activity;
 
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -12,7 +11,7 @@ import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.WelcomeBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
-import com.heaven.news.ui.vm.model.base.UpdateInfo;
+import com.heaven.news.ui.vm.model.base.VersionUpdate;
 import com.heaven.news.ui.vm.vmmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
 
@@ -25,7 +24,7 @@ import com.orhanobut.logger.Logger;
  * @author heaven
  * @version V1.0 欢迎页
  */
-public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBinding> implements Observer<UpdateInfo> {
+public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBinding> implements Observer<VersionUpdate> {
 
     @Override
     public int iniTitleBarResId() {
@@ -72,7 +71,7 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
     }
 
 
-    private void processNext(UpdateInfo updateInfo) {
+    private void processNext(VersionUpdate updateInfo) {
         if (updateInfo.isNetError) {
             toNextPage(updateInfo);
         } else {
@@ -90,7 +89,7 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
     }
 
 
-    private void toNextPage(UpdateInfo updateInfo) {
+    private void toNextPage(VersionUpdate updateInfo) {
         if (updateInfo.nextGuidePage) {
             toGuidePage();
         } else if (updateInfo.isShowAd) {
@@ -119,7 +118,7 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
     }
 
     @Override
-    public void onChanged(@Nullable UpdateInfo updateInfo) {
+    public void onChanged(@Nullable VersionUpdate updateInfo) {
         processNext(updateInfo);
     }
 }
