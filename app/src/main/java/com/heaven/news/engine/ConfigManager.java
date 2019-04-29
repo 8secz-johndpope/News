@@ -78,9 +78,11 @@ public class ConfigManager {
     private void loadAllService(Context context) {
         requestVersion();
         requestConfig();
-        loadHomeService(context);
-        loadEasyGoService(context);
-        loadPhoenixService(context);
+        dataSource.runWorkThread(() -> {
+            loadHomeService(context);
+            loadEasyGoService(context);
+            loadPhoenixService(context);
+        });
         initLocalCity();
     }
 
