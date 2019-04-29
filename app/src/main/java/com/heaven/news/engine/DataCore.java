@@ -8,7 +8,6 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
@@ -240,7 +239,6 @@ public class DataCore {
     }
 
     //自动登录
-    @TraceTime
     public void autoLogin() {
         boolean isAutoLogin = dataSource.getSharePreBoolean(Constants.ISAUTOLOGIN);
         if (isAutoLogin) {

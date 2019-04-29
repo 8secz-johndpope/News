@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.heaven.annotation.aspect.TraceTime;
 import com.heaven.base.ui.SpUtil;
 import com.heaven.data.dbentity.DownEntity;
 import com.heaven.data.fileworker.DownLoadWorker;
@@ -93,7 +92,6 @@ public final class AppEngine {
     /**
      * 私有构造方法.
      */
-    @TraceTime
     private AppEngine() {
         init();
     }
