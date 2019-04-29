@@ -14,4 +14,5 @@ public class RouterUrl {
     public static  final String ROUTER_URL_GUIDE = ROUTER_BASE_URL + "GuideActivity";
     public static  final String ROUTER_URL_LOGIN = ROUTER_BASE_URL + "LoginActivity";
     public static  final String ROUTER_URL_MAIN = ROUTER_BASE_URL + "MainActivity";
+    public static  final String ROUTER_URL_CITY = ROUTER_BASE_URL + "SelectCityActivity";
 }

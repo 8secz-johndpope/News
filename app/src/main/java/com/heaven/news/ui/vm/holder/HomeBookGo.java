@@ -1,9 +1,13 @@
 package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
+import com.heaven.news.R;
+import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.ui.vm.model.base.BookData;
 
 /**
@@ -22,7 +26,9 @@ public class HomeBookGo extends BaseMultItem<BookData> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull BookData bookData) {
-
+        holder.setOnClickListener(R.id.book_start_city, v -> {
+            ARouter.getInstance().build(RouterUrl.ROUTER_URL_CITY).navigation();
+        });
     }
 
     @Override

@@ -6,11 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.view.rlview.OnLoadMoreListener;
 import com.heaven.base.ui.view.rlview.OnRefreshListener;
 import com.heaven.news.R;
+import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.SelectCityBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
@@ -29,6 +31,7 @@ import com.neusoft.szair.model.city.cityListVO;
  * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
+@Route(path = RouterUrl.ROUTER_URL_CITY)
 public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewModel, SelectCityBinding>  implements OnRefreshListener, OnLoadMoreListener {
     Handler handler = new Handler();
 
