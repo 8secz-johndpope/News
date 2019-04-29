@@ -14,7 +14,6 @@ import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.VersionApi;
-import com.heaven.news.ui.vm.model.base.City;
 import com.heaven.news.ui.vm.model.base.ConfigData;
 import com.heaven.news.ui.vm.model.base.EasyGoService;
 import com.heaven.news.ui.vm.model.base.HomeService;
@@ -23,6 +22,7 @@ import com.heaven.news.ui.vm.model.base.TimeStamp;
 import com.heaven.news.ui.vm.model.base.VersionUpdate;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.city.CityListWebServiceServiceSoapBinding;
+import com.neusoft.szair.model.city.cityListVO;
 import com.neusoft.szair.model.city.queryCityList;
 import com.orhanobut.logger.Logger;
 
@@ -55,9 +55,9 @@ public class ConfigManager {
     private HomeService homeService;//首页服务
     private EasyGoService easyGoService;//易行服务
     private PhoenixService phoenixService;//凤凰知音服务
-    private ArrayList<City> citys;
-    private ArrayList<City> citysEn;
-    private ArrayList<City> citysOften;
+    private ArrayList<cityListVO> citys;
+    private ArrayList<cityListVO> citysEn;
+    private ArrayList<cityListVO> citysOften;
 
     ConfigManager(DataSource dataSource, Context context) {
         this.context = context;
@@ -71,7 +71,7 @@ public class ConfigManager {
         loadHomeService(context);
         loadEasyGoService(context);
         loadPhoenixService(context);
-        loadCitys(context);
+        loadLocalCitys(context);
     }
 
     public HomeService loadHomeService(Context context) {
@@ -139,12 +139,12 @@ public class ConfigManager {
 
     private void configSuccess(ConfigData configData) {
         this.configData = configData;
-        if(configData.androidversionnew != null) {
-
+        if(configData.timestamp != null) {
+            refreshConfigByTimeStamp(configData.timestamp);
         }
     }
 
-    public void refreshConfigByTimeStamp(TimeStamp newStamp) {
+    private void refreshConfigByTimeStamp(TimeStamp newStamp) {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         InputStream allServiceIn = context.getResources().openRawResource(R.raw.timestamp);
         Reader readerAll = new InputStreamReader(allServiceIn);
@@ -166,7 +166,10 @@ public class ConfigManager {
         queryCityList queryCityList = new queryCityList();
         CityListWebServiceServiceSoapBinding binding = new CityListWebServiceServiceSoapBinding("queryCityList",queryCityList);
         RxRepUtils.getResult(RxRepUtils.getCommonApi().searchNewCity(binding), response -> {
-
+            if(response.code == 0 && response.data != null && response.data._CITY_LIST_VO != null && response.data._CITY_LIST_VO._CITY_LIST_VO != null) {
+                loadNewCitys(response.data._CITY_LIST_VO._CITY_LIST_VO);
+            }
+            Logger.i("loadNewCity" + response.toString());
         });
     }
 
@@ -182,26 +185,30 @@ public class ConfigManager {
 
     }
 
+    private void loadNewCitys(List<cityListVO> citys) {
+        if(citys != null && citys.size() > 0) {
+            sortCity(citys);
+            Logger.json(new Gson().toJson(citys));
+        }
+    }
 
-
-    public ArrayList<City> loadCitys(Context context) {
+    private ArrayList<cityListVO> loadLocalCitys(Context context) {
         if (citys == null) {
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             InputStream allServiceIn = context.getResources().openRawResource(R.raw.city);
             Reader readerAll = new InputStreamReader(allServiceIn);
-            citys = gson.fromJson(readerAll, new TypeToken<List<City>>() {
+            citys = gson.fromJson(readerAll, new TypeToken<List<cityListVO>>() {
             }.getType());
             sortCity(citys);
-            String result = gson.toJson(citys);
             Logger.json(gson.toJson(citys));
         }
         return citys;
     }
 
-    private void sortCity(ArrayList<City> citys) {
+    private void sortCity(List<cityListVO> citys) {
         Collections.sort(citys, (o1, o2) -> {
-            char cityO1 = TextUtils.isEmpty(o1._PY_NAME)? ' ' : o1._PY_NAME.charAt(0);
-            char cityO2 = TextUtils.isEmpty(o2._PY_NAME)? ' ' : o2._PY_NAME.charAt(0);;
+            char cityO1 = TextUtils.isEmpty(o1._PY_NAME)? ' ' : Character.toUpperCase(o1._PY_NAME.charAt(0));
+            char cityO2 = TextUtils.isEmpty(o2._PY_NAME)? ' ' : Character.toUpperCase(o2._PY_NAME.charAt(0));
 
             int compare = 0;
             if(cityO1 > cityO2) {
