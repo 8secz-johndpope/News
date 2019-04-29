@@ -63,16 +63,7 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
     @Override
     public void bindModel() {
         mViewBinding.setViewmodel(mViewModel);
-//        mViewModel.obserUpdateInfo(this, this);
-        prepareVersion();
     }
-
-    private void prepareVersion() {
-        if (mViewModel.updateInfo != null) {
-            processNext(mViewModel.updateInfo);
-        }
-    }
-
 
     private void processNext(VersionUpdate updateInfo) {
         if (updateInfo.isNetError) {

@@ -85,8 +85,6 @@ public class DataCore {
     private DataSource dataSource;
 
     private CoreDataWrapper coreDataWrapper = new CoreDataWrapper();
-    private Version version;
-    private ConfigData configData;
     private HomeImageInfo homeConfigData;
     private queryRespVO userAllInfo;
 
@@ -121,18 +119,9 @@ public class DataCore {
     }
 
     private void prepareData() {
-        requestVersion();
         autoLogin();
         requestHomeConfig();
         homeConfigData = dataSource.getCacheEntity(DataSource.DISK, Constants.HOMECONFIG);
-    }
-
-    private void requestVersion() {
-        RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
-            CoreDataWrapper dataWrapper = getCoreDataWrapper(true, VERSION);
-            dataWrapper.versionUpdate = CheckVersion.checkVersion(configData.androidversionnew,dataSource);
-            notifyCoreDataChange(dataWrapper);
-        });
     }
 
     public void initLoginData(queryRespVO userInfo) {
@@ -442,20 +431,12 @@ public class DataCore {
     }
 
 
-    public Version getVersion() {
-        return version;
-    }
-
     public boolean isLogin() {
         return hasLogin;
     }
 
     public String getUserName() {
         return userName;
-    }
-
-    public ConfigData getConfigData() {
-        return configData;
     }
 
     public HomeImageInfo getHomeConfigData() {
@@ -490,11 +471,7 @@ public class DataCore {
         coreDataWrapper.isSuccess = isSuccess;
         coreDataWrapper.dataType = dataType;
         if (isSuccess) {
-            if (VERSION == dataType) {
-                if (configData != null && configData.androidversionnew != null) {
-                    coreDataWrapper.version = configData.androidversionnew;
-                }
-            } else if (HOME == dataType) {
+            if (HOME == dataType) {
                 if (homeConfigData != null) {
                     coreDataWrapper.homeConfigData = homeConfigData;
                 }
@@ -517,9 +494,6 @@ public class DataCore {
     public class CoreDataWrapper {
         public boolean isSuccess = true;
         public int dataType = -1;
-        public VersionUpdate versionUpdate;
-        public Version version;
-        public ConfigData configData;
         public HomeImageInfo homeConfigData;
         public queryRespVO userAllInfo;
 
@@ -550,8 +524,6 @@ public class DataCore {
             return "CoreDataWrapper{" +
                     "isSuccess=" + isSuccess +
                     ", dataType=" + dataType +
-                    ", version=" + version +
-                    ", configData=" + configData +
                     ", homeConfigData=" + homeConfigData +
                     ", userAllInfo=" + userAllInfo +
                     ", userName='" + userName + '\'' +
