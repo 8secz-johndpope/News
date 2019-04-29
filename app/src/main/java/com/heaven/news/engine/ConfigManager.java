@@ -45,6 +45,9 @@ import java.util.Map;
  */
 public class ConfigManager {
     public static int VERSION = 0;
+    public static String CITY = "city";
+    public static String CITY_EN = "city_en";
+    public static String CITY_OFTEN = "city_often";
     public boolean isRequestVersionFinish = false;
     private ConfigWrapper configWrapper = new ConfigWrapper();
     private ConfigData configData;
@@ -55,9 +58,9 @@ public class ConfigManager {
     private HomeService homeService;//首页服务
     private EasyGoService easyGoService;//易行服务
     private PhoenixService phoenixService;//凤凰知音服务
-    private ArrayList<cityListVO> citys;
-    private ArrayList<cityListVO> citysEn;
-    private ArrayList<cityListVO> citysOften;
+    private List<cityListVO> citys = new ArrayList<>();
+    private List<cityListVO> citysEn = new ArrayList<>();
+    private List<cityListVO> citysOften = new ArrayList<>();
 
     ConfigManager(DataSource dataSource, Context context) {
         this.context = context;
@@ -71,7 +74,7 @@ public class ConfigManager {
         loadHomeService(context);
         loadEasyGoService(context);
         loadPhoenixService(context);
-        loadLocalCitys(context);
+        initLocalCity();
     }
 
     public HomeService loadHomeService(Context context) {
@@ -107,8 +110,8 @@ public class ConfigManager {
     private void requestVersion() {
         RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.VERSION_URL, VersionApi.class).getVersion(), configData -> {
             isRequestVersionFinish = true;
-            if(configData != null && configData.netCode == 0) {
-                if(configData.timestamp != null && configData.androidversionnew != null) {
+            if (configData != null && configData.netCode == 0) {
+                if (configData.timestamp != null && configData.androidversionnew != null) {
                     RxRepUtils.cancelTask(reqverTaskId);
                 }
                 configSuccess(configData);
@@ -121,9 +124,10 @@ public class ConfigManager {
 
     private int requestConfigCount = 0;
     private long reqverTaskId;
+
     private void requestConfig() {
-        reqverTaskId =  RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
-            if(configData != null && configData.netCode == 0) {
+        reqverTaskId = RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
+            if (configData != null && configData.netCode == 0) {
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
                 notifyConfigDataChange(dataWrapper);
                 configSuccess(configData);
@@ -139,7 +143,7 @@ public class ConfigManager {
 
     private void configSuccess(ConfigData configData) {
         this.configData = configData;
-        if(configData.timestamp != null) {
+        if (configData.timestamp != null) {
             refreshConfigByTimeStamp(configData.timestamp);
         }
     }
@@ -149,28 +153,88 @@ public class ConfigManager {
         InputStream allServiceIn = context.getResources().openRawResource(R.raw.timestamp);
         Reader readerAll = new InputStreamReader(allServiceIn);
         TimeStamp oldStamp = gson.fromJson(readerAll, TimeStamp.class);
-        compareTimeStamp(newStamp,oldStamp);
+        compareTimeStamp(newStamp, oldStamp);
     }
 
-    private void compareTimeStamp(TimeStamp newStamp,TimeStamp oldStamp) {
-        if(newStamp != null && oldStamp != null) {
-            if(newStamp.CITY > oldStamp.CITY) {
-                loadNewCity();
+    private void compareTimeStamp(TimeStamp newStamp, TimeStamp oldStamp) {
+        if (newStamp != null && oldStamp != null) {
+            if (newStamp.CITY > oldStamp.CITY) {
+                reqNewCity();
             }
 
         }
     }
 
 
-    private void loadNewCity() {
+    private void initLocalCity() {
+        citys = loadLocalCityCh();
+        citysEn = loadLocalCityEn();
+    }
+
+    private List<cityListVO> loadLocalCityCh() {
+      ArrayList<cityListVO>  citys = dataSource.getCacheEntity(DataSource.DISK, CITY);
+        if(citys == null) {
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+            InputStream allServiceIn = context.getResources().openRawResource(R.raw.city);
+            Reader readerAll = new InputStreamReader(allServiceIn);
+            citys = gson.fromJson(readerAll, new TypeToken<List<cityListVO>>() {
+            }.getType());
+            sortCity(citys);
+        }
+        return citys;
+    }
+
+    private List<cityListVO> loadLocalCityEn() {
+       ArrayList<cityListVO> citysEn = dataSource.getCacheEntity(DataSource.DISK, CITY_EN);
+        if(citysEn == null) {
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+            InputStream allServiceIn = context.getResources().openRawResource(R.raw.city);
+            Reader readerAll = new InputStreamReader(allServiceIn);
+            citysEn = gson.fromJson(readerAll, new TypeToken<List<cityListVO>>() {
+            }.getType());
+            sortCityEn(citysEn);
+        }
+        return citysEn;
+    }
+
+    public List<cityListVO> loadCitys(int cityType) {
+        if(0 == cityType) {
+            if(citys != null && citys.size() > 0) {
+                return citys;
+            } else {
+                return loadLocalCityCh();
+            }
+        } else {
+            if(citysEn != null && citysEn.size() > 0) {
+                return citysEn;
+            } else {
+                return loadLocalCityEn();
+            }
+        }
+    }
+
+    private void reqNewCity() {
         queryCityList queryCityList = new queryCityList();
-        CityListWebServiceServiceSoapBinding binding = new CityListWebServiceServiceSoapBinding("queryCityList",queryCityList);
+        CityListWebServiceServiceSoapBinding binding = new CityListWebServiceServiceSoapBinding("queryCityList", queryCityList);
         RxRepUtils.getResult(RxRepUtils.getCommonApi().searchNewCity(binding), response -> {
-            if(response.code == 0 && response.data != null && response.data._CITY_LIST_VO != null && response.data._CITY_LIST_VO._CITY_LIST_VO != null) {
+            if (response.code == 0 && response.data != null && response.data._CITY_LIST_VO != null && response.data._CITY_LIST_VO._CITY_LIST_VO != null) {
                 loadNewCitys(response.data._CITY_LIST_VO._CITY_LIST_VO);
             }
-            Logger.i("loadNewCity" + response.toString());
+            Logger.i("reqNewCity" + response.toString());
         });
+    }
+
+    private void loadNewCitys(List<cityListVO> newCitys) {
+        if (newCitys != null && newCitys.size() > 0) {
+            ArrayList<cityListVO> newCitysCh = new ArrayList<>(newCitys);
+            ArrayList<cityListVO> newCitysEn = new ArrayList<>(newCitys);
+            sortCity(newCitysCh);
+            sortCityEn(newCitysEn);
+            this.citys = newCitysCh;
+            this.citysEn = newCitysEn;
+            dataSource.cacheData(DataSource.DISK, CITY, newCitysCh);
+            dataSource.cacheData(DataSource.DISK, CITY_EN, newCitysEn);
+        }
     }
 
     private void loadNewInSurance() {
@@ -185,35 +249,32 @@ public class ConfigManager {
 
     }
 
-    private void loadNewCitys(List<cityListVO> citys) {
-        if(citys != null && citys.size() > 0) {
-            sortCity(citys);
-            Logger.json(new Gson().toJson(citys));
-        }
-    }
-
-    private ArrayList<cityListVO> loadLocalCitys(Context context) {
-        if (citys == null) {
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-            InputStream allServiceIn = context.getResources().openRawResource(R.raw.city);
-            Reader readerAll = new InputStreamReader(allServiceIn);
-            citys = gson.fromJson(readerAll, new TypeToken<List<cityListVO>>() {
-            }.getType());
-            sortCity(citys);
-            Logger.json(gson.toJson(citys));
-        }
-        return citys;
-    }
 
     private void sortCity(List<cityListVO> citys) {
         Collections.sort(citys, (o1, o2) -> {
-            char cityO1 = TextUtils.isEmpty(o1._PY_NAME)? ' ' : Character.toUpperCase(o1._PY_NAME.charAt(0));
-            char cityO2 = TextUtils.isEmpty(o2._PY_NAME)? ' ' : Character.toUpperCase(o2._PY_NAME.charAt(0));
+            char cityO1 = TextUtils.isEmpty(o1._PY_NAME) ? ' ' : Character.toUpperCase(o1._PY_NAME.charAt(0));
+            char cityO2 = TextUtils.isEmpty(o2._PY_NAME) ? ' ' : Character.toUpperCase(o2._PY_NAME.charAt(0));
 
             int compare = 0;
-            if(cityO1 > cityO2) {
+            if (cityO1 > cityO2) {
                 compare = 1;
-            } else if(cityO1 < cityO2){
+            } else if (cityO1 < cityO2) {
+                compare = -1;
+            }
+
+            return compare;
+        });
+    }
+
+    private void sortCityEn(List<cityListVO> citys) {
+        Collections.sort(citys, (o1, o2) -> {
+            char cityO1 = TextUtils.isEmpty(o1._FULLNAME_EN) ? ' ' : Character.toUpperCase(o1._FULLNAME_EN.charAt(0));
+            char cityO2 = TextUtils.isEmpty(o2._FULLNAME_EN) ? ' ' : Character.toUpperCase(o2._FULLNAME_EN.charAt(0));
+
+            int compare = 0;
+            if (cityO1 > cityO2) {
+                compare = 1;
+            } else if (cityO1 < cityO2) {
                 compare = -1;
             }
 
@@ -250,7 +311,7 @@ public class ConfigManager {
         if (isSuccess) {
             if (VERSION == dataType) {
                 if (configData != null && configData.androidversionnew != null) {
-                    configWrapper.versionUpdate = CheckVersion.checkVersion(configData.androidversionnew,dataSource);
+                    configWrapper.versionUpdate = CheckVersion.checkVersion(configData.androidversionnew, dataSource);
                 }
             }
         }
@@ -258,7 +319,7 @@ public class ConfigManager {
 
     }
 
-    public class ConfigWrapper{
+    public class ConfigWrapper {
         public boolean isSuccess = true;
         public int dataType = -1;
         public VersionUpdate versionUpdate;
