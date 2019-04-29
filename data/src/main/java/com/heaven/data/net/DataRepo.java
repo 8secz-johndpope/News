@@ -29,6 +29,7 @@ import okhttp3.ConnectionPool;
 import okhttp3.ConnectionSpec;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import okhttp3.TlsVersion;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
@@ -68,7 +69,7 @@ public class DataRepo {
      *         builder
      */
     private DataRepo(Builder builder) {
-        this.repoIdentify = MD5Utils.getMd5Value(builder.baseUrl);
+        this.repoIdentify = builder.repoIdentify;
         this.context = builder.context;
         this.headerInterceptor = builder.headerInterceptor;
         this.headers = builder.headers;
@@ -169,6 +170,7 @@ public class DataRepo {
     }
 
     public static final class Builder {
+        public String repoIdentify;
         Context context;
         OkHttpClient.Builder okHttpBuilder;
         Retrofit.Builder retrofitBuilder;
@@ -218,6 +220,12 @@ public class DataRepo {
             retrofitBuilder.addCallAdapterFactory(adapterFactory);
         }
 
+        Builder(DataRepo dataRepo) {
+
+        }
+
+
+
         /**
          * 基础url
          *
@@ -227,11 +235,19 @@ public class DataRepo {
          * @return builder
          */
         public Builder baseUrl(String baseUrl, Converter.Factory converterFactory) {
+            this.repoIdentify = MD5Utils.getMd5Value(baseUrl);
             this.baseUrl = baseUrl;
             this.converterFactory = converterFactory;
             retrofitBuilder
                     .baseUrl(baseUrl)
                     .addConverterFactory(converterFactory);
+            return this;
+        }
+
+        public Builder setTime(int timeConn,int timeRead,int timeWrite) {
+            okHttpBuilder.connectTimeout(timeConn, TimeUnit.SECONDS)//超时时间15S
+                    .readTimeout(timeRead, TimeUnit.SECONDS)
+                    .writeTimeout(timeWrite, TimeUnit.SECONDS);
             return this;
         }
 

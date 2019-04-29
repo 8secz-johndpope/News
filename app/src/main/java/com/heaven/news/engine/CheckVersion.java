@@ -15,7 +15,7 @@ import com.heaven.news.ui.vm.model.base.Version;
  */
 public class CheckVersion {
 
-    public static VersionUpdate checkVersion(Version version, DataSource dataSource) {
+    static VersionUpdate checkVersion(Version version, DataSource dataSource) {
         VersionUpdate updateInfo = new VersionUpdate();
         if (version != null) {
             AppInfo appInfo = AppEngine.instance().getAppConfig();

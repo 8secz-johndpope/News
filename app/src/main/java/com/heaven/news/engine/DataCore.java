@@ -23,6 +23,7 @@ import com.heaven.news.ui.vm.model.base.PhoenixService;
 import com.heaven.news.ui.vm.model.base.UserLoginInfo;
 import com.heaven.news.ui.vm.model.base.UserSecret;
 import com.heaven.news.ui.vm.model.base.Version;
+import com.heaven.news.ui.vm.model.base.VersionUpdate;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.easycardmodel.EasyCardWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.easycardmodel.WALLET_QUERY;
@@ -117,7 +118,6 @@ public class DataCore {
     DataCore(DataSource dataSource, Context context) {
         this.dataSource = dataSource;
         dataSource.runWorkThread(this::prepareData);
-//        dataSource.runWorkThread(() -> loadAllService(context));
     }
 
     private void prepareData() {
@@ -129,11 +129,9 @@ public class DataCore {
 
     private void requestVersion() {
         RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
-            if (configData.netCode == 0 && configData.androidversionnew != null) {
-                CheckVersion.checkVersion(configData.androidversionnew,dataSource);
-            } else {
-                CheckVersion.checkVersion(null,dataSource);
-            }
+            CoreDataWrapper dataWrapper = getCoreDataWrapper(true, VERSION);
+            dataWrapper.versionUpdate = CheckVersion.checkVersion(configData.androidversionnew,dataSource);
+            notifyCoreDataChange(dataWrapper);
         });
     }
 
@@ -519,6 +517,7 @@ public class DataCore {
     public class CoreDataWrapper {
         public boolean isSuccess = true;
         public int dataType = -1;
+        public VersionUpdate versionUpdate;
         public Version version;
         public ConfigData configData;
         public HomeImageInfo homeConfigData;

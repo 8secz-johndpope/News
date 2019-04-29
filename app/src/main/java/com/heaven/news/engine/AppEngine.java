@@ -508,6 +508,7 @@ public final class AppEngine {
         public void onActivityDestroyed(final Activity activity) {
             if(activity instanceof Observer) {
                 mDataCore.removeForeverObserve((Observer) activity);
+                mConfigManager.removeForeverObserve((Observer) activity);
             }
             store.remove(activity);
             Logger.i("onActivityDestroyed--" + activity);

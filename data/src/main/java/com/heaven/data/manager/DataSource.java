@@ -65,6 +65,7 @@ public class DataSource {
         DataRepo mainRepo;
         NetGlobalConfig.PROTOTYPE prototype = JSON;
         Map<String, DataRepo> repos = new HashMap<>();
+        Map<String, DataRepo.Builder> reposBuilder = new HashMap<>();
 
         public Builder(Context context) {
             this.context = context;
@@ -76,7 +77,7 @@ public class DataSource {
          *
          * @param baseUrl
          *         url
-         * @param prototype
+         * @param converterFactory
          *         协议类型
          *
          * @return Builder
@@ -85,13 +86,27 @@ public class DataSource {
             return addNetRepo(baseUrl, converterFactory, null);
         }
 
+        /**
+         * 根据baseurl添加网络请求对象
+         *
+         * @param baseUrl
+         *         url
+         * @param converterFactory
+         *         协议类型
+         *
+         * @return DataRepo.Builder
+         */
+        public DataRepo.Builder addNetRepoBuilder(String baseUrl, Converter.Factory converterFactory) {
+            return addNetRepoBuilder(baseUrl, converterFactory, null);
+        }
+
 
         /**
          * 根据baseurl添加网络请求对象
          *
          * @param baseUrl
          *         url
-         * @param prototype
+         * @param converterFactory
          *         协议类型
          * @param certificates
          *         证书
@@ -121,8 +136,55 @@ public class DataSource {
             return this;
         }
 
+        /**
+         * 根据baseurl添加网络请求对象
+         *
+         * @param baseUrl
+         *         url
+         * @param converterFactory
+         *         协议类型
+         * @param certificates
+         *         证书
+         *
+         * @return DataRepo.Builder
+         */
+        public DataRepo.Builder addNetRepoBuilder(String baseUrl, Converter.Factory converterFactory, int[] certificates) {
+            DataRepo.Builder repoBuilder = null;
+            try {
+                URI uri = new URI(baseUrl);
+                String scheme = uri.getScheme();
+                repoBuilder = new DataRepo.Builder(context);
+                repoBuilder.baseUrl(baseUrl, converterFactory);
+                if (NetGlobalConfig.HTTPS.equals(scheme)) {
+                    repoBuilder.netHttps(certificates);
+                }
+                if (repos.size() == 0) {
+                    reposBuilder.put(repoBuilder.repoIdentify, repoBuilder);
+                } else {
+                    reposBuilder.put(repoBuilder.repoIdentify, repoBuilder);
+                }
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            return repoBuilder;
+        }
+
         public DataSource build() {
+            buildRepro();
             return new DataSource(this);
+        }
+
+        private void buildRepro() {
+            if(reposBuilder.size() > 0) {
+                for(String key : reposBuilder.keySet()) {
+                    if(!repos.containsKey(key)) {
+                        DataRepo.Builder repoBuilder = reposBuilder.get(key);
+                        if(repoBuilder != null) {
+                            repos.put(repoBuilder.repoIdentify,repoBuilder.build());
+                        }
+                    }
+                }
+            }
         }
 
     }

@@ -29,7 +29,7 @@ public class WelecomModel extends AbstractViewModel {
 
     @Override
     public void initModel() {
-        requestVersion();
+//        requestVersion();
     }
 
     @TraceTime

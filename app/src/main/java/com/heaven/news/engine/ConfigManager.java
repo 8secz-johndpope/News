@@ -1,5 +1,8 @@
 package com.heaven.news.engine;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -7,17 +10,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.heaven.data.manager.DataSource;
-import com.heaven.data.net.DataResponse;
+import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
+import com.heaven.news.api.ConfigApi;
+import com.heaven.news.api.VersionApi;
 import com.heaven.news.ui.vm.model.base.City;
+import com.heaven.news.ui.vm.model.base.ConfigData;
 import com.heaven.news.ui.vm.model.base.EasyGoService;
 import com.heaven.news.ui.vm.model.base.HomeService;
 import com.heaven.news.ui.vm.model.base.PhoenixService;
 import com.heaven.news.ui.vm.model.base.TimeStamp;
+import com.heaven.news.ui.vm.model.base.VersionUpdate;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.city.CityListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.city.queryCityList;
-import com.neusoft.szair.model.city.queryCityListResponse;
 import com.orhanobut.logger.Logger;
 
 import java.io.InputStream;
@@ -25,10 +31,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
+import java.util.Map;
 
 /**
  * FileName: com.heaven.news.engine.ConfigManager.java
@@ -39,6 +44,10 @@ import io.reactivex.functions.Consumer;
  * @version V1.0 配置数据管理
  */
 public class ConfigManager {
+    public static int VERSION = 0;
+    private ConfigWrapper configWrapper = new ConfigWrapper();
+    private ConfigData configData;
+    private Map<Observer<ConfigWrapper>, MutableLiveData<ConfigWrapper>> observers = new HashMap<>();
     private Context context;
     private DataSource dataSource;
 
@@ -56,6 +65,8 @@ public class ConfigManager {
     }
 
     private void loadAllService(Context context) {
+        requestVersion();
+        requestConfig();
         loadHomeService(context);
         loadEasyGoService(context);
         loadPhoenixService(context);
@@ -90,6 +101,36 @@ public class ConfigManager {
             phoenixService = gson.fromJson(readerAll, PhoenixService.class);
         }
         return phoenixService;
+    }
+
+    private void requestVersion() {
+        RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.VERSION_URL, VersionApi.class).getVersion(), configData -> {
+            if(configData != null && configData.netCode == 0) {
+                configSuccess(configData);
+            }
+            ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
+            notifyConfigDataChange(dataWrapper);
+        });
+    }
+
+    private int requestConfigCount = 0;
+    private void requestConfig() {
+        RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
+            if(configData != null && configData.netCode == 0) {
+                ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
+                notifyConfigDataChange(dataWrapper);
+                configSuccess(configData);
+            } else {
+                if (requestConfigCount < 3) {
+                    requestConfigCount++;
+                    requestConfig();
+                }
+            }
+        });
+    }
+
+    private void configSuccess(ConfigData configData) {
+
     }
 
     public void refreshConfigByTimeStamp(TimeStamp newStamp) {
@@ -160,5 +201,48 @@ public class ConfigManager {
 
             return compare;
         });
+    }
+
+    public void registerDataTypeObaserver(LifecycleOwner lifecycleOwner, Observer<ConfigWrapper> typeObserver) {
+        if (!observers.containsKey(typeObserver)) {
+            MutableLiveData<ConfigWrapper> dataTypeLive = new MutableLiveData<>();
+            dataTypeLive.observe(lifecycleOwner, typeObserver);
+            observers.put(typeObserver, dataTypeLive);
+        }
+    }
+
+    public void removeForeverObserve(Observer<ConfigWrapper> typeObserver) {
+        Object object = observers.remove(typeObserver);
+        Logger.i("ConfigManager----removeForeverObserve--" + object);
+    }
+
+    private void notifyConfigDataChange(ConfigWrapper configWrapper) {
+        Logger.i("ConfigManager----notifyCoreDataChange-" + configWrapper.toString());
+        if (observers != null && observers.size() > 0) {
+            for (MutableLiveData<ConfigWrapper> dataTypeLive : observers.values()) {
+                dataTypeLive.postValue(configWrapper);
+
+            }
+        }
+    }
+
+    private ConfigWrapper getConfigDataWrapper(boolean isSuccess, int dataType) {
+        configWrapper.isSuccess = isSuccess;
+        configWrapper.dataType = dataType;
+        if (isSuccess) {
+            if (VERSION == dataType) {
+                if (configData != null && configData.androidversionnew != null) {
+                    configWrapper.versionUpdate = CheckVersion.checkVersion(configData.androidversionnew,dataSource);
+                }
+            }
+        }
+        return configWrapper;
+
+    }
+
+    public class ConfigWrapper{
+        public boolean isSuccess = true;
+        public int dataType = -1;
+        public VersionUpdate versionUpdate;
     }
 }
