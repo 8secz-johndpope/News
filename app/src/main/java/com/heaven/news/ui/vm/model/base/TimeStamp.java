@@ -26,18 +26,18 @@ public class TimeStamp {
      * CHECKIN_TIPS : 1556432750092
      */
 
-    public int PAYMENT_SWITCH_ANDROID;
-    public int PAYMENT_SWITCH_IOS;
-    public int SPML_KV_LIST;
-    public int INSURANCE_TYPE;
-    public int HUNG_WINDOW_ALERT;
-    public int FUNC_SWITCH_ANDROID;
-    public int FUNC_SWITCH_IOS;
-    public int PRODUCT_SWITCH;
-    public int CUSTOM_STRING;
-    public int BANK;
-    public int CITY;
-    public int CHECKIN_TIPS;
+    public long PAYMENT_SWITCH_ANDROID;
+    public long PAYMENT_SWITCH_IOS;
+    public long SPML_KV_LIST;
+    public long INSURANCE_TYPE;
+    public long HUNG_WINDOW_ALERT;
+    public long FUNC_SWITCH_ANDROID;
+    public long FUNC_SWITCH_IOS;
+    public long PRODUCT_SWITCH;
+    public long CUSTOM_STRING;
+    public long BANK;
+    public long CITY;
+    public long CHECKIN_TIPS;
 
 
 }

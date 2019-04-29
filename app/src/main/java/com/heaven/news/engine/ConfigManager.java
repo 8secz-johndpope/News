@@ -110,6 +110,7 @@ public class ConfigManager {
             }
             ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
             notifyConfigDataChange(dataWrapper);
+            Logger.i("requestVersion" + configData.toString());
         });
     }
 
@@ -126,11 +127,12 @@ public class ConfigManager {
                     requestConfig();
                 }
             }
+            Logger.i("requestVersion" + configData.toString());
         });
     }
 
     private void configSuccess(ConfigData configData) {
-
+        this.configData = configData;
     }
 
     public void refreshConfigByTimeStamp(TimeStamp newStamp) {

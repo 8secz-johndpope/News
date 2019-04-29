@@ -427,6 +427,7 @@ public class DataCore {
                     notifyCoreDataChange(getCoreDataWrapper(false, HOME));
                 }
             }
+            Logger.i("requestHomeConfig" + homeConfigData.toString());
         });
     }
 
