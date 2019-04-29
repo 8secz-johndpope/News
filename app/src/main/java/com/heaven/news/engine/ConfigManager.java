@@ -181,6 +181,7 @@ public class ConfigManager {
         citys = loadLocalCityCh();
         citysEn = loadLocalCityEn();
         citysIndex = loadLocalCityIndex();
+        citysHot = dataSource.getCacheEntity(DataSource.DISK, CITY_HOT);
     }
 
     private void initHotCity(List<String> hotCitys) {
@@ -190,6 +191,9 @@ public class ConfigManager {
             if(hotCity != null) {
                 citysHot.add(hotCity);
             }
+        }
+        if(citysHot != null && citysHot.size() > 0) {
+            dataSource.cacheData(DataSource.DISK, CITY_HOT, citysHot);
         }
         testWriteCity(citysIndex);
         Logger.i(citysHot.toString());
