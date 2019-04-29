@@ -121,4 +121,15 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
             }
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(AppEngine.instance().confManager().isRequestVersionFinish) {
+            ConfigManager.ConfigWrapper configWrapper = AppEngine.instance().confManager().getConfigWrapper();
+            configWrapper.dataType = DataCore.VERSION;
+            onChanged(configWrapper);
+        }
+
+    }
 }

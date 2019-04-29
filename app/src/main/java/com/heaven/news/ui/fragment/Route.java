@@ -73,9 +73,9 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (!ViewCompat.canScrollVertically(recyclerView, 1)) {
-                        mViewBinding.swipeToLoadLayout.setLoadingMore(true);
-                    }
+//                    if (!ViewCompat.canScrollVertically(recyclerView, 1)) {
+//                        mViewBinding.swipeToLoadLayout.setLoadingMore(true);
+//                    }
                 }
             }
         });
@@ -95,10 +95,10 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
                     }
                 } else {
                     routeAdapter.updateBatch(fullchannelVOS, false);
-                    if(routeAdapter.getItemCount() > 0) {
-//                        recyclerView.smoothScrollToPosition(routeAdapter.getItemCount()-1);
-                        handler.postDelayed(() -> recyclerView.smoothScrollToPosition(routeAdapter.getItemCount()-1),200);
-                    }
+//                    if(routeAdapter.getItemCount() > 0) {
+////                        recyclerView.smoothScrollToPosition(routeAdapter.getItemCount()-1);
+//                        handler.postDelayed(() -> recyclerView.smoothScrollToPosition(routeAdapter.getItemCount()-1),200);
+//                    }
 
                 }
             }

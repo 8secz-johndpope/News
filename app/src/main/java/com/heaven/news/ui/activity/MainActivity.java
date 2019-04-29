@@ -152,7 +152,7 @@ public class MainActivity extends BaseToolBarBindActivity<MainViewModel, MainBin
     @Override
     protected void onResume() {
         super.onResume();
-//        updateData();
+        updateData();
     }
 
     @Override
@@ -182,4 +182,5 @@ public class MainActivity extends BaseToolBarBindActivity<MainViewModel, MainBin
             updateData();
         }
     }
+
 }

@@ -45,6 +45,7 @@ import java.util.Map;
  */
 public class ConfigManager {
     public static int VERSION = 0;
+    public boolean isRequestVersionFinish = false;
     private ConfigWrapper configWrapper = new ConfigWrapper();
     private ConfigData configData;
     private Map<Observer<ConfigWrapper>, MutableLiveData<ConfigWrapper>> observers = new HashMap<>();
@@ -105,6 +106,7 @@ public class ConfigManager {
 
     private void requestVersion() {
         RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.VERSION_URL, VersionApi.class).getVersion(), configData -> {
+            isRequestVersionFinish = true;
             if(configData != null && configData.netCode == 0) {
                 configSuccess(configData);
             }
@@ -112,6 +114,10 @@ public class ConfigManager {
             notifyConfigDataChange(dataWrapper);
             Logger.i("requestVersion" + configData.toString());
         });
+    }
+
+    public boolean isVersionReqFinish() {
+        return isRequestVersionFinish;
     }
 
     private int requestConfigCount = 0;
@@ -246,5 +252,9 @@ public class ConfigManager {
         public boolean isSuccess = true;
         public int dataType = -1;
         public VersionUpdate versionUpdate;
+    }
+
+    public ConfigWrapper getConfigWrapper() {
+        return configWrapper;
     }
 }
