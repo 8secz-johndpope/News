@@ -16,6 +16,9 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.heaven.base.ui.adapter.BaseAdapter;
+import com.heaven.base.ui.adapter.BaseMultAdapter;
+
 /**
  * 作者:Heaven
  * 时间: on 2017/4/14 09:21
@@ -23,6 +26,8 @@ import android.widget.TextView;
  */
 
 public class BaseViewHolder extends RecyclerView.ViewHolder {
+    public BaseMultAdapter multAdapter;
+    public BaseAdapter baseAdapter;
     public BaseMultItem multItem;
     public Object itemData;
     private final SparseArray<View> views;

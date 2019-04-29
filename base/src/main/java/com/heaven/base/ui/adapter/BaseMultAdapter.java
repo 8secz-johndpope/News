@@ -100,6 +100,7 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             viewHolder = new BaseViewHolder(new TextView(context));
             viewHolder.multItem = multItem;
         }
+        viewHolder.multAdapter = this;
         return viewHolder;
     }
 
@@ -191,8 +192,8 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 .compose(RxDataSchedulers.io_main())
                 .subscribe(diffResult -> {
                     diffResult.dispatchUpdatesTo(this);
+                    dataItems = diffNewDataItems;
                 });
-        dataItems = diffNewDataItems;
     }
 
     public void updateItems(List<?> items) {

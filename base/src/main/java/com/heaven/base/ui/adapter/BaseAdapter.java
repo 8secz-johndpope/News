@@ -96,6 +96,7 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
             viewHolder = new BaseViewHolder(new TextView(context));
             viewHolder.multItem = multItem;
         }
+        viewHolder.baseAdapter = this;
         return viewHolder;
     }
 
