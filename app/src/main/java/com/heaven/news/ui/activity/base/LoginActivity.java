@@ -1,4 +1,4 @@
-package com.heaven.news.ui.activity;
+package com.heaven.news.ui.activity.base;
 
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package com.heaven.news.ui.activity;
+package com.heaven.news.ui.activity.base;
 
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * FileName: com.heaven.news.ui.activity.MainActivity.java
+ * FileName: com.heaven.news.ui.activity.base.MainActivity.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-14 15:16

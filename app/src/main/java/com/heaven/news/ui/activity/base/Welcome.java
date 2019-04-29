@@ -1,4 +1,4 @@
-package com.heaven.news.ui.activity;
+package com.heaven.news.ui.activity.base;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import com.heaven.news.ui.vm.vmmodel.WelecomModel;
 import com.orhanobut.logger.Logger;
 
 /**
- * FileName: com.heaven.news.ui.activity.Welcome.java
+ * FileName: com.heaven.news.ui.activity.base.Welcome.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-07 17:57

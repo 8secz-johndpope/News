@@ -5,7 +5,7 @@ import android.view.View;
 
 
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.ui.activity.LoginActivity;
+import com.heaven.news.ui.activity.base.LoginActivity;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

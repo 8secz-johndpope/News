@@ -1,4 +1,4 @@
-package com.heaven.news.ui.activity;
+package com.heaven.news.ui.activity.base;
 
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -17,7 +17,7 @@ import com.heaven.news.ui.vm.vmmodel.GuideNewModel;
 import java.util.ArrayList;
 
 /**
- * FileName: com.heaven.news.ui.activity.GuideActivity.java
+ * FileName: com.heaven.news.ui.activity.base.GuideActivity.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-08 11:29

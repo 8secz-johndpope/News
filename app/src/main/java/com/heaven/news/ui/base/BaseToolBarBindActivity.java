@@ -1,14 +1,11 @@
 package com.heaven.news.ui.base;
 
-import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
-import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,8 +15,6 @@ import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.base.ui.view.SystemBarTintManager;
 import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.R;
-import com.heaven.news.engine.AppEngine;
-import com.heaven.news.ui.activity.Welcome;
 
 import java.util.ArrayList;
 
