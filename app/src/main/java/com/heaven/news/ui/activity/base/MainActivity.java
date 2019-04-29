@@ -1,5 +1,6 @@
 package com.heaven.news.ui.activity.base;
 
+import android.Manifest;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -28,10 +29,13 @@ import com.heaven.news.ui.fragment.Phoenix;
 import com.heaven.news.ui.fragment.Route;
 import com.heaven.news.ui.vm.vmmodel.MainViewModel;
 import com.orhanobut.logger.Logger;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * FileName: com.heaven.news.ui.activity.base.MainActivity.java
@@ -61,6 +65,16 @@ public class MainActivity extends BaseToolBarBindActivity<MainViewModel, MainBin
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
+        final RxPermissions rxPermissions = new RxPermissions(this);
+        final Disposable subscribe = rxPermissions
+                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        // I can control the camera now
+                    } else {
+                        // Oups permission denied
+                    }
+                });
         setTitle(R.string.toobar_home);
         initViewPager();
         initBottomTabLayout();

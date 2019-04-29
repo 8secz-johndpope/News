@@ -8,7 +8,7 @@ buildscript {
         classpath build_info.realm
 //        classpath build_info.bintray
         //格式为-->group:module:version
-        classpath build_info.heaven
+//        classpath build_info.heaven
         // NOTE: Do not place your application dependen／cies here; they belong
         // in the individual module build.gradle files
 //        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.6'

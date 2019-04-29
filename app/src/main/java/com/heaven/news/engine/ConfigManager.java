@@ -191,6 +191,7 @@ public class ConfigManager {
                 citysHot.add(hotCity);
             }
         }
+        testWriteCity(citysIndex);
         Logger.i(citysHot.toString());
     }
 
@@ -259,7 +260,6 @@ public class ConfigManager {
         RxRepUtils.getResult(RxRepUtils.getCommonApi().searchNewCity(binding), response -> {
             if (response.code == 0 && response.data != null && response.data._CITY_LIST_VO != null && response.data._CITY_LIST_VO._CITY_LIST_VO != null) {
                 loadNewCitys(response.data._CITY_LIST_VO._CITY_LIST_VO);
-                testWriteCity(response.data._CITY_LIST_VO._CITY_LIST_VO);
             }
             Logger.i("reqNewCity" + response.toString());
         });
@@ -305,15 +305,7 @@ public class ConfigManager {
         if(cityIndexs != null && cityIndexs.size() > 0) {
             cityListVO condition = new cityListVO();
             condition._SHORT_NAME = sanCode;
-            int index = Collections.binarySearch(cityIndexs, condition, new Comparator<cityListVO>() {
-                @Override
-                public int compare(cityListVO o1, cityListVO o2) {
-                    String sanCode1 = o1._SHORT_NAME;
-                    String sanCode2 = o2._SHORT_NAME;
-                    int result = sanCode1.compareToIgnoreCase(sanCode2);
-                    return result;
-                }
-            });
+            int index = Collections.binarySearch(cityIndexs, condition);
             if(index >= 0) {
                 target = cityIndexs.get(index);
             }
@@ -356,17 +348,9 @@ public class ConfigManager {
 
     private void sortCityIndex(List<cityListVO> citys) {
         Collections.sort(citys, (o1, o2) -> {
-            char cityO1 = TextUtils.isEmpty(o1._SHORT_NAME) ? ' ' : Character.toUpperCase(o1._SHORT_NAME.charAt(0));
-            char cityO2 = TextUtils.isEmpty(o2._SHORT_NAME) ? ' ' : Character.toUpperCase(o2._SHORT_NAME.charAt(0));
-
-            int compare = 0;
-            if (cityO1 > cityO2) {
-                compare = 1;
-            } else if (cityO1 < cityO2) {
-                compare = -1;
-            }
-
-            return compare;
+            String cityO1 = TextUtils.isEmpty(o1._SHORT_NAME) ? "" : o1._SHORT_NAME.toUpperCase();
+            String cityO2 = TextUtils.isEmpty(o2._SHORT_NAME) ? "" : o2._SHORT_NAME.toUpperCase();
+            return cityO1.compareTo(cityO2);
         });
     }
 
