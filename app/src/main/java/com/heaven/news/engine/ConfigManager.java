@@ -30,7 +30,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +50,8 @@ public class ConfigManager {
     public static String CITY = "city";
     public static String CITY_EN = "city_en";
     public static String CITY_OFTEN = "city_often";
+    public static String CITY_HOT = "city_hot";
+    public static String CITY_INDEX = "city_index";
     public boolean isRequestVersionFinish = false;
     private ConfigWrapper configWrapper = new ConfigWrapper();
     private ConfigData configData;
@@ -61,6 +65,8 @@ public class ConfigManager {
     private List<cityListVO> citys = new ArrayList<>();
     private List<cityListVO> citysEn = new ArrayList<>();
     private List<cityListVO> citysOften = new ArrayList<>();
+    private List<cityListVO> citysHot = new ArrayList<>();
+    private List<cityListVO> citysIndex = new ArrayList<>();
 
     ConfigManager(DataSource dataSource, Context context) {
         this.context = context;
@@ -146,6 +152,10 @@ public class ConfigManager {
         if (configData.timestamp != null) {
             refreshConfigByTimeStamp(configData.timestamp);
         }
+
+        if(configData.city != null && configData.city.size() > 0) {
+            initHotCity(configData.city);
+        }
     }
 
     private void refreshConfigByTimeStamp(TimeStamp newStamp) {
@@ -169,6 +179,35 @@ public class ConfigManager {
     private void initLocalCity() {
         citys = loadLocalCityCh();
         citysEn = loadLocalCityEn();
+        citysIndex = loadLocalCityIndex();
+    }
+
+    private void initHotCity(List<String> hotCitys) {
+        citysHot.clear();
+        for(String sanCode : hotCitys) {
+            cityListVO hotCity = getCityBySanCode(sanCode);
+            if(hotCity != null) {
+                citysHot.add(hotCity);
+            }
+        }
+        Logger.i(citysHot.toString());
+    }
+
+    public List<cityListVO> getHotCity() {
+        return citysHot;
+    }
+
+    private List<cityListVO> loadLocalCityIndex() {
+        ArrayList<cityListVO>  citysIndex = dataSource.getCacheEntity(DataSource.DISK, CITY_INDEX);
+        if(citysIndex == null) {
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+            InputStream allServiceIn = context.getResources().openRawResource(R.raw.city);
+            Reader readerAll = new InputStreamReader(allServiceIn);
+            citysIndex = gson.fromJson(readerAll, new TypeToken<List<cityListVO>>() {
+            }.getType());
+            sortCityIndex(citysIndex);
+        }
+        return citysIndex;
     }
 
     private List<cityListVO> loadLocalCityCh() {
@@ -228,12 +267,16 @@ public class ConfigManager {
         if (newCitys != null && newCitys.size() > 0) {
             ArrayList<cityListVO> newCitysCh = new ArrayList<>(newCitys);
             ArrayList<cityListVO> newCitysEn = new ArrayList<>(newCitys);
+            ArrayList<cityListVO> newCitysIndex = new ArrayList<>(newCitys);
             sortCity(newCitysCh);
             sortCityEn(newCitysEn);
+            sortCityIndex(newCitysIndex);
             this.citys = newCitysCh;
             this.citysEn = newCitysEn;
+            this.citysIndex = newCitysIndex;
             dataSource.cacheData(DataSource.DISK, CITY, newCitysCh);
             dataSource.cacheData(DataSource.DISK, CITY_EN, newCitysEn);
+            dataSource.cacheData(DataSource.DISK, CITY_INDEX, citysIndex);
         }
     }
 
@@ -247,6 +290,28 @@ public class ConfigManager {
 
     private void loadNewBank() {
 
+    }
+
+    private cityListVO getCityBySanCode(String sanCode) {
+        cityListVO target = null;
+        List<cityListVO> cityIndexs = citysIndex.size() > 0? citysIndex : loadLocalCityIndex();
+        if(cityIndexs != null && cityIndexs.size() > 0) {
+            cityListVO condition = new cityListVO();
+            condition._SHORT_NAME = sanCode;
+            int index = Collections.binarySearch(cityIndexs, condition, new Comparator<cityListVO>() {
+                @Override
+                public int compare(cityListVO o1, cityListVO o2) {
+                    String sanCode1 = o1._SHORT_NAME;
+                    String sanCode2 = o2._SHORT_NAME;
+                    int result = sanCode1.compareToIgnoreCase(sanCode2);
+                    return result;
+                }
+            });
+            if(index >= 0) {
+                target = cityIndexs.get(index);
+            }
+        }
+        return target;
     }
 
 
@@ -270,6 +335,22 @@ public class ConfigManager {
         Collections.sort(citys, (o1, o2) -> {
             char cityO1 = TextUtils.isEmpty(o1._FULLNAME_EN) ? ' ' : Character.toUpperCase(o1._FULLNAME_EN.charAt(0));
             char cityO2 = TextUtils.isEmpty(o2._FULLNAME_EN) ? ' ' : Character.toUpperCase(o2._FULLNAME_EN.charAt(0));
+
+            int compare = 0;
+            if (cityO1 > cityO2) {
+                compare = 1;
+            } else if (cityO1 < cityO2) {
+                compare = -1;
+            }
+
+            return compare;
+        });
+    }
+
+    private void sortCityIndex(List<cityListVO> citys) {
+        Collections.sort(citys, (o1, o2) -> {
+            char cityO1 = TextUtils.isEmpty(o1._SHORT_NAME) ? ' ' : Character.toUpperCase(o1._SHORT_NAME.charAt(0));
+            char cityO2 = TextUtils.isEmpty(o2._SHORT_NAME) ? ' ' : Character.toUpperCase(o2._SHORT_NAME.charAt(0));
 
             int compare = 0;
             if (cityO1 > cityO2) {
