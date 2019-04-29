@@ -20,6 +20,7 @@ import com.heaven.news.ui.vm.model.base.HomeService;
 import com.heaven.news.ui.vm.model.base.PhoenixService;
 import com.heaven.news.ui.vm.model.base.TimeStamp;
 import com.heaven.news.ui.vm.model.base.VersionUpdate;
+import com.heaven.news.utils.IoUtil;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.city.CityListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.city.cityListVO;
@@ -258,9 +259,15 @@ public class ConfigManager {
         RxRepUtils.getResult(RxRepUtils.getCommonApi().searchNewCity(binding), response -> {
             if (response.code == 0 && response.data != null && response.data._CITY_LIST_VO != null && response.data._CITY_LIST_VO._CITY_LIST_VO != null) {
                 loadNewCitys(response.data._CITY_LIST_VO._CITY_LIST_VO);
+                testWriteCity(response.data._CITY_LIST_VO._CITY_LIST_VO);
             }
             Logger.i("reqNewCity" + response.toString());
         });
+    }
+
+    private void testWriteCity(List<cityListVO> citys) {
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        IoUtil.save("heaven",gson.toJson(citys));
     }
 
     private void loadNewCitys(List<cityListVO> newCitys) {
@@ -276,7 +283,7 @@ public class ConfigManager {
             this.citysIndex = newCitysIndex;
             dataSource.cacheData(DataSource.DISK, CITY, newCitysCh);
             dataSource.cacheData(DataSource.DISK, CITY_EN, newCitysEn);
-            dataSource.cacheData(DataSource.DISK, CITY_INDEX, citysIndex);
+            dataSource.cacheData(DataSource.DISK, CITY_INDEX, newCitysIndex);
         }
     }
 
