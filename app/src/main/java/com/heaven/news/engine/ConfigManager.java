@@ -34,16 +34,13 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 
 /**
  * FileName: com.heaven.news.engine.ConfigManager.java
@@ -55,6 +52,7 @@ import io.reactivex.disposables.Disposable;
  */
 public class ConfigManager {
     public static int VERSION = 0;
+    public static String CITY_CURRENT = "city_current";
     public static String CITY = "city";
     public static String CITY_EN = "city_en";
     public static String CITY_OFTEN = "city_often";
@@ -70,11 +68,12 @@ public class ConfigManager {
     private HomeService homeService;//首页服务
     private EasyGoService easyGoService;//易行服务
     private PhoenixService phoenixService;//凤凰知音服务
-    private List<cityListVO> citys = new ArrayList<>();
-    private List<cityListVO> citysEn = new ArrayList<>();
+    private cityListVO currentCity;
+    private List<cityListVO> citys = new Vector<>();
+    private List<cityListVO> citysEn = new Vector<>();
     private Vector<cityListVO> citysOften = new Vector<>();
-    private List<cityListVO> citysHot = new ArrayList<>();
-    private List<cityListVO> citysIndex = new ArrayList<>();
+    private List<cityListVO> citysHot = new Vector<>();
+    private List<cityListVO> citysIndex = new Vector<>();
     private HashMap<String, Integer> indexMap = new HashMap<>();
     private HashMap<String, Integer> indexMapEn = new HashMap<>();
 
@@ -93,6 +92,46 @@ public class ConfigManager {
             loadPhoenixService(context);
         });
         initLocalCity();
+    }
+
+    public List getAllCitys() {
+        ArrayList<cityListVO> citysAll = new ArrayList();
+        if(currentCity != null) {
+            currentCity.groupTitle = "当前城市";
+            currentCity.groupFlag = 1;
+            currentCity.isFirstInGroup = true;
+            currentCity.isLastInGroup = true;
+            citysAll.add(currentCity);
+        }
+
+        if(citysOften != null && citysOften.size() > 0) {
+            cityListVO oftenCitys = new cityListVO();
+            oftenCitys.groupFlag = 2;
+            oftenCitys.isTitle = true;
+            oftenCitys.specialCitys = citysOften;
+            oftenCitys.isFirstInGroup = true;
+            oftenCitys.isLastInGroup = true;
+            oftenCitys.groupTitle = "常用城市";
+            citysAll.add(oftenCitys);
+
+        }
+
+        if(citysHot != null && citysHot.size() > 0) {
+            cityListVO hotCitys = new cityListVO();
+            hotCitys.groupFlag = 3;
+            hotCitys.isTitle = true;
+            hotCitys.specialCitys = citysHot;
+            hotCitys.isFirstInGroup = true;
+            hotCitys.isLastInGroup = true;
+            hotCitys.groupTitle = "热门城市";
+            citysAll.add(hotCitys);
+        }
+
+        if(citys != null && citys.size() > 0) {
+            citysAll.addAll(citys);
+        }
+
+        return citysAll;
     }
 
     public HomeService loadHomeService(Context context) {
@@ -142,7 +181,6 @@ public class ConfigManager {
 
     private int requestConfigCount = 0;
     private long reqverTaskId;
-
     private void requestConfig() {
         reqverTaskId = RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
             if (configData != null && configData.netCode == 0) {
@@ -181,7 +219,7 @@ public class ConfigManager {
     private void compareTimeStamp(TimeStamp newStamp, TimeStamp oldStamp) {
         if (newStamp != null && oldStamp != null) {
             if (newStamp.CITY > oldStamp.CITY) {
-                reqNewCity();
+//                reqNewCity();
             }
 
         }
@@ -189,6 +227,10 @@ public class ConfigManager {
 
 
     private void initLocalCity() {
+        currentCity = dataSource.getCacheEntity(DataSource.DISK, CITY_CURRENT);
+        if (currentCity == null) {
+            currentCity = getCityBySanCode("SZX");
+        }
         citys = loadLocalCityCh();
         citysEn = loadLocalCityEn();
         citysIndex = loadLocalCityIndex();
@@ -196,7 +238,27 @@ public class ConfigManager {
         if (hotsCitys != null && hotsCitys.size() > 0) {
             citysHot = hotsCitys;
         }
+
+        Vector<cityListVO> oftenCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_OFTEN);
+        if (oftenCitys != null && oftenCitys.size() > 0) {
+            citysOften = oftenCitys;
+        }
         groupCity();
+        cacheData();
+    }
+
+    private void cacheData() {
+        if (citys != null && citys.size() > 0) {
+            dataSource.cacheData(DataSource.DISK, CITY, citys);
+        }
+
+        if (citysEn != null && citysEn.size() > 0) {
+            dataSource.cacheData(DataSource.DISK, CITY_EN, citysEn);
+        }
+
+        if (citysIndex != null && citysIndex.size() > 0) {
+            dataSource.cacheData(DataSource.DISK, CITY_INDEX, citysIndex);
+        }
     }
 
     private void initHotCity(List<String> hotCitys) {
@@ -271,7 +333,7 @@ public class ConfigManager {
     public void saveCityOften(cityListVO cityOften) {
         if (citysOften != null && cityOften != null) {
             if (citysOften.size() == 0) {
-                citysOften.add(0,cityOften);
+                citysOften.add(0, cityOften);
             } else {
                 AtomicBoolean isContain = new AtomicBoolean(false);
                 Flowable.fromIterable(citysOften).filter(cityListVO -> !TextUtils.isEmpty(cityOften._SHORT_NAME) && cityOften._SHORT_NAME.equals(cityListVO._SHORT_NAME)).subscribe(cityListVO -> {
@@ -279,13 +341,15 @@ public class ConfigManager {
                     citysOften.remove(cityListVO);
                 });
                 if (citysOften.size() < 9) {
-                    citysOften.add(0,cityOften);
+                    citysOften.add(0, cityOften);
                 } else {
                     citysOften.removeElementAt(citysOften.size() - 1);
-                    citysOften.add(0,cityOften);
+                    citysOften.add(0, cityOften);
                 }
             }
-            Logger.i(citysOften.toString());
+            if (citysOften != null && citysOften.size() > 0) {
+                dataSource.cacheData(DataSource.DISK, CITY_OFTEN, citysOften);
+            }
         }
     }
 
@@ -398,7 +462,15 @@ public class ConfigManager {
                 if (!TextUtils.isEmpty(cityListVO._PY_NAME)) {
                     String groupTitle = String.valueOf(Character.toUpperCase(cityListVO._PY_NAME.charAt(0)));
                     if (!indexMap.containsKey(groupTitle)) {
-                        indexMap.put(groupTitle, citys.indexOf(cityListVO));
+                        cityListVO.isTitle = true;
+                        cityListVO.groupTitle = groupTitle;
+                        cityListVO.isFirstInGroup = true;
+                        int index = citys.indexOf(cityListVO);
+                        if(index > 0) {
+                            cityListVO preLast = citys.get(index - 1);
+                            preLast.isLastInGroup = true;
+                        }
+                        indexMap.put(groupTitle, index);
                     }
                     Logger.i("groupCity---" + groupTitle);
                 }
@@ -410,6 +482,14 @@ public class ConfigManager {
                 if (!TextUtils.isEmpty(cityListVO._FULLNAME_EN)) {
                     String groupTitle = String.valueOf(Character.toUpperCase(cityListVO._FULLNAME_EN.charAt(0)));
                     if (!indexMapEn.containsKey(groupTitle)) {
+                        cityListVO.isTitle = true;
+                        cityListVO.groupTitle = groupTitle;
+                        cityListVO.isFirstInGroup = true;
+                        int index = citys.indexOf(cityListVO);
+                        if(index > 0) {
+                            cityListVO preLast = citys.get(index - 1);
+                            preLast.isLastInGroup = true;
+                        }
                         indexMapEn.put(groupTitle, citysEn.indexOf(cityListVO));
                     }
                     Logger.i("groupCity1---" + groupTitle);

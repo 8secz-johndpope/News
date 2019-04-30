@@ -141,6 +141,13 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
     }
 
+    public Object getItemData(int position) {
+        Object itemData = null;
+        if(dataItems != null && dataItems.size() > 0 && position < dataItems.size()) {
+            itemData = dataItems.get(position);
+        }
+        return itemData;
+    }
 
     @Override
     public void onAttachedToRecyclerView(@NonNull final RecyclerView recyclerView) {

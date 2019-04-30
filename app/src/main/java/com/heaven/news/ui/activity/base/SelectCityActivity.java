@@ -17,6 +17,7 @@ import com.heaven.news.databinding.SelectCityBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.decoration.RouteTimeDecorationn;
+import com.heaven.news.ui.decoration.StickySectionDecoration;
 import com.heaven.news.ui.view.RecyclerViewDivider;
 import com.heaven.news.ui.vm.holder.CityItemHolder;
 import com.heaven.news.ui.vm.vmmodel.SelectCityViewModel;
@@ -66,11 +67,16 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
         });
         RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new RecyclerViewDivider(this,2,R.color.gray_e4));
-        BaseMultAdapter routeAdapter = new BaseMultAdapter(this);
+        BaseAdapter<cityListVO> routeAdapter = new BaseAdapter<>(this);
         routeAdapter.register(new CityItemHolder(cityListVO.class, R.layout.city_item));
         recyclerView.setAdapter(routeAdapter);
-        routeAdapter.updateItems(AppEngine.instance().confManager().loadCitys(0));
+        recyclerView.addItemDecoration(new StickySectionDecoration(this, new StickySectionDecoration.GroupInfoCallback() {
+            @Override
+            public cityListVO getGroupInfo(int position) {
+                return routeAdapter.getItemData(position);
+            }
+        }));
+        routeAdapter.updateItems(AppEngine.instance().confManager().getAllCitys());
 
         mViewBinding.swipeToLoadLayout.setRefreshing(false);
         mViewBinding.swipeToLoadLayout.setLoadingMore(false);
