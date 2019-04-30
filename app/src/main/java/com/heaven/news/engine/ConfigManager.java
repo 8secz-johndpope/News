@@ -181,7 +181,7 @@ public class ConfigManager {
     private void compareTimeStamp(TimeStamp newStamp, TimeStamp oldStamp) {
         if (newStamp != null && oldStamp != null) {
             if (newStamp.CITY > oldStamp.CITY) {
-//                reqNewCity();
+                reqNewCity();
             }
 
         }
