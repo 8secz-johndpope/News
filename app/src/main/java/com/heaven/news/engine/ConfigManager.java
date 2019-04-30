@@ -1,5 +1,6 @@
 package com.heaven.news.engine;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
@@ -31,12 +32,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * FileName: com.heaven.news.engine.ConfigManager.java
@@ -65,9 +72,11 @@ public class ConfigManager {
     private PhoenixService phoenixService;//凤凰知音服务
     private List<cityListVO> citys = new ArrayList<>();
     private List<cityListVO> citysEn = new ArrayList<>();
-    private List<cityListVO> citysOften = new ArrayList<>();
+    private Vector<cityListVO> citysOften = new Vector<>();
     private List<cityListVO> citysHot = new ArrayList<>();
     private List<cityListVO> citysIndex = new ArrayList<>();
+    private HashMap<String, Integer> indexMap = new HashMap<>();
+    private HashMap<String, Integer> indexMapEn = new HashMap<>();
 
     ConfigManager(DataSource dataSource, Context context) {
         this.context = context;
@@ -156,7 +165,7 @@ public class ConfigManager {
             refreshConfigByTimeStamp(configData.timestamp);
         }
 
-        if(configData.city != null && configData.city.size() > 0) {
+        if (configData.city != null && configData.city.size() > 0) {
             initHotCity(configData.city);
         }
     }
@@ -172,7 +181,7 @@ public class ConfigManager {
     private void compareTimeStamp(TimeStamp newStamp, TimeStamp oldStamp) {
         if (newStamp != null && oldStamp != null) {
             if (newStamp.CITY > oldStamp.CITY) {
-                reqNewCity();
+//                reqNewCity();
             }
 
         }
@@ -184,31 +193,28 @@ public class ConfigManager {
         citysEn = loadLocalCityEn();
         citysIndex = loadLocalCityIndex();
         ArrayList<cityListVO> hotsCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_HOT);
-        if(hotsCitys != null && hotsCitys.size() > 0) {
+        if (hotsCitys != null && hotsCitys.size() > 0) {
             citysHot = hotsCitys;
         }
+        groupCity();
     }
 
     private void initHotCity(List<String> hotCitys) {
         citysHot.clear();
-        for(String sanCode : hotCitys) {
+        for (String sanCode : hotCitys) {
             cityListVO hotCity = getCityBySanCode(sanCode);
-            if(hotCity != null) {
+            if (hotCity != null) {
                 citysHot.add(hotCity);
             }
         }
-        if(citysHot != null && citysHot.size() > 0) {
+        if (citysHot != null && citysHot.size() > 0) {
             dataSource.cacheData(DataSource.DISK, CITY_HOT, citysHot);
         }
     }
 
-    public List<cityListVO> getHotCity() {
-        return citysHot;
-    }
-
     private List<cityListVO> loadLocalCityIndex() {
-        ArrayList<cityListVO>  citysIndex = dataSource.getCacheEntity(DataSource.DISK, CITY_INDEX);
-        if(citysIndex == null) {
+        ArrayList<cityListVO> citysIndex = dataSource.getCacheEntity(DataSource.DISK, CITY_INDEX);
+        if (citysIndex == null) {
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             InputStream allServiceIn = context.getResources().openRawResource(R.raw.city);
             Reader readerAll = new InputStreamReader(allServiceIn);
@@ -220,8 +226,8 @@ public class ConfigManager {
     }
 
     private List<cityListVO> loadLocalCityCh() {
-      ArrayList<cityListVO>  citys = dataSource.getCacheEntity(DataSource.DISK, CITY);
-        if(citys == null) {
+        ArrayList<cityListVO> citys = dataSource.getCacheEntity(DataSource.DISK, CITY);
+        if (citys == null) {
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             InputStream allServiceIn = context.getResources().openRawResource(R.raw.city);
             Reader readerAll = new InputStreamReader(allServiceIn);
@@ -233,8 +239,8 @@ public class ConfigManager {
     }
 
     private List<cityListVO> loadLocalCityEn() {
-       ArrayList<cityListVO> citysEn = dataSource.getCacheEntity(DataSource.DISK, CITY_EN);
-        if(citysEn == null) {
+        ArrayList<cityListVO> citysEn = dataSource.getCacheEntity(DataSource.DISK, CITY_EN);
+        if (citysEn == null) {
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             InputStream allServiceIn = context.getResources().openRawResource(R.raw.city);
             Reader readerAll = new InputStreamReader(allServiceIn);
@@ -246,18 +252,40 @@ public class ConfigManager {
     }
 
     public List<cityListVO> loadCitys(int cityType) {
-        if(0 == cityType) {
-            if(citys != null && citys.size() > 0) {
+        if (0 == cityType) {
+            if (citys != null && citys.size() > 0) {
                 return citys;
             } else {
                 return loadLocalCityCh();
             }
         } else {
-            if(citysEn != null && citysEn.size() > 0) {
+            if (citysEn != null && citysEn.size() > 0) {
                 return citysEn;
             } else {
                 return loadLocalCityEn();
             }
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    public void saveCityOften(cityListVO cityOften) {
+        if (citysOften != null && cityOften != null) {
+            if (citysOften.size() == 0) {
+                citysOften.add(0,cityOften);
+            } else {
+                AtomicBoolean isContain = new AtomicBoolean(false);
+                Flowable.fromIterable(citysOften).filter(cityListVO -> !TextUtils.isEmpty(cityOften._SHORT_NAME) && cityOften._SHORT_NAME.equals(cityListVO._SHORT_NAME)).subscribe(cityListVO -> {
+                    isContain.set(true);
+                    citysOften.remove(cityListVO);
+                });
+                if (citysOften.size() < 9) {
+                    citysOften.add(0,cityOften);
+                } else {
+                    citysOften.removeElementAt(citysOften.size() - 1);
+                    citysOften.add(0,cityOften);
+                }
+            }
+            Logger.i(citysOften.toString());
         }
     }
 
@@ -274,7 +302,7 @@ public class ConfigManager {
 
     private void testWriteCity(List<cityListVO> citys) {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-        IoUtil.save("heaven",gson.toJson(citys));
+        IoUtil.save("heaven", gson.toJson(citys));
     }
 
     private void loadNewCitys(List<cityListVO> newCitys) {
@@ -291,6 +319,7 @@ public class ConfigManager {
             dataSource.cacheData(DataSource.DISK, CITY, newCitysCh);
             dataSource.cacheData(DataSource.DISK, CITY_EN, newCitysEn);
             dataSource.cacheData(DataSource.DISK, CITY_INDEX, newCitysIndex);
+            groupCity();
             testWriteCity(newCitysCh);
         }
     }
@@ -309,12 +338,12 @@ public class ConfigManager {
 
     private cityListVO getCityBySanCode(String sanCode) {
         cityListVO target = null;
-        List<cityListVO> cityIndexs = citysIndex.size() > 0? citysIndex : loadLocalCityIndex();
-        if(cityIndexs != null && cityIndexs.size() > 0) {
+        List<cityListVO> cityIndexs = citysIndex.size() > 0 ? citysIndex : loadLocalCityIndex();
+        if (cityIndexs != null && cityIndexs.size() > 0) {
             cityListVO condition = new cityListVO();
             condition._SHORT_NAME = sanCode;
             int index = Collections.binarySearch(cityIndexs, condition);
-            if(index >= 0) {
+            if (index >= 0) {
                 target = cityIndexs.get(index);
             }
         }
@@ -360,6 +389,33 @@ public class ConfigManager {
             String cityO2 = TextUtils.isEmpty(o2._SHORT_NAME) ? "" : o2._SHORT_NAME.toUpperCase();
             return cityO1.compareTo(cityO2);
         });
+    }
+
+    @SuppressLint("CheckResult")
+    private void groupCity() {
+        if (citys != null && citys.size() > 0) {
+            Observable.fromIterable(citys).subscribe(cityListVO -> {
+                if (!TextUtils.isEmpty(cityListVO._PY_NAME)) {
+                    String groupTitle = String.valueOf(Character.toUpperCase(cityListVO._PY_NAME.charAt(0)));
+                    if (!indexMap.containsKey(groupTitle)) {
+                        indexMap.put(groupTitle, citys.indexOf(cityListVO));
+                    }
+                    Logger.i("groupCity---" + groupTitle);
+                }
+            });
+        }
+
+        if (citysEn != null && citysEn.size() > 0) {
+            Observable.fromIterable(citysEn).subscribe(cityListVO -> {
+                if (!TextUtils.isEmpty(cityListVO._FULLNAME_EN)) {
+                    String groupTitle = String.valueOf(Character.toUpperCase(cityListVO._FULLNAME_EN.charAt(0)));
+                    if (!indexMapEn.containsKey(groupTitle)) {
+                        indexMapEn.put(groupTitle, citysEn.indexOf(cityListVO));
+                    }
+                    Logger.i("groupCity1---" + groupTitle);
+                }
+            });
+        }
     }
 
     public void registerDataTypeObaserver(LifecycleOwner lifecycleOwner, Observer<ConfigWrapper> typeObserver) {
