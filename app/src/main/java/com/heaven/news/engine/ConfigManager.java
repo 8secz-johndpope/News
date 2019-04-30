@@ -183,7 +183,10 @@ public class ConfigManager {
         citys = loadLocalCityCh();
         citysEn = loadLocalCityEn();
         citysIndex = loadLocalCityIndex();
-        citysHot = dataSource.getCacheEntity(DataSource.DISK, CITY_HOT);
+        ArrayList<cityListVO> hotsCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_HOT);
+        if(hotsCitys != null && hotsCitys.size() > 0) {
+            citysHot = hotsCitys;
+        }
     }
 
     private void initHotCity(List<String> hotCitys) {
@@ -197,8 +200,6 @@ public class ConfigManager {
         if(citysHot != null && citysHot.size() > 0) {
             dataSource.cacheData(DataSource.DISK, CITY_HOT, citysHot);
         }
-        testWriteCity(citysIndex);
-        Logger.i(citysHot.toString());
     }
 
     public List<cityListVO> getHotCity() {
@@ -290,6 +291,7 @@ public class ConfigManager {
             dataSource.cacheData(DataSource.DISK, CITY, newCitysCh);
             dataSource.cacheData(DataSource.DISK, CITY_EN, newCitysEn);
             dataSource.cacheData(DataSource.DISK, CITY_INDEX, newCitysIndex);
+            testWriteCity(newCitysCh);
         }
     }
 
