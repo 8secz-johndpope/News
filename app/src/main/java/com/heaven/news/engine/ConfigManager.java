@@ -222,14 +222,20 @@ public class ConfigManager {
     private void requestVersion() {
         RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.VERSION_URL, VersionApi.class).getVersion(), configData -> {
             isRequestVersionFinish = true;
-            if (configData != null && configData.netCode == 0) {
-                if (configData.timestamp != null && configData.androidversionnew != null) {
-                    RxRepUtils.cancelTask(reqverTaskId);
+            if(configData != null) {
+                this.configData = configData;
+                ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
+                notifyConfigDataChange(dataWrapper);
+                if (configData.netCode == 0) {
+                    if (configData.timestamp != null && configData.androidversionnew != null) {
+                        RxRepUtils.cancelTask(reqverTaskId);
+                    }
+                    configSuccess(configData);
                 }
-                configSuccess(configData);
+            } else {
+                ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
+                notifyConfigDataChange(dataWrapper);
             }
-            ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
-            notifyConfigDataChange(dataWrapper);
             Logger.i("requestVersion" + configData.toString());
         });
     }
@@ -254,7 +260,6 @@ public class ConfigManager {
     }
 
     private void configSuccess(ConfigData configData) {
-        this.configData = configData;
         if (configData.timestamp != null) {
             refreshConfigByTimeStamp(configData.timestamp);
         }
