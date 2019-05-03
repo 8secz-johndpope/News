@@ -7,6 +7,7 @@ import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Pair;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,6 +36,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +84,8 @@ public class ConfigManager {
     private HashMap<String, Integer> indexMap = new HashMap<>();
     private HashMap<String, Integer> indexMapEn = new HashMap<>();
 
+    private int cityGroupIndexOffset = 0;
+
     ConfigManager(DataSource dataSource, Context context) {
         this.context = context;
         this.dataSource = dataSource;
@@ -99,8 +103,9 @@ public class ConfigManager {
         });
     }
 
-    public List<cityListVO> getAllCitys() {
+    public Pair<List<cityListVO>,List<String>> getAllCitys() {
         ArrayList<cityListVO> citysAll = new ArrayList<>();
+        cityGroupIndexOffset = 0;
         if (currentCity != null) {
             currentCity.groupTitle = "当前城市";
             currentCity.groupFlag = 1;
@@ -109,6 +114,8 @@ public class ConfigManager {
             currentCity.specialCitys = new ArrayList<>();
             currentCity.specialCitys.add(currentCity);
             citysAll.add(currentCity);
+            indexMap.put("当前",0);
+            cityGroupIndexOffset++;
         }
 
         if (citysOften != null && citysOften.size() > 0) {
@@ -120,6 +127,8 @@ public class ConfigManager {
             oftenCitys.isLastInGroup = true;
             oftenCitys.groupTitle = "常用城市";
             citysAll.add(oftenCitys);
+            indexMap.put("常用",1);
+            cityGroupIndexOffset++;
 
         }
 
@@ -132,13 +141,48 @@ public class ConfigManager {
             hotCitys.isLastInGroup = true;
             hotCitys.groupTitle = "热门城市";
             citysAll.add(hotCitys);
+            indexMap.put("热门",2);
+            cityGroupIndexOffset++;
         }
 
         if (citys != null && citys.size() > 0) {
             citysAll.addAll(citys);
         }
 
-        return citysAll;
+        ArrayList<String> indexNameLlist = new ArrayList<>(indexMap.keySet());
+        Collections.sort(indexNameLlist, (o1, o2) -> {
+            if (o1.equals("当前")) {
+                return -1;
+            } else if (o2.equals("当前")) {
+                return 1;
+            } else if (o1.equals("常用")) {
+                return -1;
+            } else if (o2.equals("常用")) {
+                return 1;
+            } else if (o1.equals("热门")) {
+                return -1;
+            } else if (o2.equals("热门")) {
+                return 1;
+            } else {
+                return o1.compareTo(o2);
+            }
+
+        });
+
+        return new Pair<>(citysAll,indexNameLlist);
+    }
+
+    public int getCityGroupIndex(String indexName) {
+        int index = 0;
+        if(indexMap != null && indexMap.containsKey(indexName)) {
+            index = indexMap.get(indexName);
+            if(cityGroupIndexOffset > 0) {
+                if(index > cityGroupIndexOffset) {
+                    index += cityGroupIndexOffset;
+                }
+            }
+        }
+        return index;
     }
 
     public HomeService loadHomeService(Context context) {

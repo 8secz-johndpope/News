@@ -105,12 +105,11 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         final Object item = dataItems.get(position);
         BaseMultItem binder = multTypeManager.getMultItemByType(holder.getItemViewType());
         if (binder != null) {
-            binder.onBindViewHolder(holder, item);
-
             if (onItemClickListener != null) {
                 holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, holder, item, position));
                 holder.itemView.setOnLongClickListener(v -> onItemClickListener.onItemLongClick(v, holder, item, position));
             }
+            binder.onBindViewHolder(holder, item);
         }
     }
 
@@ -120,6 +119,10 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         BaseMultItem binder = multTypeManager.getMultItemByType(holder.getItemViewType());
         holder.itemData = item;
         if (binder != null) {
+            if (onItemClickListener != null) {
+                holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, holder, item, position));
+                holder.itemView.setOnLongClickListener(v -> onItemClickListener.onItemLongClick(v, holder, item, position));
+            }
             if(payloads.isEmpty()) {
                 binder.onBindViewHolder(holder, item);
             } else {
@@ -340,5 +343,9 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         void onItemClick(View view, RecyclerView.ViewHolder holder, T t, int position);
 
         boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, T t, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+        this.onItemClickListener = itemClickListener;
     }
 }

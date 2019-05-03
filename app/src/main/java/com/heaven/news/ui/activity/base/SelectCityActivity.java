@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -16,9 +17,16 @@ import com.heaven.news.databinding.SelectCityBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.decoration.StickySectionDecoration;
+import com.heaven.news.ui.vm.holder.CityIndexItemHolder;
 import com.heaven.news.ui.vm.holder.CityItemHolder;
 import com.heaven.news.ui.vm.vmmodel.SelectCityViewModel;
 import com.neusoft.szair.model.city.cityListVO;
+import com.orhanobut.logger.Logger;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * FileName: com.heaven.news.ui.activity.base.SelectCityActivity.java
@@ -68,14 +76,37 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
         routeAdapter.register(new CityItemHolder(cityListVO.class, R.layout.city_item));
         recyclerView.setAdapter(routeAdapter);
         recyclerView.addItemDecoration(new StickySectionDecoration(this,R.color.textColor, routeAdapter::getItemData));
-        routeAdapter.updateItems(AppEngine.instance().confManager().getAllCitys());
+        Pair<List<cityListVO>,List<String>> citysIndex = AppEngine.instance().confManager().getAllCitys();
+        routeAdapter.updateItems(citysIndex.first);
+        initCityGroupIndex(citysIndex.second);
 
         mViewBinding.swipeToLoadLayout.setRefreshing(false);
         mViewBinding.swipeToLoadLayout.setLoadingMore(false);
-
         mViewBinding.swipeToLoadLayout.setRefreshEnabled(false);
         mViewBinding.swipeToLoadLayout.setLoadMoreEnabled(false);
 //        multAdapterTest();
+    }
+
+    private void initCityGroupIndex(List<String> indexCityName) {
+        if(indexCityName != null && indexCityName.size() > 0) {
+            mViewBinding.cityGroupIndexList.setLayoutManager(new LinearLayoutManager(this));
+            BaseAdapter<String> routeAdapter = new BaseAdapter<>(this);
+            mViewBinding.cityGroupIndexList.setAdapter(routeAdapter);
+            routeAdapter.register(new CityIndexItemHolder(String.class, R.layout.city_group_index_item));
+            routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<String>() {
+                @Override
+                public void onItemClick(View view, RecyclerView.ViewHolder holder, String o, int position) {
+                    Logger.i(o);
+                }
+
+                @Override
+                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, String o, int position) {
+                    return false;
+                }
+            });
+            routeAdapter.updateItems(indexCityName);
+
+        }
     }
 
     @Override
