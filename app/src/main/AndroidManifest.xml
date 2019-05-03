@@ -31,7 +31,10 @@
                   android:configChanges="orientation|keyboardHidden"
                   android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".ui.activity.base.SelectCityActivity"/>
+        <activity android:name=".ui.activity.base.SelectCityActivity"
+                  android:screenOrientation="portrait"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

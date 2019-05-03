@@ -175,11 +175,15 @@ public class ConfigManager {
     public int getCityGroupIndex(String indexName) {
         int index = 0;
         if(indexMap != null && indexMap.containsKey(indexName)) {
-            index = indexMap.get(indexName);
-            if(cityGroupIndexOffset > 0) {
-                if(index > cityGroupIndexOffset) {
-                    index += cityGroupIndexOffset;
-                }
+            if("当前".equals(indexName)) {
+                return 0;
+            } else if("常用".equals(indexName)) {
+                return 1;
+            } else if("热门".equals(indexName)) {
+                return 2;
+            } else {
+                index = indexMap.get(indexName);
+                index += cityGroupIndexOffset;
             }
         }
         return index;

@@ -3,6 +3,7 @@ package com.heaven.news.ui.activity.base;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
@@ -16,7 +17,9 @@ import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.SelectCityBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
+import com.heaven.news.ui.decoration.SmoothScrollLayoutManager;
 import com.heaven.news.ui.decoration.StickySectionDecoration;
+import com.heaven.news.ui.decoration.TopSmoothScroller;
 import com.heaven.news.ui.vm.holder.CityIndexItemHolder;
 import com.heaven.news.ui.vm.holder.CityItemHolder;
 import com.heaven.news.ui.vm.vmmodel.SelectCityViewModel;
@@ -38,7 +41,7 @@ import java.util.List;
  * @version V1.0 TODO <描述当前版本功能>
  */
 @Route(path = RouterUrl.ROUTER_URL_CITY)
-public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewModel, SelectCityBinding>  implements OnRefreshListener, OnLoadMoreListener {
+public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewModel, SelectCityBinding> implements OnRefreshListener, OnLoadMoreListener {
     Handler handler = new Handler();
 
     @Override
@@ -70,15 +73,16 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
                 }
             }
         });
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(manager);
         BaseAdapter<cityListVO> routeAdapter = new BaseAdapter<>(this);
         routeAdapter.register(new CityItemHolder(cityListVO.class, R.layout.city_item));
         recyclerView.setAdapter(routeAdapter);
-        recyclerView.addItemDecoration(new StickySectionDecoration(this,R.color.textColor, routeAdapter::getItemData));
-        Pair<List<cityListVO>,List<String>> citysIndex = AppEngine.instance().confManager().getAllCitys();
+        recyclerView.addItemDecoration(new StickySectionDecoration(this, R.color.textColor, routeAdapter::getItemData));
+        Pair<List<cityListVO>, List<String>> citysIndex = AppEngine.instance().confManager().getAllCitys();
         routeAdapter.updateItems(citysIndex.first);
-        initCityGroupIndex(citysIndex.second);
+        initCityGroupIndex(citysIndex.second,manager);
 
         mViewBinding.swipeToLoadLayout.setRefreshing(false);
         mViewBinding.swipeToLoadLayout.setLoadingMore(false);
@@ -87,15 +91,31 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
 //        multAdapterTest();
     }
 
-    private void initCityGroupIndex(List<String> indexCityName) {
-        if(indexCityName != null && indexCityName.size() > 0) {
-            mViewBinding.cityGroupIndexList.setLayoutManager(new LinearLayoutManager(this));
+    private void initCityGroupIndex(List<String> indexCityName,LinearLayoutManager nameIndexManager) {
+        if (indexCityName != null && indexCityName.size() > 0) {
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mViewBinding.cityGroupIndexList.setLayoutManager(manager);
             BaseAdapter<String> routeAdapter = new BaseAdapter<>(this);
+            mViewBinding.cityGroupIndexList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    Logger.i("onScrollStateChanged--" + newState);
+                }
+
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    Logger.i("onScrolled--" + dx + "dy:" + dy);
+                }
+            });
             mViewBinding.cityGroupIndexList.setAdapter(routeAdapter);
             routeAdapter.register(new CityIndexItemHolder(String.class, R.layout.city_group_index_item));
             routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<String>() {
                 @Override
                 public void onItemClick(View view, RecyclerView.ViewHolder holder, String o, int position) {
+                    int index = AppEngine.instance().confManager().getCityGroupIndex(o);
+                    nameIndexManager.scrollToPositionWithOffset(index, 0);
                     Logger.i(o);
                 }
 
