@@ -96,14 +96,14 @@ public class ConfigManager {
         requestVersion();
         requestConfig();
         dataSource.runWorkThread(() -> {
+            initLocalCity();
             loadHomeService(context);
             loadEasyGoService(context);
             loadPhoenixService(context);
-            initLocalCity();
         });
     }
 
-    public Pair<List<cityListVO>,List<String>> getAllCitys() {
+    public Pair<List<cityListVO>, List<String>> getAllCitys() {
         ArrayList<cityListVO> citysAll = new ArrayList<>();
         cityGroupIndexOffset = 0;
         if (currentCity != null) {
@@ -114,7 +114,7 @@ public class ConfigManager {
             currentCity.specialCitys = new ArrayList<>();
             currentCity.specialCitys.add(currentCity);
             citysAll.add(currentCity);
-            indexMap.put("当前",0);
+            indexMap.put("当前", 0);
             cityGroupIndexOffset++;
         }
 
@@ -127,7 +127,7 @@ public class ConfigManager {
             oftenCitys.isLastInGroup = true;
             oftenCitys.groupTitle = "常用城市";
             citysAll.add(oftenCitys);
-            indexMap.put("常用",1);
+            indexMap.put("常用", 1);
             cityGroupIndexOffset++;
 
         }
@@ -141,7 +141,7 @@ public class ConfigManager {
             hotCitys.isLastInGroup = true;
             hotCitys.groupTitle = "热门城市";
             citysAll.add(hotCitys);
-            indexMap.put("热门",2);
+            indexMap.put("热门", 2);
             cityGroupIndexOffset++;
         }
 
@@ -169,17 +169,17 @@ public class ConfigManager {
 
         });
 
-        return new Pair<>(citysAll,indexNameLlist);
+        return new Pair<>(citysAll, indexNameLlist);
     }
 
     public int getCityGroupIndex(String indexName) {
         int index = 0;
-        if(indexMap != null && indexMap.containsKey(indexName)) {
-            if("当前".equals(indexName)) {
+        if (indexMap != null && indexMap.containsKey(indexName)) {
+            if ("当前".equals(indexName)) {
                 return 0;
-            } else if("常用".equals(indexName)) {
+            } else if ("常用".equals(indexName)) {
                 return 1;
-            } else if("热门".equals(indexName)) {
+            } else if ("热门".equals(indexName)) {
                 return 2;
             } else {
                 index = indexMap.get(indexName);
@@ -283,24 +283,26 @@ public class ConfigManager {
 
 
     private void initLocalCity() {
-        currentCity = dataSource.getCacheEntity(DataSource.DISK, CITY_CURRENT);
-        if (currentCity == null) {
-            currentCity = getCityBySanCode("SZX");
-        }
-        citys = loadLocalCityCh();
-        citysEn = loadLocalCityEn();
-        citysIndex = loadLocalCityIndex();
-        List<cityListVO> hotsCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_HOT);
-        if (hotsCitys != null && hotsCitys.size() > 0) {
-            citysHot = hotsCitys;
-        }
+        synchronized (lock) {
+            currentCity = dataSource.getCacheEntity(DataSource.DISK, CITY_CURRENT);
+            if (currentCity == null) {
+                currentCity = getCityBySanCode("SZX");
+            }
+            citys = loadLocalCityCh();
+            citysEn = loadLocalCityEn();
+            citysIndex = loadLocalCityIndex();
+            List<cityListVO> hotsCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_HOT);
+            if (hotsCitys != null && hotsCitys.size() > 0) {
+                citysHot = hotsCitys;
+            }
 
-        List<cityListVO> oftenCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_OFTEN);
-        if (oftenCitys != null && oftenCitys.size() > 0) {
-            citysOften = oftenCitys;
+            List<cityListVO> oftenCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_OFTEN);
+            if (oftenCitys != null && oftenCitys.size() > 0) {
+                citysOften = oftenCitys;
+            }
+            groupCity();
+            cacheData();
         }
-        groupCity();
-        cacheData();
     }
 
     private void cacheData() {
@@ -319,7 +321,7 @@ public class ConfigManager {
 
     private void initHotCity(List<String> hotCitys) {
         synchronized (lock) {
-            citysHot = new ArrayList<>();
+            citysHot.clear();
             for (String sanCode : hotCitys) {
                 cityListVO hotCity = getCityBySanCode(sanCode);
                 if (hotCity != null) {
@@ -396,7 +398,7 @@ public class ConfigManager {
                 ArrayList<cityListVO> existList = new ArrayList<>();
                 Flowable.fromIterable(citysOften).filter(cityListVO -> !TextUtils.isEmpty(cityOften._SHORT_NAME) && cityOften._SHORT_NAME.equals(cityListVO._SHORT_NAME)).subscribe(existList::add);
 
-                if(existList.size() > 0) {
+                if (existList.size() > 0) {
                     citysOften.removeAll(existList);
                 }
 
