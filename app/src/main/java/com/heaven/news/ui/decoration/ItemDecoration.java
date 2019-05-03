@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.heaven.news.ui.vm.holder;
+package com.heaven.news.ui.decoration;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

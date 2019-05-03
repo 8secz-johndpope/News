@@ -2,7 +2,6 @@ package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -13,9 +12,8 @@ import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.ui.decoration.StickySectionDecoration;
+import com.heaven.news.ui.decoration.ItemDecoration;
 import com.neusoft.szair.model.city.cityListVO;
-import com.neusoft.szair.model.fullchannel.fullchannelVO;
 
 /**
  * FileName: com.heaven.news.ui.vm.holder.RouteItemHolder.java
@@ -40,7 +38,7 @@ public class CityItemHolder extends BaseMultItem<cityListVO> {
             normal.setVisibility(View.GONE);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(holder.context, 3);
             specialRecycler.setLayoutManager(gridLayoutManager);
-            specialRecycler.addItemDecoration(new ItemDecoration(ScreenUtil.dip2px(holder.context, 5)));
+//            specialRecycler.addItemDecoration(new ItemDecoration(ScreenUtil.dip2px(holder.context, 5)));
             BaseAdapter<cityListVO> routeAdapter = new BaseAdapter<>(holder.context);
             routeAdapter.register(new CitySpecialItemHolder(cityListVO.class, R.layout.city_special_item));
             specialRecycler.setAdapter(routeAdapter);
