@@ -13,6 +13,7 @@ import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.decoration.ItemDecoration;
+import com.heaven.news.ui.decoration.ItemSpecialCityDecoration;
 import com.neusoft.szair.model.city.cityListVO;
 
 /**
@@ -24,6 +25,8 @@ import com.neusoft.szair.model.city.cityListVO;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class CityItemHolder extends BaseMultItem<cityListVO> {
+    ItemSpecialCityDecoration decoration = null;
+    GridLayoutManager gridLayoutManager = null;
 
     public CityItemHolder(@NonNull Class<cityListVO> modelBean, int itemLayoutId) {
         super(modelBean, itemLayoutId);
@@ -31,25 +34,31 @@ public class CityItemHolder extends BaseMultItem<cityListVO> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull cityListVO city) {
-        RecyclerView specialRecycler =  holder.getView(R.id.special_citys);
-        TextView normal =  holder.getView(R.id.city_name);
-        if(city.groupFlag == 2 || city.groupFlag == 3) {
+        RecyclerView specialRecycler = holder.getView(R.id.special_citys);
+        TextView normal = holder.getView(R.id.city_name);
+        if (city.groupFlag == 2 || city.groupFlag == 3) {
             specialRecycler.setVisibility(View.VISIBLE);
             normal.setVisibility(View.GONE);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(holder.context, 3);
-            specialRecycler.setLayoutManager(gridLayoutManager);
-//            specialRecycler.addItemDecoration(new ItemDecoration(ScreenUtil.dip2px(holder.context, 5)));
+            specialRecycler.setLayoutManager(new GridLayoutManager(holder.context, 3));
+
+            if (decoration == null) {
+                decoration = new ItemSpecialCityDecoration(3, ScreenUtil.dip2px(holder.context, 5));
+                specialRecycler.addItemDecoration(decoration);
+            } else {
+                specialRecycler.removeItemDecoration(decoration);
+                specialRecycler.addItemDecoration(decoration);
+            }
             BaseAdapter<cityListVO> routeAdapter = new BaseAdapter<>(holder.context);
             routeAdapter.register(new CitySpecialItemHolder(cityListVO.class, R.layout.city_special_item));
             specialRecycler.setAdapter(routeAdapter);
-            if(city.specialCitys != null) {
+            if (city.specialCitys != null) {
                 routeAdapter.updateItems(city.specialCitys);
             }
 
-        }else {
+        } else {
             specialRecycler.setVisibility(View.GONE);
             normal.setVisibility(View.VISIBLE);
-            holder.setText(R.id.city_name,city._FULL_NAME);
+            holder.setText(R.id.city_name, city._FULL_NAME);
             holder.setOnClickListener(R.id.city_name, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -61,7 +70,7 @@ public class CityItemHolder extends BaseMultItem<cityListVO> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull cityListVO city, Object payload) {
-        holder.setText(R.id.city_name,city._FULL_NAME);
+        holder.setText(R.id.city_name, city._FULL_NAME);
     }
 
 }

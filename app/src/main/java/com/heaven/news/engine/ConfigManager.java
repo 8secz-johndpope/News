@@ -268,7 +268,7 @@ public class ConfigManager {
     }
 
     private void initHotCity(List<String> hotCitys) {
-        citysHot.clear();
+        citysHot = new ArrayList<>();
         for (String sanCode : hotCitys) {
             cityListVO hotCity = getCityBySanCode(sanCode);
             if (hotCity != null) {

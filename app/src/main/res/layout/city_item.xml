@@ -9,8 +9,11 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/special_citys"
+        android:layout_marginRight="@dimen/_100dp"
         android:layout_marginLeft="@dimen/_15dp"
+        android:paddingTop="@dimen/_15dp"
+        android:paddingBottom="@dimen/_15dp"
+        android:id="@+id/special_citys"
         />
 
     <TextView
@@ -18,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/_15dp"
-        android:paddingRight="@dimen/_15dp"
         android:paddingTop="@dimen/_10dp"
         android:paddingBottom="@dimen/_10dp"
         android:background="@color/white"

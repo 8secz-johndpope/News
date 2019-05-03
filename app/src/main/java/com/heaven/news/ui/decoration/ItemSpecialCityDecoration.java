@@ -26,21 +26,30 @@ import android.view.View;
 public class ItemSpecialCityDecoration extends RecyclerView.ItemDecoration {
 
     private int space;
-
-    public ItemSpecialCityDecoration(int space) {
+    private int spanCount;
+    public ItemSpecialCityDecoration(int spanCount,int space) {
         this.space = space;
+        this.spanCount = spanCount;
     }
 
 
     @Override
     public void getItemOffsets(
             Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-//        int position = parent.getChildLayoutPosition(view);
-//        if (spanSizeLookup.getSpanSize(position) < 4) {
-        outRect.top = space;
-        outRect.left = space;
-        outRect.right = space;
-        outRect.bottom = space;
-//        }
+
+        int position = parent.getChildAdapterPosition(view);
+        if (position >= 0) {
+            int row = position / spanCount;
+            int column = position % spanCount; // item column
+            if(row == 0 || row == 2) {
+                outRect.top = 0;
+                outRect.bottom = 0;
+                outRect.right = space;
+            } else {
+                outRect.top = space;
+                outRect.bottom = space;
+                outRect.right = space;
+            }
+        }
     }
 }
