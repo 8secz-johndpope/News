@@ -11,8 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/_100dp"
         android:layout_marginLeft="@dimen/_15dp"
-        android:paddingTop="@dimen/_15dp"
-        android:paddingBottom="@dimen/_15dp"
         android:id="@+id/special_citys"
         />
 

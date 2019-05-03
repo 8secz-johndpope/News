@@ -270,15 +270,17 @@ public class ConfigManager {
     }
 
     private void initHotCity(List<String> hotCitys) {
-        citysHot = new ArrayList<>();
-        for (String sanCode : hotCitys) {
-            cityListVO hotCity = getCityBySanCode(sanCode);
-            if (hotCity != null) {
-                citysHot.add(hotCity);
+        synchronized (lock) {
+            citysHot = new ArrayList<>();
+            for (String sanCode : hotCitys) {
+                cityListVO hotCity = getCityBySanCode(sanCode);
+                if (hotCity != null) {
+                    citysHot.add(hotCity);
+                }
             }
-        }
-        if (citysHot != null && citysHot.size() > 0) {
-            dataSource.cacheData(DataSource.DISK, CITY_HOT, citysHot);
+            if (citysHot != null && citysHot.size() > 0) {
+                dataSource.cacheData(DataSource.DISK, CITY_HOT, citysHot);
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextPaint;
@@ -43,6 +44,8 @@ public class StickySectionDecoration extends RecyclerView.ItemDecoration {
         mHeaderHeight = (int) Math.max(mHeaderHeight,mTextSize);
 
         mTextPaint = new TextPaint();
+        mTextPaint.setTextAlign(Paint.Align.LEFT);
+        mTextPaint.setStyle(Paint.Style.FILL);
         mTextPaint.setColor(context.getResources().getColor(dividerColor));
         mTextPaint.setTextSize(mTextSize);
         mFontMetrics = mTextPaint.getFontMetrics();
@@ -134,15 +137,22 @@ public class StickySectionDecoration extends RecyclerView.ItemDecoration {
     }
 
     private void drawHeaderRect(Canvas c, cityListVO groupinfo, int left, int top, int right, int bottom) {
+        RectF rectF = new RectF(left,top,right,bottom);
         //绘制Header
-        c.drawRect(left,top,right,bottom,mPaint);
-
+        c.drawRect(rectF,mPaint);
         float titleX =  left + mTextOffsetX;
-        float titleY =  bottom - mFontMetrics.descent;
-        //绘制Title
+        float distance=(mFontMetrics.bottom - mFontMetrics.top)/2 - mFontMetrics.bottom;
+        float baseline=rectF.centerY()+distance;
         if(!TextUtils.isEmpty(groupinfo.groupTitle)) {
-            c.drawText(groupinfo.groupTitle,titleX,titleY,mTextPaint);
+            c.drawText(groupinfo.groupTitle, titleX, baseline, mTextPaint);
         }
+
+//        float titleX =  left + mTextOffsetX;
+//        float titleY =  bottom - mFontMetrics.descent;
+//        //绘制Title
+//        if(!TextUtils.isEmpty(groupinfo.groupTitle)) {
+//            c.drawText(groupinfo.groupTitle,titleX,titleY,mTextPaint);
+//        }
     }
 
     public GroupInfoCallback getCallback() {
