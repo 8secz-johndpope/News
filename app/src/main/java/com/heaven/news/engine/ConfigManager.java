@@ -99,7 +99,7 @@ public class ConfigManager {
         });
     }
 
-    public List getAllCitys() {
+    public List<cityListVO> getAllCitys() {
         ArrayList<cityListVO> citysAll = new ArrayList<>();
         if (currentCity != null) {
             currentCity.groupTitle = "当前城市";
@@ -341,11 +341,13 @@ public class ConfigManager {
             if (citysOften.size() == 0) {
                 citysOften.add(0, cityOften);
             } else {
-                AtomicBoolean isContain = new AtomicBoolean(false);
-                Flowable.fromIterable(citysOften).filter(cityListVO -> !TextUtils.isEmpty(cityOften._SHORT_NAME) && cityOften._SHORT_NAME.equals(cityListVO._SHORT_NAME)).subscribe(cityListVO -> {
-                    isContain.set(true);
-                    citysOften.remove(cityListVO);
-                });
+                ArrayList<cityListVO> existList = new ArrayList<>();
+                Flowable.fromIterable(citysOften).filter(cityListVO -> !TextUtils.isEmpty(cityOften._SHORT_NAME) && cityOften._SHORT_NAME.equals(cityListVO._SHORT_NAME)).subscribe(existList::add);
+
+                if(existList.size() > 0) {
+                    citysOften.removeAll(existList);
+                }
+
                 if (citysOften.size() < 9) {
                     citysOften.add(0, cityOften);
                 } else {
@@ -522,7 +524,7 @@ public class ConfigManager {
         }
     }
 
-    public void removeForeverObserve(Observer<ConfigWrapper> typeObserver) {
+    void removeForeverObserve(Observer<ConfigWrapper> typeObserver) {
         Object object = observers.remove(typeObserver);
         Logger.i("ConfigManager----removeForeverObserve--" + object);
     }

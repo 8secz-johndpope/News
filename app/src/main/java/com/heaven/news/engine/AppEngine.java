@@ -41,6 +41,8 @@ import java.util.Stack;
 import javax.inject.Inject;
 
 import dagger.Lazy;
+import io.reactivex.functions.Consumer;
+import io.reactivex.plugins.RxJavaPlugins;
 
 /**
  * 作者:Heaven.
@@ -101,6 +103,13 @@ public final class AppEngine {
      */
     private void init() {
         store = new Stack<>();
+        RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) {
+                //异常处理
+                Logger.i(throwable.getMessage() + " ");
+            }
+        });
         initDi();
         initDayNightTheme();
 //        //启动后台服务

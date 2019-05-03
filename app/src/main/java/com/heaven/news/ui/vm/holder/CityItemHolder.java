@@ -1,12 +1,18 @@
 package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
+import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.news.R;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.ui.decoration.StickySectionDecoration;
 import com.neusoft.szair.model.city.cityListVO;
 import com.neusoft.szair.model.fullchannel.fullchannelVO;
 
@@ -26,13 +32,31 @@ public class CityItemHolder extends BaseMultItem<cityListVO> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull cityListVO city) {
-        holder.setText(R.id.city_name,city._FULL_NAME);
-        holder.setOnClickListener(R.id.city_name, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppEngine.instance().confManager().saveCityOften(city);
+        RecyclerView specialRecycler =  holder.getView(R.id.special_citys);
+        TextView normal =  holder.getView(R.id.city_name);
+        if(city.groupFlag == 2 || city.groupFlag == 3) {
+            specialRecycler.setVisibility(View.VISIBLE);
+            normal.setVisibility(View.GONE);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(holder.context, 3);
+            specialRecycler.setLayoutManager(gridLayoutManager);
+            BaseAdapter<cityListVO> routeAdapter = new BaseAdapter<>(holder.context);
+            routeAdapter.register(new CityItemHolder(cityListVO.class, R.layout.city_item));
+            specialRecycler.setAdapter(routeAdapter);
+            if(city.specialCitys != null) {
+                routeAdapter.updateItems(city.specialCitys);
             }
-        });
+
+        }else {
+            specialRecycler.setVisibility(View.GONE);
+            normal.setVisibility(View.VISIBLE);
+            holder.setText(R.id.city_name,city._FULL_NAME);
+            holder.setOnClickListener(R.id.city_name, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AppEngine.instance().confManager().saveCityOften(city);
+                }
+            });
+        }
     }
 
     @Override
