@@ -8,9 +8,6 @@
 
     <style name="AnimFade" parent="@android:style/Animation.Translucent">   
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
-        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_left</item>   
-        <item name="android:windowEnterAnimation">@anim/slide_in_from_right</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_to_left</item>
     </style>
 
     <style name="FullBleedTheme" parent="android:Theme.Holo.Light.NoActionBar.TranslucentDecor">

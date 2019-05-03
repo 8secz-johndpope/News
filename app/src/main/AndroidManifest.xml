@@ -27,6 +27,7 @@
         <activity android:name=".ui.activity.base.LoginActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.base.AdActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.base.MainActivity"
+                  android:theme="@style/WelcomTheme"
                   android:screenOrientation="portrait"
                   android:configChanges="orientation|keyboardHidden"
                   android:windowSoftInputMode="adjustPan">
