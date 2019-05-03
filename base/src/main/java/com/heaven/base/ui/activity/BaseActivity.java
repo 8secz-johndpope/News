@@ -49,7 +49,6 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
             mViewBinding = DataBindingUtil.bind(mainView);
             rootView.addView(mainView);
             this.makeContentView(rootView);
-            getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
             initView(rootView);
         }
         ARouter.getInstance().inject(this);
@@ -128,7 +127,6 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
 
     public void reload() {
         AppCompatDelegate.setDefaultNightMode(SpUtil.isNight() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-        getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
         recreate();
     }
 
