@@ -6,13 +6,6 @@
 
     >
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/_100dp"
-        android:id="@+id/special_citys"
-        />
-
     <TextView
         android:id="@+id/city_name"
         android:layout_width="match_parent"
@@ -22,5 +15,7 @@
         android:paddingTop="@dimen/_10dp"
         android:paddingBottom="@dimen/_10dp"
         android:background="@color/white"
+        android:gravity="center"
+        android:layout_centerInParent="true"
         />
 </RelativeLayout>

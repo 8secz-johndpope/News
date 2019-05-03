@@ -11,6 +11,7 @@ import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.view.rlview.OnLoadMoreListener;
 import com.heaven.base.ui.view.rlview.OnRefreshListener;
+import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.SelectCityBinding;
@@ -20,6 +21,7 @@ import com.heaven.news.ui.decoration.RouteTimeDecorationn;
 import com.heaven.news.ui.decoration.StickySectionDecoration;
 import com.heaven.news.ui.view.RecyclerViewDivider;
 import com.heaven.news.ui.vm.holder.CityItemHolder;
+import com.heaven.news.ui.vm.holder.ItemDecoration;
 import com.heaven.news.ui.vm.vmmodel.SelectCityViewModel;
 import com.neusoft.szair.model.city.cityListVO;
 
