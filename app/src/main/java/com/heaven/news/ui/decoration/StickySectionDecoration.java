@@ -33,7 +33,7 @@ public class StickySectionDecoration extends RecyclerView.ItemDecoration {
 
     private float mTextOffsetX;
 
-    public StickySectionDecoration(Context context, GroupInfoCallback callback) {
+    public StickySectionDecoration(Context context, int dividerColor, GroupInfoCallback callback) {
         this.mCallback = callback;
         mDividerHeight = context.getResources().getDimensionPixelOffset(R.dimen.header_divider_height);
         mHeaderHeight = context.getResources().getDimensionPixelOffset(R.dimen.header_height);
@@ -42,13 +42,13 @@ public class StickySectionDecoration extends RecyclerView.ItemDecoration {
         mHeaderHeight = (int) Math.max(mHeaderHeight,mTextSize);
 
         mTextPaint = new TextPaint();
-        mTextPaint.setColor(Color.BLACK);
+        mTextPaint.setColor(context.getResources().getColor(dividerColor));
         mTextPaint.setTextSize(mTextSize);
         mFontMetrics = mTextPaint.getFontMetrics();
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setColor(Color.YELLOW);
+        mPaint.setColor(Color.TRANSPARENT);
 
     }
 

@@ -36,7 +36,7 @@ public class CityItemHolder extends BaseMultItem<cityListVO> {
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull cityListVO city) {
         RecyclerView specialRecycler = holder.getView(R.id.special_citys);
         TextView normal = holder.getView(R.id.city_name);
-        if (city.groupFlag == 2 || city.groupFlag == 3) {
+        if (city.groupFlag == 1 || city.groupFlag == 2 || city.groupFlag == 3) {
             specialRecycler.setVisibility(View.VISIBLE);
             normal.setVisibility(View.GONE);
             specialRecycler.setLayoutManager(new GridLayoutManager(holder.context, 3));

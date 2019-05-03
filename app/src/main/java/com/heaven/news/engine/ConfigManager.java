@@ -106,6 +106,8 @@ public class ConfigManager {
             currentCity.groupFlag = 1;
             currentCity.isFirstInGroup = true;
             currentCity.isLastInGroup = true;
+            currentCity.specialCitys = new ArrayList<>();
+            currentCity.specialCitys.add(currentCity);
             citysAll.add(currentCity);
         }
 

@@ -67,12 +67,7 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
         BaseAdapter<cityListVO> routeAdapter = new BaseAdapter<>(this);
         routeAdapter.register(new CityItemHolder(cityListVO.class, R.layout.city_item));
         recyclerView.setAdapter(routeAdapter);
-        recyclerView.addItemDecoration(new StickySectionDecoration(this, new StickySectionDecoration.GroupInfoCallback() {
-            @Override
-            public cityListVO getGroupInfo(int position) {
-                return routeAdapter.getItemData(position);
-            }
-        }));
+        recyclerView.addItemDecoration(new StickySectionDecoration(this,R.color.textColor, routeAdapter::getItemData));
         routeAdapter.updateItems(AppEngine.instance().confManager().getAllCitys());
 
         mViewBinding.swipeToLoadLayout.setRefreshing(false);
