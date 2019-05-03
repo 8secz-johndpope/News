@@ -96,19 +96,6 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
             LinearLayoutManager manager = new LinearLayoutManager(this);
             mViewBinding.cityGroupIndexList.setLayoutManager(manager);
             BaseAdapter<String> routeAdapter = new BaseAdapter<>(this);
-            mViewBinding.cityGroupIndexList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-                    Logger.i("onScrollStateChanged--" + newState);
-                }
-
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    Logger.i("onScrolled--" + dx + "dy:" + dy);
-                }
-            });
             mViewBinding.cityGroupIndexList.setAdapter(routeAdapter);
             routeAdapter.register(new CityIndexItemHolder(String.class, R.layout.city_group_index_item));
             routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<String>() {
