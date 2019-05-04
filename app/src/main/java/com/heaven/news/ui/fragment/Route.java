@@ -93,7 +93,7 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
                     } else {
                         routeAdapter.updateBatch(fullchannelVOS, true);
                     }
-                } else {
+                } else if(mViewBinding.swipeToLoadLayout.isLoadingMore()) {
                     routeAdapter.updateBatch(fullchannelVOS, false);
                     if(routeAdapter.getItemCount() > 0) {
 //                        recyclerView.smoothScrollToPosition(routeAdapter.getItemCount()-1);
