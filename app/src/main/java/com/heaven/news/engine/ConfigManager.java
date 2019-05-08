@@ -64,6 +64,8 @@ public class ConfigManager {
     public static String CITY_OFTEN = "city_often";
     public static String CITY_HOT = "city_hot";
     public static String CITY_INDEX = "city_index";
+    SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy年MM月");
+
 
     private final Object lock = new Object();
 
@@ -86,6 +88,7 @@ public class ConfigManager {
     private HashMap<String, Integer> indexMap = new HashMap<>();
     private HashMap<String, Integer> indexMapEn = new HashMap<>();
     private ArrayList<Month> calendars = new ArrayList<>();
+    private ArrayList calendarsAll = new ArrayList();
 
     private int cityGroupIndexOffset = 0;
 
@@ -108,60 +111,17 @@ public class ConfigManager {
 
 
     public ArrayList loadCalendar() {
-        ArrayList calendarArrayList = new ArrayList();
-//        if(calendars.size() == 0) {
+        if (calendarsAll.size() == 0) {
             initCalendar(context);
-//        } else {
-//            Date d = new Date();
-//            Calendar mCurrentDate = new Calendar();
-//            mCurrentDate.setYear(CalendarUtil.getDate("yyyy", d));
-//            mCurrentDate.setMonth(CalendarUtil.getDate("MM", d));
-//            mCurrentDate.setDay(CalendarUtil.getDate("dd", d));
-//            if(mCurrentDate.compareTo(calendars.get(0)) > 0) {
-//                ArrayList<Calendar> oldCalendars = new ArrayList<>();
-//                for(Calendar calendar : calendars) {
-//                    if(mCurrentDate.compareTo(calendars.get(0)) > 0) {
-//                        oldCalendars.add(calendar);
-//                    } else if(mCurrentDate.compareTo(calendars.get(0)) == 0) {
-//                        break;
-//                    }
-//                }
-//                calendars.removeAll(oldCalendars);
-//                if(calendars.size() > 0) {
-//                    java.util.Calendar month = java.util.Calendar.getInstance();
-//                    Calendar currentCalendar = calendars.get(calendars.size() - 1);
-//                    month.set(currentCalendar.getYear(),currentCalendar.getMonth(),1);
-//                    SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy年MM月");
-//                    for(int count = 0; count <= oldCalendars.size(); count++) {
-//                        month.add(java.util.Calendar.MONTH, count);
-//                        Date date = month.getTime();
-//                        Calendar calendarTitle = new Calendar();
-//                        calendarTitle.isTitle = true;
-//                        calendarTitle.groupTitle = monthFormat.format(date);
-//                        calendarTitle.setYear(CalendarUtil.getDate("yyyy", date));
-//                        calendarTitle.setMonth(CalendarUtil.getDate("MM", date));
-//                        calendarTitle.setDay(0);
-//                        calendarTitle.setDaysInMounth(new ArrayList<>());
-//                        calendarTitle.getDaysInMounth().addAll(CalendarUtil.initCalendarForMonthView(calendarTitle.getYear(),calendarTitle.getMonth(),mCurrentDate,1));
-//                        calendars.add(calendarTitle);
-//                    }
-//
-//                } else {
-//                    initCalendar(context);
-//                }
-//            }
-//        }
-
-        for(Month month : calendars) {
-            calendarArrayList.add(month);
-            calendarArrayList.addAll(month.days);
         }
-        return calendarArrayList;
+
+        return calendarsAll;
     }
 
 
     private void initCalendar(Context context) {
         calendars.clear();
+        calendarsAll.clear();
         LunarCalendar.init(context);
         Date d = new Date();
         Calendar mCurrentDate = new Calendar();
@@ -170,41 +130,30 @@ public class ConfigManager {
         mCurrentDate.setDay(CalendarUtil.getDate("dd", d));
         LunarCalendar.setupLunarCalendar(mCurrentDate);
 
-        SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy年MM月");
 
         java.util.Calendar startCal = java.util.Calendar.getInstance();     //开始年月
-        java.util.Calendar endCal = java.util.Calendar.getInstance();   //终止年月
         //开始日期设为月的第一天，结束日期设为最后一天
         startCal.set(java.util.Calendar.DAY_OF_MONTH, 1);
-        endCal.add(java.util.Calendar.MONTH, 1);
-        endCal.set(java.util.Calendar.DAY_OF_MONTH, 1);
-        endCal.add(java.util.Calendar.DATE, -1);
-        endCal.add(java.util.Calendar.MONTH, 11);
 
-        int totalMouth = (endCal.get(java.util.Calendar.YEAR) - startCal.get(java.util.Calendar.YEAR)) * 12
-                + (endCal.get(java.util.Calendar.MONTH) - startCal.get(java.util.Calendar.MONTH)) + 1;
-
-        for(int position = 0; position < totalMouth; position++) {
-            java.util.Calendar month = java.util.Calendar.getInstance();
+        java.util.Calendar month = java.util.Calendar.getInstance();
+        for (int position = 0; position < 12; position++) {
             month.setTime(startCal.getTime());
             month.add(java.util.Calendar.MONTH, position);
-            month.set(java.util.Calendar.DAY_OF_MONTH, 1);
-            month.set(java.util.Calendar.HOUR_OF_DAY, 0);
-            month.set(java.util.Calendar.MINUTE, 0);
-            month.set(java.util.Calendar.SECOND, 0);
-            month.set(java.util.Calendar.MILLISECOND, 0);
-
-
-
-            Date date = month.getTime();
-            Month calendarTitle = new Month();
-            calendarTitle.title = monthFormat.format(date);
-            calendarTitle.year = (CalendarUtil.getDate("yyyy", date));
-            calendarTitle.month = (CalendarUtil.getDate("MM", date));
-            calendarTitle.addDayInMonth(CalendarUtil.initCalendarForMonthView(calendarTitle.year,calendarTitle.month,mCurrentDate,1));
-            Logger.i("initCalendar--" + calendarTitle.title);
-            calendars.add(calendarTitle);
+            createMonthData(month,mCurrentDate);
         }
+    }
+
+    private void createMonthData(java.util.Calendar month,Calendar currentDate) {
+        Date date = month.getTime();
+        Month calendarTitle = new Month();
+        calendarTitle.title = monthFormat.format(date);
+        calendarTitle.year = (CalendarUtil.getDate("yyyy", date));
+        calendarTitle.month = (CalendarUtil.getDate("MM", date));
+        calendarTitle.addDayInMonth(CalendarUtil.initCalendarForMonthView(calendarTitle.year, calendarTitle.month, currentDate, 1));
+        calendars.add(calendarTitle);
+        calendarsAll.add(calendarTitle);
+        calendarsAll.addAll(calendarTitle.days);
+        Logger.i("initCalendar--" + calendarTitle.title );
     }
 
     public Pair<List<cityListVO>, List<String>> getAllCitys() {
@@ -326,7 +275,7 @@ public class ConfigManager {
     private void requestVersion() {
         RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.VERSION_URL, VersionApi.class).getVersion(), configData -> {
             isRequestVersionFinish = true;
-            if(configData != null) {
+            if (configData != null) {
                 this.configData = configData;
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
                 notifyConfigDataChange(dataWrapper);

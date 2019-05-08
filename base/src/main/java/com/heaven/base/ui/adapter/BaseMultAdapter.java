@@ -266,6 +266,10 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     }
 
+    public void setAnimationEnable(boolean isEnable) {
+        openAnimationEnable = isEnable;
+    }
+
     /**
      * add animation when you want to show time
      *

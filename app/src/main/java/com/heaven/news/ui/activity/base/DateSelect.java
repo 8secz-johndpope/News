@@ -71,13 +71,14 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
         });
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 7);
         mViewBinding.swipeTarget.setLayoutManager(gridLayoutManager);
-        BaseMultAdapter routeAdapter = new BaseMultAdapter(this);
+        BaseMultAdapter routeAdapter = new BaseMultAdapter(this,AppEngine.instance().confManager().loadCalendar());
+        routeAdapter.setAnimationEnable(false);
         routeAdapter.register(new CalendarTitleItemHolder(Month.class, R.layout.calendar_title_item));
         routeAdapter.register(new CalendarItemHolder(Calendar.class, R.layout.calendar_item));
         mViewBinding.swipeTarget.setAdapter(routeAdapter);
 
-        List calendars = AppEngine.instance().confManager().loadCalendar();
-        routeAdapter.updateItems(calendars);
+//        List calendars = AppEngine.instance().confManager().loadCalendar();
+//        routeAdapter.updateItems(calendars);
 
     }
 
