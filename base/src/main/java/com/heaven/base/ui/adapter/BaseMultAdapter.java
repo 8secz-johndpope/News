@@ -101,6 +101,7 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             viewHolder.multItem = multItem;
         }
         viewHolder.multAdapter = this;
+        Logger.i("onCreateViewHolder--");
         return viewHolder;
     }
 

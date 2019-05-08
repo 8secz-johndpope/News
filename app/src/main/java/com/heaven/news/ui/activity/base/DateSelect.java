@@ -1,6 +1,8 @@
 package com.heaven.news.ui.activity.base;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,7 +51,7 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        initCityView();
+        new Handler().postDelayed(this::initCityView,50);
     }
 
     @Override
@@ -63,9 +65,9 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                    if (!ViewCompat.canScrollVertically(recyclerView, 1)) {
+                    if (!ViewCompat.canScrollVertically(recyclerView, 1)) {
 //                        mViewBinding.swipeToLoadLayout.setLoadingMore(true);
-//                    }
+                    }
                 }
             }
         });
@@ -76,10 +78,6 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
         routeAdapter.register(new CalendarTitleItemHolder(Month.class, R.layout.calendar_title_item));
         routeAdapter.register(new CalendarItemHolder(Calendar.class, R.layout.calendar_item));
         mViewBinding.swipeTarget.setAdapter(routeAdapter);
-
-//        List calendars = AppEngine.instance().confManager().loadCalendar();
-//        routeAdapter.updateItems(calendars);
-
     }
 
     @Override

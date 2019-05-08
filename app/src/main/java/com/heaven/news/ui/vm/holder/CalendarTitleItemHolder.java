@@ -39,4 +39,9 @@ public class CalendarTitleItemHolder extends BaseMultItem<Month> {
     public int getSpanSize(int spanCount) {
         return 7;
     }
+
+    @Override
+    public int getMaxRecycleCount() {
+        return 10;
+    }
 }
