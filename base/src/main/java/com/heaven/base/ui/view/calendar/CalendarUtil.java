@@ -668,6 +668,9 @@ public final class CalendarUtil {
         int nextDay = 1;
         for (int i = 0; i < size; i++) {
             Calendar calendarDate = new Calendar();
+            if(i == size-1) {
+                calendarDate.isLastInGroup = true;
+            }
             if (i < mPreDiff) {
                 calendarDate.setYear(preYear);
                 calendarDate.setMonth(preMonth);
@@ -692,7 +695,6 @@ public final class CalendarUtil {
             LunarCalendar.setupLunarCalendar(calendarDate);
             mItems.add(calendarDate);
         }
-        mItems.get(mItems.size() - 1).isLastInGroup = true;
         return mItems;
     }
 

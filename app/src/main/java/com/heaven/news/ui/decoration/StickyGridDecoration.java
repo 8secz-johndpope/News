@@ -66,7 +66,7 @@ public class StickyGridDecoration extends RecyclerView.ItemDecoration {
             if (mCallback.isFirstInGroup(position)) {
                 outRect.top = mHeaderHeight;
             } else {
-                outRect.top = mDividerHeight;
+                outRect.top = 0;
             }
         }
     }

@@ -170,6 +170,7 @@ public class ConfigManager {
         LunarCalendar.setupLunarCalendar(mCurrentDate);
 
         SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy年MM月");
+
         java.util.Calendar startCal = java.util.Calendar.getInstance();     //开始年月
         java.util.Calendar endCal = java.util.Calendar.getInstance();   //终止年月
         //开始日期设为月的第一天，结束日期设为最后一天
@@ -191,6 +192,7 @@ public class ConfigManager {
             month.set(java.util.Calendar.MINUTE, 0);
             month.set(java.util.Calendar.SECOND, 0);
             month.set(java.util.Calendar.MILLISECOND, 0);
+
 
 
             Date date = month.getTime();
