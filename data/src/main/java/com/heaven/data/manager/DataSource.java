@@ -55,7 +55,7 @@ public class DataSource {
     private DataSource(Builder builder) {
         this.mainRepo = builder.mainRepo;
         this.repos = builder.repos;
-        executorService = new PriorityExecutor(5, false);
+        executorService = new PriorityExecutor(10, false);
         cacheManager = new CacheManager(builder.context);
         fileUpDownManager = new FileUpDownManager(builder.context, getNetApi(HttpUpDownService.class));
     }

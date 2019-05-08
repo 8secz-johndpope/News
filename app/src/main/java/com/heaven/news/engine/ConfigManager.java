@@ -7,11 +7,15 @@ import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.heaven.base.ui.view.calendar.Calendar;
+import com.heaven.base.ui.view.calendar.CalendarUtil;
+import com.heaven.base.ui.view.calendar.LunarCalendar;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
@@ -33,10 +37,12 @@ import com.orhanobut.logger.Logger;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,24 +89,107 @@ public class ConfigManager {
     private List<cityListVO> citysIndex = new ArrayList<>();
     private HashMap<String, Integer> indexMap = new HashMap<>();
     private HashMap<String, Integer> indexMapEn = new HashMap<>();
+    private ArrayList<Calendar> calendars = new ArrayList<>();
 
     private int cityGroupIndexOffset = 0;
 
     ConfigManager(DataSource dataSource, Context context) {
         this.context = context;
         this.dataSource = dataSource;
-        dataSource.runWorkThread(() -> loadAllService(context));
-    }
-
-    private void loadAllService(Context context) {
         requestVersion();
         requestConfig();
-        dataSource.runWorkThread(() -> {
-            initLocalCity();
-            loadHomeService(context);
-            loadEasyGoService(context);
-            loadPhoenixService(context);
-        });
+        dataSource.runWorkThread(this::initLocalCity);
+        dataSource.runWorkThread(() -> initCalendar(context));
+        dataSource.runWorkThread(() -> loadLocalService(context));
+    }
+
+
+    private void loadLocalService(Context context) {
+        loadHomeService(context);
+        loadEasyGoService(context);
+        loadPhoenixService(context);
+    }
+
+
+    public ArrayList<Calendar> loadCalendar() {
+        ArrayList<Calendar> calendarArrayList = new ArrayList<>();
+        if(calendars.size() == 0) {
+            initCalendar(context);
+        } else {
+            Date d = new Date();
+            Calendar mCurrentDate = new Calendar();
+            mCurrentDate.setYear(CalendarUtil.getDate("yyyy", d));
+            mCurrentDate.setMonth(CalendarUtil.getDate("MM", d));
+            mCurrentDate.setDay(CalendarUtil.getDate("dd", d));
+            if(mCurrentDate.compareTo(calendars.get(0)) > 0) {
+                ArrayList<Calendar> oldCalendars = new ArrayList<>();
+                for(Calendar calendar : calendars) {
+                    if(mCurrentDate.compareTo(calendars.get(0)) > 0) {
+                        oldCalendars.add(calendar);
+                    } else if(mCurrentDate.compareTo(calendars.get(0)) == 0) {
+                        break;
+                    }
+                }
+                calendars.removeAll(oldCalendars);
+                if(calendars.size() > 0) {
+                    java.util.Calendar month = java.util.Calendar.getInstance();
+                    Calendar currentCalendar = calendars.get(calendars.size() - 1);
+                    month.set(currentCalendar.getYear(),currentCalendar.getMonth(),1);
+                    SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy年MM月");
+                    for(int count = 0; count <= oldCalendars.size(); count++) {
+                        month.add(java.util.Calendar.MONTH, count);
+                        Date date = month.getTime();
+                        Calendar calendarTitle = new Calendar();
+                        calendarTitle.isTitle = true;
+                        calendarTitle.title = monthFormat.format(date);
+                        calendarTitle.setYear(CalendarUtil.getDate("yyyy", date));
+                        calendarTitle.setMonth(CalendarUtil.getDate("MM", date));
+                        calendarTitle.setDay(0);
+                        calendarTitle.setDaysInMounth(new ArrayList<>());
+                        calendarTitle.getDaysInMounth().addAll(CalendarUtil.initCalendarForMonthView(calendarTitle.getYear(),calendarTitle.getMonth(),mCurrentDate,1));
+                        calendars.add(calendarTitle);
+                    }
+
+                } else {
+                    initCalendar(context);
+                }
+            }
+        }
+
+        for(Calendar calendar : calendars) {
+            calendarArrayList.add(calendar);
+            calendarArrayList.addAll(calendar.getDaysInMounth());
+        }
+        return calendarArrayList;
+    }
+
+
+    private void initCalendar(Context context) {
+        calendars.clear();
+        LunarCalendar.init(context);
+        Date d = new Date();
+        Calendar mCurrentDate = new Calendar();
+        mCurrentDate.setYear(CalendarUtil.getDate("yyyy", d));
+        mCurrentDate.setMonth(CalendarUtil.getDate("MM", d));
+        mCurrentDate.setDay(CalendarUtil.getDate("dd", d));
+        LunarCalendar.setupLunarCalendar(mCurrentDate);
+
+        SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy年MM月");
+        java.util.Calendar month = java.util.Calendar.getInstance();
+        for(int position = 0; position < 12; position++) {
+            month.add(java.util.Calendar.MONTH, position);
+
+            Date date = month.getTime();
+            Calendar calendarTitle = new Calendar();
+            calendarTitle.isTitle = true;
+            calendarTitle.title = monthFormat.format(date);
+            calendarTitle.setYear(CalendarUtil.getDate("yyyy", date));
+            calendarTitle.setMonth(CalendarUtil.getDate("MM", date));
+            calendarTitle.setDay(0);
+            calendarTitle.setDaysInMounth(new ArrayList<>());
+            calendarTitle.getDaysInMounth().addAll(CalendarUtil.initCalendarForMonthView(calendarTitle.getYear(),calendarTitle.getMonth(),mCurrentDate,1));
+            calendars.add(calendarTitle);
+        }
     }
 
     public Pair<List<cityListVO>, List<String>> getAllCitys() {
