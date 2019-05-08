@@ -51,7 +51,8 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-        new Handler().postDelayed(this::initCityView,50);
+        initCityView();
+//        new Handler().postDelayed(this::initCityView,50);
     }
 
     @Override
@@ -71,7 +72,13 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
                 }
             }
         });
+
+        mViewBinding.swipeTarget.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 7);
+        gridLayoutManager.setSmoothScrollbarEnabled(true);
+        gridLayoutManager.setAutoMeasureEnabled(true);
+        mViewBinding.swipeTarget.setHasFixedSize(true);
+        mViewBinding.swipeTarget.setNestedScrollingEnabled(false);
         mViewBinding.swipeTarget.setLayoutManager(gridLayoutManager);
         BaseMultAdapter routeAdapter = new BaseMultAdapter(this,AppEngine.instance().confManager().loadCalendar());
         routeAdapter.setAnimationEnable(false);
