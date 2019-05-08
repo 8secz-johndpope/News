@@ -79,7 +79,22 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
         BaseAdapter<cityListVO> routeAdapter = new BaseAdapter<>(this);
         routeAdapter.register(new CityItemHolder(cityListVO.class, R.layout.city_item));
         recyclerView.setAdapter(routeAdapter);
-        recyclerView.addItemDecoration(new StickySectionDecoration(this, R.color.textColor, routeAdapter::getItemData));
+        recyclerView.addItemDecoration(new StickySectionDecoration(this, R.color.textColor, new StickySectionDecoration.StickHeaderCallback() {
+            @Override
+            public boolean isFirstInGroup(int position) {
+                return routeAdapter.getItemData(position).isFirstInGroup;
+            }
+
+            @Override
+            public boolean isLastInGroup(int position) {
+                return routeAdapter.getItemData(position).isLastInGroup;
+            }
+
+            @Override
+            public String getTitle(int position) {
+                return routeAdapter.getItemData(position).groupTitle;
+            }
+        }));
         Pair<List<cityListVO>, List<String>> citysIndex = AppEngine.instance().confManager().getAllCitys();
         routeAdapter.updateItems(citysIndex.first);
         initCityGroupIndex(citysIndex.second,manager);

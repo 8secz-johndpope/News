@@ -31,7 +31,7 @@ public final class CalendarUtil {
     private static final long ONE_DAY = 1000 * 3600 * 24;
 
     @SuppressLint("SimpleDateFormat")
-   public static int getDate(String formatStr, Date date) {
+    public static int getDate(String formatStr, Date date) {
         SimpleDateFormat format = new SimpleDateFormat(formatStr);
         return Integer.parseInt(format.format(date));
     }
@@ -39,7 +39,9 @@ public final class CalendarUtil {
     /**
      * 判断一个日期是否是周末，即周六日
      *
-     * @param calendar calendar
+     * @param calendar
+     *         calendar
+     *
      * @return 判断一个日期是否是周末，即周六日
      */
     static boolean isWeekend(Calendar calendar) {
@@ -50,8 +52,11 @@ public final class CalendarUtil {
     /**
      * 获取某月的天数
      *
-     * @param year  年
-     * @param month 月
+     * @param year
+     *         年
+     * @param month
+     *         月
+     *
      * @return 某月的天数
      */
     static int getMonthDaysCount(int year, int month) {
@@ -82,7 +87,9 @@ public final class CalendarUtil {
     /**
      * 是否是闰年
      *
-     * @param year year
+     * @param year
+     *         year
+     *
      * @return 是否是闰年
      */
     static boolean isLeapYear(int year) {
@@ -104,9 +111,13 @@ public final class CalendarUtil {
      * 获取月视图的确切高度
      * Test pass
      *
-     * @param year       年
-     * @param month      月
-     * @param itemHeight 每项的高度
+     * @param year
+     *         年
+     * @param month
+     *         月
+     * @param itemHeight
+     *         每项的高度
+     *
      * @return 不需要多余行的高度
      */
     static int getMonthViewHeight(int year, int month, int itemHeight, int weekStartWith) {
@@ -122,9 +133,13 @@ public final class CalendarUtil {
      * 获取月视图的确切高度
      * Test pass
      *
-     * @param year       年
-     * @param month      月
-     * @param itemHeight 每项的高度
+     * @param year
+     *         年
+     * @param month
+     *         月
+     * @param itemHeight
+     *         每项的高度
+     *
      * @return 不需要多余行的高度
      */
     static int getMonthViewHeight(int year, int month, int itemHeight, int weekStartWith, int mode) {
@@ -138,8 +153,11 @@ public final class CalendarUtil {
      * 获取某天在该月的第几周,换言之就是获取这一天在该月视图的第几行,第几周，根据周起始动态获取
      * Test pass，单元测试通过
      *
-     * @param calendar  calendar
-     * @param weekStart 其实星期是哪一天？
+     * @param calendar
+     *         calendar
+     * @param weekStart
+     *         其实星期是哪一天？
+     *
      * @return 获取某天在该月的第几周 the week line in MonthView
      */
     static int getWeekFromDayInMonth(Calendar calendar, int weekStart) {
@@ -153,7 +171,9 @@ public final class CalendarUtil {
     /**
      * 获取上一个日子
      *
-     * @param calendar calendar
+     * @param calendar
+     *         calendar
+     *
      * @return 获取上一个日子
      */
     static Calendar getPreCalendar(Calendar calendar) {
@@ -195,8 +215,11 @@ public final class CalendarUtil {
      * 获取日期所在月视图对应的起始偏移量
      * Test pass
      *
-     * @param calendar  calendar
-     * @param weekStart weekStart 星期的起始
+     * @param calendar
+     *         calendar
+     * @param weekStart
+     *         weekStart 星期的起始
+     *
      * @return 获取日期所在月视图对应的起始偏移量 the start diff with MonthView
      */
     static int getMonthViewStartDiff(Calendar calendar, int weekStart) {
@@ -218,9 +241,13 @@ public final class CalendarUtil {
      * 获取日期所在月视图对应的起始偏移量
      * Test pass
      *
-     * @param year      年
-     * @param month     月
-     * @param weekStart 周起始
+     * @param year
+     *         年
+     * @param month
+     *         月
+     * @param weekStart
+     *         周起始
+     *
      * @return 获取日期所在月视图对应的起始偏移量 the start diff with MonthView
      */
     static int getMonthViewStartDiff(int year, int month, int weekStart) {
@@ -242,9 +269,13 @@ public final class CalendarUtil {
      * 获取日期月份对应的结束偏移量,用于计算两个年份之间总共有多少周，不用于MonthView
      * Test pass
      *
-     * @param year      年
-     * @param month     月
-     * @param weekStart 周起始
+     * @param year
+     *         年
+     * @param month
+     *         月
+     * @param weekStart
+     *         周起始
+     *
      * @return 获取日期月份对应的结束偏移量 the end diff in Month not MonthView
      */
     static int getMonthEndDiff(int year, int month, int weekStart) {
@@ -257,9 +288,13 @@ public final class CalendarUtil {
      * 获取日期月份对应的结束偏移量,用于计算两个年份之间总共有多少周，不用于MonthView
      * Test pass
      *
-     * @param year      年
-     * @param month     月
-     * @param weekStart 周起始
+     * @param year
+     *         年
+     * @param month
+     *         月
+     * @param weekStart
+     *         周起始
+     *
      * @return 获取日期月份对应的结束偏移量 the end diff in Month not MonthView
      */
     private static int getMonthEndDiff(int year, int month, int day, int weekStart) {
@@ -279,7 +314,9 @@ public final class CalendarUtil {
      * 获取某个日期是星期几
      * 测试通过
      *
-     * @param calendar 某个日期
+     * @param calendar
+     *         某个日期
+     *
      * @return 返回某个日期是星期几
      */
     static int getWeekFormCalendar(Calendar calendar) {
@@ -293,8 +330,11 @@ public final class CalendarUtil {
      * 获取周视图的切换默认选项位置 WeekView index
      * 测试通过 test pass
      *
-     * @param calendar  calendar
-     * @param weekStart weekStart
+     * @param calendar
+     *         calendar
+     * @param weekStart
+     *         weekStart
+     *
      * @return 获取周视图的切换默认选项位置
      */
     static int getWeekViewIndexFromCalendar(Calendar calendar, int weekStart) {
@@ -305,13 +345,21 @@ public final class CalendarUtil {
      * 是否在日期范围內
      * 测试通过 test pass
      *
-     * @param calendar     calendar
-     * @param minYear      minYear
-     * @param minYearDay   最小年份天
-     * @param minYearMonth minYearMonth
-     * @param maxYear      maxYear
-     * @param maxYearMonth maxYearMonth
-     * @param maxYearDay   最大年份天
+     * @param calendar
+     *         calendar
+     * @param minYear
+     *         minYear
+     * @param minYearDay
+     *         最小年份天
+     * @param minYearMonth
+     *         minYearMonth
+     * @param maxYear
+     *         maxYear
+     * @param maxYearMonth
+     *         maxYearMonth
+     * @param maxYearDay
+     *         最大年份天
+     *
      * @return 是否在日期范围內
      */
     static boolean isCalendarInRange(Calendar calendar,
@@ -332,13 +380,21 @@ public final class CalendarUtil {
      * 注意周起始周一、周日、周六
      * 测试通过 test pass
      *
-     * @param minYear      minYear 最小年份
-     * @param minYearMonth maxYear 最小年份月份
-     * @param minYearDay   最小年份天
-     * @param maxYear      maxYear 最大年份
-     * @param maxYearMonth maxYear 最大年份月份
-     * @param maxYearDay   最大年份天
-     * @param weekStart    周起始
+     * @param minYear
+     *         minYear 最小年份
+     * @param minYearMonth
+     *         maxYear 最小年份月份
+     * @param minYearDay
+     *         最小年份天
+     * @param maxYear
+     *         maxYear 最大年份
+     * @param maxYearMonth
+     *         maxYear 最大年份月份
+     * @param maxYearDay
+     *         最大年份天
+     * @param weekStart
+     *         周起始
+     *
      * @return 周数用于WeekViewPager itemCount
      */
     static int getWeekCountBetweenBothCalendar(int minYear, int minYearMonth, int minYearDay,
@@ -368,11 +424,17 @@ public final class CalendarUtil {
      * 用来设置 WeekView currentItem
      * 测试通过 test pass
      *
-     * @param calendar     calendar
-     * @param minYear      minYear 最小年份
-     * @param minYearMonth maxYear 最小年份月份
-     * @param minYearDay   最小年份天
-     * @param weekStart    周起始
+     * @param calendar
+     *         calendar
+     * @param minYear
+     *         minYear 最小年份
+     * @param minYearMonth
+     *         maxYear 最小年份月份
+     * @param minYearDay
+     *         最小年份天
+     * @param weekStart
+     *         周起始
+     *
      * @return 返回两个年份中第几周 the WeekView currentItem
      */
     static int getWeekFromCalendarStartWithMinCalendar(Calendar calendar,
@@ -406,10 +468,15 @@ public final class CalendarUtil {
      * 根据星期数和最小日期推算出该星期的第一天
      * //测试通过 Test pass
      *
-     * @param minYear      最小年份如2017
-     * @param minYearMonth maxYear 最小年份月份，like : 2017-07
-     * @param minYearDay   最小年份天
-     * @param week         从最小年份minYear月minYearMonth 日1 开始的第几周 week > 0
+     * @param minYear
+     *         最小年份如2017
+     * @param minYearMonth
+     *         maxYear 最小年份月份，like : 2017-07
+     * @param minYearDay
+     *         最小年份天
+     * @param week
+     *         从最小年份minYear月minYearMonth 日1 开始的第几周 week > 0
+     *
      * @return 该星期的第一天日期
      */
     static Calendar getFirstCalendarStartWithMinCalendar(int minYear, int minYearMonth, int minYearDay, int week, int weekStart) {
@@ -445,8 +512,11 @@ public final class CalendarUtil {
     /**
      * 是否在日期范围内
      *
-     * @param calendar calendar
-     * @param delegate delegate
+     * @param calendar
+     *         calendar
+     * @param delegate
+     *         delegate
+     *
      * @return 是否在日期范围内
      */
     static boolean isCalendarInRange(Calendar calendar, CalendarViewDelegate delegate) {
@@ -458,12 +528,19 @@ public final class CalendarUtil {
     /**
      * 是否在日期范围內
      *
-     * @param year         year
-     * @param month        month
-     * @param minYear      minYear
-     * @param minYearMonth minYearMonth
-     * @param maxYear      maxYear
-     * @param maxYearMonth maxYearMonth
+     * @param year
+     *         year
+     * @param month
+     *         month
+     * @param minYear
+     *         minYear
+     * @param minYearMonth
+     *         minYearMonth
+     * @param maxYear
+     *         maxYear
+     * @param maxYearMonth
+     *         maxYearMonth
+     *
      * @return 是否在日期范围內
      */
     static boolean isMonthInRange(int year, int month, int minYear, int minYearMonth, int maxYear, int maxYearMonth) {
@@ -476,8 +553,11 @@ public final class CalendarUtil {
      * 运算 calendar1 - calendar2
      * test Pass
      *
-     * @param calendar1 calendar1
-     * @param calendar2 calendar2
+     * @param calendar1
+     *         calendar1
+     * @param calendar2
+     *         calendar2
+     *
      * @return calendar1 - calendar2
      */
     static int differ(Calendar calendar1, Calendar calendar2) {
@@ -503,12 +583,19 @@ public final class CalendarUtil {
     /**
      * 比较日期大小
      *
-     * @param minYear      minYear
-     * @param minYearMonth minYearMonth
-     * @param minYearDay   minYearDay
-     * @param maxYear      maxYear
-     * @param maxYearMonth maxYearMonth
-     * @param maxYearDay   maxYearDay
+     * @param minYear
+     *         minYear
+     * @param minYearMonth
+     *         minYearMonth
+     * @param minYearDay
+     *         minYearDay
+     * @param maxYear
+     *         maxYear
+     * @param maxYearMonth
+     *         maxYearMonth
+     * @param maxYearDay
+     *         maxYearDay
+     *
      * @return -1 0 1
      */
     static int compareTo(int minYear, int minYearMonth, int minYearDay,
@@ -528,15 +615,19 @@ public final class CalendarUtil {
     /**
      * 为月视图初始化日历
      *
-     * @param year        year
-     * @param month       month
-     * @param currentDate currentDate
-     * @param weekStar    weekStar
+     * @param year
+     *         year
+     * @param month
+     *         month
+     * @param currentDate
+     *         currentDate
+     * @param weekStar
+     *         weekStar
+     *
      * @return 为月视图初始化日历项
      */
-   public static List<Calendar> initCalendarForMonthView(int year, int month, Calendar currentDate, int weekStar) {
+    public static List<Calendar> initCalendarForMonthView(int year, int month, Calendar currentDate, int weekStar) {
         java.util.Calendar date = java.util.Calendar.getInstance();
-
         date.set(year, month - 1, 1);
 
         int mPreDiff = getMonthViewStartDiff(year, month, weekStar);//获取月视图其实偏移量
@@ -596,6 +687,7 @@ public final class CalendarUtil {
             LunarCalendar.setupLunarCalendar(calendarDate);
             mItems.add(calendarDate);
         }
+        mItems.get(mItems.size() - 1).isLastInGroup = true;
         return mItems;
     }
 
@@ -629,9 +721,13 @@ public final class CalendarUtil {
     /**
      * 生成周视图的7个item
      *
-     * @param calendar  calendar
-     * @param mDelegate mDelegate
-     * @param weekStart weekStart
+     * @param calendar
+     *         calendar
+     * @param mDelegate
+     *         mDelegate
+     * @param weekStart
+     *         weekStart
+     *
      * @return 生成周视图的7个item
      */
     static List<Calendar> initCalendarForWeekView(Calendar calendar, CalendarViewDelegate mDelegate, int weekStart) {
@@ -676,10 +772,15 @@ public final class CalendarUtil {
      * 单元测试通过
      * 从选定的日期，获取周视图起始偏移量，用来生成周视图布局
      *
-     * @param year      year
-     * @param month     month
-     * @param day       day
-     * @param weekStart 周起始，1，2，7 日 一 六
+     * @param year
+     *         year
+     * @param month
+     *         month
+     * @param day
+     *         day
+     * @param weekStart
+     *         周起始，1，2，7 日 一 六
+     *
      * @return 获取周视图起始偏移量，用来生成周视图布局
      */
     private static int getWeekViewStartDiff(int year, int month, int day, int weekStart) {
@@ -700,10 +801,15 @@ public final class CalendarUtil {
      * 单元测试通过
      * 从选定的日期，获取周视图结束偏移量，用来生成周视图布局
      *
-     * @param year      year
-     * @param month     month
-     * @param day       day
-     * @param weekStart 周起始，1，2，7 日 一 六
+     * @param year
+     *         year
+     * @param month
+     *         month
+     * @param day
+     *         day
+     * @param weekStart
+     *         周起始，1，2，7 日 一 六
+     *
      * @return 获取周视图结束偏移量，用来生成周视图布局
      */
     private static int getWeekViewEndDiff(int year, int month, int day, int weekStart) {
@@ -723,8 +829,11 @@ public final class CalendarUtil {
     /**
      * 从月视图切换获得第一天的日期
      *
-     * @param position position
-     * @param delegate position
+     * @param position
+     *         position
+     * @param delegate
+     *         position
+     *
      * @return 从月视图切换获得第一天的日期
      */
     static Calendar getFirstCalendarFromMonthViewPager(int position, CalendarViewDelegate delegate) {
@@ -750,8 +859,11 @@ public final class CalendarUtil {
     /**
      * 根据传入的日期获取边界访问日期，要么最大，要么最小
      *
-     * @param calendar calendar
-     * @param delegate delegate
+     * @param calendar
+     *         calendar
+     * @param delegate
+     *         delegate
+     *
      * @return 获取边界访问日期
      */
     static Calendar getRangeEdgeCalendar(Calendar calendar, CalendarViewDelegate delegate) {
@@ -771,7 +883,9 @@ public final class CalendarUtil {
     /**
      * 是否是最小访问边界了
      *
-     * @param calendar calendar
+     * @param calendar
+     *         calendar
+     *
      * @return 是否是最小访问边界了
      */
     private static boolean isMinRangeEdge(Calendar calendar, CalendarViewDelegate delegate) {
@@ -786,8 +900,11 @@ public final class CalendarUtil {
     /**
      * dp转px
      *
-     * @param context context
-     * @param dpValue dp
+     * @param context
+     *         context
+     * @param dpValue
+     *         dp
+     *
      * @return px
      */
     static int dipToPx(Context context, float dpValue) {

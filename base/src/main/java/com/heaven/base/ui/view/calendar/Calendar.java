@@ -30,7 +30,11 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
 
     public boolean isTitle;
 
-    public String title;
+    public String groupTitle;
+
+    public boolean isFirstInGroup;
+
+    public boolean isLastInGroup;
 
     /**
      * 年
@@ -128,6 +132,7 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
 
 
     public int getYear() {
+        groupTitle = year + "-"+ month;
         return year;
     }
 
@@ -141,6 +146,7 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
 
     public void setMonth(int month) {
         this.month = month;
+        groupTitle = year + "-"+ month;
     }
 
     public int getDay() {

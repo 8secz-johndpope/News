@@ -13,12 +13,11 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.heaven.news.R;
-import com.neusoft.szair.model.city.cityListVO;
 
 /**
  * Created by frank on 2017/4/11.
  */
-public class StickySectionDecoration extends RecyclerView.ItemDecoration {
+public class StickyGridDecoration extends RecyclerView.ItemDecoration {
 
 
     private StickHeaderCallback mCallback;
@@ -34,7 +33,7 @@ public class StickySectionDecoration extends RecyclerView.ItemDecoration {
 
     private float mTextOffsetX = 15;
 
-    public StickySectionDecoration(Context context, int dividerColor, StickHeaderCallback callback) {
+    public StickyGridDecoration(Context context, int dividerColor, StickHeaderCallback callback) {
         this.mCallback = callback;
         mDividerHeight = context.getResources().getDimensionPixelOffset(R.dimen.header_divider_height);
         mHeaderHeight = context.getResources().getDimensionPixelOffset(R.dimen.header_height);

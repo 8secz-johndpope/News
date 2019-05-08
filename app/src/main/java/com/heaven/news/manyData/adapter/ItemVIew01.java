@@ -48,7 +48,7 @@ public class ItemVIew01 extends BaseMultItem<Bean01> {
 
 //    @Override
 //    public void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Bean01 item, int position) {
-//        holder.setText(R.id.tv_item01, item.title);
+//        holder.setText(R.id.tv_item01, item.groupTitle);
 //        if (position  == 0 || position == 8 || position == 15|| position == 21 || position == 28) {
 //            holder.setBackgroundColor(R.id.tv_item01, 0xFF48F745);
 //        } else {

@@ -53,7 +53,7 @@ public class ItemVIew02 extends BaseMultItem<Bean02> {
 //
 //    @Override
 //    public void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Bean02 item, int position) {
-//        holder.setText(R.id.tv_item02, item.title);
+//        holder.setText(R.id.tv_item02, item.groupTitle);
 //        ImageView iv = holder.getView(R.id.iv_item02);
 //
 //        Glide.with(iv.getContext())

@@ -54,7 +54,7 @@ public class ItemVIew03 extends BaseMultItem<Bean03> {
 //
 //    @Override
 //    public void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Bean03 item, int position) {
-//        holder.setText(R.id.tv_item03, item.title);
+//        holder.setText(R.id.tv_item03, item.groupTitle);
 //        ImageView iv = holder.getView(R.id.iv_item03);
 //
 //

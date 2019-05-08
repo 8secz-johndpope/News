@@ -5,9 +5,7 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Pair;
 
 import com.google.gson.Gson;
@@ -39,15 +37,12 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -141,7 +136,7 @@ public class ConfigManager {
                         Date date = month.getTime();
                         Calendar calendarTitle = new Calendar();
                         calendarTitle.isTitle = true;
-                        calendarTitle.title = monthFormat.format(date);
+                        calendarTitle.groupTitle = monthFormat.format(date);
                         calendarTitle.setYear(CalendarUtil.getDate("yyyy", date));
                         calendarTitle.setMonth(CalendarUtil.getDate("MM", date));
                         calendarTitle.setDay(0);
@@ -182,7 +177,7 @@ public class ConfigManager {
             Date date = month.getTime();
             Calendar calendarTitle = new Calendar();
             calendarTitle.isTitle = true;
-            calendarTitle.title = monthFormat.format(date);
+            calendarTitle.groupTitle = monthFormat.format(date);
             calendarTitle.setYear(CalendarUtil.getDate("yyyy", date));
             calendarTitle.setMonth(CalendarUtil.getDate("MM", date));
             calendarTitle.setDay(0);
