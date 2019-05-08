@@ -42,4 +42,9 @@ public class CalendarItemHolder extends BaseMultItem<Calendar> {
         normal.setText(String.valueOf(calendar.getDay()));
     }
 
+
+    @Override
+    public int getSpanSize(int spanCount) {
+        return 1;
+    }
 }

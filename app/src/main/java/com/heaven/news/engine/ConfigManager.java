@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.heaven.base.ui.view.calendar.Calendar;
 import com.heaven.base.ui.view.calendar.CalendarUtil;
 import com.heaven.base.ui.view.calendar.LunarCalendar;
+import com.heaven.base.ui.view.calendar.Month;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
@@ -84,7 +85,7 @@ public class ConfigManager {
     private List<cityListVO> citysIndex = new ArrayList<>();
     private HashMap<String, Integer> indexMap = new HashMap<>();
     private HashMap<String, Integer> indexMapEn = new HashMap<>();
-    private ArrayList<Calendar> calendars = new ArrayList<>();
+    private ArrayList<Month> calendars = new ArrayList<>();
 
     private int cityGroupIndexOffset = 0;
 
@@ -106,8 +107,8 @@ public class ConfigManager {
     }
 
 
-    public ArrayList<Calendar> loadCalendar() {
-        ArrayList<Calendar> calendarArrayList = new ArrayList<>();
+    public ArrayList loadCalendar() {
+        ArrayList calendarArrayList = new ArrayList();
 //        if(calendars.size() == 0) {
             initCalendar(context);
 //        } else {
@@ -151,9 +152,9 @@ public class ConfigManager {
 //            }
 //        }
 
-        for(Calendar calendar : calendars) {
-            calendarArrayList.add(calendar);
-            calendarArrayList.addAll(calendar.getDaysInMounth());
+        for(Month month : calendars) {
+            calendarArrayList.add(month);
+            calendarArrayList.addAll(month.days);
         }
         return calendarArrayList;
     }
@@ -196,16 +197,12 @@ public class ConfigManager {
 
 
             Date date = month.getTime();
-            Calendar calendarTitle = new Calendar();
-            calendarTitle.isFirstInGroup = true;
-            calendarTitle.isTitle = true;
-            calendarTitle.groupTitle = monthFormat.format(date);
-            calendarTitle.setYear(CalendarUtil.getDate("yyyy", date));
-            calendarTitle.setMonth(CalendarUtil.getDate("MM", date));
-            calendarTitle.setDay(0);
-            calendarTitle.setDaysInMounth(new ArrayList<>());
-            calendarTitle.getDaysInMounth().addAll(CalendarUtil.initCalendarForMonthView(calendarTitle.getYear(),calendarTitle.getMonth(),mCurrentDate,1));
-            Logger.i("initCalendar--" + calendarTitle.groupTitle);
+            Month calendarTitle = new Month();
+            calendarTitle.title = monthFormat.format(date);
+            calendarTitle.year = (CalendarUtil.getDate("yyyy", date));
+            calendarTitle.month = (CalendarUtil.getDate("MM", date));
+            calendarTitle.addDayInMonth(CalendarUtil.initCalendarForMonthView(calendarTitle.year,calendarTitle.month,mCurrentDate,1));
+            Logger.i("initCalendar--" + calendarTitle.title);
             calendars.add(calendarTitle);
         }
     }

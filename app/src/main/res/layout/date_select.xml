@@ -8,42 +8,16 @@
         android:layout_height="match_parent"
         >
 
-        <com.heaven.base.ui.view.rlview.SwipeToLoadLayout
-            android:id="@+id/swipeToLoadLayout"
+        <com.heaven.base.ui.adapter.StickyNestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            app:swipe_style="classic"
-            >
-
-            <include
-                android:id="@id/swipe_refresh_header"
-                layout="@layout/refresh_header"/>
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@id/swipe_target"
+                android:id="@+id/swipe_target"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
-
-            <include
-                android:id="@id/swipe_load_more_footer"
-                layout="@layout/load_more_footer"/>
-        </com.heaven.base.ui.view.rlview.SwipeToLoadLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            >
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/city_group_index_list"
-                android:layout_centerHorizontal="true"
-                />
-        </RelativeLayout>
+        </com.heaven.base.ui.adapter.StickyNestedScrollView>
 
     </RelativeLayout>
 </layout>
