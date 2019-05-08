@@ -29,6 +29,9 @@ public class HomeBookGo extends BaseMultItem<BookData> {
         holder.setOnClickListener(R.id.book_start_city, v -> {
             ARouter.getInstance().build(RouterUrl.ROUTER_URL_CITY).navigation();
         });
+        holder.setOnClickListener(R.id.date_info, v -> {
+            ARouter.getInstance().build(RouterUrl.ROUTER_URL_DATE).navigation();
+        });
     }
 
     @Override

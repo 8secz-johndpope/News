@@ -7,12 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.view.calendar.Calendar;
 import com.heaven.base.ui.view.rlview.OnLoadMoreListener;
 import com.heaven.base.ui.view.rlview.OnRefreshListener;
 import com.heaven.news.R;
+import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.DateSelectBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.decoration.StickyGridDecoration;
@@ -33,6 +35,7 @@ import java.util.List;
  * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
+@Route(path = RouterUrl.ROUTER_URL_DATE)
 public class DateSelect extends BaseBindActivity<SelectDateViewModel, DateSelectBinding>  implements OnRefreshListener, OnLoadMoreListener {
     @Override
     public int initLayoutResId() {
@@ -42,7 +45,7 @@ public class DateSelect extends BaseBindActivity<SelectDateViewModel, DateSelect
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
-
+        initCityView();
     }
 
     @Override
@@ -85,6 +88,12 @@ public class DateSelect extends BaseBindActivity<SelectDateViewModel, DateSelect
                 return routeAdapter.getItemData(position).groupTitle;
             }
         }));
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return routeAdapter.getItemData(position).isTitle? 7 : 1;
+            }
+        });
         List<Calendar> calendars = AppEngine.instance().confManager().loadCalendar();
         routeAdapter.updateItems(calendars);
 

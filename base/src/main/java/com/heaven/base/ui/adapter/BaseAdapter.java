@@ -156,13 +156,15 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         if (manager instanceof GridLayoutManager) {
             //GridLayoutManager时设置每行的span
             final GridLayoutManager gridManager = ((GridLayoutManager) manager);
-            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    BaseMultItem multItem = multTypeManager.getMultItemByType(getItemViewType(position));
-                    return multItem.getSpanSize(gridManager.getSpanCount());
-                }
-            });
+            if(gridManager.getSpanSizeLookup() instanceof GridLayoutManager.DefaultSpanSizeLookup) {
+                gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        BaseMultItem multItem = multTypeManager.getMultItemByType(getItemViewType(position));
+                        return multItem.getSpanSize(gridManager.getSpanCount());
+                    }
+                });
+            };
             isStaggeredGridLayout = false;
         } else if (manager instanceof StaggeredGridLayoutManager) {
             isStaggeredGridLayout = true;
