@@ -197,6 +197,7 @@ public class ConfigManager {
 
             Date date = month.getTime();
             Calendar calendarTitle = new Calendar();
+            calendarTitle.isFirstInGroup = true;
             calendarTitle.isTitle = true;
             calendarTitle.groupTitle = monthFormat.format(date);
             calendarTitle.setYear(CalendarUtil.getDate("yyyy", date));
