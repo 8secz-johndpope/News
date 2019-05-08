@@ -630,6 +630,8 @@ public final class CalendarUtil {
         java.util.Calendar date = java.util.Calendar.getInstance();
         date.set(year, month - 1, 1);
 
+        SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy年MM月");
+
         int mPreDiff = getMonthViewStartDiff(year, month, weekStar);//获取月视图其实偏移量
 
         int mNextDiff = CalendarUtil.getMonthEndDiff(year, month, weekStar);
@@ -684,6 +686,9 @@ public final class CalendarUtil {
             if (calendarDate.equals(currentDate)) {
                 calendarDate.setCurrentDay(true);
             }
+
+            calendarDate.groupTitle = monthFormat.format(date.getTime());
+
             LunarCalendar.setupLunarCalendar(calendarDate);
             mItems.add(calendarDate);
         }

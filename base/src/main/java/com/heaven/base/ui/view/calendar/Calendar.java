@@ -132,7 +132,6 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
 
 
     public int getYear() {
-        groupTitle = year + "-"+ month;
         return year;
     }
 
@@ -146,7 +145,6 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
 
     public void setMonth(int month) {
         this.month = month;
-        groupTitle = year + "-"+ month;
     }
 
     public int getDay() {
