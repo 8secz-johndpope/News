@@ -10,12 +10,9 @@
     android:padding="@dimen/_10dp"
     >
 
-    <TextView
-        android:id="@+id/day_mouth"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_10dp"
-        android:gravity="center"
-        android:layout_gravity="center_vertical"
+        android:id="@+id/days_list"
         />
 </LinearLayout>

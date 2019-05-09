@@ -24,9 +24,9 @@ import com.neusoft.szair.model.city.cityListVO;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class CalendarItemHolder extends BaseMultItem<Calendar> {
+public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
 
-    public CalendarItemHolder(@NonNull Class<Calendar> modelBean, int itemLayoutId) {
+    public CalendarDayItemHolder(@NonNull Class<Calendar> modelBean, int itemLayoutId) {
         super(modelBean, itemLayoutId);
     }
 
@@ -42,6 +42,15 @@ public class CalendarItemHolder extends BaseMultItem<Calendar> {
         normal.setText(String.valueOf(calendar.getDay()));
     }
 
+    @Override
+    public boolean isItemSame(Calendar oldItem, Calendar newItem) {
+        return oldItem.compareTo(newItem) == 0;
+    }
+
+    @Override
+    public boolean isContentSame(Calendar oldItem, Calendar newItem) {
+        return oldItem.compareTo(newItem) == 0;
+    }
 
     @Override
     public int getSpanSize(int spanCount) {

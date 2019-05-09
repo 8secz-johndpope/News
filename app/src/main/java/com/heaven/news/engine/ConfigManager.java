@@ -118,6 +118,13 @@ public class ConfigManager {
         return calendarsAll;
     }
 
+    public ArrayList<Month> loadMonth() {
+        if (calendarsAll.size() == 0) {
+            initCalendar(context);
+        }
+        return calendars;
+    }
+
 
     private void initCalendar(Context context) {
         calendars.clear();

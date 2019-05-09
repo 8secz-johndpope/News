@@ -16,7 +16,7 @@ public class Month {
     public int year;
     public int month;
 
-    public ArrayList<Calendar> days = new ArrayList<>();
+    public List<Calendar> days = new ArrayList<>();
 
     public void addDayInMonth(List<Calendar> dayList) {
         days.clear();

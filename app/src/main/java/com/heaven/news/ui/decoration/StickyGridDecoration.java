@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.heaven.news.R;
+import com.neusoft.szair.model.city.cityListVO;
 
 /**
  * Created by frank on 2017/4/11.
@@ -63,11 +64,11 @@ public class StickyGridDecoration extends RecyclerView.ItemDecoration {
 
         if ( mCallback != null ) {
             //如果是组内的第一个则将间距撑开为一个Header的高度，或者就是普通的分割线高度
-            if (mCallback.isFirstInGroup(position)) {
-                outRect.top = mHeaderHeight;
-            } else {
-                outRect.top = 0;
-            }
+//            if (mCallback.isFirstInGroup(position)) {
+//                outRect.top = mHeaderHeight;
+//            } else {
+//                outRect.top = mDividerHeight;
+//            }
         }
     }
 
@@ -130,6 +131,9 @@ public class StickyGridDecoration extends RecyclerView.ItemDecoration {
 
             }
         }
+    }
+
+    private void drawHeaderView(Canvas canvas) {
     }
 
     private void drawHeaderRect(Canvas c, String title, int left, int top, int right, int bottom) {
