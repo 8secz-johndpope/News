@@ -66,10 +66,6 @@ public class DataCore {
 
     private Context context;
 
-    private HomeService homeService;//首页服务
-    private EasyGoService easyGoService;//易行服务
-    private PhoenixService phoenixService;//凤凰知音服务
-
     private Map<Observer<CoreDataWrapper>, MutableLiveData<CoreDataWrapper>> observers = new HashMap<>();
 
 
@@ -403,9 +399,9 @@ public class DataCore {
 
     private int requestHomeCount = 0;
     private void requestHomeConfig() {
-        long taskId = RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
-            if(!TextUtils.isEmpty(homeConfigData)) {
-                this.homeConfigData = JSON.parseObject(homeConfigData, HomeImageInfo.class);
+        long taskId = RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), configData -> {
+            if(!TextUtils.isEmpty(configData)) {
+                this.homeConfigData = JSON.parseObject(configData, HomeImageInfo.class);
                 dataSource.cacheData(DataSource.DISK, Constants.HOMECONFIG, homeConfigData);
                 notifyCoreDataChange(getCoreDataWrapper(true, HOME));
             } else {

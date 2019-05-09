@@ -64,6 +64,7 @@ import io.reactivex.Observable;
 public class ConfigManager {
     public static int VERSION = 0;
     public static String CITY_CURRENT = "city_current";
+    public static String CALENDAR_FESTIVAL = "calendar_festival";
     public static String CITY = "city";
     public static String CITY_EN = "city_en";
     public static String CITY_OFTEN = "city_often";
@@ -93,7 +94,7 @@ public class ConfigManager {
     private List<cityListVO> citysIndex = new ArrayList<>();
     private HashMap<String, Integer> indexMap = new HashMap<>();
     private HashMap<String, Integer> indexMapEn = new HashMap<>();
-    private ArrayList<Month> calendars = new ArrayList<>();
+    private List<Month> calendars = new ArrayList<>();
     private List<FestivalDay> calendarFestivals = new ArrayList<>();
     private int cityGroupIndexOffset = 0;
 
@@ -113,50 +114,6 @@ public class ConfigManager {
         loadHomeService(context);
         loadEasyGoService(context);
         loadPhoenixService(context);
-    }
-
-
-    public ArrayList<Month> loadMonth() {
-        if (calendars.size() == 0) {
-            initCalendar(context);
-        } else {
-            Calendar currentDate = DateUtil.getCurrentDate();
-            Month localCurrentDate = calendars.get(0);
-            if (currentDate.getYear() != localCurrentDate.year || currentDate.getMonth() != localCurrentDate.month) {
-                initCalendar(context);
-            }
-        }
-        return calendars;
-    }
-
-
-    private void initCalendar(Context context) {
-        calendars.clear();
-        LunarCalendar.init(context);
-        Date d = new Date();
-        Calendar mCurrentDate = DateUtil.getCurrentDate();
-
-        java.util.Calendar startCal = java.util.Calendar.getInstance();     //开始年月
-        //开始日期设为月的第一天，结束日期设为最后一天
-        startCal.set(java.util.Calendar.DAY_OF_MONTH, 1);
-
-        java.util.Calendar month = java.util.Calendar.getInstance();
-        for (int position = 0; position < 12; position++) {
-            month.setTime(startCal.getTime());
-            month.add(java.util.Calendar.MONTH, position);
-            createMonthData(month, mCurrentDate);
-        }
-    }
-
-    private void createMonthData(java.util.Calendar month, Calendar currentDate) {
-        Date date = month.getTime();
-        Month monthWrapper = new Month();
-        monthWrapper.title = monthFormat.format(date);
-        monthWrapper.year = (CalendarUtil.getDate("yyyy", date));
-        monthWrapper.month = (CalendarUtil.getDate("MM", date));
-        monthWrapper.addDayInMonth(CalendarUtil.initCalendarForMonthView(monthWrapper.year, monthWrapper.month, currentDate, 1));
-        calendars.add(monthWrapper);
-        Logger.i("initCalendar--" + monthWrapper.title);
     }
 
     public Pair<List<cityListVO>, List<String>> getAllCitys() {
@@ -226,6 +183,51 @@ public class ConfigManager {
         });
 
         return new Pair<>(citysAll, indexNameLlist);
+    }
+
+    public List<Month> loadMonth() {
+        if (calendars.size() == 0) {
+            initCalendar(context);
+        } else {
+            Calendar currentDate = DateUtil.getCurrentDate();
+            Month localCurrentDate = calendars.get(0);
+            if (currentDate.getYear() != localCurrentDate.year || currentDate.getMonth() != localCurrentDate.month) {
+                initCalendar(context);
+            }
+        }
+        return IoUtil.deepCopyList(calendars);
+    }
+
+
+    private void initCalendar(Context context) {
+        calendarFestivals = dataSource.getCacheEntity(DataSource.DISK, CALENDAR_FESTIVAL);
+        calendars.clear();
+        LunarCalendar.init(context);
+        Calendar mCurrentDate = DateUtil.getCurrentDate();
+
+        java.util.Calendar startCal = java.util.Calendar.getInstance();     //开始年月
+        //开始日期设为月的第一天，结束日期设为最后一天
+        startCal.set(java.util.Calendar.DAY_OF_MONTH, 1);
+
+        java.util.Calendar month = java.util.Calendar.getInstance();
+        for (int position = 0; position < 12; position++) {
+            month.setTime(startCal.getTime());
+            month.add(java.util.Calendar.MONTH, position);
+            createMonthData(month, mCurrentDate);
+        }
+    }
+
+
+
+    private void createMonthData(java.util.Calendar month, Calendar currentDate) {
+        Date date = month.getTime();
+        Month monthWrapper = new Month();
+        monthWrapper.title = monthFormat.format(date);
+        monthWrapper.year = (CalendarUtil.getDate("yyyy", date));
+        monthWrapper.month = (CalendarUtil.getDate("MM", date));
+        monthWrapper.addDayInMonth(CalendarUtil.initCalendarForMonthView(monthWrapper.year, monthWrapper.month, currentDate, 1));
+        calendars.add(monthWrapper);
+        Logger.i("initCalendar--" + monthWrapper.title);
     }
 
     public int getCityGroupIndex(String indexName) {
@@ -320,8 +322,10 @@ public class ConfigManager {
                 Type type = new TypeReference<List<FestivalDay>>() {
                 }.getType();
                 calendarFestivals = JSON.parseObject(configData, type);
+                if(calendarFestivals != null && calendarFestivals.size() > 0) {
+                    dataSource.cacheData(DataSource.DISK, CALENDAR_FESTIVAL, calendarFestivals);
+                }
             }
-            Logger.i("requestCalendarFestival" + calendarFestivals.toString());
         });
     }
 
@@ -334,6 +338,8 @@ public class ConfigManager {
             if (configData.city != null && configData.city.size() > 0) {
                 initHotCity(configData.city);
             }
+
+
         }
     }
 
