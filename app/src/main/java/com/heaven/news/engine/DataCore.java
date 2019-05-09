@@ -6,6 +6,7 @@ import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.heaven.data.manager.DataSource;
@@ -411,12 +412,11 @@ public class DataCore {
 
     private int requestHomeCount = 0;
     private void requestHomeConfig() {
-        long taskId = RxRepUtils.getHomeConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
-            if (homeConfigData.netCode == 0) {
-                this.homeConfigData = homeConfigData;
+        long taskId = RxRepUtils.getNormalConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
+            if(!TextUtils.isEmpty(homeConfigData)) {
+                this.homeConfigData = JSON.parseObject(homeConfigData, HomeImageInfo.class);
                 dataSource.cacheData(DataSource.DISK, Constants.HOMECONFIG, homeConfigData);
                 notifyCoreDataChange(getCoreDataWrapper(true, HOME));
-//                cancelHomeTask();
             } else {
                 if (requestHomeCount < 3) {
                     requestHomeCount++;

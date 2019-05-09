@@ -278,7 +278,7 @@ public class ConfigManager {
     private void requestVersion() {
         RxRepUtils.getNormalConfigResult(dataSource.getNetApi(BuildConfig.VERSION_URL, VersionApi.class).getVersion(), versionData -> {
             isRequestVersionFinish = true;
-            if (TextUtils.isEmpty(versionData)) {
+            if (!TextUtils.isEmpty(versionData)) {
                 this.configData = JSON.parseObject(versionData, ConfigData.class);
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
                 notifyConfigDataChange(dataWrapper);
@@ -299,7 +299,7 @@ public class ConfigManager {
 
     private void requestConfig() {
         reqverTaskId = RxRepUtils.getNormalConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
-            if (TextUtils.isEmpty(configData)) {
+            if (!TextUtils.isEmpty(configData)) {
                 this.configData = JSON.parseObject(configData, ConfigData.class);
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
                 notifyConfigDataChange(dataWrapper);
