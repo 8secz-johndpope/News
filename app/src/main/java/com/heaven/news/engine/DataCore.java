@@ -7,8 +7,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
@@ -17,13 +15,10 @@ import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.ui.vm.model.base.EasyGoService;
 import com.heaven.news.ui.vm.model.base.HomeService;
-import com.heaven.news.ui.vm.model.base.ConfigData;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 import com.heaven.news.ui.vm.model.base.PhoenixService;
 import com.heaven.news.ui.vm.model.base.UserLoginInfo;
 import com.heaven.news.ui.vm.model.base.UserSecret;
-import com.heaven.news.ui.vm.model.base.Version;
-import com.heaven.news.ui.vm.model.base.VersionUpdate;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.easycardmodel.EasyCardWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.easycardmodel.WALLET_QUERY;
@@ -42,16 +37,12 @@ import com.neusoft.szair.model.memberbase.phoneVo;
 import com.neusoft.szair.model.memberbase.queryRespVO;
 import com.neusoft.szair.model.memberbase.vipDetails;
 import com.neusoft.szair.model.memberbase.vipDocument;
-import com.neusoft.szair.model.memberbase.wrappedQueryRespVO;
 import com.neusoft.szair.model.soap.SOAPConstants;
 import com.neusoft.szair.model.usercouponsearch.UserCouponSearchWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.usercouponsearch.queryUseCouponCnt;
 import com.neusoft.szair.model.usercouponsearch.userCouponSearchConditionVO;
 import com.orhanobut.logger.Logger;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -412,7 +403,7 @@ public class DataCore {
 
     private int requestHomeCount = 0;
     private void requestHomeConfig() {
-        long taskId = RxRepUtils.getNormalConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
+        long taskId = RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), homeConfigData -> {
             if(!TextUtils.isEmpty(homeConfigData)) {
                 this.homeConfigData = JSON.parseObject(homeConfigData, HomeImageInfo.class);
                 dataSource.cacheData(DataSource.DISK, Constants.HOMECONFIG, homeConfigData);
