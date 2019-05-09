@@ -193,34 +193,13 @@ public class ConfigData implements Serializable {
     public List<String> ylywDate;
     public List<String> ylywCity;
 
-	public static class Airline implements  Serializable{
+    public ConfigData() {
+    }
+
+    public static class Airline implements  Serializable{
 		public String code;
 		public String text;
 		public String en;
-		public Airline(String code, String text, String en){
-			this.code = code;
-			this.text = text;
-			this.en = en;
-		}
-
-		public String getCode() {
-			return code;
-		}
-		public void setCode(String code) {
-			this.code = code;
-		}
-		public String getText() {
-			return text;
-		}
-		public void setText(String text) {
-			this.text = text;
-		}
-		public void setEn(String en) {
-			this.en = en;
-		}
-		public String getEn() {
-			return en;
-		}
 	}
 
     @Override

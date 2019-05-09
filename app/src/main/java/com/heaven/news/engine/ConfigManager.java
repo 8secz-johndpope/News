@@ -8,11 +8,14 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Pair;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.heaven.base.ui.view.calendar.Calendar;
 import com.heaven.base.ui.view.calendar.CalendarUtil;
+import com.heaven.base.ui.view.calendar.FestivalDay;
 import com.heaven.base.ui.view.calendar.LunarCalendar;
 import com.heaven.base.ui.view.calendar.Month;
 import com.heaven.data.manager.DataSource;
@@ -37,6 +40,7 @@ import com.orhanobut.logger.Logger;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,6 +71,7 @@ public class ConfigManager {
     public static String CITY_INDEX = "city_index";
     SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy年MM月");
 
+    Gson gson = new Gson();
 
     private final Object lock = new Object();
 
@@ -89,16 +94,18 @@ public class ConfigManager {
     private HashMap<String, Integer> indexMap = new HashMap<>();
     private HashMap<String, Integer> indexMapEn = new HashMap<>();
     private ArrayList<Month> calendars = new ArrayList<>();
+    private List<FestivalDay> calendarFestivals = new ArrayList<>();
     private int cityGroupIndexOffset = 0;
 
     ConfigManager(DataSource dataSource, Context context) {
         this.context = context;
         this.dataSource = dataSource;
-        requestVersion();
-        requestConfig();
-        dataSource.runWorkThread(this::initLocalCity);
-        dataSource.runWorkThread(() -> initCalendar(context));
-        dataSource.runWorkThread(() -> loadLocalService(context));
+//        requestVersion();
+//        requestConfig();
+        requestCalendarFestival();
+//        dataSource.runWorkThread(this::initLocalCity);
+//        dataSource.runWorkThread(() -> initCalendar(context));
+//        dataSource.runWorkThread(() -> loadLocalService(context));
     }
 
 
@@ -305,6 +312,16 @@ public class ConfigManager {
                 }
             }
             Logger.i("requestVersion" + configData.toString());
+        });
+    }
+
+    private void requestCalendarFestival() {
+        reqverTaskId = RxRepUtils.getNormalConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getCalendarFestivalConfig(), configData -> {
+            if(!TextUtils.isEmpty(configData)) {
+                Type type = new TypeReference<List<FestivalDay>>() {}.getType();
+                calendarFestivals = JSON.parseObject(configData, type);
+            }
+            Logger.i("requestCalendarFestival" + calendarFestivals.toString());
         });
     }
 

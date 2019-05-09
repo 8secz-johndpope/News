@@ -70,7 +70,16 @@ public class RxRepUtils {
             .subscribeOn(Schedulers.io());
 //            .observeOn(AndroidSchedulers.mainThread());
 
-
+    private static final FlowableTransformer<?, ?> M_IO_MAIN_CONFIG
+            = flowable -> flowable
+            .onErrorReturn((Function<Throwable, HomeImageInfo>) throwable -> {
+                HomeImageInfo configData = new HomeImageInfo();
+                DataResponse dataResponse = ExceptionHandle.handleException(throwable);
+                configData.netCode = dataResponse.code;
+                configData.message = dataResponse.reason;
+                return configData;
+            })
+            .subscribeOn(Schedulers.io());
 
     @SuppressWarnings("unchecked")
     private static <T> FlowableTransformer<T, T> ioMain() {
@@ -87,6 +96,17 @@ public class RxRepUtils {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_HOME_CONFIG;
     }
 
+    @SuppressWarnings("unchecked")
+    private static <T> FlowableTransformer<T, T> ioConfig() {
+        return (FlowableTransformer<T, T>) M_IO_MAIN_CONFIG;
+    }
+
+    public static  <T> long getNormalConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
+        long taskId = getTaskId();
+        Disposable disposable = resultFlowable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(getTaskConsumer(taskId, consumer));
+        reqTasks.put(taskId, disposable);
+        return taskId;
+    }
 
     public static  <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
