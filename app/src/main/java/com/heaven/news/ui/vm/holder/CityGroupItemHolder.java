@@ -13,6 +13,7 @@ import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.ui.decoration.ItemSpecialCityDecoration;
+import com.heaven.news.ui.decoration.VerticalDecoration;
 import com.heaven.news.ui.vm.model.base.CityGroup;
 import com.neusoft.szair.model.city.cityListVO;
 
@@ -61,6 +62,7 @@ public class CityGroupItemHolder extends BaseMultItem<CityGroup> {
                 cityGroupRecycler.setAdapter(routeAdapter);
                 routeAdapter.register(new CityItemHolder(cityListVO.class, R.layout.city_item));
                 cityGroupRecycler.setLayoutManager(new LinearLayoutManager(holder.context));
+                cityGroupRecycler.addItemDecoration(new VerticalDecoration(holder.context,1));
                 if(cityGroup.citysList != null) {
                     routeAdapter.updateItems(cityGroup.citysList);
                 }

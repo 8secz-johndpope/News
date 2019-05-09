@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.heaven.news.ui.vm.holder;
+package com.heaven.news.ui.decoration;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -23,24 +24,23 @@ import android.view.View;
 /**
  * @author drakeet
  */
-public class BannerItemDecoration extends RecyclerView.ItemDecoration {
+public class VerticalDecoration extends RecyclerView.ItemDecoration {
 
     private int space;
-
-    public BannerItemDecoration(int space) {
-        this.space = space;
+    private Context context;
+    private int dividerHeight;
+    public VerticalDecoration(Context context,int dividerHeight) {
+        this.context = context;
+        this.dividerHeight = dividerHeight;
     }
 
 
     @Override
     public void getItemOffsets(
             Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-//        int position = parent.getChildLayoutPosition(view);
-//        if (spanSizeLookup.getSpanSize(position) < 4) {
-        outRect.top = space;
-        outRect.left = space;
-        outRect.right = space;
-        outRect.bottom = space;
-//        }
+        int position = parent.getChildLayoutPosition(view);
+        if(position != 0) {
+            outRect.top = dividerHeight;
+        }
     }
 }
