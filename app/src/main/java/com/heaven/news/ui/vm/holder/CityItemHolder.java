@@ -2,6 +2,7 @@ package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -9,11 +10,13 @@ import android.widget.TextView;
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
+import com.heaven.base.ui.view.calendar.Calendar;
 import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.decoration.ItemDecoration;
 import com.heaven.news.ui.decoration.ItemSpecialCityDecoration;
+import com.heaven.news.ui.vm.model.base.CityGroup;
 import com.neusoft.szair.model.city.cityListVO;
 
 /**
@@ -25,52 +28,25 @@ import com.neusoft.szair.model.city.cityListVO;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class CityItemHolder extends BaseMultItem<cityListVO> {
-    ItemSpecialCityDecoration decoration = null;
-    GridLayoutManager gridLayoutManager = null;
 
-    public CityItemHolder(@NonNull Class<cityListVO> modelBean, int itemLayoutId) {
-        super(modelBean, itemLayoutId);
+    public CityItemHolder(@NonNull Class<cityListVO> cityListVO, int itemLayoutId) {
+        super(cityListVO, itemLayoutId);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull cityListVO city) {
-        RecyclerView specialRecycler = holder.getView(R.id.special_citys);
-        TextView normal = holder.getView(R.id.city_name);
-        if (city.groupFlag == 1 || city.groupFlag == 2 || city.groupFlag == 3) {
-            specialRecycler.setVisibility(View.VISIBLE);
-            normal.setVisibility(View.GONE);
-            specialRecycler.setLayoutManager(new GridLayoutManager(holder.context, 3));
-
-            if (decoration == null) {
-                decoration = new ItemSpecialCityDecoration(3, ScreenUtil.dip2px(holder.context, 5));
-                specialRecycler.addItemDecoration(decoration);
-            } else {
-                specialRecycler.removeItemDecoration(decoration);
-                specialRecycler.addItemDecoration(decoration);
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull cityListVO cityListVO) {
+        holder.setText(R.id.city_name,cityListVO._FULL_NAME);
+        holder.setOnClickListener(R.id.city_name, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppEngine.instance().confManager().saveCityOften(cityListVO);
             }
-            BaseAdapter<cityListVO> routeAdapter = new BaseAdapter<>(holder.context);
-            routeAdapter.register(new CitySpecialItemHolder(cityListVO.class, R.layout.city_special_item));
-            specialRecycler.setAdapter(routeAdapter);
-            if (city.specialCitys != null) {
-                routeAdapter.updateItems(city.specialCitys);
-            }
-
-        } else {
-            specialRecycler.setVisibility(View.GONE);
-            normal.setVisibility(View.VISIBLE);
-            holder.setText(R.id.city_name, city._FULL_NAME);
-            holder.setOnClickListener(R.id.city_name, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AppEngine.instance().confManager().saveCityOften(city);
-                }
-            });
-        }
+        });
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull cityListVO city, Object payload) {
-        holder.setText(R.id.city_name, city._FULL_NAME);
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull cityListVO cityListVO, Object payload) {
+//        holder.setText(R.id.city_name, city._FULL_NAME);
     }
 
 }

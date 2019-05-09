@@ -36,6 +36,21 @@ public class IoUtil {
         return dest;
     }
 
+    public static <T> T deepCopyList(T src) {
+        T dest = null;
+        try {
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(byteOut);
+            out.writeObject(src);
+            ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
+            ObjectInputStream in = new ObjectInputStream(byteIn);
+            dest = (T) in.readObject();
+        } catch (Exception e) {
+
+        }
+        return dest;
+    }
+
     public static void save(String fileName, String content) {
         FileOutputStream fos = null;
         try {

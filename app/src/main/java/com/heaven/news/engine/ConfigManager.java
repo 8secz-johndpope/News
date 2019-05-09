@@ -23,6 +23,8 @@ import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.api.VersionApi;
+import com.heaven.news.ui.vm.model.base.CityGroup;
+import com.heaven.news.ui.vm.model.base.CityInfo;
 import com.heaven.news.ui.vm.model.base.ConfigData;
 import com.heaven.news.ui.vm.model.base.EasyGoService;
 import com.heaven.news.ui.vm.model.base.HomeService;
@@ -52,6 +54,8 @@ import java.util.Vector;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * FileName: com.heaven.news.engine.ConfigManager.java
@@ -65,8 +69,8 @@ public class ConfigManager {
     public static int VERSION = 0;
     public static String CITY_CURRENT = "city_current";
     public static String CALENDAR_FESTIVAL = "calendar_festival";
-    public static String CITY = "city";
-    public static String CITY_EN = "city_en";
+    public static String CITY_INFO = "city_info";
+    public static String CITY_LAST = "city_last";
     public static String CITY_OFTEN = "city_often";
     public static String CITY_HOT = "city_hot";
     public static String CITY_INDEX = "city_index";
@@ -87,6 +91,9 @@ public class ConfigManager {
     private EasyGoService easyGoService;//易行服务
     private PhoenixService phoenixService;//凤凰知音服务
     private cityListVO currentCity;
+    private CityInfo cityInfo = new CityInfo();
+    private HashMap<String, CityGroup> cityGroupChMap = new HashMap<>();
+    private HashMap<String, CityGroup> cityGroupEnMap = new HashMap<>();
     private List<cityListVO> citys = new ArrayList<>();
     private List<cityListVO> citysEn = new ArrayList<>();
     private List<cityListVO> citysOften = new Vector<>();
@@ -96,7 +103,6 @@ public class ConfigManager {
     private HashMap<String, Integer> indexMapEn = new HashMap<>();
     private List<Month> calendars = new ArrayList<>();
     private List<FestivalDay> calendarFestivals = new ArrayList<>();
-    private int cityGroupIndexOffset = 0;
 
     ConfigManager(DataSource dataSource, Context context) {
         this.context = context;
@@ -114,75 +120,6 @@ public class ConfigManager {
         loadHomeService(context);
         loadEasyGoService(context);
         loadPhoenixService(context);
-    }
-
-    public Pair<List<cityListVO>, List<String>> getAllCitys() {
-        ArrayList<cityListVO> citysAll = new ArrayList<>();
-        cityGroupIndexOffset = 0;
-        if (currentCity != null) {
-            currentCity.groupTitle = "当前城市";
-            currentCity.groupFlag = 1;
-            currentCity.isFirstInGroup = true;
-            currentCity.isLastInGroup = true;
-            currentCity.specialCitys = new ArrayList<>();
-            currentCity.specialCitys.add(currentCity);
-            citysAll.add(currentCity);
-            indexMap.put("当前", 0);
-            cityGroupIndexOffset++;
-        }
-
-        if (citysOften != null && citysOften.size() > 0) {
-            cityListVO oftenCitys = new cityListVO();
-            oftenCitys.groupFlag = 2;
-            oftenCitys.isTitle = true;
-            oftenCitys.specialCitys = citysOften;
-            oftenCitys.isFirstInGroup = true;
-            oftenCitys.isLastInGroup = true;
-            oftenCitys.groupTitle = "常用城市";
-            citysAll.add(oftenCitys);
-            indexMap.put("常用", 1);
-            cityGroupIndexOffset++;
-
-        }
-
-        if (citysHot != null && citysHot.size() > 0) {
-            cityListVO hotCitys = new cityListVO();
-            hotCitys.groupFlag = 3;
-            hotCitys.isTitle = true;
-            hotCitys.specialCitys = citysHot;
-            hotCitys.isFirstInGroup = true;
-            hotCitys.isLastInGroup = true;
-            hotCitys.groupTitle = "热门城市";
-            citysAll.add(hotCitys);
-            indexMap.put("热门", 2);
-            cityGroupIndexOffset++;
-        }
-
-        if (citys != null && citys.size() > 0) {
-            citysAll.addAll(citys);
-        }
-
-        ArrayList<String> indexNameLlist = new ArrayList<>(indexMap.keySet());
-        Collections.sort(indexNameLlist, (o1, o2) -> {
-            if (o1.equals("当前")) {
-                return -1;
-            } else if (o2.equals("当前")) {
-                return 1;
-            } else if (o1.equals("常用")) {
-                return -1;
-            } else if (o2.equals("常用")) {
-                return 1;
-            } else if (o1.equals("热门")) {
-                return -1;
-            } else if (o2.equals("热门")) {
-                return 1;
-            } else {
-                return o1.compareTo(o2);
-            }
-
-        });
-
-        return new Pair<>(citysAll, indexNameLlist);
     }
 
     public List<Month> loadMonth() {
@@ -218,7 +155,6 @@ public class ConfigManager {
     }
 
 
-
     private void createMonthData(java.util.Calendar month, Calendar currentDate) {
         Date date = month.getTime();
         Month monthWrapper = new Month();
@@ -228,23 +164,6 @@ public class ConfigManager {
         monthWrapper.addDayInMonth(CalendarUtil.initCalendarForMonthView(monthWrapper.year, monthWrapper.month, currentDate, 1));
         calendars.add(monthWrapper);
         Logger.i("initCalendar--" + monthWrapper.title);
-    }
-
-    public int getCityGroupIndex(String indexName) {
-        int index = 0;
-        if (indexMap != null && indexMap.containsKey(indexName)) {
-            if ("当前".equals(indexName)) {
-                return 0;
-            } else if ("常用".equals(indexName)) {
-                return 1;
-            } else if ("热门".equals(indexName)) {
-                return 2;
-            } else {
-                index = indexMap.get(indexName);
-                index += cityGroupIndexOffset;
-            }
-        }
-        return index;
     }
 
     public HomeService loadHomeService(Context context) {
@@ -322,7 +241,7 @@ public class ConfigManager {
                 Type type = new TypeReference<List<FestivalDay>>() {
                 }.getType();
                 calendarFestivals = JSON.parseObject(configData, type);
-                if(calendarFestivals != null && calendarFestivals.size() > 0) {
+                if (calendarFestivals != null && calendarFestivals.size() > 0) {
                     dataSource.cacheData(DataSource.DISK, CALENDAR_FESTIVAL, calendarFestivals);
                 }
             }
@@ -330,7 +249,7 @@ public class ConfigManager {
     }
 
     private void configSuccess(ConfigData configData) {
-        if(configData != null) {
+        if (configData != null) {
             if (configData.timestamp != null) {
                 refreshConfigByTimeStamp(configData.timestamp);
             }
@@ -360,16 +279,12 @@ public class ConfigManager {
         }
     }
 
-
     private void initLocalCity() {
         synchronized (lock) {
             currentCity = dataSource.getCacheEntity(DataSource.DISK, CITY_CURRENT);
             if (currentCity == null) {
                 currentCity = getCityBySanCode("SZX");
             }
-            citys = loadLocalCityCh();
-            citysEn = loadLocalCityEn();
-            citysIndex = loadLocalCityIndex();
             List<cityListVO> hotsCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_HOT);
             if (hotsCitys != null && hotsCitys.size() > 0) {
                 citysHot = hotsCitys;
@@ -379,18 +294,127 @@ public class ConfigManager {
             if (oftenCitys != null && oftenCitys.size() > 0) {
                 citysOften = oftenCitys;
             }
-            groupCity();
+
+            List<cityListVO> lastCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_LAST);
+            if (lastCitys == null || lastCitys.size() == 0) {
+                lastCitys = loadLocalRawCity();
+            }
+            groupCityBy(lastCitys);
             cacheData();
         }
     }
 
-    private void cacheData() {
-        if (citys != null && citys.size() > 0) {
-            dataSource.cacheData(DataSource.DISK, CITY, citys);
-        }
+    public CityInfo loadAllCity() {
+        if (cityInfo.chIndexs.size() == 0 || cityInfo.chCityGroups.size() == 0) {
+            List<cityListVO> lastCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_LAST);
+            if (lastCitys == null || lastCitys.size() == 0) {
+                lastCitys = loadLocalRawCity();
+                groupCityBy(lastCitys);
 
-        if (citysEn != null && citysEn.size() > 0) {
-            dataSource.cacheData(DataSource.DISK, CITY_EN, citysEn);
+            }
+            return IoUtil.deepCopyList(cityInfo);
+
+        } else {
+            return IoUtil.deepCopyList(cityInfo);
+        }
+    }
+
+    private CityInfo groupCityBy(List<cityListVO> citys) {
+        cityGroupChMap.clear();
+        cityGroupEnMap.clear();
+        final Disposable subscribe = Flowable.fromIterable(citys).groupBy(cityListVO -> String.valueOf(Character.toUpperCase(cityListVO._PY_NAME.charAt(0)))).subscribe(groupedFlowable -> {
+            final Disposable subscribe1 = groupedFlowable.subscribe(new GroupCityConsume(groupedFlowable.getKey(), 0));
+        });
+
+        final Disposable subscribe1 = Flowable.fromIterable(citys).groupBy(cityListVO -> String.valueOf(Character.toUpperCase(cityListVO._FULLNAME_EN.charAt(0)))).subscribe(groupedFlowable -> {
+            final Disposable subscribe2 = groupedFlowable.subscribe(new GroupCityConsume(groupedFlowable.getKey(), 1));
+        });
+
+        CityGroup currentCityGroup = new CityGroup();
+        currentCityGroup.groupTitle = context.getString(R.string.current_city_title);
+        currentCityGroup.groupFlag = 1;
+        currentCityGroup.addCity(currentCity);
+
+        CityGroup offtenCityGroup = new CityGroup();
+        offtenCityGroup.groupTitle = context.getString(R.string.offten_city_title);
+        ;
+        offtenCityGroup.groupFlag = 2;
+        offtenCityGroup.addCityAll(citysOften);
+
+        CityGroup hotCityGroup = new CityGroup();
+        hotCityGroup.groupTitle = context.getString(R.string.hot_city_title);
+        ;
+        hotCityGroup.groupFlag = 3;
+        hotCityGroup.addCityAll(citysHot);
+
+        cityGroupChMap.put(currentCityGroup.groupTitle, currentCityGroup);
+        cityGroupChMap.put(offtenCityGroup.groupTitle, offtenCityGroup);
+        cityGroupChMap.put(hotCityGroup.groupTitle, hotCityGroup);
+
+        cityGroupEnMap.put(currentCityGroup.groupTitle, currentCityGroup);
+        cityGroupEnMap.put(offtenCityGroup.groupTitle, offtenCityGroup);
+        cityGroupEnMap.put(hotCityGroup.groupTitle, hotCityGroup);
+
+        List<Map.Entry<String, CityGroup>> cityListCh = new ArrayList<>(cityGroupChMap.entrySet());
+        Collections.sort(cityListCh, (o1, o2) -> {
+            if (context.getString(R.string.current_city_title).equals(o1.getKey())) {
+                return -1;
+            } else if (context.getString(R.string.current_city_title).equals(o2.getKey())) {
+                return 1;
+            } else if (context.getString(R.string.offten_city_title).equals(o1.getKey())) {
+                return -1;
+            } else if (context.getString(R.string.offten_city_title).equals(o2.getKey())) {
+                return 1;
+            } else if (context.getString(R.string.hot_city_title).equals(o1.getKey())) {
+                return -1;
+            } else if (context.getString(R.string.hot_city_title).equals(o2.getKey())) {
+                return 1;
+            } else {
+                return o1.getKey().compareTo(o2.getKey());
+            }
+        });
+
+        List<Map.Entry<String, CityGroup>> cityListEn = new ArrayList<>(cityGroupEnMap.entrySet());
+        Collections.sort(cityListEn, (o1, o2) -> {
+            if (context.getString(R.string.current_city_title).equals(o1.getKey())) {
+                return -1;
+            } else if (context.getString(R.string.current_city_title).equals(o2.getKey())) {
+                return 1;
+            } else if (context.getString(R.string.offten_city_title).equals(o1.getKey())) {
+                return -1;
+            } else if (context.getString(R.string.offten_city_title).equals(o2.getKey())) {
+                return 1;
+            } else if (context.getString(R.string.hot_city_title).equals(o1.getKey())) {
+                return -1;
+            } else if (context.getString(R.string.hot_city_title).equals(o2.getKey())) {
+                return 1;
+            } else {
+                return o1.getKey().compareTo(o2.getKey());
+            }
+        });
+
+        cityInfo.clearData();
+
+        final Disposable subscribe2 = Flowable.fromIterable(cityListCh).subscribe(groupEntry -> {
+            cityInfo.chIndexs.add(groupEntry.getKey());
+            cityInfo.chCityGroups.add(groupEntry.getValue());
+        });
+
+        final Disposable subscribe3 = Flowable.fromIterable(cityListEn).subscribe(groupEntry -> {
+            cityInfo.enIndexs.add(groupEntry.getKey());
+            cityInfo.enCityGroups.add(groupEntry.getValue());
+        });
+
+        dataSource.cacheData(DataSource.DISK, CITY_INFO, cityInfo);
+        dataSource.cacheData(DataSource.DISK, CITY_LAST, citys);
+        Logger.i("groupCityBy---" + cityInfo.toString());
+        return cityInfo;
+    }
+
+    private void cacheData() {
+
+        if (cityInfo != null && cityInfo.chCityGroups.size() > 0) {
+            dataSource.cacheData(DataSource.DISK, CITY_INFO, cityInfo);
         }
 
         if (citysIndex != null && citysIndex.size() > 0) {
@@ -426,46 +450,13 @@ public class ConfigManager {
         return citysIndex;
     }
 
-    private List<cityListVO> loadLocalCityCh() {
-        List<cityListVO> citys = dataSource.getCacheEntity(DataSource.DISK, CITY);
-        if (citys == null) {
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-            InputStream allServiceIn = context.getResources().openRawResource(R.raw.city);
-            Reader readerAll = new InputStreamReader(allServiceIn);
-            citys = gson.fromJson(readerAll, new TypeToken<List<cityListVO>>() {
-            }.getType());
-            sortCity(citys);
-        }
-        return citys;
-    }
-
-    private List<cityListVO> loadLocalCityEn() {
-        List<cityListVO> citysEn = dataSource.getCacheEntity(DataSource.DISK, CITY_EN);
-        if (citysEn == null) {
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-            InputStream allServiceIn = context.getResources().openRawResource(R.raw.city);
-            Reader readerAll = new InputStreamReader(allServiceIn);
-            citysEn = gson.fromJson(readerAll, new TypeToken<List<cityListVO>>() {
-            }.getType());
-            sortCityEn(citysEn);
-        }
+    private List<cityListVO> loadLocalRawCity() {
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        InputStream allServiceIn = context.getResources().openRawResource(R.raw.city);
+        Reader readerAll = new InputStreamReader(allServiceIn);
+        citysEn = gson.fromJson(readerAll, new TypeToken<List<cityListVO>>() {
+        }.getType());
         return citysEn;
-    }
-
-    public List<cityListVO> loadCitys(int cityType) {
-        if (0 == cityType) {
-            if (citys != null && citys.size() > 0) {
-                return citys;
-            } else {
-                return loadLocalCityCh();
-            }
-        } else {
-            if (citysEn != null && citysEn.size() > 0) {
-                return citysEn;
-            } else {
-                return loadLocalCityEn();
-            }
-        }
     }
 
     @SuppressLint("CheckResult")
@@ -512,20 +503,8 @@ public class ConfigManager {
     private void loadNewCitys(List<cityListVO> newCitys) {
         synchronized (lock) {
             if (newCitys != null && newCitys.size() > 0) {
-                List<cityListVO> newCitysCh = IoUtil.deepCopyList(newCitys);
-                List<cityListVO> newCitysEn = IoUtil.deepCopyList(newCitys);
-                List<cityListVO> newCitysIndex = IoUtil.deepCopyList(newCitys);
-                sortCity(newCitysCh);
-                sortCityEn(newCitysEn);
-                sortCityIndex(newCitysIndex);
-                this.citys = newCitysCh;
-                this.citysEn = newCitysEn;
-                this.citysIndex = newCitysIndex;
-                dataSource.cacheData(DataSource.DISK, CITY, newCitysCh);
-                dataSource.cacheData(DataSource.DISK, CITY_EN, newCitysEn);
-                dataSource.cacheData(DataSource.DISK, CITY_INDEX, newCitysIndex);
-                groupCity();
-                testWriteCity(newCitysCh);
+                groupCityBy(newCitys);
+                testWriteCity(newCitys);
             }
         }
     }
@@ -557,38 +536,6 @@ public class ConfigManager {
     }
 
 
-    private void sortCity(List<cityListVO> citys) {
-        Collections.sort(citys, (o1, o2) -> {
-            char cityO1 = TextUtils.isEmpty(o1._PY_NAME) ? ' ' : Character.toUpperCase(o1._PY_NAME.charAt(0));
-            char cityO2 = TextUtils.isEmpty(o2._PY_NAME) ? ' ' : Character.toUpperCase(o2._PY_NAME.charAt(0));
-
-            int compare = 0;
-            if (cityO1 > cityO2) {
-                compare = 1;
-            } else if (cityO1 < cityO2) {
-                compare = -1;
-            }
-
-            return compare;
-        });
-    }
-
-    private void sortCityEn(List<cityListVO> citys) {
-        Collections.sort(citys, (o1, o2) -> {
-            char cityO1 = TextUtils.isEmpty(o1._FULLNAME_EN) ? ' ' : Character.toUpperCase(o1._FULLNAME_EN.charAt(0));
-            char cityO2 = TextUtils.isEmpty(o2._FULLNAME_EN) ? ' ' : Character.toUpperCase(o2._FULLNAME_EN.charAt(0));
-
-            int compare = 0;
-            if (cityO1 > cityO2) {
-                compare = 1;
-            } else if (cityO1 < cityO2) {
-                compare = -1;
-            }
-
-            return compare;
-        });
-    }
-
     private void sortCityIndex(List<cityListVO> citys) {
         Collections.sort(citys, (o1, o2) -> {
             String cityO1 = TextUtils.isEmpty(o1._SHORT_NAME) ? "" : o1._SHORT_NAME.toUpperCase();
@@ -597,57 +544,6 @@ public class ConfigManager {
         });
     }
 
-    @SuppressLint("CheckResult")
-    private void groupCity() {
-        synchronized (lock) {
-            indexMap.clear();
-            indexMapEn.clear();
-            if (citys != null && citys.size() > 0) {
-                Observable.fromIterable(citys).subscribe(cityListVO -> {
-                    if (!TextUtils.isEmpty(cityListVO._PY_NAME)) {
-                        String groupTitle = String.valueOf(Character.toUpperCase(cityListVO._PY_NAME.charAt(0)));
-                        if (!indexMap.containsKey(groupTitle)) {
-                            cityListVO.isTitle = true;
-                            cityListVO.groupTitle = groupTitle;
-                            cityListVO.isFirstInGroup = true;
-                            int index = citys.indexOf(cityListVO);
-                            if (index > 0) {
-                                cityListVO preLast = citys.get(index - 1);
-                                preLast.isLastInGroup = true;
-                            }
-                            indexMap.put(groupTitle, index);
-                        } else {
-                            cityListVO.groupTitle = groupTitle;
-                        }
-                    }
-                });
-                Logger.i("groupCity---");
-            }
-
-            if (citysEn != null && citysEn.size() > 0) {
-                Observable.fromIterable(citysEn).subscribe(cityListVO -> {
-                    if (!TextUtils.isEmpty(cityListVO._FULLNAME_EN)) {
-                        String groupTitle = String.valueOf(Character.toUpperCase(cityListVO._FULLNAME_EN.charAt(0)));
-                        if (!indexMapEn.containsKey(groupTitle)) {
-                            cityListVO.isTitle = true;
-                            cityListVO.groupTitle = groupTitle;
-                            cityListVO.isFirstInGroup = true;
-                            int index = citys.indexOf(cityListVO);
-                            if (index > 0) {
-                                cityListVO preLast = citys.get(index - 1);
-                                preLast.isLastInGroup = true;
-                            }
-                            indexMapEn.put(groupTitle, citysEn.indexOf(cityListVO));
-                        } else {
-                            cityListVO.groupTitle = groupTitle;
-                        }
-                        Logger.i("groupCity1---" + groupTitle);
-                    }
-                });
-                Logger.i("groupCity---");
-            }
-        }
-    }
 
     public void registerDataTypeObaserver(LifecycleOwner lifecycleOwner, Observer<ConfigWrapper> typeObserver) {
         if (!observers.containsKey(typeObserver)) {
@@ -694,5 +590,46 @@ public class ConfigManager {
 
     public ConfigWrapper getConfigWrapper() {
         return configWrapper;
+    }
+
+
+    public class GroupCityConsume implements Consumer<cityListVO> {
+        private String key;
+        private int type = 0;//0中文 1英文
+
+        public GroupCityConsume(String key, int type) {
+            this.key = key;
+            this.type = type;
+        }
+
+        @Override
+        public void accept(cityListVO cityListVO) throws Exception {
+            if (type == 0) {
+                if (cityGroupChMap.containsKey(key)) {
+                    CityGroup cityGroup = cityGroupChMap.get(key);
+                    if (cityGroup != null) {
+                        cityGroup.addCity(cityListVO);
+                    }
+                } else {
+                    CityGroup cityGroup = new CityGroup();
+                    cityGroup.groupTitle = key;
+                    cityGroup.addCity(cityListVO);
+                    cityGroupChMap.put(key, cityGroup);
+                }
+
+            } else {
+                if (cityGroupEnMap.containsKey(key)) {
+                    CityGroup cityGroup = cityGroupEnMap.get(key);
+                    if (cityGroup != null) {
+                        cityGroup.addCity(cityListVO);
+                    }
+                } else {
+                    CityGroup cityGroup = new CityGroup();
+                    cityGroup.groupTitle = key;
+                    cityGroup.addCity(cityListVO);
+                    cityGroupEnMap.put(key, cityGroup);
+                }
+            }
+        }
     }
 }

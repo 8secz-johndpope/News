@@ -100,4 +100,9 @@
     <string name="mine_mile">里程</string>
     <string name="yuan">元</string>
     <string name="zhang">张</string>
+
+    <string name="current_city_title">当前城市</string>
+    <string name="offten_city_title">常用城市</string>
+    <string name="hot_city_title">热门城市</string>
+
 </resources>

@@ -18,8 +18,11 @@ import com.heaven.news.databinding.SelectCityBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.decoration.StickySectionDecoration;
+import com.heaven.news.ui.vm.holder.CityGroupItemHolder;
 import com.heaven.news.ui.vm.holder.CityIndexItemHolder;
 import com.heaven.news.ui.vm.holder.CityItemHolder;
+import com.heaven.news.ui.vm.model.base.CityGroup;
+import com.heaven.news.ui.vm.model.base.CityInfo;
 import com.heaven.news.ui.vm.vmmodel.SelectCityViewModel;
 import com.neusoft.szair.model.city.cityListVO;
 import com.orhanobut.logger.Logger;
@@ -74,8 +77,8 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
         LinearLayoutManager manager = new LinearLayoutManager(this);
         RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
         recyclerView.setLayoutManager(manager);
-        BaseAdapter<cityListVO> routeAdapter = new BaseAdapter<>(this);
-        routeAdapter.register(new CityItemHolder(cityListVO.class, R.layout.city_item));
+        BaseAdapter<CityGroup> routeAdapter = new BaseAdapter<>(this);
+        routeAdapter.register(new CityGroupItemHolder(CityGroup.class, R.layout.city_group_item));
         recyclerView.setAdapter(routeAdapter);
         recyclerView.addItemDecoration(new StickySectionDecoration(this, R.color.textColor, new StickySectionDecoration.StickHeaderCallback() {
             @Override
@@ -93,9 +96,9 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
                 return routeAdapter.getItemData(position).groupTitle;
             }
         }));
-        Pair<List<cityListVO>, List<String>> citysIndex = AppEngine.instance().confManager().getAllCitys();
-        routeAdapter.updateItems(citysIndex.first);
-        initCityGroupIndex(citysIndex.second,manager);
+        CityInfo cityInfo = AppEngine.instance().confManager().loadAllCity();
+        routeAdapter.updateItems(cityInfo.chCityGroups);
+        initCityGroupIndex(cityInfo.chIndexs,manager);
 
         mViewBinding.swipeToLoadLayout.setRefreshing(false);
         mViewBinding.swipeToLoadLayout.setLoadingMore(false);
@@ -114,8 +117,7 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
             routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<String>() {
                 @Override
                 public void onItemClick(View view, RecyclerView.ViewHolder holder, String o, int position) {
-                    int index = AppEngine.instance().confManager().getCityGroupIndex(o);
-                    nameIndexManager.scrollToPositionWithOffset(index, 0);
+                    nameIndexManager.scrollToPositionWithOffset(position, 0);
                     Logger.i(o);
                 }
 
