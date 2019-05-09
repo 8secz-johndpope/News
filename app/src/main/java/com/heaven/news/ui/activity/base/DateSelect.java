@@ -59,13 +59,11 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
         mViewBinding.swipeTarget.addItemDecoration(new StickySectionDecoration(this, R.color.textColor, new StickySectionDecoration.StickHeaderCallback() {
             @Override
             public boolean isFirstInGroup(int position) {
-                Month item = routeAdapter.getItemData(position);
                 return true;
             }
 
             @Override
             public boolean isLastInGroup(int position) {
-                Month item = routeAdapter.getItemData(position);
                 return true;
             }
 
