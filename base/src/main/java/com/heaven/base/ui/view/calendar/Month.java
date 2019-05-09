@@ -22,5 +22,4 @@ public class Month {
         days.clear();
         days.addAll(dayList);
     }
-
 }

@@ -20,13 +20,6 @@ import com.heaven.news.R;
 import com.heaven.news.databinding.RouteBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
-import com.heaven.news.manyData.adapter.ItemVIew01;
-import com.heaven.news.manyData.adapter.ItemVIew02;
-import com.heaven.news.manyData.adapter.ItemVIew03;
-import com.heaven.news.manyData.adapter.ItemVIewNormal;
-import com.heaven.news.manyData.bean.Bean01;
-import com.heaven.news.manyData.bean.Bean02;
-import com.heaven.news.manyData.bean.Bean03;
 import com.heaven.news.ui.decoration.RouteTimeDecorationn;
 import com.heaven.news.ui.vm.holder.RouteItemHolder;
 import com.heaven.news.ui.vm.vmmodel.MainViewModel;
@@ -107,40 +100,6 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
         });
 
 //        multAdapterTest();
-    }
-
-
-    private void multAdapterTest() {
-        List<Object> items;
-        RecyclerView recyclerView = mViewBinding.swipeToLoadLayout.findViewById(R.id.swipe_target);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        BaseMultAdapter adapter = new BaseMultAdapter(getContext());
-
-        adapter.register(new ItemVIewNormal(String.class, R.layout.item_go));
-        adapter.register(new ItemVIew01(Bean01.class, R.layout.item_one));
-        adapter.register(new ItemVIew02(Bean02.class, R.layout.item_two));
-        adapter.register(new ItemVIew03(Bean03.class, R.layout.item_three));
-
-        final GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 4);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setFocusableInTouchMode(false);
-        items = new ArrayList<>();
-        for (int j = 0; j < 10; j++) {
-            items.add(" 多数据 -> 多类型  ");
-            for (int i = 0; i < 8; i++) {
-                items.add(new Bean01("bean01_" + i));
-            }
-            for (int i = 0; i < 4; i++) {
-                items.add(new Bean02("bean02_" + i));
-            }
-            for (int i = 0; i < 2; i++) {
-                items.add(new Bean03("bean03_" + i));
-            }
-        }
-
-        adapter.updateItems(items);
     }
 
     @Override

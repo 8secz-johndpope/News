@@ -26,6 +26,7 @@ import com.heaven.news.ui.vm.model.base.HomeService;
 import com.heaven.news.ui.vm.model.base.PhoenixService;
 import com.heaven.news.ui.vm.model.base.TimeStamp;
 import com.heaven.news.ui.vm.model.base.VersionUpdate;
+import com.heaven.news.utils.DateUtil;
 import com.heaven.news.utils.IoUtil;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.city.CityListWebServiceServiceSoapBinding;
@@ -88,8 +89,6 @@ public class ConfigManager {
     private HashMap<String, Integer> indexMap = new HashMap<>();
     private HashMap<String, Integer> indexMapEn = new HashMap<>();
     private ArrayList<Month> calendars = new ArrayList<>();
-    private ArrayList calendarsAll = new ArrayList();
-
     private int cityGroupIndexOffset = 0;
 
     ConfigManager(DataSource dataSource, Context context) {
@@ -110,17 +109,15 @@ public class ConfigManager {
     }
 
 
-    public ArrayList loadCalendar() {
-        if (calendarsAll.size() == 0) {
-            initCalendar(context);
-        }
-
-        return calendarsAll;
-    }
-
     public ArrayList<Month> loadMonth() {
-        if (calendarsAll.size() == 0) {
+        if (calendars.size() == 0) {
             initCalendar(context);
+        } else {
+            Calendar currentDate = DateUtil.getCurrentDate();
+            Month localCurrentDate = calendars.get(0);
+            if (currentDate.getYear() != localCurrentDate.year || currentDate.getMonth() != localCurrentDate.month) {
+                initCalendar(context);
+            }
         }
         return calendars;
     }
@@ -128,15 +125,9 @@ public class ConfigManager {
 
     private void initCalendar(Context context) {
         calendars.clear();
-        calendarsAll.clear();
         LunarCalendar.init(context);
         Date d = new Date();
-        Calendar mCurrentDate = new Calendar();
-        mCurrentDate.setYear(CalendarUtil.getDate("yyyy", d));
-        mCurrentDate.setMonth(CalendarUtil.getDate("MM", d));
-        mCurrentDate.setDay(CalendarUtil.getDate("dd", d));
-        LunarCalendar.setupLunarCalendar(mCurrentDate);
-
+        Calendar mCurrentDate = DateUtil.getCurrentDate();
 
         java.util.Calendar startCal = java.util.Calendar.getInstance();     //开始年月
         //开始日期设为月的第一天，结束日期设为最后一天
@@ -146,21 +137,19 @@ public class ConfigManager {
         for (int position = 0; position < 12; position++) {
             month.setTime(startCal.getTime());
             month.add(java.util.Calendar.MONTH, position);
-            createMonthData(month,mCurrentDate);
+            createMonthData(month, mCurrentDate);
         }
     }
 
-    private void createMonthData(java.util.Calendar month,Calendar currentDate) {
+    private void createMonthData(java.util.Calendar month, Calendar currentDate) {
         Date date = month.getTime();
-        Month calendarTitle = new Month();
-        calendarTitle.title = monthFormat.format(date);
-        calendarTitle.year = (CalendarUtil.getDate("yyyy", date));
-        calendarTitle.month = (CalendarUtil.getDate("MM", date));
-        calendarTitle.addDayInMonth(CalendarUtil.initCalendarForMonthView(calendarTitle.year, calendarTitle.month, currentDate, 1));
-        calendars.add(calendarTitle);
-        calendarsAll.add(calendarTitle);
-        calendarsAll.addAll(calendarTitle.days);
-        Logger.i("initCalendar--" + calendarTitle.title );
+        Month monthWrapper = new Month();
+        monthWrapper.title = monthFormat.format(date);
+        monthWrapper.year = (CalendarUtil.getDate("yyyy", date));
+        monthWrapper.month = (CalendarUtil.getDate("MM", date));
+        monthWrapper.addDayInMonth(CalendarUtil.initCalendarForMonthView(monthWrapper.year, monthWrapper.month, currentDate, 1));
+        calendars.add(monthWrapper);
+        Logger.i("initCalendar--" + monthWrapper.title);
     }
 
     public Pair<List<cityListVO>, List<String>> getAllCitys() {
