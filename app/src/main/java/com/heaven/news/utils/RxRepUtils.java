@@ -53,7 +53,7 @@ public class RxRepUtils {
 
     public static  <T> long getConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
-        Disposable disposable = resultFlowable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(getTaskConsumer(taskId, consumer));
+        Disposable disposable = resultFlowable.subscribeOn(Schedulers.io()).subscribe(getTaskConsumer(taskId, consumer));
         reqTasks.put(taskId, disposable);
         return taskId;
     }
