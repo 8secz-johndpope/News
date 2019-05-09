@@ -41,7 +41,7 @@ public class CoreModule {
         builder.addNetRepo(BuildConfig.ROOT_URL, SzAirConvertFactory.create());
         builder.addNetRepo(BuildConfig.CONFIG_URL, Retrofit2ConverterFactory.create());
         builder.addNetRepo(BuildConfig.FLIGHT_URL, SzProtobufConvertFactory.create());
-        DataRepo.Builder versionBuilder = builder.addNetRepoBuilder(BuildConfig.VERSION_URL,GsonConverterFactory.create());
+        DataRepo.Builder versionBuilder = builder.addNetRepoBuilder(BuildConfig.VERSION_URL,Retrofit2ConverterFactory.create());
         versionBuilder.setTime(5,5,5);
         DataSource dataSource = builder.build();
         addMainSourceHeader(dataSource);

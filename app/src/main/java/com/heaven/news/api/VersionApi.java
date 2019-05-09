@@ -18,6 +18,6 @@ import retrofit2.http.Headers;
 public interface VersionApi {
     @Headers({"Content-Type:Application/json; charset=utf-8","Connection:close"})
     @GET("file/config.json")
-    Flowable<ConfigData> getVersion();
+    Flowable<String> getVersion();
 
 }

@@ -100,12 +100,12 @@ public class ConfigManager {
     ConfigManager(DataSource dataSource, Context context) {
         this.context = context;
         this.dataSource = dataSource;
-//        requestVersion();
-//        requestConfig();
+        requestVersion();
+        requestConfig();
         requestCalendarFestival();
-//        dataSource.runWorkThread(this::initLocalCity);
-//        dataSource.runWorkThread(() -> initCalendar(context));
-//        dataSource.runWorkThread(() -> loadLocalService(context));
+        dataSource.runWorkThread(this::initLocalCity);
+        dataSource.runWorkThread(() -> initCalendar(context));
+        dataSource.runWorkThread(() -> loadLocalService(context));
     }
 
 
@@ -276,16 +276,14 @@ public class ConfigManager {
     }
 
     private void requestVersion() {
-        RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.VERSION_URL, VersionApi.class).getVersion(), configData -> {
+        RxRepUtils.getNormalConfigResult(dataSource.getNetApi(BuildConfig.VERSION_URL, VersionApi.class).getVersion(), versionData -> {
             isRequestVersionFinish = true;
-            if (configData != null) {
-                this.configData = configData;
+            if (TextUtils.isEmpty(versionData)) {
+                this.configData = JSON.parseObject(versionData, ConfigData.class);
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
                 notifyConfigDataChange(dataWrapper);
-                if (configData.netCode == 0) {
-                    if (configData.timestamp != null && configData.androidversionnew != null) {
-                        RxRepUtils.cancelTask(reqverTaskId);
-                    }
+                if (configData != null && configData.timestamp != null) {
+                    RxRepUtils.cancelTask(reqverTaskId);
                     configSuccess(configData);
                 }
             } else {
@@ -300,11 +298,12 @@ public class ConfigManager {
     private long reqverTaskId;
 
     private void requestConfig() {
-        reqverTaskId = RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
-            if (configData != null && configData.netCode == 0) {
+        reqverTaskId = RxRepUtils.getNormalConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
+            if (TextUtils.isEmpty(configData)) {
+                this.configData = JSON.parseObject(configData, ConfigData.class);
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
                 notifyConfigDataChange(dataWrapper);
-                configSuccess(configData);
+                configSuccess(this.configData);
             } else {
                 if (requestConfigCount < 3) {
                     requestConfigCount++;
@@ -317,8 +316,9 @@ public class ConfigManager {
 
     private void requestCalendarFestival() {
         reqverTaskId = RxRepUtils.getNormalConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getCalendarFestivalConfig(), configData -> {
-            if(!TextUtils.isEmpty(configData)) {
-                Type type = new TypeReference<List<FestivalDay>>() {}.getType();
+            if (!TextUtils.isEmpty(configData)) {
+                Type type = new TypeReference<List<FestivalDay>>() {
+                }.getType();
                 calendarFestivals = JSON.parseObject(configData, type);
             }
             Logger.i("requestCalendarFestival" + calendarFestivals.toString());
@@ -326,12 +326,14 @@ public class ConfigManager {
     }
 
     private void configSuccess(ConfigData configData) {
-        if (configData.timestamp != null) {
-            refreshConfigByTimeStamp(configData.timestamp);
-        }
+        if(configData != null) {
+            if (configData.timestamp != null) {
+                refreshConfigByTimeStamp(configData.timestamp);
+            }
 
-        if (configData.city != null && configData.city.size() > 0) {
-            initHotCity(configData.city);
+            if (configData.city != null && configData.city.size() > 0) {
+                initHotCity(configData.city);
+            }
         }
     }
 
