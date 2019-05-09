@@ -17,18 +17,6 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/_100dp"
-        android:layout_marginLeft="@dimen/_15dp"
         android:id="@+id/city_group_list"
-        />
-
-    <TextView
-        android:id="@+id/city_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/_15dp"
-        android:paddingTop="@dimen/_10dp"
-        android:paddingBottom="@dimen/_10dp"
-        android:background="@color/white"
         />
 </RelativeLayout>
