@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.heaven.base.ui.adapter.BaseAdapter;
+import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.base.ui.view.rlview.OnLoadMoreListener;
 import com.heaven.base.ui.view.rlview.OnRefreshListener;
 import com.heaven.news.R;
@@ -98,12 +99,12 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
         }));
         routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, RecyclerView.ViewHolder holder, Object t) {
+            public void onItemClick(View view, BaseViewHolder holder, Object t) {
                 Logger.i("onItemClick--" + t);
             }
 
             @Override
-            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, Object t) {
+            public boolean onItemLongClick(View view, BaseViewHolder holder, Object t) {
                 Logger.i("onItemClick--" + t);
                 return false;
             }
@@ -128,13 +129,13 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
             routeAdapter.register(new CityIndexItemHolder(String.class, R.layout.city_group_index_item));
             routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<String>() {
                 @Override
-                public void onItemClick(View view, RecyclerView.ViewHolder holder, String o) {
+                public void onItemClick(View view, BaseViewHolder holder, String o) {
                     nameIndexManager.scrollToPositionWithOffset(holder.getAdapterPosition(), 0);
                     Logger.i(o);
                 }
 
                 @Override
-                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, String o) {
+                public boolean onItemLongClick(View view, BaseViewHolder holder, String o) {
                     return false;
                 }
             });

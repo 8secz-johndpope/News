@@ -347,9 +347,9 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public interface OnItemClickListener<E> {
-        void onItemClick(View view, RecyclerView.ViewHolder holder, E t);
+        void onItemClick(View view, BaseViewHolder holder, E t);
 
-        boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, E t);
+        boolean onItemLongClick(View view, BaseViewHolder holder, E t);
 
     }
 
