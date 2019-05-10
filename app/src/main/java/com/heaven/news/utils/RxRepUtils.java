@@ -46,14 +46,36 @@ public class RxRepUtils {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
 
+    private static final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER_THREAD
+            = flowable -> flowable
+            .onErrorReturn((Function<Throwable, DataResponse>) ExceptionHandle::handleException)
+            .subscribeOn(Schedulers.io());
+
     @SuppressWarnings("unchecked")
     private static <T> FlowableTransformer<T, T> ioMain() {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER;
     }
 
+    @SuppressWarnings("unchecked")
+    private static <T> FlowableTransformer<T, T> ioThread() {
+        return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_THREAD;
+    }
+
     public static  <T> long getConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
-        Disposable disposable = resultFlowable.subscribeOn(Schedulers.io()).subscribe(getTaskConsumer(taskId, consumer));
+        Disposable disposable = resultFlowable.onErrorReturn(new Function<Throwable, T>() {
+            @Override
+            public T apply(Throwable throwable) throws Exception {
+                return null;
+            }
+        }).subscribeOn(Schedulers.io()).subscribe(getTaskConsumer(taskId, consumer));
+        reqTasks.put(taskId, disposable);
+        return taskId;
+    }
+
+    public static  <T> long getResultInThred(Flowable<T> resultFlowable, Consumer<T> consumer) {
+        long taskId = getTaskId();
+        Disposable disposable = resultFlowable.compose(ioThread()).subscribe(getTaskConsumer(taskId, consumer));
         reqTasks.put(taskId, disposable);
         return taskId;
     }

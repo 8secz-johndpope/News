@@ -41,7 +41,6 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        AppEngine.APP_STATUS = AppEngine.STATUS_NORMAL;
         super.onCreate(savedInstanceState);
         AppEngine.instance().confManager().registerDataTypeObaserver(this, this);
     }

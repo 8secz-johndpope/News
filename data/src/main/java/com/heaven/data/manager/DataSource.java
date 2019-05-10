@@ -40,6 +40,7 @@ import static com.heaven.data.net.NetGlobalConfig.PROTOTYPE.JSON;
  */
 
 public class DataSource {
+    private final Object lock = new Object();
     private DataRepo mainRepo;
     private Map<String, DataRepo> repos;
     private HashMap<String, Object> apiMap = new HashMap<>();
@@ -431,18 +432,20 @@ public class DataSource {
      *         缓存的数据
      */
     public void cacheData(int type, String key, Object entity) {
-        if (!TextUtils.isEmpty(key) && entity != null) {
-            String hashKey = hashKeyForDisk(key);
-            if (type == ALL) {
-                persistAll(hashKey, entity);
-            } else if (type == MEMORY) {
-                persistMemory(hashKey, entity);
-            } else if (type == DB) {
-                persistDB(hashKey, entity);
-            } else if (type == DISK) {
-                persistDisk(hashKey, entity);
-            } else {
-                persistAll(hashKey, entity);
+        synchronized (lock) {
+            if (!TextUtils.isEmpty(key) && entity != null) {
+                String hashKey = hashKeyForDisk(key);
+                if (type == ALL) {
+                    persistAll(hashKey, entity);
+                } else if (type == MEMORY) {
+                    persistMemory(hashKey, entity);
+                } else if (type == DB) {
+                    persistDB(hashKey, entity);
+                } else if (type == DISK) {
+                    persistDisk(hashKey, entity);
+                } else {
+                    persistAll(hashKey, entity);
+                }
             }
         }
     }
