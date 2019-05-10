@@ -34,12 +34,22 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull Calendar calendar) {
         TextView normal = holder.getView(R.id.day_mouth);
         normal.setText(String.valueOf(calendar.getDay()));
+        holder.itemView.setOnClickListener(v -> {
+            if(holder.onItemClickListener != null) {
+                holder.onItemClickListener.onItemClick(v,holder,calendar);
+            }
+        });
     }
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull Calendar calendar, Object payload) {
         TextView normal = holder.getView(R.id.day_mouth);
         normal.setText(String.valueOf(calendar.getDay()));
+        holder.itemView.setOnClickListener(v -> {
+            if(holder.onItemClickListener != null) {
+                holder.onItemClickListener.onItemClick(v,holder,calendar);
+            }
+        });
     }
 
     @Override

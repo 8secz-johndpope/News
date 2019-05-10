@@ -5,6 +5,8 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.heaven.base.ui.adapter.BaseAdapter;
+import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
+import com.heaven.base.ui.view.calendar.Calendar;
 import com.heaven.base.ui.view.calendar.Month;
 import com.heaven.base.ui.view.rlview.OnLoadMoreListener;
 import com.heaven.base.ui.view.rlview.OnRefreshListener;
@@ -16,6 +18,7 @@ import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.decoration.StickySectionDecoration;
 import com.heaven.news.ui.vm.holder.CalendarMonthItemHolder;
 import com.heaven.news.ui.vm.vmmodel.SelectDateViewModel;
+import com.orhanobut.logger.Logger;
 
 /**
  * FileName: com.heaven.news.ui.activity.base.DateSelect.java
@@ -73,6 +76,19 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
                 return item.title;
             }
         }));
+
+        routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<Calendar>() {
+            @Override
+            public void onItemClick(View view, BaseViewHolder holder, Calendar t) {
+                Logger.i("onItemClick--" + t);
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, BaseViewHolder holder, Calendar t) {
+                Logger.i("onItemClick--" + t);
+                return false;
+            }
+        });
         mViewBinding.swipeTarget.setAdapter(routeAdapter);
     }
 

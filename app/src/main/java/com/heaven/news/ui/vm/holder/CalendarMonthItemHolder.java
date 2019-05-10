@@ -36,11 +36,17 @@ public class CalendarMonthItemHolder extends BaseMultItem<Month> {
             daysList.setLayoutManager(gridLayoutManager);
             BaseAdapter<Calendar> routeAdapter = new BaseAdapter<>(holder.context,month.days);
             routeAdapter.register(new CalendarDayItemHolder(Calendar.class, R.layout.calendar_item));
+            routeAdapter.groupPosition = holder.getItemPosition();
+            if(holder.onItemClickListener != null) {
+                routeAdapter.setOnItemClickListener(holder.onItemClickListener);
+            }
             daysList.setAdapter(routeAdapter);
             Logger.i("onBindViewHolder--" + "create_new");
         } else {
             if(daysList.getAdapter() instanceof BaseAdapter) {
-                ((BaseAdapter<Calendar>) daysList.getAdapter()).updateItems(month.days);
+                BaseAdapter<Calendar> adapter = (BaseAdapter<Calendar>) daysList.getAdapter();
+                adapter.groupPosition = holder.getItemPosition();
+                adapter.updateItems(month.days);
                 Logger.i("onBindViewHolder--" + "refresh");
             }
         }

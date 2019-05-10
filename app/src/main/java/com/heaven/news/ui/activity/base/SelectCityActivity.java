@@ -97,14 +97,14 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
                 return routeAdapter.getItemData(position).groupTitle;
             }
         }));
-        routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+        routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<cityListVO>() {
             @Override
-            public void onItemClick(View view, BaseViewHolder holder, Object t) {
+            public void onItemClick(View view, BaseViewHolder holder, cityListVO t) {
                 Logger.i("onItemClick--" + t);
             }
 
             @Override
-            public boolean onItemLongClick(View view, BaseViewHolder holder, Object t) {
+            public boolean onItemLongClick(View view, BaseViewHolder holder, cityListVO t) {
                 Logger.i("onItemClick--" + t);
                 return false;
             }

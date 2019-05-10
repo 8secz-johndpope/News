@@ -109,8 +109,6 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         if (binder != null) {
             if (onItemClickListener != null) {
                 holder.onItemClickListener = onItemClickListener;
-                holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, holder, item));
-                holder.itemView.setOnLongClickListener(v -> onItemClickListener.onItemLongClick(v, holder, item));
             }
             binder.onBindViewHolder(holder, item);
         }
@@ -125,8 +123,6 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         if (binder != null) {
             if (onItemClickListener != null) {
                 holder.onItemClickListener = onItemClickListener;
-                holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, holder, item));
-                holder.itemView.setOnLongClickListener(v -> onItemClickListener.onItemLongClick(v, holder, item));
             }
             if(payloads.isEmpty()) {
                 binder.onBindViewHolder(holder, item);
