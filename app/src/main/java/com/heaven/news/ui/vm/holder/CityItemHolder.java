@@ -36,12 +36,9 @@ public class CityItemHolder extends BaseMultItem<cityListVO> {
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull cityListVO cityListVO) {
         holder.setText(R.id.city_name,cityListVO._FULL_NAME);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(holder.onItemClickListener != null) {
-                    holder.onItemClickListener.onItemClick(holder.itemView,holder,cityListVO);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if(holder.onItemClickListener != null) {
+                holder.onItemClickListener.onItemClick(holder.itemView,holder,cityListVO);
             }
         });
     }

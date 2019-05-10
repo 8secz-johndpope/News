@@ -30,18 +30,17 @@ public class CitySpecialItemHolder extends BaseMultItem<cityListVO> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull cityListVO city) {
-            holder.setText(R.id.city_name,city._FULL_NAME);
-            holder.setOnClickListener(R.id.city_name, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AppEngine.instance().confManager().saveCityOften(city);
-                }
-            });
-        }
+        holder.setText(R.id.city_name, city._FULL_NAME);
+        holder.itemView.setOnClickListener(v -> {
+            if (holder.onItemClickListener != null) {
+                holder.onItemClickListener.onItemClick(holder.itemView, holder, city);
+            }
+        });
+    }
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull cityListVO city, Object payload) {
-        holder.setText(R.id.city_name,city._FULL_NAME);
+        holder.setText(R.id.city_name, city._FULL_NAME);
     }
 
 }
