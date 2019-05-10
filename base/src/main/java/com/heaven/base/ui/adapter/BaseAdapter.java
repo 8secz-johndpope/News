@@ -39,6 +39,7 @@ import io.reactivex.disposables.Disposable;
  * @version V1.0 多类型适配器
  */
 public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
+    public int groupPosition;
     protected List<E> dataItems = new ArrayList<>();
     protected MultTypeManager multTypeManager = new MultTypeManager();
     protected Context context;
@@ -103,9 +104,11 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         final Object item = dataItems.get(position);
+        holder.groupPosition = groupPosition;
         BaseMultItem binder = multTypeManager.getMultItemByType(holder.getItemViewType());
         if (binder != null) {
             if (onItemClickListener != null) {
+                holder.onItemClickListener = onItemClickListener;
                 holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, holder, item, position));
                 holder.itemView.setOnLongClickListener(v -> onItemClickListener.onItemLongClick(v, holder, item, position));
             }
@@ -120,6 +123,7 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         holder.itemData = item;
         if (binder != null) {
             if (onItemClickListener != null) {
+                holder.onItemClickListener = onItemClickListener;
                 holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, holder, item, position));
                 holder.itemView.setOnLongClickListener(v -> onItemClickListener.onItemLongClick(v, holder, item, position));
             }
@@ -345,6 +349,10 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         void onItemClick(View view, RecyclerView.ViewHolder holder, T t, int position);
 
         boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, T t, int position);
+
+        void onGroupItemClick(View view, RecyclerView.ViewHolder holder, T t);
+
+        boolean onGroupItemLongClick(View view, RecyclerView.ViewHolder holder, T t);
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {

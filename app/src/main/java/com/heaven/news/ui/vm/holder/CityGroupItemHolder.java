@@ -46,12 +46,19 @@ public class CityGroupItemHolder extends BaseMultItem<CityGroup> {
                 routeAdapter.register(new CitySpecialItemHolder(cityListVO.class, R.layout.city_special_item));
                 cityGroupSpecialRecycler.setLayoutManager(new GridLayoutManager(holder.context, 3));
                 cityGroupSpecialRecycler.addItemDecoration(new ItemSpecialCityDecoration(3, ScreenUtil.dip2px(holder.context, 5)));
+                routeAdapter.groupPosition = holder.getItemPosition();
+                if(holder.onItemClickListener != null) {
+                    routeAdapter.setOnItemClickListener(holder.onItemClickListener);
+                }
+
                 if(cityGroup.citysList != null) {
                     routeAdapter.updateItems(cityGroup.citysList);
                 }
             } else {
                 if(cityGroup.citysList != null) {
-                    ((BaseAdapter<cityListVO>)cityGroupSpecialRecycler.getAdapter()).updateItems(cityGroup.citysList);
+                    BaseAdapter<cityListVO> adapter = (BaseAdapter<cityListVO>)cityGroupSpecialRecycler.getAdapter();
+                    adapter.groupPosition = holder.getItemPosition();
+                    adapter.updateItems(cityGroup.citysList);
                 }
             }
         } else {
@@ -63,12 +70,18 @@ public class CityGroupItemHolder extends BaseMultItem<CityGroup> {
                 routeAdapter.register(new CityItemHolder(cityListVO.class, R.layout.city_item));
                 cityGroupRecycler.setLayoutManager(new LinearLayoutManager(holder.context));
                 cityGroupRecycler.addItemDecoration(new VerticalDecoration(holder.context,1));
+                routeAdapter.groupPosition = holder.getItemPosition();
+                if(holder.onItemClickListener != null) {
+                    routeAdapter.setOnItemClickListener(holder.onItemClickListener);
+                }
                 if(cityGroup.citysList != null) {
                     routeAdapter.updateItems(cityGroup.citysList);
                 }
             } else {
                 if(cityGroup.citysList != null) {
-                    ((BaseAdapter<cityListVO>)cityGroupRecycler.getAdapter()).updateItems(cityGroup.citysList);
+                    BaseAdapter<cityListVO> adapter = (BaseAdapter<cityListVO>)cityGroupRecycler.getAdapter();
+                    adapter.groupPosition = holder.getItemPosition();
+                    adapter.updateItems(cityGroup.citysList);
                 }
             }
         }

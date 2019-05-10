@@ -26,9 +26,11 @@ import com.heaven.base.ui.adapter.BaseMultAdapter;
  */
 
 public class BaseViewHolder extends RecyclerView.ViewHolder {
+    public int groupPosition = 0;
     public BaseMultAdapter multAdapter;
     public BaseAdapter baseAdapter;
     public BaseMultItem multItem;
+    public BaseAdapter.OnItemClickListener onItemClickListener;
     public Object itemData;
     private final SparseArray<View> views;
     private View viewItem;
