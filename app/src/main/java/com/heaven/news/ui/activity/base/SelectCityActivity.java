@@ -96,6 +96,18 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
                 return routeAdapter.getItemData(position).groupTitle;
             }
         }));
+        routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, Object t) {
+                Logger.i("onItemClick--" + t);
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, Object t) {
+                Logger.i("onItemClick--" + t);
+                return false;
+            }
+        });
         CityInfo cityInfo = AppEngine.instance().confManager().loadAllCity();
         routeAdapter.updateItems(cityInfo.chCityGroups);
         initCityGroupIndex(cityInfo.chIndexs,manager);
@@ -116,13 +128,13 @@ public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewMo
             routeAdapter.register(new CityIndexItemHolder(String.class, R.layout.city_group_index_item));
             routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<String>() {
                 @Override
-                public void onItemClick(View view, RecyclerView.ViewHolder holder, String o, int position) {
-                    nameIndexManager.scrollToPositionWithOffset(position, 0);
+                public void onItemClick(View view, RecyclerView.ViewHolder holder, String o) {
+                    nameIndexManager.scrollToPositionWithOffset(holder.getAdapterPosition(), 0);
                     Logger.i(o);
                 }
 
                 @Override
-                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, String o, int position) {
+                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, String o) {
                     return false;
                 }
             });

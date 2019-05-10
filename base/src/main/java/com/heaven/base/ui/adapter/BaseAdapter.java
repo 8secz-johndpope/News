@@ -109,8 +109,8 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         if (binder != null) {
             if (onItemClickListener != null) {
                 holder.onItemClickListener = onItemClickListener;
-                holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, holder, item, position));
-                holder.itemView.setOnLongClickListener(v -> onItemClickListener.onItemLongClick(v, holder, item, position));
+                holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, holder, item));
+                holder.itemView.setOnLongClickListener(v -> onItemClickListener.onItemLongClick(v, holder, item));
             }
             binder.onBindViewHolder(holder, item);
         }
@@ -119,13 +119,14 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position, List<Object> payloads) {
         final Object item = dataItems.get(position);
+        holder.groupPosition = groupPosition;
         BaseMultItem binder = multTypeManager.getMultItemByType(holder.getItemViewType());
         holder.itemData = item;
         if (binder != null) {
             if (onItemClickListener != null) {
                 holder.onItemClickListener = onItemClickListener;
-                holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, holder, item, position));
-                holder.itemView.setOnLongClickListener(v -> onItemClickListener.onItemLongClick(v, holder, item, position));
+                holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(v, holder, item));
+                holder.itemView.setOnLongClickListener(v -> onItemClickListener.onItemLongClick(v, holder, item));
             }
             if(payloads.isEmpty()) {
                 binder.onBindViewHolder(holder, item);
@@ -345,14 +346,11 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
         anim.setInterpolator(interpolator);
     }
 
-    public interface OnItemClickListener<T> {
-        void onItemClick(View view, RecyclerView.ViewHolder holder, T t, int position);
+    public interface OnItemClickListener<E> {
+        void onItemClick(View view, RecyclerView.ViewHolder holder, E t);
 
-        boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, T t, int position);
+        boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, E t);
 
-        void onGroupItemClick(View view, RecyclerView.ViewHolder holder, T t);
-
-        boolean onGroupItemLongClick(View view, RecyclerView.ViewHolder holder, T t);
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
