@@ -34,6 +34,11 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
     }
 
     @Override
+    public boolean isSupportSwipeBack() {
+        return false;
+    }
+
+    @Override
     public int initLayoutResId() {
         return R.layout.welcome;
     }

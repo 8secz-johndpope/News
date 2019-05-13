@@ -83,8 +83,7 @@ public class RecyclerViewPager extends RecyclerView {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mHandler.removeMessages(SCROLL_MSG);
-        mHandler = null;
+        dealHandler(0);
     }
 
     public void setAutoLoop(boolean isAutoloop) {
@@ -95,10 +94,7 @@ public class RecyclerViewPager extends RecyclerView {
      * 开启轮播
      */
     public void startLoop() {
-        mHandler.removeMessages(SCROLL_MSG);
-        if(mIsAutoLoop) {
-            mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
-        }
+        dealHandler(1);
     }
 
 
@@ -493,7 +489,7 @@ public class RecyclerViewPager extends RecyclerView {
         int action = e.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                mHandler.removeMessages(SCROLL_MSG);
+                dealHandler(2);
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mCurView != null) {
@@ -522,7 +518,7 @@ public class RecyclerViewPager extends RecyclerView {
             }
             switch (MotionEvent.ACTION_MASK & e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    mHandler.removeMessages(SCROLL_MSG);
+                    dealHandler(2);
                     touchStartPoint.set(x, y);
                     break;
                 case MotionEvent.ACTION_MOVE:
@@ -704,5 +700,26 @@ public class RecyclerViewPager extends RecyclerView {
                 smoothScrollToPosition(position);
             }
         });
+    }
+
+    /**
+     *
+     * @param type 0:remove 1:start loop 2:touch down remove
+     */
+    private void dealHandler(int type) {
+        if(mHandler != null) {
+            if(0 == type) {
+                mHandler.removeMessages(SCROLL_MSG);
+                mHandler = null;
+            } else if(1 == type) {
+                mHandler.removeMessages(SCROLL_MSG);
+                if(mIsAutoLoop) {
+                    mHandler.sendEmptyMessageDelayed(SCROLL_MSG, mCutDownTime);
+                }
+            } else if(2 == type) {
+                mHandler.removeMessages(SCROLL_MSG);
+            }
+        }
+
     }
 }

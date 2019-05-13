@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,7 +42,7 @@ import static com.heaven.data.net.NetGlobalConfig.PROTOTYPE.JSON;
  */
 
 public class DataSource {
-    private final Object lock = new Object();
+    private Lock lock = new ReentrantLock();
     private DataRepo mainRepo;
     private Map<String, DataRepo> repos;
     private HashMap<String, Object> apiMap = new HashMap<>();
@@ -432,8 +434,8 @@ public class DataSource {
      *         缓存的数据
      */
     public void cacheData(int type, String key, Object entity) {
-        synchronized (lock) {
             if (!TextUtils.isEmpty(key) && entity != null) {
+                lock.lock();
                 String hashKey = hashKeyForDisk(key);
                 if (type == ALL) {
                     persistAll(hashKey, entity);
@@ -446,8 +448,8 @@ public class DataSource {
                 } else {
                     persistAll(hashKey, entity);
                 }
+                lock.unlock();
             }
-        }
     }
 
     /**

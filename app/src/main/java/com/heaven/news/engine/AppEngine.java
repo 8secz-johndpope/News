@@ -15,6 +15,7 @@ import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.base.ui.SpUtil;
+import com.heaven.base.ui.view.swipeback.SwipeBackHelper;
 import com.heaven.data.dbentity.DownEntity;
 import com.heaven.data.fileworker.DownLoadWorker;
 import com.heaven.data.manager.DataSource;

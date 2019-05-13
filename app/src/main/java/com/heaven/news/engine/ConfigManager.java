@@ -75,7 +75,7 @@ public class ConfigManager {
     public static String CITY_HOT = "city_hot";
     SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy年MM月");
 
-    private Lock lock = new ReentrantLock();
+
 
     Gson gson = new Gson();
 
@@ -294,9 +294,7 @@ public class ConfigManager {
         if (lastCitys == null || lastCitys.size() == 0) {
             lastCitys = loadLocalRawCity();
         }
-        lock.lock();
         groupCityBy(lastCitys);
-        lock.unlock();
 
     }
 
@@ -305,9 +303,7 @@ public class ConfigManager {
             List<cityListVO> lastCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_LAST);
             if (lastCitys == null || lastCitys.size() == 0) {
                 lastCitys = loadLocalRawCity();
-                lock.lock();
                 groupCityBy(lastCitys);
-                lock.unlock();
 
             }
             return IoUtil.deepCopyList(cityInfo);
@@ -496,9 +492,7 @@ public class ConfigManager {
             if (response.code == 0 && response.data != null && response.data._CITY_LIST_VO != null && response.data._CITY_LIST_VO._CITY_LIST_VO != null) {
                 List<cityListVO> newCitys = response.data._CITY_LIST_VO._CITY_LIST_VO ;
                 if (newCitys.size() > 0) {
-                    lock.lock();
                     groupCityBy(newCitys);
-                    lock.unlock();
                 }
             }
         });

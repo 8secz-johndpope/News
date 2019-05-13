@@ -10,19 +10,20 @@
 
     </data>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@mipmap/splash_bg"
         >
 
-        <!--<ImageView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/welcome_img"
             android:src="@mipmap/splash_bg"
             android:scaleType="fitXY"
-            />-->
+            />
 
-    </FrameLayout>
+    </RelativeLayout>
 
 </layout>
