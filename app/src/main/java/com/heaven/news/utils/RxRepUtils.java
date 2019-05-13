@@ -66,7 +66,7 @@ public class RxRepUtils {
         Disposable disposable = resultFlowable.onErrorReturn(new Function<Throwable, T>() {
             @Override
             public T apply(Throwable throwable) throws Exception {
-                return null;
+                return (T) "";
             }
         }).subscribeOn(Schedulers.io()).subscribe(getTaskConsumer(taskId, consumer));
         reqTasks.put(taskId, disposable);
