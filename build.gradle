@@ -4,7 +4,7 @@ buildscript {
     apply from: 'config/build_info.gradle'
     addRepos(repositories)
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.4.0'
         classpath build_info.realm
 //        classpath build_info.bintray
         //格式为-->group:module:version
