@@ -33,7 +33,7 @@ import com.heaven.base.utils.MPermissionUtils;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity implements IBaseActivity,  BGASwipeBackHelper.Delegate{
+public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity implements IBaseActivity, BGASwipeBackHelper.Delegate {
     protected BGASwipeBackHelper mSwipeBackHelper;
     public B mViewBinding;
     public View titleBar;
@@ -47,12 +47,13 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         initMmersionTitleBar();
         setContentView(R.layout.base);
         LinearLayout rootView = findViewById(R.id.base_container);
-        if(initLayoutResId() > 0) {
-            if(iniTitleBarResId() > 0) {
-                getLayoutInflater().inflate(iniTitleBarResId(), rootView);
-                initTitle(rootView);
+        if (initLayoutResId() > 0) {
+            if (iniTitleBarResId() > 0) {
+                View title = getLayoutInflater().inflate(iniTitleBarResId(), rootView, false);
+                rootView.addView(title);
+                initTitle(title);
             }
-            View mainView = getLayoutInflater().inflate(this.initLayoutResId(), rootView,false);
+            View mainView = getLayoutInflater().inflate(this.initLayoutResId(), rootView, false);
             mViewBinding = DataBindingUtil.bind(mainView);
             rootView.addView(mainView);
             makeContentView(rootView);
@@ -161,7 +162,8 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     /**
      * 正在滑动返回
      *
-     * @param slideOffset 从 0 到 1
+     * @param slideOffset
+     *         从 0 到 1
      */
     @Override
     public void onSwipeBackLayoutSlide(float slideOffset) {
