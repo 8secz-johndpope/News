@@ -488,9 +488,11 @@ public class DataSource {
      */
     private void persistMemory(String hashKey, Object entity) {
         executorService.execute(() -> {
+            memLock.lock();
             try {
-                memLock.lock();
                 cacheManager.persistentMemory(hashKey, entity);
+            } catch (Exception e) {
+                e.printStackTrace();
             } finally {
                 memLock.unlock();
             }
@@ -517,9 +519,11 @@ public class DataSource {
      *         缓存的数据
      */
     private void persistDB(String hashKey, Object entity) {
+        dbLock.lock();
         try {
-            dbLock.lock();
             cacheManager.persistentDB(hashKey, entity);
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             dbLock.unlock();
         }
@@ -545,10 +549,12 @@ public class DataSource {
      */
     private void persistDisk(String hashKey, Object entity) {
         executorService.execute(() -> {
+            diskLock.lock();
             try {
-                diskLock.lock();
                 cacheManager.persistentDisk(hashKey, entity);
-            } finally {
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
                 diskLock.unlock();
             }
         });
