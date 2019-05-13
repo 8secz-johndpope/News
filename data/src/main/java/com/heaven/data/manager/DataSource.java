@@ -42,7 +42,9 @@ import static com.heaven.data.net.NetGlobalConfig.PROTOTYPE.JSON;
  */
 
 public class DataSource {
-    private Lock lock = new ReentrantLock();
+    private Lock memLock = new ReentrantLock();
+    private Lock dbLock = new ReentrantLock();
+    private Lock diskLock = new ReentrantLock();
     private DataRepo mainRepo;
     private Map<String, DataRepo> repos;
     private HashMap<String, Object> apiMap = new HashMap<>();
@@ -178,12 +180,12 @@ public class DataSource {
         }
 
         private void buildRepro() {
-            if(reposBuilder.size() > 0) {
-                for(String key : reposBuilder.keySet()) {
-                    if(!repos.containsKey(key)) {
+            if (reposBuilder.size() > 0) {
+                for (String key : reposBuilder.keySet()) {
+                    if (!repos.containsKey(key)) {
                         DataRepo.Builder repoBuilder = reposBuilder.get(key);
-                        if(repoBuilder != null) {
-                            repos.put(repoBuilder.repoIdentify,repoBuilder.build());
+                        if (repoBuilder != null) {
+                            repos.put(repoBuilder.repoIdentify, repoBuilder.build());
                         }
                     }
                 }
@@ -238,7 +240,7 @@ public class DataSource {
      *         异常
      */
     @SuppressWarnings("unchecked")
-    public <T> T getNetApi(@Nonnull String baseUrl, Class<T> apiClass){
+    public <T> T getNetApi(@Nonnull String baseUrl, Class<T> apiClass) {
         T api = null;
         if (!TextUtils.isEmpty(baseUrl) && apiClass != null) {
             try {
@@ -434,22 +436,20 @@ public class DataSource {
      *         缓存的数据
      */
     public void cacheData(int type, String key, Object entity) {
-            if (!TextUtils.isEmpty(key) && entity != null) {
-                lock.lock();
-                String hashKey = hashKeyForDisk(key);
-                if (type == ALL) {
-                    persistAll(hashKey, entity);
-                } else if (type == MEMORY) {
-                    persistMemory(hashKey, entity);
-                } else if (type == DB) {
-                    persistDB(hashKey, entity);
-                } else if (type == DISK) {
-                    persistDisk(hashKey, entity);
-                } else {
-                    persistAll(hashKey, entity);
-                }
-                lock.unlock();
+        if (!TextUtils.isEmpty(key) && entity != null) {
+            String hashKey = hashKeyForDisk(key);
+            if (type == ALL) {
+                persistAll(hashKey, entity);
+            } else if (type == MEMORY) {
+                persistMemory(hashKey, entity);
+            } else if (type == DB) {
+                persistDB(hashKey, entity);
+            } else if (type == DISK) {
+                persistDisk(hashKey, entity);
+            } else {
+                persistAll(hashKey, entity);
             }
+        }
     }
 
     /**
@@ -461,9 +461,9 @@ public class DataSource {
      *         缓存的数据
      */
     private void persistAll(String hashKey, Object entity) {
-        executorService.execute(() -> cacheManager.persistentMemory(hashKey, entity));
-        cacheManager.persistentDB(hashKey, entity);
-        executorService.execute(() -> cacheManager.persistentDisk(hashKey, entity));
+        persistMemory(hashKey, entity);
+        persistDB(hashKey, entity);
+        persistDisk(hashKey, entity);
     }
 
     /**
@@ -487,7 +487,15 @@ public class DataSource {
      *         缓存的数据
      */
     private void persistMemory(String hashKey, Object entity) {
-        executorService.execute(() -> cacheManager.persistentMemory(hashKey, entity));
+        executorService.execute(() -> {
+            try {
+                memLock.lock();
+                cacheManager.persistentMemory(hashKey, entity);
+            } finally {
+                memLock.unlock();
+            }
+
+        });
     }
 
     /**
@@ -509,7 +517,12 @@ public class DataSource {
      *         缓存的数据
      */
     private void persistDB(String hashKey, Object entity) {
-        cacheManager.persistentDB(hashKey, entity);
+        try {
+            dbLock.lock();
+            cacheManager.persistentDB(hashKey, entity);
+        } finally {
+            dbLock.unlock();
+        }
     }
 
     /**
@@ -531,7 +544,14 @@ public class DataSource {
      *         缓存的数据
      */
     private void persistDisk(String hashKey, Object entity) {
-        executorService.execute(() -> cacheManager.persistentDisk(hashKey, entity));
+        executorService.execute(() -> {
+            try {
+                diskLock.lock();
+                cacheManager.persistentDisk(hashKey, entity);
+            } finally {
+                diskLock.unlock();
+            }
+        });
     }
 
     /**
@@ -587,34 +607,46 @@ public class DataSource {
 
     /**
      * sharepre boolean
-     * @param key key
-     * @param value value
+     *
+     * @param key
+     *         key
+     * @param value
+     *         value
      */
-    public void setSharePreBoolean(String key,boolean value) {
-        cacheManager.setSharePreBoolean(key,value);
+    public void setSharePreBoolean(String key, boolean value) {
+        cacheManager.setSharePreBoolean(key, value);
     }
 
     /**
      * sharepre string
-     * @param key key
-     * @param value value
+     *
+     * @param key
+     *         key
+     * @param value
+     *         value
      */
-    public void setSharePreString(String key,String value) {
-        cacheManager.setSharePreString(key,value);
+    public void setSharePreString(String key, String value) {
+        cacheManager.setSharePreString(key, value);
     }
 
     /**
      * sharepre set
-     * @param key key
-     * @param value value
+     *
+     * @param key
+     *         key
+     * @param value
+     *         value
      */
     public void setSharePreSet(String key, Set<String> value) {
-        cacheManager.setSharePreSet(key,value);
+        cacheManager.setSharePreSet(key, value);
     }
 
     /**
      * get boolean
-     * @param key key
+     *
+     * @param key
+     *         key
+     *
      * @return value
      */
     public boolean getSharePreBoolean(String key) {
@@ -623,7 +655,10 @@ public class DataSource {
 
     /**
      * get string
-     * @param key key
+     *
+     * @param key
+     *         key
+     *
      * @return value
      */
     public String getSharePreString(String key) {
@@ -632,7 +667,10 @@ public class DataSource {
 
     /**
      * get string set
-     * @param key key
+     *
+     * @param key
+     *         key
+     *
      * @return set
      */
     public Set<String> getSharePreSet(String key) {
