@@ -5,8 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.heaven.base.ui.view.swipebacktest.BGASwipeBackHelper;
-import com.heaven.news.utils.SystemUtil;
+import com.heaven.base.ui.view.swipeback.SwipeBackHelper;
 //import com.squareup.leakcanary.LeakCanary;
 
 
@@ -43,7 +42,7 @@ public class App extends Application{
          * 第一个参数：应用程序上下文
          * 第二个参数：如果发现滑动返回后立即触摸界面时应用崩溃，请把该界面里比较特殊的 View 的 class 添加到该集合中，目前在库中已经添加了 WebView 和 SurfaceView
          */
-        BGASwipeBackHelper.init(this, null);
+        SwipeBackHelper.init(this, null);
 //        this.initializeLeakDetection();
     }
 

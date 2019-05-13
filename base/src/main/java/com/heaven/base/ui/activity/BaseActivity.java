@@ -7,10 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,8 +19,6 @@ import com.heaven.base.R;
 import com.heaven.base.ui.SpUtil;
 import com.heaven.base.ui.view.SystemBarTintManager;
 import com.heaven.base.ui.view.swipeback.SwipeBackHelper;
-import com.heaven.base.ui.view.swipebacktest.BGASwipeBackHelper;
-import com.heaven.base.ui.view.widget.SwipeBackLayout;
 import com.heaven.base.utils.MPermissionUtils;
 
 /**
@@ -33,14 +29,14 @@ import com.heaven.base.utils.MPermissionUtils;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity implements IBaseActivity, BGASwipeBackHelper.Delegate {
-    protected BGASwipeBackHelper mSwipeBackHelper;
+public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity implements IBaseActivity, SwipeBackHelper.Delegate {
+    protected SwipeBackHelper mSwipeBackHelper;
     public B mViewBinding;
     public View titleBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        // 「必须在 Application 的 onCreate 方法中执行 BGASwipeBackHelper.init 来初始化滑动返回」
+        // 「必须在 Application 的 onCreate 方法中执行 SwipeBackHelper.init 来初始化滑动返回」
         // 在 super.onCreate(savedInstanceState) 之前调用该方法
         initSwipeBackFinish();
         super.onCreate(savedInstanceState);
@@ -70,9 +66,9 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
      * 初始化滑动返回。在 super.onCreate(savedInstanceState) 之前调用该方法
      */
     private void initSwipeBackFinish() {
-        mSwipeBackHelper = new BGASwipeBackHelper(this, this);
+        mSwipeBackHelper = new SwipeBackHelper(this, this);
 
-        // 「必须在 Application 的 onCreate 方法中执行 BGASwipeBackHelper.init 来初始化滑动返回」
+        // 「必须在 Application 的 onCreate 方法中执行 SwipeBackHelper.init 来初始化滑动返回」
         // 下面几项可以不配置，这里只是为了讲述接口用法。
 
         // 设置滑动返回是否可用。默认值为 true
