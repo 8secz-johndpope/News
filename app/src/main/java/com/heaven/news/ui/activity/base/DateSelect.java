@@ -20,6 +20,8 @@ import com.heaven.news.ui.vm.holder.CalendarMonthItemHolder;
 import com.heaven.news.ui.vm.vmmodel.SelectDateViewModel;
 import com.orhanobut.logger.Logger;
 
+import java.util.List;
+
 /**
  * FileName: com.heaven.news.ui.activity.base.DateSelect.java
  * author: Heaven
@@ -57,7 +59,8 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
         mViewBinding.swipeTarget.setNestedScrollingEnabled(false);
         mViewBinding.swipeTarget.setLayoutManager(linearLayoutManager);
 
-        BaseAdapter<Month> routeAdapter = new BaseAdapter<>(this,AppEngine.instance().confManager().loadMonth());
+        List<Month> months = AppEngine.instance().confManager().loadMonth();
+        BaseAdapter<Month> routeAdapter = new BaseAdapter<>(this,months);
         routeAdapter.register(new CalendarMonthItemHolder(Month.class, R.layout.calendar_month_item));
         mViewBinding.swipeTarget.addItemDecoration(new StickySectionDecoration(this, R.color.textColor, new StickySectionDecoration.StickHeaderCallback() {
             @Override
@@ -90,6 +93,7 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
             }
         });
         mViewBinding.swipeTarget.setAdapter(routeAdapter);
+        mViewModel.updateDateFestival(routeAdapter,months);
     }
 
     @Override

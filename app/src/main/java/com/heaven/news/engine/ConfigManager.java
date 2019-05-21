@@ -77,9 +77,6 @@ public class ConfigManager {
     private Lock lock = new ReentrantLock();
 
 
-    Gson gson = new Gson();
-
-
     public boolean isRequestVersionFinish = false;
     private ConfigWrapper configWrapper = new ConfigWrapper();
     private ConfigData configData;
@@ -242,6 +239,10 @@ public class ConfigManager {
                 }
             }
         });
+    }
+
+    public List<FestivalDay> getFestival() {
+        return calendarFestivals;
     }
 
     private void configSuccess(ConfigData configData) {
