@@ -20,6 +20,8 @@ public class FestivalDay implements Serializable {
      * holiday :
      */
 
+    public int year;
+    public int month;
     public String date;
     public String festival;
     public String holiday;

@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.heaven.base.ui.view.calendar.Calendar;
 import com.heaven.base.ui.view.calendar.CalendarUtil;
 import com.heaven.base.ui.view.calendar.FestivalDay;
+import com.heaven.base.ui.view.calendar.FestivalDayGroup;
 import com.heaven.base.ui.view.calendar.LunarCalendar;
 import com.heaven.base.ui.view.calendar.Month;
 import com.heaven.data.manager.DataSource;
@@ -31,6 +32,7 @@ import com.heaven.news.ui.vm.model.base.HomeService;
 import com.heaven.news.ui.vm.model.base.PhoenixService;
 import com.heaven.news.ui.vm.model.base.TimeStamp;
 import com.heaven.news.ui.vm.model.base.VersionUpdate;
+import com.heaven.news.ui.vm.vmmodel.SelectDateViewModel;
 import com.heaven.news.utils.DateUtil;
 import com.heaven.news.utils.IoUtil;
 import com.heaven.news.utils.RxRepUtils;
@@ -96,6 +98,7 @@ public class ConfigManager {
     private List<cityListVO> citysIndex = new ArrayList<>();
     private List<Month> calendars = new ArrayList<>();
     private List<FestivalDay> calendarFestivals = new ArrayList<>();
+    private HashMap<String, FestivalDayGroup> festivalGroupMap = new HashMap<>();
 
     ConfigManager(DataSource dataSource, Context context) {
         this.context = context;
@@ -145,6 +148,18 @@ public class ConfigManager {
             month.add(java.util.Calendar.MONTH, position);
             createMonthData(month, mCurrentDate);
         }
+
+        mergeFestival(calendarFestivals);
+    }
+
+    private void mergeFestival(List<FestivalDay> festivals) {
+        if(calendars.size() > 0 && festivals != null && festivals.size() > 0) {
+            festivalGroupMap.clear();
+            final Disposable subscribe = Flowable.fromIterable(festivals).groupBy(festivalDay -> festivalDay.date.substring(0, festivalDay.date.lastIndexOf("-"))).subscribe(festivalDayGroupedFlowable -> {
+                final Disposable subscribe1 = festivalDayGroupedFlowable.subscribe(new ConfigManager.FestivalGroupConsume(festivalDayGroupedFlowable.getKey()));
+            });
+        }
+
     }
 
 
@@ -629,6 +644,43 @@ public class ConfigManager {
                     cityGroup.addCity(cityListVO);
                     cityGroupEnMap.put(key, cityGroup);
                 }
+            }
+        }
+    }
+
+
+    private class FestivalGroupConsume implements Consumer<FestivalDay> {
+        private String yearMonth;
+        private int year;
+        private int month;
+
+        FestivalGroupConsume(String date) {
+            if (!TextUtils.isEmpty(date) && date.contains("-")) {
+                yearMonth = date.substring(0,date.lastIndexOf("-"));
+                String[] dates = date.split("-");
+                try {
+                    year = Integer.parseInt(dates[0]);
+                    month = Integer.parseInt(dates[1]);
+                } catch (Exception e) {
+                    Logger.i(e.getMessage());
+                }
+            }
+        }
+
+        @Override
+        public void accept(FestivalDay festivalDay) throws Exception {
+            festivalDay.year = year;
+            festivalDay.month = month;
+            if (festivalGroupMap.containsKey(yearMonth)) {
+                FestivalDayGroup festivalDayGroup = festivalGroupMap.get(yearMonth);
+                if (festivalDayGroup != null) {
+                    festivalDayGroup.addFestivalDay(festivalDay);
+                }
+            } else {
+                FestivalDayGroup festivalDayGroup = new FestivalDayGroup();
+                festivalDayGroup.date = yearMonth;
+                festivalDayGroup.addFestivalDay(festivalDay);
+                festivalGroupMap.put(yearMonth, festivalDayGroup);
             }
         }
     }
