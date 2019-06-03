@@ -3,6 +3,7 @@ package com.heaven.news.ui.vm.holder;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -34,6 +35,19 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull Calendar calendar) {
         TextView normal = holder.getView(R.id.day_mouth);
         normal.setText(String.valueOf(calendar.getDay()));
+        if(!TextUtils.isEmpty(calendar.getHoliday())) {
+            holder.setVisible(R.id.holiday,true);
+            holder.setText(R.id.holiday,calendar.getHoliday());
+        } else {
+            holder.setVisible(R.id.holiday,false);
+            holder.setText(R.id.holiday,"");
+        }
+
+        if(!TextUtils.isEmpty(calendar.getFestival())) {
+            holder.setText(R.id.day_mouth,calendar.getFestival());
+        } else {
+            holder.setText(R.id.day_mouth,String.valueOf(calendar.getDay()));
+        }
         holder.itemView.setOnClickListener(v -> {
             if(holder.onItemClickListener != null) {
                 holder.onItemClickListener.onItemClick(v,holder,calendar);
@@ -45,6 +59,7 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull Calendar calendar, Object payload) {
         TextView normal = holder.getView(R.id.day_mouth);
         normal.setText(String.valueOf(calendar.getDay()));
+
         holder.itemView.setOnClickListener(v -> {
             if(holder.onItemClickListener != null) {
                 holder.onItemClickListener.onItemClick(v,holder,calendar);
