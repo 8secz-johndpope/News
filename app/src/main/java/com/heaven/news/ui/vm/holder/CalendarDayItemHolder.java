@@ -40,7 +40,7 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
             holder.setText(R.id.holiday,calendar.getHoliday());
         } else {
             holder.setVisible(R.id.holiday,false);
-            holder.setText(R.id.holiday,"");
+            holder.setText(R.id.holiday,"休");
         }
 
         if(!TextUtils.isEmpty(calendar.getFestival())) {
