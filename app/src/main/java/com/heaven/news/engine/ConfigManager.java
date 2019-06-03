@@ -128,36 +128,52 @@ public class ConfigManager {
                 initCalendar(context);
             }
         }
-        return IoUtil.deepCopyList(calendars);
+        return calendars;
     }
 
 
     private void initCalendar(Context context) {
-        calendarFestivals = dataSource.getCacheEntity(DataSource.DISK, CALENDAR_FESTIVAL);
-        calendars.clear();
-        LunarCalendar.init(context);
-        Calendar mCurrentDate = DateUtil.getCurrentDate();
+        try{
+            lock.lock();
+            calendarFestivals = dataSource.getCacheEntity(DataSource.DISK, CALENDAR_FESTIVAL);
+            calendars.clear();
+            LunarCalendar.init(context);
+            Calendar mCurrentDate = DateUtil.getCurrentDate();
 
-        java.util.Calendar startCal = java.util.Calendar.getInstance();     //开始年月
-        //开始日期设为月的第一天，结束日期设为最后一天
-        startCal.set(java.util.Calendar.DAY_OF_MONTH, 1);
+            java.util.Calendar startCal = java.util.Calendar.getInstance();     //开始年月
+            //开始日期设为月的第一天，结束日期设为最后一天
+            startCal.set(java.util.Calendar.DAY_OF_MONTH, 1);
 
-        java.util.Calendar month = java.util.Calendar.getInstance();
-        for (int position = 0; position < 12; position++) {
-            month.setTime(startCal.getTime());
-            month.add(java.util.Calendar.MONTH, position);
-            createMonthData(month, mCurrentDate);
+            java.util.Calendar month = java.util.Calendar.getInstance();
+            for (int position = 0; position < 12; position++) {
+                month.setTime(startCal.getTime());
+                month.add(java.util.Calendar.MONTH, position);
+                createMonthData(month, mCurrentDate);
+            }
+
+            mergeFestival(calendars,calendarFestivals);
+        } catch (Exception e) {
+            lock.unlock();
         }
-
-        mergeFestival(calendarFestivals);
     }
 
-    private void mergeFestival(List<FestivalDay> festivals) {
+    private void mergeFestival(List<Month> calendars,List<FestivalDay> festivals) {
         if(calendars.size() > 0 && festivals != null && festivals.size() > 0) {
             festivalGroupMap.clear();
-            final Disposable subscribe = Flowable.fromIterable(festivals).groupBy(festivalDay -> festivalDay.date.substring(0, festivalDay.date.lastIndexOf("-"))).subscribe(festivalDayGroupedFlowable -> {
+            final Disposable subscribe = Flowable.fromIterable(festivals).groupBy(festivalDay -> festivalDay.date).subscribe(festivalDayGroupedFlowable -> {
                 final Disposable subscribe1 = festivalDayGroupedFlowable.subscribe(new ConfigManager.FestivalGroupConsume(festivalDayGroupedFlowable.getKey()));
             });
+            for(Month month : calendars) {
+                String monthKey = month.year + "-" + month.month;
+                if(festivalGroupMap.containsKey(monthKey)) {
+                    FestivalDayGroup festivalDayGroup = festivalGroupMap.get(monthKey);
+                    if(festivalDayGroup != null) {
+                        festivalDayGroup.updateCalendarFestival(month.days);
+                        Logger.i("mergeFestival--" + monthKey);
+                    }
+                }
+            }
+            Logger.i("mergeFestival--" + "finish");
         }
 
     }
@@ -251,6 +267,7 @@ public class ConfigManager {
                 calendarFestivals = JSON.parseObject(configData, type);
                 if (calendarFestivals != null && calendarFestivals.size() > 0) {
                     cacheData(CALENDAR_FESTIVAL, calendarFestivals);
+                    initCalendar(context);
                 }
             }
         });

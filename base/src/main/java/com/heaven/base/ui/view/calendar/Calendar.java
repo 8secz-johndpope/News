@@ -80,6 +80,9 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
     private String lunar;
 
 
+    private String festival;
+    private String holiday;
+
     /**
      * 24节气
      */
@@ -318,6 +321,22 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
         this.traditionFestival = traditionFestival;
     }
 
+    public String getFestival() {
+        return festival;
+    }
+
+    public void setFestival(String festival) {
+        this.festival = festival;
+    }
+
+    public String getHoliday() {
+        return holiday;
+    }
+
+    public void setHoliday(String holiday) {
+        this.holiday = holiday;
+    }
+
     public boolean hasScheme() {
         if (schemes != null && schemes.size() != 0) {
             return true;
@@ -396,6 +415,10 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
     @Override
     public String toString() {
         return year + "" + (month < 10 ? "0" + month : month) + "" + (day < 10 ? "0" + day : day);
+    }
+
+    public String getFormatDate() {
+        return year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
     }
 
 //    @Override
@@ -498,6 +521,7 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
         public void setObj(Object obj) {
             this.obj = obj;
         }
+
 
 
     }
