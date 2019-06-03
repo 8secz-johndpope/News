@@ -164,7 +164,7 @@ public class ConfigManager {
                 final Disposable subscribe1 = festivalDayGroupedFlowable.subscribe(new ConfigManager.FestivalGroupConsume(festivalDayGroupedFlowable.getKey()));
             });
             for(Month month : calendars) {
-                String monthKey = month.year + "-" + month.month;
+                String monthKey = month.year + "-" + (month.month >= 10? month.month : "0" + month.month) ;
                 if(festivalGroupMap.containsKey(monthKey)) {
                     FestivalDayGroup festivalDayGroup = festivalGroupMap.get(monthKey);
                     if(festivalDayGroup != null) {

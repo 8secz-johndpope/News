@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="base">#F0F0F0</color>
+
+    <color name="color_666666">#666666</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_ee2934">#EE2934</color>
+    <color name="color_f9f9f9">#F9F9F9</color>
+    <color name="color_3838">#383838</color>
+    <color name="half_transparent">#4d000000</color>
+
     <color name="app_main_color">#ff8600</color>
     <color name="app_bg">#f2f2f2</color><!-- app应用统一的页面背景灰色 -->
     <color name="second_font_color">#737373</color>
@@ -18,11 +30,6 @@
     <color name="backgroundCard">#FFF5F5F5</color>
     <color name="textColorBg">#eee</color>
     <color name="textColor">#757575</color>
-
-    <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#2196F3</color>
-    <color name="colorAccent">#E91E63</color>
-
 
     <!--material design color-->
 

@@ -1,21 +1,13 @@
 package com.heaven.news.ui.vm.holder;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.TextView;
 
-import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.base.ui.view.calendar.Calendar;
-import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
-import com.heaven.news.engine.AppEngine;
-import com.heaven.news.ui.decoration.ItemSpecialCityDecoration;
-import com.neusoft.szair.model.city.cityListVO;
 
 /**
  * FileName: com.heaven.news.ui.vm.holder.RouteItemHolder.java
@@ -33,8 +25,6 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull Calendar calendar) {
-        TextView normal = holder.getView(R.id.day_mouth);
-        normal.setText(String.valueOf(calendar.getDay()));
         if(!TextUtils.isEmpty(calendar.getHoliday())) {
             holder.setVisible(R.id.holiday,true);
             holder.setText(R.id.holiday,calendar.getHoliday());
@@ -48,23 +38,54 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
         } else {
             holder.setText(R.id.day_mouth,String.valueOf(calendar.getDay()));
         }
-        holder.itemView.setOnClickListener(v -> {
-            if(holder.onItemClickListener != null) {
-                holder.onItemClickListener.onItemClick(v,holder,calendar);
+        if(calendar.isCurrentMonth()) {
+
+            if(!TextUtils.isEmpty(calendar.getFestival())) {
+                holder.setTextColor(R.id.day_mouth,R.color.colorAccent);
+            } else {
+                holder.setTextColor(R.id.day_mouth,R.color.black);
             }
-        });
+
+            holder.itemView.setOnClickListener(v -> {
+                if(holder.onItemClickListener != null) {
+                    holder.onItemClickListener.onItemClick(v,holder,calendar);
+                }
+            });
+        } else {
+            holder.setTextColor(R.id.day_mouth,R.color.divider_light);
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull Calendar calendar, Object payload) {
-        TextView normal = holder.getView(R.id.day_mouth);
-        normal.setText(String.valueOf(calendar.getDay()));
+        if(!TextUtils.isEmpty(calendar.getHoliday())) {
+            holder.setVisible(R.id.holiday,true);
+            holder.setText(R.id.holiday,calendar.getHoliday());
+        } else {
+            holder.setVisible(R.id.holiday,false);
+            holder.setText(R.id.holiday,"休");
+        }
 
-        holder.itemView.setOnClickListener(v -> {
-            if(holder.onItemClickListener != null) {
-                holder.onItemClickListener.onItemClick(v,holder,calendar);
-            }
-        });
+        if(!TextUtils.isEmpty(calendar.getFestival())) {
+            holder.setText(R.id.day_mouth,calendar.getFestival());
+        } else {
+            holder.setText(R.id.day_mouth,String.valueOf(calendar.getDay()));
+        }
+        if(calendar.isCurrentMonth()) {
+//            if(!TextUtils.isEmpty(calendar.getFestival())) {
+//                holder.setTextColor(R.id.day_mouth,R.color.colorAccent);
+//            } else {
+//                holder.setTextColor(R.id.day_mouth,R.color.black);
+//            }
+
+            holder.itemView.setOnClickListener(v -> {
+                if(holder.onItemClickListener != null) {
+                    holder.onItemClickListener.onItemClick(v,holder,calendar);
+                }
+            });
+        } else {
+//            holder.setTextColor(R.id.day_mouth,R.color.divider_light);
+        }
     }
 
     @Override

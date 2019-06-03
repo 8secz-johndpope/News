@@ -93,7 +93,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public BaseViewHolder setTextColor(int viewId, int textColor) {
         TextView view = getView(viewId);
         if (view != null) {
-            view.setTextColor(textColor);
+            view.setTextColor(context.getResources().getColor(textColor));
         }
         return this;
     }
