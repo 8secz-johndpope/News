@@ -6,8 +6,13 @@ import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.view.calendar.FestivalDay;
 import com.heaven.base.ui.view.calendar.FestivalDayGroup;
 import com.heaven.base.ui.view.calendar.Month;
+import com.heaven.news.BuildConfig;
+import com.heaven.news.api.Api;
+import com.heaven.news.api.ConfigApi;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.base.CityGroup;
+import com.heaven.news.ui.vm.model.base.ConfigData;
+import com.heaven.news.utils.RxRepUtils;
 import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
@@ -35,18 +40,22 @@ public class SelectDateViewModel extends AbstractViewModel {
 
     }
 
-    public void updateDateFestival(BaseAdapter<Month> monthAdapter, List<Month> months) {
-        festivalGroupMap.clear();
-        List<FestivalDay> festivalDays = AppEngine.instance().confManager().getFestival();
-        if (festivalDays != null && festivalDays.size() > 0 && months != null && months.size() > 0) {
-            final Disposable subscribe = Flowable.fromIterable(festivalDays).groupBy(festivalDay -> festivalDay.date.substring(0, festivalDay.date.lastIndexOf("-"))).subscribe(festivalDayGroupedFlowable -> {
-                final Disposable subscribe1 = festivalDayGroupedFlowable.subscribe(new FestivalGroupConsume(festivalDayGroupedFlowable.getKey()));
-            });
+    public void getCalendarPrice(String depCity,String orgCity,String date) {
+        ConfigData configData = AppEngine.instance().confManager().loadConfigData();
+        if(configData != null && !TextUtils.isEmpty(configData.jgrlurl)) {
+            String priceUrl = configData.jgrlurl;
+            if(priceUrl.contains("?")) {
+                priceUrl = priceUrl + "&dptcity=" + depCity + "&arrcity=" + orgCity + "&dptdate=" + date;
+            } else {
+                priceUrl = priceUrl + "?dptcity=" + depCity + "&arrcity=" + orgCity + "&dptdate=" + date;
+            }
 
-            Flowable.fromIterable(months).subscribe(new Consumer<Month>() {
+            priceUrl = "https://mobile.shenzhenair.com/develop/szairMobileWS/FetchCalendarPriceServlet?m=getCalendarPrice&dptcity=SZX&arrcity=PEK&dptdate=2019-06-04";
+
+            RxRepUtils.getConfigResult(AppEngine.instance().api().getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getCalenarPrice(priceUrl), new Consumer<String>() {
                 @Override
-                public void accept(Month month) throws Exception {
-
+                public void accept(String s) throws Exception {
+                    Logger.i("getCalendarPrice--" + s);
                 }
             });
         }

@@ -30,12 +30,6 @@ public class Api {
     private static long currentTaskId = 1000000000000000L;
     private static LongSparseArray<Disposable> reqTasks = new LongSparseArray<>();
 
-    private static synchronized long getTaskId() {
-        currentTaskId += 10;
-        Logger.i("createTaskid----" + currentTaskId);
-        return currentTaskId;
-    }
-
 
     Api(DataSource dataSource){
         this.mDataSource = dataSource;
@@ -54,107 +48,5 @@ public class Api {
             e.printStackTrace();
         }
         return targetApi;
-    }
-
-
-    private  final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER
-            = flowable -> flowable
-            .onErrorReturn((Function<Throwable, DataResponse>) ExceptionHandle::handleException)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread());
-
-    private final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER_CONFIG
-            = flowable -> flowable
-            .onErrorReturn((Function<Throwable, ConfigData>) throwable -> {
-                ConfigData configData = new ConfigData();
-                DataResponse dataResponse = ExceptionHandle.handleException(throwable);
-                configData.netCode = dataResponse.code;
-                configData.message = dataResponse.reason;
-                return configData;
-            })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread());
-
-    private  final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER_HOME_CONFIG
-            = flowable -> flowable
-            .onErrorReturn((Function<Throwable, ConfigData>) throwable -> {
-                ConfigData configData = new ConfigData();
-                DataResponse dataResponse = ExceptionHandle.handleException(throwable);
-                configData.netCode = dataResponse.code;
-                configData.message = dataResponse.reason;
-                return configData;
-            })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread());
-
-    @SuppressWarnings("unchecked")
-    public  <T> FlowableTransformer<T, T> ioMain() {
-        return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER;
-    }
-
-    @SuppressWarnings("unchecked")
-    public  <T> FlowableTransformer<T, T> ioMainConfig() {
-        return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_CONFIG;
-    }
-
-    @SuppressWarnings("unchecked")
-    public  <T> FlowableTransformer<T, T> ioHomeConfig() {
-        return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_HOME_CONFIG;
-    }
-
-    public <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
-        long taskId = getTaskId();
-        Disposable disposable = resultFlowable.compose(ioMain()).subscribe(new TaskIdConsumer<T>(taskId,consumer));
-        reqTasks.put(taskId,disposable);
-        return taskId;
-    }
-
-    public <T> long getConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
-        long taskId = getTaskId();
-        Disposable disposable = resultFlowable.compose(ioMainConfig()).subscribe(new TaskIdConsumer<T>(taskId,consumer));
-        reqTasks.put(taskId,disposable);
-        return taskId;
-    }
-
-    public <T> long getHomeConfigResult(Flowable<T> resultFlowable,Consumer<T> consumer) {
-        long taskId = getTaskId();
-        Disposable disposable = resultFlowable.compose(ioHomeConfig()).subscribe(new TaskIdConsumer<T>(taskId,consumer));
-        reqTasks.put(taskId,disposable);
-        return taskId;
-    }
-
-    class TaskIdConsumer<T> implements Consumer<T>{
-        long taskid;
-        Consumer<T> resultConsumer;
-        TaskIdConsumer(long taskid, Consumer<T> consumer) {
-            this.taskid = taskid;
-            this.resultConsumer = consumer;
-        }
-
-        @Override
-        public void accept(T t) throws Exception {
-            if(resultConsumer != null) {
-                cancelTask(taskid);
-                resultConsumer.accept(t);
-            }
-        }
-    }
-
-
-    public static void cancelCurrentTask() {
-        if(reqTasks.containsKey(currentTaskId)) {
-            cancelTask(currentTaskId);
-        }
-    }
-
-    public static void cancelTask(long taskId) {
-        if(reqTasks.containsKey(taskId)) {
-            Disposable disposable = reqTasks.get(taskId);
-            if(disposable != null && !disposable.isDisposed()) {
-                disposable.dispose();
-            }
-            reqTasks.remove(taskId);
-            Logger.i("cancelTask-----" + taskId);
-        }
     }
 }

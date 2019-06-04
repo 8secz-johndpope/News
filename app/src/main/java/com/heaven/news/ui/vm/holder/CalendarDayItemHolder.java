@@ -74,11 +74,14 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
             holder.setText(R.id.day_mouth,String.valueOf(calendar.getDay()));
         }
         if(calendar.isCurrentMonth()) {
-//            if(!TextUtils.isEmpty(calendar.getFestival())) {
-//                holder.setTextColor(R.id.day_mouth,R.color.colorAccent);
-//            } else {
-//                holder.setTextColor(R.id.day_mouth,R.color.black);
-//            }
+
+            if(!TextUtils.isEmpty(calendar.getFestival())) {
+                holder.setTextColor(R.id.day_mouth,R.color.colorAccent);
+            } else if(0 == calendar.getWeek() || 6 == calendar.getWeek()) {
+                holder.setTextColor(R.id.day_mouth,R.color.colorAccent);
+            }else {
+                holder.setTextColor(R.id.day_mouth,R.color.black);
+            }
 
             holder.itemView.setOnClickListener(v -> {
                 if(holder.onItemClickListener != null) {
@@ -86,7 +89,7 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
                 }
             });
         } else {
-//            holder.setTextColor(R.id.day_mouth,R.color.divider_light);
+            holder.setTextColor(R.id.day_mouth,R.color.divider_light);
         }
     }
 

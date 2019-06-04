@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory;
 import com.heaven.data.net.DataRepo;
+import com.heaven.news.engine.convert.fastjson.FastJsonnConverterFactory;
 import com.heaven.news.engine.convert.protostuff.SzProtobufConvertFactory;
 import com.heaven.news.engine.convert.szair.SzAirConvertFactory;
 import com.heaven.data.manager.DataSource;
@@ -39,7 +40,7 @@ public class CoreModule {
     DataSource provideDataSource(Context context) {
         DataSource.Builder builder = new DataSource.Builder(context);
         builder.addNetRepo(BuildConfig.ROOT_URL, SzAirConvertFactory.create());
-        builder.addNetRepo(BuildConfig.CONFIG_URL, Retrofit2ConverterFactory.create());
+        builder.addNetRepo(BuildConfig.CONFIG_URL, FastJsonnConverterFactory.create());
         builder.addNetRepo(BuildConfig.FLIGHT_URL, SzProtobufConvertFactory.create());
         DataRepo.Builder versionBuilder = builder.addNetRepoBuilder(BuildConfig.VERSION_URL,Retrofit2ConverterFactory.create());
         versionBuilder.setTime(5,5,5);

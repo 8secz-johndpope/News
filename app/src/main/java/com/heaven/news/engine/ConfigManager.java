@@ -131,6 +131,30 @@ public class ConfigManager {
         return calendars;
     }
 
+    public CityInfo loadAllCity() {
+        if (cityInfo.chIndexs.size() == 0 || cityInfo.chCityGroups.size() == 0) {
+            List<cityListVO> lastCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_LAST);
+            if (lastCitys == null || lastCitys.size() == 0) {
+                lastCitys = loadLocalRawCity();
+                try {
+                    lock.lock();
+                    groupCityBy(lastCitys);
+                } finally {
+                    lock.unlock();
+                }
+            }
+            return IoUtil.deepCopyList(cityInfo);
+
+        } else {
+            return IoUtil.deepCopyList(cityInfo);
+        }
+    }
+
+
+    public ConfigData loadConfigData() {
+        return configData;
+    }
+
 
     private void initCalendar(Context context) {
         try{
@@ -329,25 +353,6 @@ public class ConfigManager {
         }
         groupCityBy(lastCitys);
 
-    }
-
-    public CityInfo loadAllCity() {
-        if (cityInfo.chIndexs.size() == 0 || cityInfo.chCityGroups.size() == 0) {
-            List<cityListVO> lastCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_LAST);
-            if (lastCitys == null || lastCitys.size() == 0) {
-                lastCitys = loadLocalRawCity();
-                try {
-                    lock.lock();
-                    groupCityBy(lastCitys);
-                } finally {
-                    lock.unlock();
-                }
-            }
-            return IoUtil.deepCopyList(cityInfo);
-
-        } else {
-            return IoUtil.deepCopyList(cityInfo);
-        }
     }
 
     private void groupCityBy(List<cityListVO> citys) {

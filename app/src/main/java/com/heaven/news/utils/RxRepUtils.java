@@ -63,12 +63,7 @@ public class RxRepUtils {
 
     public static  <T> long getConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
-        Disposable disposable = resultFlowable.onErrorReturn(new Function<Throwable, T>() {
-            @Override
-            public T apply(Throwable throwable) throws Exception {
-                return (T) "";
-            }
-        }).subscribeOn(Schedulers.io()).subscribe(getTaskConsumer(taskId, consumer));
+        Disposable disposable = resultFlowable.onErrorReturn(throwable -> (T) "").subscribeOn(Schedulers.io()).subscribe(getTaskConsumer(taskId, consumer));
         reqTasks.put(taskId, disposable);
         return taskId;
     }

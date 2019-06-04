@@ -55,7 +55,7 @@ public class NetInterceptor implements Interceptor {
         }
 
         String contentEncode = response.header("Content-Encoding");
-        if(response.body() != null) {
+        if (response.body() != null) {
             if (contentEncode != null && contentEncode.contains("gzip")) {
                 MediaType mediaType = response.body().contentType();
                 byte[] data = ByteStreams.toByteArray(new GZIPInputStream(response.body().byteStream()));
@@ -128,17 +128,22 @@ public class NetInterceptor implements Interceptor {
                 .append(bodySize);
 
         Logger.i(responseLog.toString());
-        if (!TextUtils.isEmpty(contentType)) {
-            if (contentType.contains("json")) {
-                Logger.json(responseBodyStr);
-            } else if (contentType.contains("xml")) {
-                Logger.xml(responseBodyStr);
+        try {
+            if (!TextUtils.isEmpty(contentType)) {
+                if (contentType.contains("json")) {
+                    Logger.json(responseBodyStr);
+                } else if (contentType.contains("xml")) {
+                    Logger.xml(responseBodyStr);
+                } else {
+                    Logger.i(responseBodyStr);
+                }
             } else {
                 Logger.i(responseBodyStr);
             }
-        } else {
-            Logger.i(responseBodyStr);
+        } catch (Exception e) {
+            Logger.i(e.getMessage() + responseBodyStr);
         }
+
         traceTime
                 .append("\n")
                 .append("******************************************\n")
