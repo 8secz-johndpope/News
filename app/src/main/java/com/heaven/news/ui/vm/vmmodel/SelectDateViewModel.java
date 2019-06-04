@@ -2,6 +2,8 @@ package com.heaven.news.ui.vm.vmmodel;
 
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.view.calendar.FestivalDay;
 import com.heaven.base.ui.view.calendar.FestivalDayGroup;
@@ -10,11 +12,13 @@ import com.heaven.news.BuildConfig;
 import com.heaven.news.api.Api;
 import com.heaven.news.api.ConfigApi;
 import com.heaven.news.engine.AppEngine;
+import com.heaven.news.ui.vm.model.base.CalendarPriceInfo;
 import com.heaven.news.ui.vm.model.base.CityGroup;
 import com.heaven.news.ui.vm.model.base.ConfigData;
 import com.heaven.news.utils.RxRepUtils;
 import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,8 +58,15 @@ public class SelectDateViewModel extends AbstractViewModel {
 
             RxRepUtils.getConfigResult(AppEngine.instance().api().getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getCalenarPrice(priceUrl), new Consumer<String>() {
                 @Override
-                public void accept(String s) throws Exception {
-                    Logger.i("getCalendarPrice--" + s);
+                public void accept(String jsonstr) throws Exception {
+                    if(!TextUtils.isEmpty(jsonstr)) {
+                        int index = jsonstr.indexOf("jsoncallback(");
+                        if(index != -1){
+                            jsonstr = jsonstr.replace("jsoncallback(", "").replace(");", "");
+                        }
+                        ArrayList<CalendarPriceInfo> CalendarPriceInfoList= (ArrayList<CalendarPriceInfo>) JSONObject.parseArray(jsonstr, CalendarPriceInfo.class);
+                        Logger.i("getCalendarPrice--" + jsonstr);
+                    }
                 }
             });
         }
