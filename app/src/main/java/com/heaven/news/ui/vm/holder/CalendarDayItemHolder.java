@@ -42,7 +42,9 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
 
             if(!TextUtils.isEmpty(calendar.getFestival())) {
                 holder.setTextColor(R.id.day_mouth,R.color.colorAccent);
-            } else {
+            } else if(0 == calendar.getWeek() || 6 == calendar.getWeek()) {
+                holder.setTextColor(R.id.day_mouth,R.color.colorAccent);
+            }else {
                 holder.setTextColor(R.id.day_mouth,R.color.black);
             }
 
