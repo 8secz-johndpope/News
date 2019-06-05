@@ -139,7 +139,7 @@ public class SelectDateViewModel extends AbstractViewModel {
                         CalendarPriceInfo priceInfo =  priceMap.get(key);
                         if(priceInfo != null) {
                             int currentIntPrice = TextUtils.isEmpty(priceInfo.getLowerPrice())? 0 : Integer.parseInt(priceInfo.getLowerPrice());
-                            calendar.price = priceInfo.getLowerPrice();
+                            calendar.price = "￥"+priceInfo.getLowerPrice();
                             if(lowestIntPrice == currentIntPrice) {
                                 calendar.isLowestPrice = true;
                             }

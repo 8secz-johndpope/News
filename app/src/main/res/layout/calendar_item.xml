@@ -23,7 +23,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:text="休"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/color_ee2934"
             android:textSize="@dimen/_10sp"
             android:visibility="visible"
             />

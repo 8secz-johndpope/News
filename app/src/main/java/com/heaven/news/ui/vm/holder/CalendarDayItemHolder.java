@@ -33,18 +33,20 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
             holder.setText(R.id.holiday,"休");
         }
 
-        if(!TextUtils.isEmpty(calendar.getFestival())) {
+        if(calendar.isCurrentDay()) {
+            holder.setText(R.id.day_mouth,"今天");
+        } else if(!TextUtils.isEmpty(calendar.getFestival())) {
             holder.setText(R.id.day_mouth,calendar.getFestival());
         } else {
             holder.setText(R.id.day_mouth,String.valueOf(calendar.getDay()));
         }
 
         if(!TextUtils.isEmpty(calendar.price)) {
-            holder.setText(R.id.calendar_price,"￥" + calendar.price);
+            holder.setText(R.id.calendar_price, calendar.price);
             if(calendar.isLowestPrice) {
-                holder.setTextColor(R.id.calendar_price,R.color.colorAccent);
+                holder.setTextColor(R.id.calendar_price,R.color.color_ee2934);
             } else {
-                holder.setTextColor(R.id.calendar_price,R.color.divider_light);
+                holder.setTextColor(R.id.calendar_price,R.color.color_999999);
             }
         } else {
             holder.setText(R.id.calendar_price,"");
@@ -52,22 +54,24 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
         }
 
         if(calendar.isCurrentMonth()) {
-
-            if(!TextUtils.isEmpty(calendar.getFestival())) {
-                holder.setTextColor(R.id.day_mouth,R.color.colorAccent);
-            } else if(0 == calendar.getWeek() || 6 == calendar.getWeek()) {
-                holder.setTextColor(R.id.day_mouth,R.color.colorAccent);
-            }else {
-                holder.setTextColor(R.id.day_mouth,R.color.black);
-            }
-
-            holder.itemView.setOnClickListener(v -> {
-                if(holder.onItemClickListener != null) {
-                    holder.onItemClickListener.onItemClick(v,holder,calendar);
+            if(calendar.isBeforeCurrentDate) {
+                holder.setTextColor(R.id.day_mouth,R.color.color_999999);
+            } else {
+                if(calendar.isCurrentDay()) {
+                    holder.setTextColor(R.id.day_mouth, R.color.color_596ff);
+                } else if (!TextUtils.isEmpty(calendar.getFestival()) || 0 == calendar.getWeek() || 6 == calendar.getWeek()) {
+                    holder.setTextColor(R.id.day_mouth, R.color.color_ee2934);
+                } else {
+                    holder.setTextColor(R.id.day_mouth, R.color.black);
                 }
-            });
+                holder.itemView.setOnClickListener(v -> {
+                    if(holder.onItemClickListener != null) {
+                        holder.onItemClickListener.onItemClick(v,holder,calendar);
+                    }
+                });
+            }
         } else {
-            holder.setTextColor(R.id.day_mouth,R.color.divider_light);
+            holder.setTextColor(R.id.day_mouth,R.color.color_999999);
         }
     }
 

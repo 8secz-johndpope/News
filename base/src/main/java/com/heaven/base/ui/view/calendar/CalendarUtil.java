@@ -690,6 +690,12 @@ public final class CalendarUtil {
                 calendarDate.setCurrentDay(true);
             }
 
+            if(calendarDate.getYear() == currentDate.getYear() && calendarDate.getMonth() == currentDate.getMonth()) {
+                if(currentDate.compareTo(calendarDate) > 0) {
+                    calendarDate.isBeforeCurrentDate = true;
+                }
+            }
+
             calendarDate.groupTitle = monthFormat.format(date.getTime());
 
             LunarCalendar.setupLunarCalendar(calendarDate);
