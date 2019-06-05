@@ -54,6 +54,7 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
         }
 
         if(calendar.isCurrentMonth()) {
+            holder.setVisible(R.id.item_root,true);
             if(calendar.isBeforeCurrentDate) {
                 holder.setTextColor(R.id.day_mouth,R.color.color_999999);
             } else {
@@ -72,6 +73,7 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
             }
         } else {
             holder.setTextColor(R.id.day_mouth,R.color.color_999999);
+            holder.setVisible(R.id.item_root,false);
         }
     }
 
