@@ -38,6 +38,19 @@ public class CalendarDayItemHolder extends BaseMultItem<Calendar> {
         } else {
             holder.setText(R.id.day_mouth,String.valueOf(calendar.getDay()));
         }
+
+        if(!TextUtils.isEmpty(calendar.price)) {
+            holder.setText(R.id.calendar_price,"￥" + calendar.price);
+            if(calendar.isLowestPrice) {
+                holder.setTextColor(R.id.calendar_price,R.color.colorAccent);
+            } else {
+                holder.setTextColor(R.id.calendar_price,R.color.divider_light);
+            }
+        } else {
+            holder.setText(R.id.calendar_price,"");
+            holder.setTextColor(R.id.calendar_price,R.color.white);
+        }
+
         if(calendar.isCurrentMonth()) {
 
             if(!TextUtils.isEmpty(calendar.getFestival())) {

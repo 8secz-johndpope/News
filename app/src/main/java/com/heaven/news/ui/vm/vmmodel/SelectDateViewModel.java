@@ -128,7 +128,9 @@ public class SelectDateViewModel extends AbstractViewModel {
 
         public void updateCalendarPrice(Month month) {
             if(month != null && month.days != null && month.days.size() > 0 && priceMap.size() > 0) {
+                int lowestIntPrice = 0;
                 if(lowestPrice != null) {
+                    lowestIntPrice = TextUtils.isEmpty(lowestPrice.getLowerPrice())? 0 : Integer.parseInt(lowestPrice.getLowerPrice());
                     lowestPrice.isMinPrice = true;
                 }
                 for(Calendar calendar : month.days) {
@@ -136,8 +138,15 @@ public class SelectDateViewModel extends AbstractViewModel {
                     if(priceMap.containsKey(key)) {
                         CalendarPriceInfo priceInfo =  priceMap.get(key);
                         if(priceInfo != null) {
+                            int currentIntPrice = TextUtils.isEmpty(priceInfo.getLowerPrice())? 0 : Integer.parseInt(priceInfo.getLowerPrice());
                             calendar.price = priceInfo.getLowerPrice();
-                            calendar.isLowestPrice = priceInfo.isMinPrice;
+                            if(lowestIntPrice == currentIntPrice) {
+                                calendar.isLowestPrice = true;
+                            }
+                        }
+                    } else {
+                        if(calendar.isCurrentMonth()) {
+                            calendar.price = "查看";
                         }
                     }
                 }
