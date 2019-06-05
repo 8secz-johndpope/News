@@ -36,6 +36,10 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
 
     public boolean isLastInGroup;
 
+    public String price;
+
+    public boolean isLowestPrice;
+
     /**
      * 年
      */

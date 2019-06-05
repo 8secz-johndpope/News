@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by liuzhiwen on 2017/2/3.
  */
 
-public class CalendarPriceInfo implements Serializable {
+public class CalendarPriceInfo implements Serializable,Comparable<CalendarPriceInfo> {
 
     private String flightDate;
 
@@ -38,5 +38,19 @@ public class CalendarPriceInfo implements Serializable {
 
     public void setAirLine(String airLine) {
         this.airLine = airLine;
+    }
+
+    /**
+     * 比较日期
+     *
+     * @param calendar 日期
+     * @return -1 0 1
+     */
+    @Override
+    public int compareTo(CalendarPriceInfo calendarPriceInfo) {
+        if (calendarPriceInfo == null) {
+            return 1;
+        }
+        return flightDate.compareTo(calendarPriceInfo.flightDate);
     }
 }

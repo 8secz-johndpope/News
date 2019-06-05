@@ -23,4 +23,8 @@ public class Month implements Serializable {
         days.clear();
         days.addAll(dayList);
     }
+
+    public String getFormatDate() {
+        return year + "-" + (month < 10 ? "0" + month : month);
+    }
 }

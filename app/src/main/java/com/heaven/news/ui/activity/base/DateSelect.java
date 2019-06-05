@@ -46,7 +46,7 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
 
     @Override
     public void bindModel() {
-        mViewModel.getCalendarPrice("","","");
+//        mViewModel.getCalendarPrice("","","");
     }
 
 
@@ -92,6 +92,7 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
                 return false;
             }
         });
+        mViewModel.updatePrice(routeAdapter,"","","");
         mViewBinding.swipeTarget.setAdapter(routeAdapter);
     }
 
