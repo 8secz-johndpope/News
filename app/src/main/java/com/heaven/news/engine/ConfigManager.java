@@ -128,7 +128,7 @@ public class ConfigManager {
                 initCalendar(context);
             }
         }
-        return calendars;
+        return IoUtil.deepCopyList(calendars);
     }
 
     public CityInfo loadAllCity() {

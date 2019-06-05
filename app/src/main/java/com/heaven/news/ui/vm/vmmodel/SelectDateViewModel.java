@@ -109,11 +109,11 @@ public class SelectDateViewModel extends AbstractViewModel {
 
     private class CalendarPriceGroup{
         public String date;
-        public Map<String,CalendarPriceInfo> priceMap = new HashMap<>();
+        Map<String,CalendarPriceInfo> priceMap = new HashMap<>();
 
         private CalendarPriceInfo lowestPrice;
 
-        public void addMonthPrice(CalendarPriceInfo calendarPriceInfo) {
+        void addMonthPrice(CalendarPriceInfo calendarPriceInfo) {
             priceMap.put(calendarPriceInfo.getFlightDate(),calendarPriceInfo);
             if(lowestPrice != null) {
                 int lowestIntPrice = TextUtils.isEmpty(lowestPrice.getLowerPrice())? 0 : Integer.parseInt(lowestPrice.getLowerPrice());
@@ -126,7 +126,7 @@ public class SelectDateViewModel extends AbstractViewModel {
             }
         }
 
-        public void updateCalendarPrice(Month month) {
+        void updateCalendarPrice(Month month) {
             if(month != null && month.days != null && month.days.size() > 0 && priceMap.size() > 0) {
                 int lowestIntPrice = 0;
                 if(lowestPrice != null) {
