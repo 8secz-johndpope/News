@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory;
 import com.heaven.data.net.DataRepo;
-import com.heaven.news.engine.convert.fastjson.FastJsonnConverterFactory;
-import com.heaven.news.engine.convert.protostuff.SzProtobufConvertFactory;
-import com.heaven.news.engine.convert.szair.SzAirConvertFactory;
+import com.heaven.news.api.convert.fastjson.FastJsonnConverterFactory;
+import com.heaven.news.api.convert.protostuff.SzProtobufConvertFactory;
+import com.heaven.news.api.convert.szair.SzAirConvertFactory;
 import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.NetGlobalConfig;
 import com.heaven.news.BuildConfig;
@@ -17,7 +17,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * FileName: com.heaven.news.engine.CoreModule.java

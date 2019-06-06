@@ -1,4 +1,4 @@
-package com.heaven.news.engine.convert.szair;
+package com.heaven.news.api.convert.szair;
 
 
 
@@ -12,7 +12,7 @@ import okio.ByteString;
 import retrofit2.Converter;
 
 /**
- * FileName: com.heaven.news.engine.convert.szair.SzAirRequestBodyConvert.java
+ * FileName: com.heaven.news.api.convert.szair.SzAirRequestBodyConvert.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-04 12:20

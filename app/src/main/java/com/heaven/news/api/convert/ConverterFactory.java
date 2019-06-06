@@ -1,8 +1,4 @@
-package com.heaven.news.engine.convert.protostuff;
-
-import com.heaven.news.engine.convert.szair.SzAirRequestBodyConvert;
-
-import org.simpleframework.xml.core.Persister;
+package com.heaven.news.api.convert;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -15,46 +11,36 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 /**
- * FileName: com.heaven.news.engine.convert.protostuff.SzProtobufConvertFactory.java
+ * FileName: com.heaven.news.api.convert.ConverterFactory.java
  * author: Heaven
  * email: heavenisme@aliyun.com
- * date: 2019-04-19 12:08
+ * date: 2019-06-06 13:33
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class SzProtobufConvertFactory extends Converter.Factory{
+public class ConverterFactory extends Converter.Factory {
 
     /** Create an instance using a default {@link Persister} instance for conversion. */
-    public static SzProtobufConvertFactory create() {
+    public static ConverterFactory create() {
         return createInstance();
     }
 
     /** Create an instance using {@code serializer} for conversion. */
-    public static SzProtobufConvertFactory createInstance() {
-        return new SzProtobufConvertFactory();
-    }
-
-
-    private SzAirRequestBodyConvert requestBodyConvert;
-
-    private SzProtobufConvertFactory() {
+    public static ConverterFactory createInstance() {
+        return new ConverterFactory();
     }
 
 
     @Nullable
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        return new ProtoBufResBodyConvert<>(type);
+
+        return super.responseBodyConverter(type, annotations, retrofit);
     }
 
     @Nullable
     @Override
     public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
-        if (!(type instanceof Class)) {
-            return null;
-        }
-        requestBodyConvert = new SzAirRequestBodyConvert<>();
-        return requestBodyConvert;
+        return super.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
     }
-
 }

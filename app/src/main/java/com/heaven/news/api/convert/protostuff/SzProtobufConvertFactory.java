@@ -1,4 +1,6 @@
-package com.heaven.news.engine.convert.szair;
+package com.heaven.news.api.convert.protostuff;
+
+import com.heaven.news.api.convert.szair.SzAirRequestBodyConvert;
 
 import org.simpleframework.xml.core.Persister;
 
@@ -13,38 +15,36 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 /**
- * FileName: com.heaven.news.engine.convert.szair.SzAirConvertFactory.java
+ * FileName: com.heaven.news.api.convert.protostuff.SzProtobufConvertFactory.java
  * author: Heaven
  * email: heavenisme@aliyun.com
- * date: 2019-03-04 12:14
+ * date: 2019-04-19 12:08
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class SzAirConvertFactory extends Converter.Factory {
+public class SzProtobufConvertFactory extends Converter.Factory{
 
     /** Create an instance using a default {@link Persister} instance for conversion. */
-    public static SzAirConvertFactory create() {
+    public static SzProtobufConvertFactory create() {
         return createInstance();
     }
 
     /** Create an instance using {@code serializer} for conversion. */
-    public static SzAirConvertFactory createInstance() {
-        return new SzAirConvertFactory();
+    public static SzProtobufConvertFactory createInstance() {
+        return new SzProtobufConvertFactory();
     }
 
 
     private SzAirRequestBodyConvert requestBodyConvert;
 
-    private SzAirConvertFactory() {
+    private SzProtobufConvertFactory() {
     }
 
 
     @Nullable
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        SzAirResponseBodyConvert responseBodyConvert = new SzAirResponseBodyConvert<>();
-        responseBodyConvert.setBinding(requestBodyConvert);
-        return responseBodyConvert;
+        return new ProtoBufResBodyConvert<>(type);
     }
 
     @Nullable
