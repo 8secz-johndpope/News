@@ -9,9 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.heaven.data.manager.DataSource;
-import com.heaven.data.net.DataResponse;
 import com.heaven.news.BuildConfig;
-import com.heaven.news.api.FlightApi;
 import com.heaven.news.api.FlightProtoApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
@@ -26,7 +24,6 @@ import com.neusoft.szair.model.fullchannel.SearchFullchannelWebServiceImplServic
 import com.neusoft.szair.model.fullchannel.fullchannelVO;
 import com.neusoft.szair.model.fullchannel.searchByTrace;
 import com.neusoft.szair.model.fullchannel.searchByTraceConditionVO;
-import com.neusoft.szair.model.fullchannel.searchByTraceResponse;
 import com.neusoft.szair.model.fullchannel.traceParamVO;
 import com.neusoft.szair.model.noticelist.NoticeListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
@@ -36,8 +33,6 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * FileName: com.heaven.news.ui.vm.viewmodel.MainViewModel.java

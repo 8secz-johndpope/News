@@ -41,15 +41,13 @@ public class SzAirConvertFactory extends Converter.Factory {
 
     @Nullable
     @Override
-    public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        SzAirResponseBodyConvert responseBodyConvert = new SzAirResponseBodyConvert<>();
-        responseBodyConvert.setBinding(requestBodyConvert);
-        return responseBodyConvert;
+    public Converter<ResponseBody, Object> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+        return new SzAirResponseBodyConvert<>(requestBodyConvert);
     }
 
     @Nullable
     @Override
-    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+    public Converter<Object, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
         if (!(type instanceof Class)) {
             return null;
         }

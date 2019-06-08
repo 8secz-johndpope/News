@@ -1,5 +1,6 @@
 package com.heaven.news.api;
 
+import com.heaven.news.api.convert.ProtoType;
 import com.heaven.news.ui.vm.model.base.ConfigData;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 
@@ -18,6 +19,7 @@ import retrofit2.http.Headers;
 public interface VersionApi {
     @Headers({"Content-Type:Application/json; charset=utf-8","Connection:close"})
     @GET("file/config.json")
+    @ProtoType(reqType = 1,resType = 1)
     Flowable<String> getVersion();
 
 }

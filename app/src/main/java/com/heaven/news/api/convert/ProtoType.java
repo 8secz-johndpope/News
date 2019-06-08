@@ -21,12 +21,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(METHOD)
 @Retention(RUNTIME)
 public @interface ProtoType {
-    String JSON = "json";
-    String XML = "xml";
-    String PROTO = "protoful";
+    int JSON = 1;
+    int XML = 2;
+    int PROTO = 3;
 
-    String requestType() default XML;
+    int reqType() default XML;
 
-    String responseType() default XML;;
+    int resType() default XML;;
 
 }

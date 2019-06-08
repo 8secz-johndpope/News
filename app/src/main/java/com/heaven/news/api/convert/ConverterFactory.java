@@ -1,5 +1,10 @@
 package com.heaven.news.api.convert;
 
+import com.heaven.news.api.convert.fastjson.FastJsonnConverterFactory;
+import com.heaven.news.api.convert.protostuff.ProtoBufResBodyConvert;
+import com.heaven.news.api.convert.szair.SzAirRequestBodyConvert;
+import com.heaven.news.api.convert.szair.SzAirResponseBodyConvert;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
@@ -19,8 +24,10 @@ import retrofit2.Retrofit;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class ConverterFactory extends Converter.Factory {
+    private SzAirRequestBodyConvert<Object> requestBodyConvert;
 
-    /** Create an instance using a default {@link Persister} instance for conversion. */
+
+    /** Create an instance using a default {@link } instance for conversion. */
     public static ConverterFactory create() {
         return createInstance();
     }
@@ -33,14 +40,65 @@ public class ConverterFactory extends Converter.Factory {
 
     @Nullable
     @Override
-    public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+    public Converter<ResponseBody, Object> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+        ProtoType protoType = null;
+        if (annotations != null && annotations.length > 0) {
+            for (Annotation annotation : annotations) {
+                if (annotation instanceof ProtoType) {
+                    protoType = (ProtoType) annotation;
+                    break;
+                }
+            }
+        }
+        Converter<ResponseBody, Object> resBodyConvert = null;
+        if (protoType != null) {
+            if(ProtoType.JSON == protoType.resType()) {
+                resBodyConvert =  FastJsonnConverterFactory.create().responseBodyConverter(type,annotations,retrofit);
+            } else if(ProtoType.XML == protoType.resType()) {
+                resBodyConvert =  new SzAirResponseBodyConvert<Object>(requestBodyConvert);
+            } else if(ProtoType.PROTO == protoType.resType()) {
+                resBodyConvert = new ProtoBufResBodyConvert<Object>(type);
+            }
+        } else {
+            resBodyConvert =  new SzAirResponseBodyConvert<>(requestBodyConvert);
+        }
 
-        return super.responseBodyConverter(type, annotations, retrofit);
+        return resBodyConvert;
     }
 
     @Nullable
     @Override
-    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
-        return super.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
+    public Converter<Object, RequestBody> requestBodyConverter(Type type, Annotation[] annotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+        ProtoType protoType = null;
+        if (annotations != null && annotations.length > 0) {
+            for (Annotation annotation : annotations) {
+                if (annotation instanceof ProtoType) {
+                    protoType = (ProtoType) annotation;
+                    break;
+                }
+            }
+        }
+        Converter<Object, RequestBody> reqBodyConvert = null;
+        if (protoType != null) {
+            if(ProtoType.JSON == protoType.resType()) {
+                reqBodyConvert = FastJsonnConverterFactory.create().requestBodyConverter(type,annotations,methodAnnotations,retrofit);
+            } else if(ProtoType.XML == protoType.resType()) {
+                if (!(type instanceof Class)) {
+                    return null;
+                }
+                reqBodyConvert = requestBodyConvert =new SzAirRequestBodyConvert<>();
+            } else if(ProtoType.PROTO == protoType.resType()) {
+
+            }
+        } else {
+            if (!(type instanceof Class)) {
+                return null;
+            }
+            reqBodyConvert = requestBodyConvert = new SzAirRequestBodyConvert<>();
+        }
+
+
+
+        return reqBodyConvert;
     }
 }

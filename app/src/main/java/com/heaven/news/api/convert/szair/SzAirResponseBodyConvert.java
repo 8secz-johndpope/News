@@ -21,13 +21,9 @@ import retrofit2.Converter;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class SzAirResponseBodyConvert<T> implements Converter<ResponseBody, T> {
-    SzAirRequestBodyConvert requestBodyConvert;
+    private SzAirRequestBodyConvert requestBodyConvert;
 
-
-    SzAirResponseBodyConvert() {
-    }
-
-    void setBinding(SzAirRequestBodyConvert requestBodyConvert) {
+   public SzAirResponseBodyConvert(SzAirRequestBodyConvert requestBodyConvert) {
         this.requestBodyConvert = requestBodyConvert;
     }
 

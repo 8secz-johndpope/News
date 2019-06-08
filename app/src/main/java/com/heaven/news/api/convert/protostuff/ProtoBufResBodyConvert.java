@@ -28,7 +28,7 @@ public class ProtoBufResBodyConvert<T> implements Converter<ResponseBody, T> {
     private Class<? super T> targetClass;
 
     @SuppressWarnings("unchecked")
-    ProtoBufResBodyConvert(Type type) {
+   public ProtoBufResBodyConvert(Type type) {
         this.targetClass = (Class<? super T>) $Gson$Types.getRawType(type);
     }
 
