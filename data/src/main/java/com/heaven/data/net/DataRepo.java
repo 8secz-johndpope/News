@@ -28,6 +28,7 @@ import okhttp3.CipherSuite;
 import okhttp3.ConnectionPool;
 import okhttp3.ConnectionSpec;
 import okhttp3.Headers;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import okhttp3.TlsVersion;
@@ -222,6 +223,16 @@ public class DataRepo {
 
         Builder(DataRepo dataRepo) {
 
+        }
+
+        /**
+         * 添加自定义动态拦截器
+         * @param dynamicInterceptor 拦截器
+         */
+        public void addDynamicInterceptor(Interceptor dynamicInterceptor) {
+            if(okHttpBuilder != null) {
+                okHttpBuilder.addInterceptor(dynamicInterceptor);
+            }
         }
 
 

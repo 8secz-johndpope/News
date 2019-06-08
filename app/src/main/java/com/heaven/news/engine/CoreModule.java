@@ -18,6 +18,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
 
 /**
  * FileName: com.heaven.news.engine.CoreModule.java
@@ -44,10 +45,6 @@ public class CoreModule {
         builder.addNetRepo(BuildConfig.FLIGHT_URL, ConverterFactory.create());
         DataRepo.Builder versionBuilder = builder.addNetRepoBuilder(BuildConfig.VERSION_URL,ConverterFactory.create());
 
-//        builder.addNetRepo(BuildConfig.ROOT_URL, SzAirConvertFactory.create());
-//        builder.addNetRepo(BuildConfig.CONFIG_URL, FastJsonnConverterFactory.create());
-//        builder.addNetRepo(BuildConfig.FLIGHT_URL, SzProtobufConvertFactory.create());
-//        DataRepo.Builder versionBuilder = builder.addNetRepoBuilder(BuildConfig.VERSION_URL,Retrofit2ConverterFactory.create());
         versionBuilder.setTime(5,5,5);
         DataSource dataSource = builder.build();
         addMainSourceHeader(dataSource);
@@ -55,6 +52,7 @@ public class CoreModule {
         addConfigSourceHeader(dataSource);
         return dataSource;
     }
+
 
     private void addMainSourceHeader(DataSource dataSource) {
         dataSource.addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);

@@ -17,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -70,7 +71,7 @@ public class DataSource {
         DataRepo mainRepo;
         NetGlobalConfig.PROTOTYPE prototype = JSON;
         Map<String, DataRepo> repos = new HashMap<>();
-        Map<String, DataRepo.Builder> reposBuilder = new HashMap<>();
+        ArrayList<DataRepo.Builder> repoBuilds = new ArrayList<>();
 
         public Builder(Context context) {
             this.context = context;
@@ -163,11 +164,7 @@ public class DataSource {
                 if (NetGlobalConfig.HTTPS.equals(scheme)) {
                     repoBuilder.netHttps(certificates);
                 }
-                if (repos.size() == 0) {
-                    reposBuilder.put(repoBuilder.repoIdentify, repoBuilder);
-                } else {
-                    reposBuilder.put(repoBuilder.repoIdentify, repoBuilder);
-                }
+                repoBuilds.add(repoBuilder);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
@@ -180,13 +177,13 @@ public class DataSource {
         }
 
         private void buildRepro() {
-            if (reposBuilder.size() > 0) {
-                for (String key : reposBuilder.keySet()) {
-                    if (!repos.containsKey(key)) {
-                        DataRepo.Builder repoBuilder = reposBuilder.get(key);
-                        if (repoBuilder != null) {
-                            repos.put(repoBuilder.repoIdentify, repoBuilder.build());
-                        }
+            if (repoBuilds.size() > 0) {
+                for(DataRepo.Builder builder : repoBuilds) {
+                    if(mainRepo == null) {
+                        mainRepo = builder.build();
+                        repos.put(mainRepo.repoIdentify, mainRepo);
+                    } else {
+                        repos.put(builder.repoIdentify, builder.build());
                     }
                 }
             }
@@ -554,7 +551,7 @@ public class DataSource {
                 cacheManager.persistentDisk(hashKey, entity);
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 diskLock.unlock();
             }
         });
