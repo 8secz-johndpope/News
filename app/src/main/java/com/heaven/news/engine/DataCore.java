@@ -11,6 +11,7 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.ConfigApi;
+import com.heaven.news.api.IApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.ui.vm.model.base.EasyGoService;
@@ -256,7 +257,7 @@ public class DataCore {
             Logger.i("RequestLogin---" + loginreqvo.toString());
             MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
 
-            Long loginTaskId = RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).login(bind), loginResponse -> {
+            Long loginTaskId = RxRepUtils.getResult(dataSource.getNetApi(IApi.class).login(bind), loginResponse -> {
                 if (loginResponse.code == 0 && loginResponse.data != null && loginResponse.data._LOGIN_RESULT != null) {
                     if ("0000".equals(loginResponse.data._LOGIN_RESULT._CODE)) {
                         UserSecret userSecret = new UserSecret(userCount, pwd);
@@ -336,7 +337,7 @@ public class DataCore {
         parameters._QUERY_MILES_CONDITION._CRM_MEMBER_ID = crmId;
         parameters._QUERY_MILES_CONDITION._CRM_LEVEL = phoenixCardLevel;
         CRMFrequentFlyerWebServiceImplServiceSoapBinding bind = new CRMFrequentFlyerWebServiceImplServiceSoapBinding("queryMiles",parameters);
-        RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).queryMile(bind), response -> {
+        RxRepUtils.getResult(dataSource.getNetApi(IApi.class).queryMile(bind), response -> {
             if(response.code == 0 && response.data != null && response.data._QUERY_MILES_RESULT != null) {
                 if(response.data._QUERY_MILES_RESULT._FLIGHT_MILES != null) {
                     userMile = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._SURPLUS_MILES;
@@ -358,7 +359,7 @@ public class DataCore {
         queryCoupon._USECOUPON_CNT_CONDITION = reqvo;
         UserCouponSearchWebServiceServiceSoapBinding bind = new UserCouponSearchWebServiceServiceSoapBinding("queryUseCouponCnt",queryCoupon);
 
-        RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).queryUserCouponCount(bind), response -> {
+        RxRepUtils.getResult(dataSource.getNetApi(IApi.class).queryUserCouponCount(bind), response -> {
             if(response.code == 0 && response.data != null && response.data._USECOUPON_CNT_RESULT != null && "0".equals(response.data._USECOUPON_CNT_RESULT._OP_RESULT)) {
                 userCouponCount = response.data._USECOUPON_CNT_RESULT._COUNT;
                 coreDataWrapper.couponCount = userCouponCount;
@@ -375,7 +376,7 @@ public class DataCore {
         walletInfoQuery walletInfoQuery = new walletInfoQuery();
         walletInfoQuery._WALLET_QUERY_CONDITION = walletQuery;
         EasyCardWebServiceServiceSoapBinding binding = new EasyCardWebServiceServiceSoapBinding("walletInfoQuery",walletInfoQuery);
-        RxRepUtils.getResult(dataSource.getNetApi(LoginApi.class).querywalletInfo(binding), response -> {
+        RxRepUtils.getResult(dataSource.getNetApi(IApi.class).querywalletInfo(binding), response -> {
             if(response.code == 0 && response.data != null && response.data._WALLET_QUERY_RESULT != null) {
                 String ecardNum = response.data._WALLET_QUERY_RESULT._EASYCARD_COUNT;
                 coreDataWrapper.ecardNum = "0".equals(ecardNum)? "--" : ecardNum;
@@ -399,7 +400,7 @@ public class DataCore {
 
     private int requestHomeCount = 0;
     private void requestHomeConfig() {
-        long taskId = RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getImageConfig(), configData -> {
+        long taskId = RxRepUtils.getConfigResult(dataSource.getNetApi(IApi.class).getImageConfig(BuildConfig.CONFIG_URL + "carousel.json"), configData -> {
             if(!TextUtils.isEmpty(configData)) {
                 this.homeConfigData = JSON.parseObject(configData, HomeImageInfo.class);
                 dataSource.cacheData(DataSource.DISK, Constants.HOMECONFIG, homeConfigData);

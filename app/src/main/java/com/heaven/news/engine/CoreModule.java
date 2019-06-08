@@ -11,6 +11,7 @@ import com.heaven.news.api.convert.szair.SzAirConvertFactory;
 import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.NetGlobalConfig;
 import com.heaven.news.BuildConfig;
+import com.heaven.news.net.DynamicIntercepter;
 
 import java.util.HashMap;
 
@@ -40,16 +41,24 @@ public class CoreModule {
     @Provides
     DataSource provideDataSource(Context context) {
         DataSource.Builder builder = new DataSource.Builder(context);
-        builder.addNetRepo(BuildConfig.ROOT_URL, ConverterFactory.create());
-        builder.addNetRepo(BuildConfig.CONFIG_URL, ConverterFactory.create());
-        builder.addNetRepo(BuildConfig.FLIGHT_URL, ConverterFactory.create());
-        DataRepo.Builder versionBuilder = builder.addNetRepoBuilder(BuildConfig.VERSION_URL,ConverterFactory.create());
-
-        versionBuilder.setTime(5,5,5);
+        DataRepo.Builder versionBuilder = builder.addNetRepoBuilder(BuildConfig.ROOT_URL,ConverterFactory.create());
+        versionBuilder.addDynamicInterceptor(new DynamicIntercepter());
         DataSource dataSource = builder.build();
-        addMainSourceHeader(dataSource);
-        addFlightSourceHeader(dataSource);
-        addConfigSourceHeader(dataSource);
+//        addMainSourceHeader(dataSource);
+//        addFlightSourceHeader(dataSource);
+//        addConfigSourceHeader(dataSource);
+
+//        DataSource.Builder builder = new DataSource.Builder(context);
+//        builder.addNetRepo(BuildConfig.ROOT_URL, ConverterFactory.create());
+//        builder.addNetRepo(BuildConfig.CONFIG_URL, ConverterFactory.create());
+//        builder.addNetRepo(BuildConfig.FLIGHT_URL, ConverterFactory.create());
+//        DataRepo.Builder versionBuilder = builder.addNetRepoBuilder(BuildConfig.VERSION_URL,ConverterFactory.create());
+//
+//        versionBuilder.setTime(5,5,5);
+//        DataSource dataSource = builder.build();
+//        addMainSourceHeader(dataSource);
+//        addFlightSourceHeader(dataSource);
+//        addConfigSourceHeader(dataSource);
         return dataSource;
     }
 

@@ -11,8 +11,10 @@ import android.view.View;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.FlightProtoApi;
+import com.heaven.news.api.IApi;
 import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
+import com.heaven.news.engine.Api;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.utils.RxRepUtils;
@@ -65,7 +67,7 @@ public class MainViewModel extends AbstractViewModel {
         noticelist._PAGE_NO = 0;
         noticelist._PAGE_COUNT = 3;
         NoticeListWebServiceServiceSoapBinding binding = new NoticeListWebServiceServiceSoapBinding("queryNoticeList",noticelist);
-        RxRepUtils.getResult(AppEngine.instance().api().getApi(LoginApi.class).queryNoticeList(binding), dataResponse -> {
+        RxRepUtils.getResult(AppEngine.instance().api().getApi(IApi.class).queryNoticeList(binding), dataResponse -> {
             if(dataResponse.code == 0 && dataResponse.data != null) {
                 if(dataResponse.data._NOTICE_INFO_LIST != null && dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST != null) {
                     noticeList = dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST;
@@ -100,7 +102,7 @@ public class MainViewModel extends AbstractViewModel {
 
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
         long startNanos = System.nanoTime();
-        RxRepUtils.getResult(AppEngine.instance().api().getApi(BuildConfig.FLIGHT_URL, FlightProtoApi.class).searchFlight(binding), response -> {
+        RxRepUtils.getResult(AppEngine.instance().api().getApi(IApi.class).searchFlight(binding), response -> {
             long stopNanos = System.nanoTime();
             Logger.i("mainmodel_time:proto" + TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
         });

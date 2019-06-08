@@ -6,11 +6,8 @@ import android.support.v4.util.LongSparseArray;
 import com.heaven.data.net.DataResponse;
 import com.heaven.data.net.ExceptionHandle;
 import com.heaven.news.BuildConfig;
-import com.heaven.news.api.Api;
-import com.heaven.news.api.FlightProtoApi;
+import com.heaven.news.api.IApi;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.ui.vm.model.base.ConfigData;
-import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 import com.orhanobut.logger.Logger;
 
 
@@ -82,8 +79,8 @@ public class RxRepUtils {
         return taskId;
     }
 
-    public static Api getCommonApi() {
-        return AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, Api.class);
+    public static IApi getCommonApi() {
+        return AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, IApi.class);
     }
 
     private static <T> TaskIdConsumer<T> getTaskConsumer(long taskId, Consumer<T> consumer) {

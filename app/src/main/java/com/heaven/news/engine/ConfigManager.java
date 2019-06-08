@@ -23,6 +23,7 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.ConfigApi;
+import com.heaven.news.api.IApi;
 import com.heaven.news.api.VersionApi;
 import com.heaven.news.ui.vm.model.base.CityGroup;
 import com.heaven.news.ui.vm.model.base.CityInfo;
@@ -245,7 +246,7 @@ public class ConfigManager {
     }
 
     private void requestVersion() {
-        RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.VERSION_URL, VersionApi.class).getVersion(), versionData -> {
+        RxRepUtils.getConfigResult(dataSource.getNetApi(IApi.class).getVersion(BuildConfig.CONFIG_URL + "config.json"), versionData -> {
             isRequestVersionFinish = true;
             if (!TextUtils.isEmpty(versionData)) {
                 this.configData = JSON.parseObject(versionData, ConfigData.class);
@@ -267,7 +268,7 @@ public class ConfigManager {
     private long reqverTaskId;
 
     private void requestConfig() {
-        reqverTaskId = RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getConfig(), configData -> {
+        reqverTaskId = RxRepUtils.getConfigResult(dataSource.getNetApi(IApi.class).getConfig(BuildConfig.CONFIG_URL+"config.json"), configData -> {
             if (!TextUtils.isEmpty(configData)) {
                 this.configData = JSON.parseObject(configData, ConfigData.class);
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
@@ -284,7 +285,7 @@ public class ConfigManager {
     }
 
     private void requestCalendarFestival() {
-        reqverTaskId = RxRepUtils.getConfigResult(dataSource.getNetApi(BuildConfig.CONFIG_URL, ConfigApi.class).getCalendarFestivalConfig(), configData -> {
+        reqverTaskId = RxRepUtils.getConfigResult(dataSource.getNetApi(IApi.class).getCalendarFestivalConfig(BuildConfig.CONFIG_URL + "calendar.json"), configData -> {
             if (!TextUtils.isEmpty(configData)) {
                 Type type = new TypeReference<List<FestivalDay>>() {
                 }.getType();

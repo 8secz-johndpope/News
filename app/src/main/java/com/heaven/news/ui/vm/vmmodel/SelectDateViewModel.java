@@ -11,6 +11,7 @@ import com.heaven.base.ui.view.calendar.FestivalDayGroup;
 import com.heaven.base.ui.view.calendar.Month;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.ConfigApi;
+import com.heaven.news.api.IApi;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.base.CalendarPriceInfo;
 import com.heaven.news.ui.vm.model.base.ConfigData;
@@ -59,7 +60,7 @@ public class SelectDateViewModel extends AbstractViewModel {
 
             priceUrl = "https://mobile.shenzhenair.com/develop/szairMobileWS/FetchCalendarPriceServlet?m=getCalendarPrice&dptcity=SZX&arrcity=PEK&dptdate=2019-06-05";
 
-            RxRepUtils.getConfigResult(AppEngine.instance().api().getApi(BuildConfig.CONFIG_URL, ConfigApi.class).getCalenarPrice(priceUrl), new Consumer<String>() {
+            RxRepUtils.getConfigResult(AppEngine.instance().api().getApi(IApi.class).getCalenarPrice(priceUrl), new Consumer<String>() {
                 @Override
                 public void accept(String jsonstr) throws Exception {
                     if(!TextUtils.isEmpty(jsonstr)) {

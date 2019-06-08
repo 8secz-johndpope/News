@@ -17,9 +17,9 @@ import retrofit2.http.Headers;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public interface VersionApi {
-    @Headers({"Content-Type:Application/json; charset=utf-8","Connection:close"})
-    @GET("file/config.json")
-    @ProtoType(reqType = 1,resType = 1)
-    Flowable<String> getVersion();
+//    @Headers({"Content-Type:Application/json; charset=utf-8","Connection:close"})
+//    @GET("file/config.json")
+//    @ProtoType(reqType = 1,resType = 1)
+//    Flowable<String> getVersion();
 
 }
