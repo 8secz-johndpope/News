@@ -141,7 +141,7 @@ class CacheManager {
      * @param entity
      *         缓存对象
      */
-    void persistentAllEntity(String key, Object entity) {
+    synchronized  void persistentAllEntity(String key, Object entity) {
         if (key != null && entity != null) {
             executorService.execute(() -> memoryCache.put(key, entity));
             persistentDB(key, entity);
@@ -149,7 +149,7 @@ class CacheManager {
         }
     }
 
-    void removeAllTypeCacheData(String key) {
+    synchronized void removeAllTypeCacheData(String key) {
         executorService.execute(() -> removeMemory(key));
         removeDataFromDB(key);
         executorService.execute(() -> removeFromDisk(key));
@@ -163,7 +163,7 @@ class CacheManager {
      * @param entity
      *         缓存对象
      */
-    void persistentMemory(String key, Object entity) {
+    synchronized void persistentMemory(String key, Object entity) {
         if (key != null && entity != null) {
             memoryCache.put(key, entity);
         }
@@ -175,7 +175,7 @@ class CacheManager {
      * @param key
      *         键值
      */
-    void removeMemory(String key) {
+    synchronized void removeMemory(String key) {
         memoryCache.remove(key);
     }
 
@@ -187,7 +187,7 @@ class CacheManager {
      * @param entity
      *         缓存对象必须是序列化对象
      */
-    void persistentDB(String key, Object entity) {
+    synchronized void persistentDB(String key, Object entity) {
         if (key != null) {
             if (entity != null && entity instanceof Serializable) {
                 secondCache.executeTransactionAsync(realm -> {
@@ -221,7 +221,7 @@ class CacheManager {
      * @param key
      *         键值
      */
-    void removeDataFromDB(String key) {
+    synchronized void removeDataFromDB(String key) {
         if (key != null) {
             secondCache.executeTransactionAsync(realm -> {
                 CacheEntity cache = realm.where(CacheEntity.class).equalTo("key", key).findFirst();
@@ -240,7 +240,7 @@ class CacheManager {
      * @param entity
      *         缓存对象
      */
-    void persistentDisk(String key, Object entity) {
+   synchronized void persistentDisk(String key, Object entity) {
         if (key != null && entity != null && entity instanceof Serializable) {
             try {
                 DiskLruCache.Editor editor = thirdDiskCache.edit(key);
@@ -263,7 +263,7 @@ class CacheManager {
      * @param key
      *         键值
      */
-    void removeFromDisk(String key) {
+    synchronized void removeFromDisk(String key) {
         try {
             thirdDiskCache.remove(key);
         } catch (IOException e) {
@@ -279,7 +279,7 @@ class CacheManager {
      * @param saveTime
      *         保存时间
      */
-    public void timeLimitObjCache(String key, Serializable value, int saveTime) {
+    public synchronized void timeLimitObjCache(String key, Serializable value, int saveTime) {
         thirdAcache.put(key, value, saveTime);
     }
 
@@ -293,11 +293,11 @@ class CacheManager {
      * @param saveTime
      *         保存的时间，单位：秒
      */
-    public void timeLimitByteCache(String key, byte[] value, int saveTime) {
+    public synchronized void timeLimitByteCache(String key, byte[] value, int saveTime) {
         thirdAcache.put(key, value, saveTime);
     }
 
-    public Object getTimeLimitObject(String key) {
+    public synchronized Object getTimeLimitObject(String key) {
         return thirdAcache.getAsObject(key);
     }
 
@@ -312,7 +312,7 @@ class CacheManager {
      * @return 缓存的对象
      */
     @SuppressWarnings(value = {"unchecked"})
-    <E> E getMemoryEntity(String key) {
+    synchronized <E> E getMemoryEntity(String key) {
         E result = null;
         if (key != null) {
             result = (E) memoryCache.get(key);
@@ -331,7 +331,7 @@ class CacheManager {
      * @return 缓存的对象
      */
     @SuppressWarnings(value = {"unchecked"})
-    <E> E getDbEntity(String key) {
+    synchronized  <E> E getDbEntity(String key) {
         E result = null;
         if (key != null) {
             CacheEntity entity = secondCache.where(CacheEntity.class).equalTo("key", key).findFirst();
@@ -367,7 +367,7 @@ class CacheManager {
      *
      * @return 缓存的对象
      */
-    <T extends RealmObject> List<T> getCacheAllFromDb(Class<T> clazz) {
+    synchronized  <T extends RealmObject> List<T> getCacheAllFromDb(Class<T> clazz) {
         ArrayList<T> cacheInfoList = new ArrayList<>();
         final RealmResults<T> cacheInfo = secondCache.where(clazz).findAll();
         if (cacheInfo != null && cacheInfo.size() > 0) {
@@ -387,7 +387,7 @@ class CacheManager {
      * @return 缓存的对象
      */
     @SuppressWarnings(value = {"unchecked"})
-    <E> E getDiskEntity(String key) {
+    synchronized  <E> E getDiskEntity(String key) {
         E result = null;
         try {
             if (key != null) {

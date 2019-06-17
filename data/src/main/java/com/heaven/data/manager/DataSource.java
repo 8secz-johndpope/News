@@ -43,9 +43,6 @@ import static com.heaven.data.net.NetGlobalConfig.PROTOTYPE.JSON;
  */
 
 public class DataSource {
-    private Lock memLock = new ReentrantLock();
-    private Lock dbLock = new ReentrantLock();
-    private Lock diskLock = new ReentrantLock();
     private DataRepo mainRepo;
     private Map<String, DataRepo> repos;
     private HashMap<String, Object> apiMap = new HashMap<>();
@@ -346,13 +343,11 @@ public class DataSource {
      */
     private void persistMemory(String hashKey, Object entity) {
         executorService.execute(() -> {
-            memLock.lock();
             try {
                 cacheManager.persistentMemory(hashKey, entity);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                memLock.unlock();
             }
 
         });
@@ -376,14 +371,12 @@ public class DataSource {
      * @param entity
      *         缓存的数据
      */
-    private void persistDB(String hashKey, Object entity) {
-        dbLock.lock();
+    private  void persistDB(String hashKey, Object entity) {
         try {
             cacheManager.persistentDB(hashKey, entity);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            dbLock.unlock();
         }
     }
 
@@ -407,13 +400,11 @@ public class DataSource {
      */
     private void persistDisk(String hashKey, Object entity) {
         executorService.execute(() -> {
-            diskLock.lock();
             try {
                 cacheManager.persistentDisk(hashKey, entity);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                diskLock.unlock();
             }
         });
     }

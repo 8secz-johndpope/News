@@ -74,8 +74,6 @@ public class ConfigManager {
     public static String CITY_OFTEN = "city_often";
     public static String CITY_HOT = "city_hot";
     SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy年MM月");
-    private Lock lock = new ReentrantLock();
-
 
     public boolean isRequestVersionFinish = false;
     private ConfigWrapper configWrapper = new ConfigWrapper();
@@ -134,12 +132,7 @@ public class ConfigManager {
             List<cityListVO> lastCitys = dataSource.getCacheEntity(DataSource.DISK, CITY_LAST);
             if (lastCitys == null || lastCitys.size() == 0) {
                 lastCitys = loadLocalRawCity();
-                try {
-                    lock.lock();
-                    groupCityBy(lastCitys);
-                } finally {
-                    lock.unlock();
-                }
+                groupCityBy(lastCitys);
             }
             return IoUtil.deepCopyList(cityInfo);
 
@@ -155,8 +148,7 @@ public class ConfigManager {
 
 
     private void initCalendar(Context context) {
-        try{
-            lock.lock();
+        try {
             calendarFestivals = dataSource.getCacheEntity(DataSource.DISK, CALENDAR_FESTIVAL);
             calendars.clear();
             LunarCalendar.init(context);
@@ -173,23 +165,22 @@ public class ConfigManager {
                 createMonthData(month, mCurrentDate);
             }
 
-            mergeFestival(calendars,calendarFestivals);
+            mergeFestival(calendars, calendarFestivals);
         } catch (Exception e) {
-            lock.unlock();
         }
     }
 
-    private void mergeFestival(List<Month> calendars,List<FestivalDay> festivals) {
-        if(calendars.size() > 0 && festivals != null && festivals.size() > 0) {
+    private void mergeFestival(List<Month> calendars, List<FestivalDay> festivals) {
+        if (calendars.size() > 0 && festivals != null && festivals.size() > 0) {
             festivalGroupMap.clear();
             final Disposable subscribe = Flowable.fromIterable(festivals).groupBy(festivalDay -> festivalDay.date).subscribe(festivalDayGroupedFlowable -> {
                 final Disposable subscribe1 = festivalDayGroupedFlowable.subscribe(new ConfigManager.FestivalGroupConsume(festivalDayGroupedFlowable.getKey()));
             });
-            for(Month month : calendars) {
-                String monthKey = month.year + "-" + (month.month >= 10? month.month : "0" + month.month) ;
-                if(festivalGroupMap.containsKey(monthKey)) {
+            for (Month month : calendars) {
+                String monthKey = month.year + "-" + (month.month >= 10 ? month.month : "0" + month.month);
+                if (festivalGroupMap.containsKey(monthKey)) {
                     FestivalDayGroup festivalDayGroup = festivalGroupMap.get(monthKey);
-                    if(festivalDayGroup != null) {
+                    if (festivalDayGroup != null) {
                         festivalDayGroup.updateCalendarFestival(month.days);
                         Logger.i("mergeFestival--" + monthKey);
                     }
@@ -265,7 +256,7 @@ public class ConfigManager {
     private long reqverTaskId;
 
     private void requestConfig() {
-        reqverTaskId = RxRepUtils.getConfigResult(dataSource.getNetApi(IApi.class).getConfig(BuildConfig.CONFIG_URL+"config.json"), configData -> {
+        reqverTaskId = RxRepUtils.getConfigResult(dataSource.getNetApi(IApi.class).getConfig(BuildConfig.CONFIG_URL + "config.json"), configData -> {
             if (!TextUtils.isEmpty(configData)) {
                 this.configData = JSON.parseObject(configData, ConfigData.class);
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
@@ -353,7 +344,7 @@ public class ConfigManager {
 
     }
 
-    private void groupCityBy(List<cityListVO> citys) {
+    private synchronized void groupCityBy(List<cityListVO> citys) {
         cityGroupChMap.clear();
         cityGroupEnMap.clear();
         final Disposable subscribe = Flowable.fromIterable(citys).groupBy(cityListVO -> String.valueOf(Character.toUpperCase(cityListVO._PY_NAME.charAt(0)))).subscribe(groupedFlowable -> {
@@ -533,10 +524,8 @@ public class ConfigManager {
                 List<cityListVO> newCitys = response.data._CITY_LIST_VO._CITY_LIST_VO;
                 if (newCitys.size() > 0) {
                     try {
-                        lock.lock();
                         groupCityBy(newCitys);
                     } finally {
-                        lock.unlock();
                     }
                 }
             }
@@ -588,7 +577,7 @@ public class ConfigManager {
         }
     }
 
-   public void removeForeverObserve(Observer<ConfigWrapper> typeObserver) {
+    public void removeForeverObserve(Observer<ConfigWrapper> typeObserver) {
         Object object = observers.remove(typeObserver);
         Logger.i("ConfigManager----removeForeverObserve--" + object);
     }
@@ -676,7 +665,7 @@ public class ConfigManager {
 
         FestivalGroupConsume(String date) {
             if (!TextUtils.isEmpty(date) && date.contains("-")) {
-                yearMonth = date.substring(0,date.lastIndexOf("-"));
+                yearMonth = date.substring(0, date.lastIndexOf("-"));
                 String[] dates = date.split("-");
                 try {
                     year = Integer.parseInt(dates[0]);
