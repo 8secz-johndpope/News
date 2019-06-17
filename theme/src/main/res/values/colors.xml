@@ -53,4 +53,6 @@
     <color name="lightGray">#EEEEEE</color>
 
     <color name="pomegranate">#f4511e</color>
+    <color name="dialog_bg">#a0000000</color>
+    <color name="label_back_dark">#BB000000</color>
 </resources>

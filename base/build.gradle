@@ -37,7 +37,7 @@ repositories {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api uiDep.design
+//    api uiDep.design
     api uiDep.percent
     api uiDep.constraint
     api uiDep.recyclerView

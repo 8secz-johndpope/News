@@ -37,4 +37,5 @@ android {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     api uiDep.appCompat
+    api uiDep.design
 }
