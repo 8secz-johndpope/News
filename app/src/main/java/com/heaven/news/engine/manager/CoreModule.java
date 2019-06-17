@@ -67,7 +67,7 @@ public class CoreModule {
 
     @Provides
     @Singleton
-    NetManager NetManage(DataSource dataSource,Context app) {
+    NetManager netManage(DataSource dataSource,Context app) {
         return new NetManager(dataSource,app);
     }
 

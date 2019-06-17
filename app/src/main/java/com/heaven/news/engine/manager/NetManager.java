@@ -29,10 +29,8 @@ import io.reactivex.schedulers.Schedulers;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class NetManager {
-    private DataSource dataSource;
     private IApi api;
     NetManager(DataSource dataSource, Context context) {
-        this.dataSource = dataSource;
         api = dataSource.getNetApi(IApi.class);
     }
 
@@ -129,5 +127,9 @@ public class NetManager {
             reqTasks.remove(taskId);
             Logger.i("cancelTask-----" + taskId);
         }
+    }
+
+    public IApi getApi() {
+        return api;
     }
 }

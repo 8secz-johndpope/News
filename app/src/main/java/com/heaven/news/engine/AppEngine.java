@@ -19,6 +19,7 @@ import com.heaven.data.dbentity.DownEntity;
 import com.heaven.data.fileworker.DownLoadWorker;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
+import com.heaven.news.api.IApi;
 import com.heaven.news.engine.manager.Api;
 import com.heaven.news.engine.manager.ConfigManager;
 import com.heaven.news.engine.manager.CoreComponent;
@@ -60,10 +61,6 @@ public final class AppEngine {
     public static final int STATUS_NORMAL = 2; //APP正常态
     public static int APP_STATUS = STATUS_FORCE_KILLED; //默认为被后台回收了
 
-    /**
-     * 应用程序引擎.
-     */
-    private static AppEngine instance;
     /**
      * 应用程序引擎.
      */
@@ -292,120 +289,15 @@ public final class AppEngine {
         return mConfigManager;
     }
 
-    public Api api() {
-        return mApi.get();
+    public IApi api() {
+        return mNetManager.getApi();
     }
 
-    /**
-     * 缓存数据
-     *
-     * @param type
-     *         缓存类型
-     * @param key
-     *         键值
-     * @param entity
-     *         数据
-     */
-    public void cacheData(int type, String key, Object entity) {
-        mDataSource.get().cacheData(type, key, entity);
+    public NetManager getmNetManager() {
+        return mNetManager;
     }
 
-
-    /**
-     * 取得缓存数据
-     *
-     * @param key
-     *         键值
-     * @param <E>
-     *         泛型
-     *
-     * @return 缓存数据
-     */
-    public <E> E getCacheData(String key) {
-        return mDataSource.get().getCacheEntity(key);
-    }
-
-    /**
-     * 取得缓存数据
-     *
-     * @param type
-     *         缓存类型（MEMORY:1 DB:2 DISK:3）
-     * @param key
-     *         键值
-     * @param <E>
-     *         泛型
-     *
-     * @return 缓存数据
-     */
-    public <E> E getCacheData(int type, String key) {
-        return mDataSource.get().getCacheEntity(type, key);
-    }
-
-    /**
-     * 取得登录的用户信息
-     *
-     * @return 用户信息
-     */
-    public UserLoginInfo getUserInfo() {
-        if (userInfo == null) {
-            userInfo = getCacheData(DataSource.DB, "userinfo");
-        }
-        return userInfo;
-    }
-
-
-
-    /**
-     * 生成请求定制信息
-     *
-     * @param userId
-     *         用户id
-     *
-     * @return 信息
-     */
-    private String getSzairMeta(String userId) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("app_version", "5.1.1"/*appConfig.verName*/);
-            jsonObject.put("system_name", appConfig.DEVICE_TYPE);
-            jsonObject.put("MOBILE_MODEL", appConfig.MOBILE_MODEL);
-            jsonObject.put("MOBILE_SDK", appConfig.MOBILE_SDK);
-            jsonObject.put("MOBILE_RELEASE", appConfig.MOBILE_RELEASE);
-            if (!TextUtils.isEmpty(userId)) {
-                jsonObject.put("member_id", userId);
-            }
-
-            jsonObject.put("system_version", android.os.Build.VERSION.SDK_INT);
-            String token = "";
-
-            if (TextUtils.isEmpty(token)) {
-                token = "none";
-            }
-            jsonObject.put("device_token", token);
-            jsonObject.put("device_type", appConfig.DEVICE_TYPE);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject.toString();
-    }
-
-
-    /**
-     * 取得用户id
-     *
-     * @return 用户id
-     */
-    public String getUserId() {
-        String userId = "0";
-        if (userInfo != null) {
-            userId = String.valueOf(userInfo.userId);
-        }
-        return userId;
-    }
-
-
-//    public ServiceCore getServiceCore() {
+    //    public ServiceCore getServiceCore() {
 //        return engineComponent.serviceCore();
 //    }
 
