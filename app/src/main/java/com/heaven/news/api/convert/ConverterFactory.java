@@ -70,8 +70,8 @@ public class ConverterFactory extends Converter.Factory {
     @Override
     public Converter<Object, RequestBody> requestBodyConverter(Type type, Annotation[] annotations, Annotation[] methodAnnotations, Retrofit retrofit) {
         ProtoType protoType = null;
-        if (annotations != null && annotations.length > 0) {
-            for (Annotation annotation : annotations) {
+        if (methodAnnotations != null && methodAnnotations.length > 0) {
+            for (Annotation annotation : methodAnnotations) {
                 if (annotation instanceof ProtoType) {
                     protoType = (ProtoType) annotation;
                     break;
@@ -88,7 +88,7 @@ public class ConverterFactory extends Converter.Factory {
                 }
                 reqBodyConvert = requestBodyConvert =new SzAirRequestBodyConvert<>();
             } else if(ProtoType.PROTO == protoType.resType()) {
-
+                reqBodyConvert = requestBodyConvert = new SzAirRequestBodyConvert<>();
             }
         } else {
             if (!(type instanceof Class)) {

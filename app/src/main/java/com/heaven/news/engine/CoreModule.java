@@ -43,44 +43,7 @@ public class CoreModule {
         DataSource.Builder builder = new DataSource.Builder(context);
         DataRepo.Builder versionBuilder = builder.addNetRepoBuilder(BuildConfig.ROOT_URL,ConverterFactory.create());
         versionBuilder.addDynamicInterceptor(new DynamicIntercepter());
-        DataSource dataSource = builder.build();
-//        addMainSourceHeader(dataSource);
-//        addFlightSourceHeader(dataSource);
-//        addConfigSourceHeader(dataSource);
-
-//        DataSource.Builder builder = new DataSource.Builder(context);
-//        builder.addNetRepo(BuildConfig.ROOT_URL, ConverterFactory.create());
-//        builder.addNetRepo(BuildConfig.CONFIG_URL, ConverterFactory.create());
-//        builder.addNetRepo(BuildConfig.FLIGHT_URL, ConverterFactory.create());
-//        DataRepo.Builder versionBuilder = builder.addNetRepoBuilder(BuildConfig.VERSION_URL,ConverterFactory.create());
-//
-//        versionBuilder.setTime(5,5,5);
-//        DataSource dataSource = builder.build();
-//        addMainSourceHeader(dataSource);
-//        addFlightSourceHeader(dataSource);
-//        addConfigSourceHeader(dataSource);
-        return dataSource;
-    }
-
-
-    private void addMainSourceHeader(DataSource dataSource) {
-        dataSource.addHeader(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
-        dataSource.addHeader("Connection", "close");
-    }
-
-    private void addFlightSourceHeader(DataSource dataSource) {
-        HashMap<String,String> headerMap = new HashMap<>();
-        headerMap.put(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEXML);
-        headerMap.put("Connection", "close");
-        headerMap.put("DATA-TYPE", "PROTOFUL");
-        dataSource.addExtraHeader(BuildConfig.FLIGHT_URL,headerMap);
-    }
-
-    private void addConfigSourceHeader(DataSource dataSource) {
-        HashMap<String,String> headerMap = new HashMap<>();
-        headerMap.put(NetGlobalConfig.CONTENTTYPE,NetGlobalConfig.CONTENTTYPEJSON);
-        headerMap.put("Connection", "close");
-        dataSource.addExtraHeader(BuildConfig.CONFIG_URL,headerMap);
+        return builder.build();
     }
 
 

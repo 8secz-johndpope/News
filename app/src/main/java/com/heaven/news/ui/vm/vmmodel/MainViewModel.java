@@ -9,12 +9,8 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.heaven.data.manager.DataSource;
-import com.heaven.news.BuildConfig;
-import com.heaven.news.api.FlightProtoApi;
 import com.heaven.news.api.IApi;
-import com.heaven.news.api.LoginApi;
 import com.heaven.news.consts.Constants;
-import com.heaven.news.engine.Api;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.DataCore;
 import com.heaven.news.utils.RxRepUtils;
@@ -90,7 +86,7 @@ public class MainViewModel extends AbstractViewModel {
         tripInfoVO flightVo = new tripInfoVO();
         flightVo._ORG_CITY = "SZX";
         flightVo._DST_CITY = "PEK";
-        flightVo._DEPARTURE_DATE = "2019-04-25";
+        flightVo._DEPARTURE_DATE = "2019-06-25";
         flightVo._INDEX = "1";
         flightLIst.add(flightVo);
         flightSearchDomestic req = new flightSearchDomestic();

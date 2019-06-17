@@ -45,6 +45,9 @@ public class DynamicIntercepter implements Interceptor {
     @Override
     @Nonnull
     public Response intercept(@Nonnull Chain chain) throws IOException {
+        Request originalReq = chain.request();
+        Request.Builder requestBuilder = originalReq.newBuilder();
+        Headers headers = originalReq.headers();
         Request reequest = chain.request().newBuilder().headers(headers).build();
         String questUrl = reequest.url().toString();
         if(!TextUtils.isEmpty(questUrl) && questUrl.contains(BuildConfig.CONFIG_URL)) {

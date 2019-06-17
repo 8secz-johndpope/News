@@ -80,16 +80,20 @@ public class NetInterceptor implements Interceptor {
                 .append("\n")
                 .append("******************************************\n");
         Logger.i(requestLog.toString());
-        if (!TextUtils.isEmpty(contentType)) {
-            if (contentType.contains("json")) {
-                Logger.json(reqBody);
-            } else if (contentType.contains("xml")) {
-                Logger.xml(reqBody);
+        try{
+            if (!TextUtils.isEmpty(contentType)) {
+                if (contentType.contains("json")) {
+                    Logger.json(reqBody);
+                } else if (contentType.contains("xml")) {
+                    Logger.xml(reqBody);
+                } else {
+                    Logger.i(reqBody);
+                }
             } else {
                 Logger.i(reqBody);
             }
-        } else {
-            Logger.i(reqBody);
+        } catch (Exception e) {
+            Logger.i(e.getMessage());
         }
     }
 
