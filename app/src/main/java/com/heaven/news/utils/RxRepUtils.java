@@ -60,44 +60,55 @@ public class RxRepUtils {
 
     public static  <T> long getConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
-        Disposable disposable = resultFlowable.onErrorReturn(throwable -> (T) "").subscribeOn(Schedulers.io()).subscribe(getTaskConsumer(taskId, consumer));
+        Disposable disposable = resultFlowable.onErrorReturn(throwable -> (T) "").subscribeOn(Schedulers.io()).subscribe(t -> {
+            if (consumer != null) {
+                consumer.accept(t);
+                cancelTask(taskId);
+            }
+        });
         reqTasks.put(taskId, disposable);
         return taskId;
     }
 
     public static  <T> long getResultInThred(Flowable<T> resultFlowable, Consumer<T> consumer) {
         long taskId = getTaskId();
-        Disposable disposable = resultFlowable.compose(ioThread()).subscribe(getTaskConsumer(taskId, consumer));
+        Disposable disposable = resultFlowable.compose(ioThread()).subscribe(t -> {
+            if (consumer != null) {
+                consumer.accept(t);
+                cancelTask(taskId);
+            }
+        });
         reqTasks.put(taskId, disposable);
         return taskId;
     }
 
     public static  <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
-        long taskId = getTaskId();
-            Disposable disposable = resultFlowable.compose(ioMain()).subscribe(getTaskConsumer(taskId, consumer));
-            reqTasks.put(taskId, disposable);
-        return taskId;
+        return createTask(resultFlowable,consumer).startTask();
     }
 
-    private static <T> TaskIdConsumer<T> getTaskConsumer(long taskId, Consumer<T> consumer) {
-        return new TaskIdConsumer<T>(taskId, consumer);
+    private static <T> Task<T> createTask(Flowable<T> resultFlowable, Consumer<T> consumer) {
+        return new Task<T>(resultFlowable,consumer);
     }
 
-    static class TaskIdConsumer<T> implements Consumer<T> {
-        long taskid;
-        Consumer<T> resultConsumer;
+    static class Task<T> {
+        Flowable<T> resultFlowable;
+        Consumer<T> consumer;
 
-        TaskIdConsumer(long taskid, Consumer<T> consumer) {
-            this.taskid = taskid;
-            this.resultConsumer = consumer;
+        Task(Flowable<T> resultFlowable, Consumer<T> consumer) {
+            this.resultFlowable = resultFlowable;
+            this.consumer = consumer;
         }
 
-        @Override
-        public void accept(T t) throws Exception {
-            if (resultConsumer != null) {
-                resultConsumer.accept(t);
-                cancelTask(taskid);
-            }
+        long startTask() {
+            long taskId = getTaskId();
+            Disposable disposable =  resultFlowable.compose(ioMain()).subscribe(t -> {
+                if (consumer != null) {
+                    consumer.accept(t);
+                    cancelTask(taskId);
+                }
+            });
+            reqTasks.put(taskId, disposable);
+            return taskId;
         }
     }
 
