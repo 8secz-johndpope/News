@@ -22,7 +22,6 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.IApi;
-import com.heaven.news.engine.CheckVersion;
 import com.heaven.news.ui.vm.model.base.CityGroup;
 import com.heaven.news.ui.vm.model.base.CityInfo;
 import com.heaven.news.ui.vm.model.base.ConfigData;

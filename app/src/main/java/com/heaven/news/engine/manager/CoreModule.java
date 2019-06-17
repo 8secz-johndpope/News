@@ -65,6 +65,12 @@ public class CoreModule {
         return new ConfigManager(dataSource,app);
     }
 
+    @Provides
+    @Singleton
+    NetManager NetManage(DataSource dataSource,Context app) {
+        return new NetManager(dataSource,app);
+    }
+
 
 //    /**
 //     * 添加请求头

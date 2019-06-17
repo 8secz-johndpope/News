@@ -23,6 +23,7 @@ import com.heaven.news.engine.manager.Api;
 import com.heaven.news.engine.manager.ConfigManager;
 import com.heaven.news.engine.manager.CoreComponent;
 import com.heaven.news.engine.manager.DataCoreManager;
+import com.heaven.news.engine.manager.NetManager;
 import com.heaven.news.ui.activity.base.MainActivity;
 import com.heaven.news.ui.activity.base.Welcome;
 import com.heaven.news.utils.CrashHandler;
@@ -39,6 +40,7 @@ import com.tencent.tauth.Tencent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.Stack;
 
 import javax.inject.Inject;
@@ -57,13 +59,21 @@ public final class AppEngine {
     public static final int STATUS_FORCE_KILLED = -1;//应用在后台被强杀了
     public static final int STATUS_NORMAL = 2; //APP正常态
     public static int APP_STATUS = STATUS_FORCE_KILLED; //默认为被后台回收了
+
     /**
      * 应用程序引擎.
      */
     private static AppEngine instance;
+    /**
+     * 应用程序引擎.
+     */
+    private static WeakReference<AppEngine> engineRef;
 
     @Inject
     Context app;
+
+    @Inject
+    NetManager mNetManager;
 
     @Inject
     ConfigManager mConfigManager;
@@ -245,16 +255,24 @@ public final class AppEngine {
      * @return 返回引擎
      */
     public static AppEngine instance() {
-        if (instance == null) {
+        if (engineRef == null) {
             synchronized (AppEngine.class) {
-                if (instance == null) {
-                    instance = new AppEngine();
+                if (engineRef == null) {
+                    engineRef = new WeakReference<>(new AppEngine());
                 }
             }
-
+        } else {
+            if(engineRef.get() == null) {
+                synchronized (AppEngine.class) {
+                    if(engineRef.get() == null) {
+                        engineRef = new WeakReference<>(new AppEngine());
+                    }
+                }
+            }
         }
-        return instance;
+        return engineRef.get();
     }
+
 
     /**
      * 取得数据源

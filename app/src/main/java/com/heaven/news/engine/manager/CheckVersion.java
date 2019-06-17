@@ -1,12 +1,14 @@
-package com.heaven.news.engine;
+package com.heaven.news.engine.manager;
 
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.consts.Constants;
+import com.heaven.news.engine.AppEngine;
+import com.heaven.news.engine.AppInfo;
 import com.heaven.news.ui.vm.model.base.VersionUpdate;
 import com.heaven.news.ui.vm.model.base.Version;
 
 /**
- * FileName: com.heaven.news.engine.CheckVersion.java
+ * FileName: com.heaven.news.engine.manager.CheckVersion.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-04-28 18:01
@@ -14,8 +16,7 @@ import com.heaven.news.ui.vm.model.base.Version;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class CheckVersion {
-
-   public static VersionUpdate checkVersion(Version version, DataSource dataSource) {
+    static VersionUpdate checkVersion(Version version, DataSource dataSource) {
         VersionUpdate updateInfo = new VersionUpdate();
         if (version != null) {
             AppInfo appInfo = AppEngine.instance().getAppConfig();
