@@ -1,7 +1,7 @@
-package com.heaven.news.api.convert;
+package com.heaven.news.net.convert;
 
 /**
- * FileName: com.heaven.news.api.convert.ProtoType.java
+ * FileName: com.heaven.news.net.convert.ProtoType.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-06-06 13:21

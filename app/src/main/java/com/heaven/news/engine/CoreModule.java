@@ -1,29 +1,17 @@
 package com.heaven.news.engine;
 
 import android.content.Context;
-import android.text.TextUtils;
 
-import com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory;
 import com.heaven.data.net.DataRepo;
-import com.heaven.news.api.convert.ConverterFactory;
-import com.heaven.news.api.convert.fastjson.FastJsonnConverterFactory;
-import com.heaven.news.api.convert.protostuff.SzProtobufConvertFactory;
-import com.heaven.news.api.convert.szair.SzAirConvertFactory;
+import com.heaven.news.net.convert.ConverterFactory;
 import com.heaven.data.manager.DataSource;
-import com.heaven.data.net.NetGlobalConfig;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.net.DynamicIntercepter;
-
-import java.util.HashMap;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.reactivex.Flowable;
-import io.reactivex.disposables.Disposable;
-import okhttp3.Headers;
-import okhttp3.Interceptor;
 
 /**
  * FileName: com.heaven.news.engine.CoreModule.java

@@ -1,4 +1,4 @@
-package com.heaven.news.api.convert.szair;
+package com.heaven.news.net.convert.szair;
 
 import org.simpleframework.xml.core.Persister;
 
@@ -13,7 +13,7 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 /**
- * FileName: com.heaven.news.api.convert.szair.SzAirConvertFactory.java
+ * FileName: com.heaven.news.net.convert.szair.SzAirConvertFactory.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-04 12:14

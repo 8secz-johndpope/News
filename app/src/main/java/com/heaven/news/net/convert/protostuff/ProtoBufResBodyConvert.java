@@ -1,4 +1,4 @@
-package com.heaven.news.api.convert.protostuff;
+package com.heaven.news.net.convert.protostuff;
 
 import android.support.annotation.NonNull;
 
@@ -16,7 +16,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Converter;
 
 /**
- * FileName: com.heaven.news.api.convert.protostuff.ProtoBufResBodyConvert.java
+ * FileName: com.heaven.news.net.convert.protostuff.ProtoBufResBodyConvert.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-04-19 12:11

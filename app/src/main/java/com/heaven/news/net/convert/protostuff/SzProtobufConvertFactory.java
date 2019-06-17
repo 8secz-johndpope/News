@@ -1,6 +1,6 @@
-package com.heaven.news.api.convert.protostuff;
+package com.heaven.news.net.convert.protostuff;
 
-import com.heaven.news.api.convert.szair.SzAirRequestBodyConvert;
+import com.heaven.news.net.convert.szair.SzAirRequestBodyConvert;
 
 import org.simpleframework.xml.core.Persister;
 
@@ -15,7 +15,7 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 /**
- * FileName: com.heaven.news.api.convert.protostuff.SzProtobufConvertFactory.java
+ * FileName: com.heaven.news.net.convert.protostuff.SzProtobufConvertFactory.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-04-19 12:08

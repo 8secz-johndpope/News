@@ -1,9 +1,9 @@
-package com.heaven.news.api.convert;
+package com.heaven.news.net.convert;
 
-import com.heaven.news.api.convert.fastjson.FastJsonnConverterFactory;
-import com.heaven.news.api.convert.protostuff.ProtoBufResBodyConvert;
-import com.heaven.news.api.convert.szair.SzAirRequestBodyConvert;
-import com.heaven.news.api.convert.szair.SzAirResponseBodyConvert;
+import com.heaven.news.net.convert.fastjson.FastJsonnConverterFactory;
+import com.heaven.news.net.convert.protostuff.ProtoBufResBodyConvert;
+import com.heaven.news.net.convert.szair.SzAirRequestBodyConvert;
+import com.heaven.news.net.convert.szair.SzAirResponseBodyConvert;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -16,7 +16,7 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 /**
- * FileName: com.heaven.news.api.convert.ConverterFactory.java
+ * FileName: com.heaven.news.net.convert.ConverterFactory.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-06-06 13:33

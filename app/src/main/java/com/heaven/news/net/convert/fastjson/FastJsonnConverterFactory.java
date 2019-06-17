@@ -1,4 +1,4 @@
-package com.heaven.news.api.convert.fastjson;
+package com.heaven.news.net.convert.fastjson;
 
 import android.util.Log;
 

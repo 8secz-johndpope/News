@@ -1,4 +1,4 @@
-package com.heaven.news.api.convert.szair;
+package com.heaven.news.net.convert.szair;
 
 import android.support.annotation.NonNull;
 
@@ -13,7 +13,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Converter;
 
 /**
- * FileName: com.heaven.news.api.convert.szair.SzAirResponseBodyConvert.java
+ * FileName: com.heaven.news.net.convert.szair.SzAirResponseBodyConvert.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-04 12:21
