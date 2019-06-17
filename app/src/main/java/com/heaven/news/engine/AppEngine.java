@@ -225,7 +225,6 @@ public final class AppEngine {
             appConfig.sourceDir = info.applicationInfo.sourceDir;
         }
         // app.APP_IP = Util.getLocalHostIp();
-        initCommonHeader();
     }
 
     private void initShare(Context context) {
@@ -291,16 +290,6 @@ public final class AppEngine {
         mDataSource.get().cacheData(type, key, entity);
     }
 
-    /**
-     * 删除头数据
-     *
-     * @param hashMap
-     *         头数据
-     */
-    public void removeHeaderData(HashMap<String, String> hashMap) {
-        mDataSource.get().removeExtraHeader(hashMap);
-    }
-
 
     /**
      * 取得缓存数据
@@ -344,50 +333,7 @@ public final class AppEngine {
         return userInfo;
     }
 
-    /**
-     * 保存用户信息
-     *
-     * @param userInfo
-     *         用户信息
-     */
-    public void setUserInfo(UserLoginInfo userInfo) {
-        if (userInfo != null) {
-            cacheData(DataSource.DB, "userinfo", userInfo);
-            this.userInfo = userInfo;
-            HashMap<String, String> headerMap = new HashMap<>();
-            headerMap.put("userId", userInfo.userId);
-            headerMap.put("User-Agent", "android(shenzhenair)" + appConfig.verName);
-            headerMap.put("X-SZAIR-META", getSzairMeta(userInfo.userId));
-            headerMap.put("X-SZAIR-LANGUAG", "zh_CN");
-            getDataSource().addExtraHeader(headerMap);
-        }
-    }
 
-    /**
-     * 初始化请求头信息
-     */
-    public void initCommonHeader() {
-        HashMap<String, String> headerMap = new HashMap<>();
-        if (userInfo != null) {
-            headerMap.put("userId", userInfo.userId);
-        }
-        headerMap.put("User-Agent", "android(shenzhenair)" + "5.1.1");
-        headerMap.put("X-SZAIR-META", getSzairMeta(userInfo == null ? "" : userInfo.userId));
-        headerMap.put("X-SZAIR-LANGUAG", "zh_CN");
-        headerMap.put("Accept-Encoding", "gzip,deflate");
-        getDataSource().addExtraHeader(headerMap);
-    }
-
-    /**
-     * 退出登录
-     */
-    public void quite() {
-        HashMap<String, String> headerMap = new HashMap<>();
-        headerMap.put("userId", "0");
-        headerMap.put("User-Agent", "android(heaven)" + appConfig.verName);
-        headerMap.put("X-SZAIR-META", getSzairMeta("0"));
-        getDataSource().addExtraHeader(headerMap);
-    }
 
     /**
      * 生成请求定制信息

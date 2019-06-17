@@ -1,6 +1,7 @@
 package com.heaven.news.engine;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory;
 import com.heaven.data.net.DataRepo;
@@ -19,6 +20,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.Flowable;
+import io.reactivex.disposables.Disposable;
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 
 /**
@@ -71,5 +75,69 @@ public class CoreModule {
     ConfigManager configManage(DataSource dataSource,Context app) {
         return new ConfigManager(dataSource,app);
     }
+
+
+//    /**
+//     * 添加请求头
+//     *
+//     * @param extraHeaders
+//     *         请求头
+//     */
+//    public void addExtraHeader(HashMap<String, String> extraHeaders) {
+//        Headers.Builder builder = headers.newBuilder();
+//        Disposable subscribe = Flowable.fromIterable(extraHeaders.entrySet()).subscribe(stringStringEntry -> {
+//            String key = stringStringEntry.getKey();
+//            String value = stringStringEntry.getValue();
+//            if (!TextUtils.isEmpty(headers.get(key))) {
+//                builder.set(key, value);
+//            } else {
+//                builder.add(key, value);
+//            }
+//
+//        });
+//        headers = builder.build();
+//        updateHeaders(headers);
+//    }
+//
+//    /**
+//     * 删除请求头
+//     *
+//     * @param key
+//     *         key
+//     * @param value
+//     *         value
+//     */
+//    public void removeExtraHeader(String key, String value) {
+//        Headers.Builder builder = headers.newBuilder();
+//        builder.removeAll(key);
+//        headers = builder.build();
+//        updateHeaders(headers);
+//    }
+//
+//    /**
+//     * 删除请求头
+//     *
+//     * @param extraHeaders
+//     *         请求头
+//     */
+//    public void removeExtraHeader(HashMap<String, String> extraHeaders) {
+//        Headers.Builder builder = headers.newBuilder();
+//        Disposable subscribe = Flowable.fromIterable(extraHeaders.entrySet()).subscribe(stringStringEntry -> {
+//            String key = stringStringEntry.getKey();
+//            builder.removeAll(key);
+//        });
+//        headers = builder.build();
+//        updateHeaders(headers);
+//    }
+//
+//    /**
+//     * 更新请求头信息
+//     *
+//     * @param headers
+//     *         请求头信息
+//     */
+//    private void updateHeaders(Headers headers) {
+//        headerInterceptor.setHeaders(headers);
+//    }
 
 }

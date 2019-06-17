@@ -28,7 +28,6 @@ public class LoginViewModel extends AbstractViewModel {
     //    @Permission(value = Manifest.permission.READ_CONTACTS)
 //    @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void login(View view) {
-        AppEngine.instance().getDataSource().addHeader("Content-Type", "text/xml;charset=UTF-8");
         String count = userInfo.count;
         String passwords = userInfo.password;
         if(TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {

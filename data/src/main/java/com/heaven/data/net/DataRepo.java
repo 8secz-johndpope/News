@@ -50,11 +50,9 @@ import static com.heaven.data.net.NetGlobalConfig.PROTOTYPE.JSON;
 public class DataRepo {
     public String repoIdentify;
     public Retrofit retrofit;
-    final Context context;
-    Headers headers;
-    final String baseUrl;
+    private final Context context;
+    private final String baseUrl;
     NetGlobalConfig.PROTOTYPE prototype = JSON;
-    HeaderInterceptor headerInterceptor;
     final int[] certificates;
     int timeOut = 20;
     boolean isCacheable = false;
@@ -72,8 +70,6 @@ public class DataRepo {
     private DataRepo(Builder builder) {
         this.repoIdentify = builder.repoIdentify;
         this.context = builder.context;
-        this.headerInterceptor = builder.headerInterceptor;
-        this.headers = builder.headers;
         this.baseUrl = builder.baseUrl;
         this.prototype = builder.prototype;
         this.certificates = builder.certificates;
@@ -90,97 +86,16 @@ public class DataRepo {
         retrofit = builder.retrofitBuilder.callFactory(client).build();
     }
 
-    /**
-     * 添加请求头
-     *
-     * @param key
-     *         key
-     * @param value
-     *         value
-     */
-    public void addHeader(String key, String value) {
-        if (TextUtils.isEmpty(headers.get(key))) {
-            headers = headers.newBuilder().add(key, value).build();
-        } else {
-            headers = headers.newBuilder().set(key, value).build();
-        }
-        updateHeaders(headers);
-    }
-
-    /**
-     * 添加请求头
-     *
-     * @param extraHeaders
-     *         请求头
-     */
-    public void addExtraHeader(HashMap<String, String> extraHeaders) {
-        Headers.Builder builder = headers.newBuilder();
-        Disposable subscribe = Flowable.fromIterable(extraHeaders.entrySet()).subscribe(stringStringEntry -> {
-            String key = stringStringEntry.getKey();
-            String value = stringStringEntry.getValue();
-            if (!TextUtils.isEmpty(headers.get(key))) {
-                builder.set(key, value);
-            } else {
-                builder.add(key, value);
-            }
-
-        });
-        headers = builder.build();
-        updateHeaders(headers);
-    }
-
-    /**
-     * 删除请求头
-     *
-     * @param key
-     *         key
-     * @param value
-     *         value
-     */
-    public void removeExtraHeader(String key, String value) {
-        Headers.Builder builder = headers.newBuilder();
-        builder.removeAll(key);
-        headers = builder.build();
-        updateHeaders(headers);
-    }
-
-    /**
-     * 删除请求头
-     *
-     * @param extraHeaders
-     *         请求头
-     */
-    public void removeExtraHeader(HashMap<String, String> extraHeaders) {
-        Headers.Builder builder = headers.newBuilder();
-        Disposable subscribe = Flowable.fromIterable(extraHeaders.entrySet()).subscribe(stringStringEntry -> {
-            String key = stringStringEntry.getKey();
-            builder.removeAll(key);
-        });
-        headers = builder.build();
-        updateHeaders(headers);
-    }
-
-    /**
-     * 更新请求头信息
-     *
-     * @param headers
-     *         请求头信息
-     */
-    private void updateHeaders(Headers headers) {
-        headerInterceptor.setHeaders(headers);
-    }
 
     public static final class Builder {
         public String repoIdentify;
         Context context;
         OkHttpClient.Builder okHttpBuilder;
         Retrofit.Builder retrofitBuilder;
-        Headers headers;
         String baseUrl;
         NetGlobalConfig.PROTOTYPE prototype = JSON;
         Converter.Factory converterFactory;
         CallAdapter.Factory adapterFactory = RxJava2CallAdapterFactory.create();
-        HeaderInterceptor headerInterceptor;
         int[] certificates;
         int timeOut = 120;
         boolean isCacheable = false;
@@ -191,10 +106,8 @@ public class DataRepo {
 
         public Builder(Context context) {
             this.context = context;
-            this.initDefaultHeader();
             this.okHttpBuilder = new OkHttpClient.Builder();
             this.retrofitBuilder = new Retrofit.Builder();
-            this.headerInterceptor = new HeaderInterceptor(headers);
 
             ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
                     .tlsVersions(TlsVersion.TLS_1_1)
@@ -209,7 +122,6 @@ public class DataRepo {
             okHttpBuilder
                     .connectionSpecs(Arrays.asList(spec, ConnectionSpec.COMPATIBLE_TLS,ConnectionSpec.CLEARTEXT))
                     .cookieJar(new CookiesManager(context))
-                    .addInterceptor(headerInterceptor)
                     .addInterceptor(new NetInterceptor())
 //                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .connectionPool(new ConnectionPool(5, 5, TimeUnit.MINUTES))
@@ -261,38 +173,6 @@ public class DataRepo {
                     .writeTimeout(timeWrite, TimeUnit.SECONDS);
             return this;
         }
-
-        /**
-         * 添加请求头
-         *
-         * @param key
-         *         key
-         * @param value
-         *         value
-         */
-        public void addHeader(String key, String value) {
-            if (TextUtils.isEmpty(headers.get(key))) {
-                headers = headers.newBuilder().add(key, value).build();
-            } else {
-                headers = headers.newBuilder().set(key, value).build();
-            }
-        }
-
-        private void initDefaultHeader() {
-            Headers.Builder headerBuilder = new Headers.Builder();
-            //请求头部
-            headerBuilder
-                    .add("User-Agent", "Android")
-                    .add("APP-Key", "")//应用的key值
-                    .add("APP-Secret", "")//应用的密钥
-                    .add("Charset", "UTF-8")//字符编码格式
-                    .add("Accept", "*/*")//能够接受的数据格式
-                    .add("Accept-Language", "zh-cn")//接受的语言
-                    .add("Content-Type", "application/json")//内容数据格式application/json text/xml
-                    .add("Connection", "close");
-            headers = headerBuilder.build();
-        }
-
 
         /**
          * 网络基础属性设置

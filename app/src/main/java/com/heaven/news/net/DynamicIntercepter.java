@@ -27,6 +27,7 @@ import retrofit2.internal.EverythingIsNonNull;
 public class DynamicIntercepter implements Interceptor {
     private Headers headers;
 
+
     {
         Headers.Builder headerBuilder = new Headers.Builder();
         //请求头部
