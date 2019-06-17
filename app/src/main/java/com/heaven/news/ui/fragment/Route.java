@@ -5,29 +5,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.heaven.base.ui.adapter.BaseAdapter;
-import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseBindFragment;
 import com.heaven.base.ui.view.rlview.OnLoadMoreListener;
 import com.heaven.base.ui.view.rlview.OnRefreshListener;
 import com.heaven.news.R;
 import com.heaven.news.databinding.RouteBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.DataCore;
+import com.heaven.news.engine.manager.DataCoreManager;
 import com.heaven.news.ui.decoration.RouteTimeDecorationn;
 import com.heaven.news.ui.vm.holder.RouteItemHolder;
 import com.heaven.news.ui.vm.vmmodel.MainViewModel;
 import com.neusoft.szair.model.fullchannel.fullchannelVO;
-import com.orhanobut.logger.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * FileName: com.heaven.news.ui.fragment.Home.java
@@ -37,7 +30,7 @@ import java.util.List;
  *
  * @version V1.0 行程
  */
-public class Route extends BaseBindFragment<MainViewModel, RouteBinding> implements OnRefreshListener, OnLoadMoreListener, Observer<DataCore.CoreDataWrapper> {
+public class Route extends BaseBindFragment<MainViewModel, RouteBinding> implements OnRefreshListener, OnLoadMoreListener, Observer<DataCoreManager.CoreDataWrapper> {
     BaseAdapter<fullchannelVO> routeAdapter;
 
     Handler handler = new Handler();
@@ -150,9 +143,9 @@ public class Route extends BaseBindFragment<MainViewModel, RouteBinding> impleme
     }
 
     @Override
-    public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
+    public void onChanged(@Nullable DataCoreManager.CoreDataWrapper coreDataWrapper) {
         if (coreDataWrapper != null) {
-            if (DataCore.LOGIN == coreDataWrapper.dataType) {
+            if (DataCoreManager.LOGIN == coreDataWrapper.dataType) {
 
             }
         }

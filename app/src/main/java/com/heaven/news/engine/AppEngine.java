@@ -15,11 +15,14 @@ import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.base.ui.SpUtil;
-import com.heaven.base.ui.view.swipeback.SwipeBackHelper;
 import com.heaven.data.dbentity.DownEntity;
 import com.heaven.data.fileworker.DownLoadWorker;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
+import com.heaven.news.engine.manager.Api;
+import com.heaven.news.engine.manager.ConfigManager;
+import com.heaven.news.engine.manager.CoreComponent;
+import com.heaven.news.engine.manager.DataCoreManager;
 import com.heaven.news.ui.activity.base.MainActivity;
 import com.heaven.news.ui.activity.base.Welcome;
 import com.heaven.news.utils.CrashHandler;
@@ -36,7 +39,6 @@ import com.tencent.tauth.Tencent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Stack;
 
 import javax.inject.Inject;
@@ -71,7 +73,7 @@ public final class AppEngine {
     @Inject
     Lazy<DataSource> mDataSource;
     @Inject
-    DataCore mDataCore;
+    DataCoreManager mDataCore;
     @Inject
     Lazy<Api> mApi;
 
@@ -264,7 +266,7 @@ public final class AppEngine {
     }
 
 
-    public DataCore dataCore() {
+    public DataCoreManager dataCore() {
         return mDataCore;
     }
 

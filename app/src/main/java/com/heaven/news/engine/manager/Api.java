@@ -1,4 +1,4 @@
-package com.heaven.news.engine;
+package com.heaven.news.engine.manager;
 
 import android.support.v4.util.LongSparseArray;
 

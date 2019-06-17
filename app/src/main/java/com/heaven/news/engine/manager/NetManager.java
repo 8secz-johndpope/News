@@ -1,7 +1,7 @@
-package com.heaven.news.engine;
+package com.heaven.news.engine.manager;
 
 /**
- * FileName: com.heaven.news.engine.NetManager.java
+ * FileName: com.heaven.news.engine.manager.NetManager.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-06-08 17:40

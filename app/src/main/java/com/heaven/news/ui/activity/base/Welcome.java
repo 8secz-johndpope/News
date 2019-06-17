@@ -10,8 +10,8 @@ import com.heaven.news.R;
 import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.WelcomeBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.ConfigManager;
-import com.heaven.news.engine.DataCore;
+import com.heaven.news.engine.manager.ConfigManager;
+import com.heaven.news.engine.manager.DataCoreManager;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.vm.model.base.VersionUpdate;
 import com.heaven.news.ui.vm.vmmodel.WelecomModel;
@@ -117,7 +117,7 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
 
     @Override
     public void onChanged(@Nullable ConfigManager.ConfigWrapper configWrapper) {
-        if(configWrapper != null && DataCore.VERSION == configWrapper.dataType) {
+        if(configWrapper != null && DataCoreManager.VERSION == configWrapper.dataType) {
             if(configWrapper.versionUpdate != null) {
                 processNext(configWrapper.versionUpdate);
             } else {
@@ -131,7 +131,7 @@ public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBindin
         super.onResume();
         if(AppEngine.instance().confManager().isRequestVersionFinish) {
             ConfigManager.ConfigWrapper configWrapper = AppEngine.instance().confManager().getConfigWrapper();
-            configWrapper.dataType = DataCore.VERSION;
+            configWrapper.dataType = DataCoreManager.VERSION;
             onChanged(configWrapper);
         }
 

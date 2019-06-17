@@ -2,10 +2,11 @@ package com.heaven.news.engine;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.base.ui.view.swipeback.SwipeBackHelper;
+import com.heaven.news.engine.manager.CoreComponent;
+import com.heaven.news.engine.manager.DaggerCoreComponent;
 //import com.squareup.leakcanary.LeakCanary;
 
 

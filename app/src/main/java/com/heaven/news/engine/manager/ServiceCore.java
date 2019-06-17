@@ -1,4 +1,4 @@
-package com.heaven.news.engine;
+package com.heaven.news.engine.manager;
 
 import android.content.ComponentName;
 import android.content.Context;

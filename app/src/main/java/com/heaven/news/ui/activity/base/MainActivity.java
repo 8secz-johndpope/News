@@ -19,7 +19,7 @@ import com.heaven.news.R;
 import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.MainBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.DataCore;
+import com.heaven.news.engine.manager.DataCoreManager;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.fragment.EasyGo;
@@ -47,7 +47,7 @@ import io.reactivex.disposables.Disposable;
  * @version V1.0 TODO <描述当前版本功能>
  */
 @com.alibaba.android.arouter.facade.annotation.Route(path= RouterUrl.ROUTER_URL_MAIN)
-public class MainActivity extends BaseToolBarBindActivity<MainViewModel, MainBinding> implements Observer<DataCore.CoreDataWrapper>,ViewPager.OnPageChangeListener, View.OnClickListener {
+public class MainActivity extends BaseToolBarBindActivity<MainViewModel, MainBinding> implements Observer<DataCoreManager.CoreDataWrapper>,ViewPager.OnPageChangeListener, View.OnClickListener {
     private List<Fragment> mainList = new ArrayList<>();
 
     @Override
@@ -201,8 +201,8 @@ public class MainActivity extends BaseToolBarBindActivity<MainViewModel, MainBin
     }
 
     @Override
-    public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
-        if(coreDataWrapper != null && DataCore.LOGIN == coreDataWrapper.dataType) {
+    public void onChanged(@Nullable DataCoreManager.CoreDataWrapper coreDataWrapper) {
+        if(coreDataWrapper != null && DataCoreManager.LOGIN == coreDataWrapper.dataType) {
             updateData();
         }
     }

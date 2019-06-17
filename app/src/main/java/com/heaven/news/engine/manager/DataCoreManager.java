@@ -1,4 +1,4 @@
-package com.heaven.news.engine;
+package com.heaven.news.engine.manager;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
@@ -45,15 +45,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * FileName: com.heaven.news.engine.DataCore.java
+ * FileName: com.heaven.news.engine.manager.DataCoreManager.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-21 15:41
  *
  * @version V1.0 核心数据管理类
  */
-public class DataCore {
-    String TAG = DataCore.class.getSimpleName();
+public class DataCoreManager {
+    String TAG = DataCoreManager.class.getSimpleName();
     public static int VERSION = 0;
     public static int HOME = 1;
     public static int LOGIN = 2;
@@ -96,7 +96,7 @@ public class DataCore {
     private String groupCode;                               //大客户编码
     private String userMile;                                //用户可用里程
     private String userCouponCount;                         //优惠券数量
-    DataCore(DataSource dataSource, Context context) {
+    DataCoreManager(DataSource dataSource, Context context) {
         this.dataSource = dataSource;
         dataSource.runWorkThread(this::prepareData);
     }
@@ -385,7 +385,7 @@ public class DataCore {
     private void prepareLoginCache(String userCount, String pwd) {
         UserLoginInfo loginInfo = dataSource.getCacheEntity(DataSource.DISK, userCount + pwd);
         if (loginInfo != null && loginInfo.userInfo != null) {
-            Logger.i("DataCore--prepareLoginCache" + loginInfo.userInfo.toString());
+            Logger.i("DataCoreManager--prepareLoginCache" + loginInfo.userInfo.toString());
             initLoginData(loginInfo.userInfo);
             notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
         }
@@ -436,11 +436,11 @@ public class DataCore {
 
     public void removeForeverObserve(Observer<CoreDataWrapper> typeObserver) {
         Object object = observers.remove(typeObserver);
-        Logger.i("DataCore----removeForeverObserve--" + object);
+        Logger.i("DataCoreManager----removeForeverObserve--" + object);
     }
 
     private void notifyCoreDataChange(CoreDataWrapper coreDataWrapper) {
-        Logger.i("DataCore----notifyCoreDataChange-" + coreDataWrapper.toString());
+        Logger.i("DataCoreManager----notifyCoreDataChange-" + coreDataWrapper.toString());
         if (observers != null && observers.size() > 0) {
             for (MutableLiveData<CoreDataWrapper> dataTypeLive : observers.values()) {
                 dataTypeLive.postValue(coreDataWrapper);

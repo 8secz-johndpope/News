@@ -1,7 +1,7 @@
 package com.heaven.news.ui.vm.vmmodel;
 
 import com.heaven.base.vm.BaseViewModel;
-import com.heaven.news.engine.Api;
+import com.heaven.news.engine.manager.Api;
 import com.heaven.news.engine.App;
 
 import javax.inject.Inject;

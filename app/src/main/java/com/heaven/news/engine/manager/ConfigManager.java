@@ -1,4 +1,4 @@
-package com.heaven.news.engine;
+package com.heaven.news.engine.manager;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.LifecycleOwner;
@@ -22,6 +22,7 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.IApi;
+import com.heaven.news.engine.CheckVersion;
 import com.heaven.news.ui.vm.model.base.CityGroup;
 import com.heaven.news.ui.vm.model.base.CityInfo;
 import com.heaven.news.ui.vm.model.base.ConfigData;
@@ -57,7 +58,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 /**
- * FileName: com.heaven.news.engine.ConfigManager.java
+ * FileName: com.heaven.news.engine.manager.ConfigManager.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-04-27 18:51
@@ -587,7 +588,7 @@ public class ConfigManager {
         }
     }
 
-    void removeForeverObserve(Observer<ConfigWrapper> typeObserver) {
+   public void removeForeverObserve(Observer<ConfigWrapper> typeObserver) {
         Object object = observers.remove(typeObserver);
         Logger.i("ConfigManager----removeForeverObserve--" + object);
     }

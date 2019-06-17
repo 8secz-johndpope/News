@@ -1,5 +1,7 @@
-package com.heaven.news.engine;
+package com.heaven.news.engine.manager;
 
+import com.heaven.news.engine.App;
+import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.vmmodel.AbstractViewModel;
 
 import javax.inject.Singleton;
@@ -8,7 +10,7 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 /**
- * FileName: com.heaven.news.engine.CoreComponent.java
+ * FileName: com.heaven.news.engine.manager.CoreComponent.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-04-16 11:40

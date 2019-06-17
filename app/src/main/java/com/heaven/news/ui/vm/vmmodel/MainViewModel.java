@@ -12,7 +12,7 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.api.IApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.DataCore;
+import com.heaven.news.engine.manager.DataCoreManager;
 import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.flightsearch.FlightSearchWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
@@ -110,9 +110,9 @@ public class MainViewModel extends AbstractViewModel {
     }
 
     public void searchUserRoute(int pageIndex) {
-        DataCore dataCore = AppEngine.instance().dataCore();
+        DataCoreManager dataCore = AppEngine.instance().dataCore();
         if(dataCore.isLogin()) {
-            DataCore.CoreDataWrapper coreDataWrapper = dataCore.getCoreDataWrapper();
+            DataCoreManager.CoreDataWrapper coreDataWrapper = dataCore.getCoreDataWrapper();
             searchByTrace req = new searchByTrace();
             req._SEARCH_TRACE_CONDITION = new searchByTraceConditionVO();
             req._SEARCH_TRACE_CONDITION._MEMBER_ID = coreDataWrapper.userId;

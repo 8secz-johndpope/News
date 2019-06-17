@@ -22,7 +22,7 @@ import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.DataCore;
+import com.heaven.news.engine.manager.DataCoreManager;
 import com.heaven.news.ui.view.RecyclerViewDivider;
 import com.heaven.news.ui.vm.holder.HomeBookGo;
 import com.heaven.news.ui.vm.holder.HomeBookGoBack;
@@ -54,7 +54,7 @@ import java.util.List;
  *
  * @version V1.0 首页
  */
-public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implements Observer<DataCore.CoreDataWrapper> {
+public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implements Observer<DataCoreManager.CoreDataWrapper> {
     BaseAdapter<ServiceInfo> mServiceAdapter;
     BaseMultAdapter recommendAdapter;
     @Override
@@ -253,13 +253,13 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
     }
 
     @Override
-    public void onChanged(@Nullable DataCore.CoreDataWrapper coreDataWrapper) {
+    public void onChanged(@Nullable DataCoreManager.CoreDataWrapper coreDataWrapper) {
         if (coreDataWrapper != null) {
-            if(DataCore.HOME == coreDataWrapper.dataType) {
+            if(DataCoreManager.HOME == coreDataWrapper.dataType) {
                 updateBannerData();
-            } else if(DataCore.LOGIN == coreDataWrapper.dataType) {
+            } else if(DataCoreManager.LOGIN == coreDataWrapper.dataType) {
                 recommendAdapter.notifyItemChanged(2,1);
-            } else if(DataCore.MILE == coreDataWrapper.dataType) {
+            } else if(DataCoreManager.MILE == coreDataWrapper.dataType) {
                 recommendAdapter.notifyItemChanged(2,1);
             }
         }

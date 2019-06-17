@@ -1,8 +1,9 @@
-package com.heaven.news.engine;
+package com.heaven.news.engine.manager;
 
 import android.content.Context;
 
 import com.heaven.data.net.DataRepo;
+import com.heaven.news.engine.App;
 import com.heaven.news.net.convert.ConverterFactory;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
@@ -14,7 +15,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * FileName: com.heaven.news.engine.CoreModule.java
+ * FileName: com.heaven.news.engine.manager.CoreModule.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-04-16 11:35
@@ -47,8 +48,8 @@ public class CoreModule {
 
     @Provides
     @Singleton
-    DataCore providerDataCore(DataSource dataSource,Context app) {
-        return new DataCore(dataSource,app);
+    DataCoreManager providerDataCore(DataSource dataSource, Context app) {
+        return new DataCoreManager(dataSource,app);
     }
 
 
