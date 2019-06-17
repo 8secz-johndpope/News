@@ -98,7 +98,7 @@ public class MainViewModel extends AbstractViewModel {
 
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
         long startNanos = System.nanoTime();
-        RxRepUtils.getResult(AppEngine.instance().api().getApi(IApi.class).searchFlight("PROTOFUL",binding), response -> {
+        RxRepUtils.getResult(AppEngine.instance().api().getApi(IApi.class).searchFlight(binding), response -> {
             long stopNanos = System.nanoTime();
             Logger.i("mainmodel_time:proto" + TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
         });
