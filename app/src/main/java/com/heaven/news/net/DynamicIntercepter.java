@@ -2,18 +2,14 @@ package com.heaven.news.net;
 
 import android.text.TextUtils;
 
-import com.google.common.io.ByteStreams;
 import com.heaven.news.BuildConfig;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import java.util.zip.GZIPInputStream;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import okhttp3.Headers;
 import okhttp3.Interceptor;
@@ -21,10 +17,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okio.Buffer;
-import okio.BufferedSource;
-import retrofit2.internal.EverythingIsNonNull;
 
 /**
  * FileName: com.heaven.news.net.DynamicIntercepter.java
@@ -48,7 +41,7 @@ public class DynamicIntercepter implements Interceptor {
                 .add("Charset", "UTF-8")//字符编码格式
                 .add("Accept", "*/*")//能够接受的数据格式
                 .add("Accept-Language", "zh-cn")//接受的语言
-                .add("Content-Type", "application/json")//内容数据格式application/json text/xml
+                .add("Content-Type", "text/xml")//内容数据格式application/json text/xml
                 .add("Connection", "close");
         oriHeaders = headerBuilder.build();
     }
@@ -70,7 +63,7 @@ public class DynamicIntercepter implements Interceptor {
             chain.withConnectTimeout(3, TimeUnit.SECONDS)
                     .withReadTimeout(3, TimeUnit.SECONDS);
         }
-        if (com.heaven.data.BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             printRequestLog(reequest);
         }
         return chain.proceed(reequest);

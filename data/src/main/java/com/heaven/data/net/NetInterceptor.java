@@ -42,9 +42,9 @@ public class NetInterceptor implements Interceptor {
         //获取原始Request
         Request request = chain.request();
 
-        if (BuildConfig.DEBUG) {
-            printRequestLog(request);
-        }
+//        if (BuildConfig.DEBUG) {
+//            printRequestLog(request);
+//        }
 
         long startReqTime = System.nanoTime();
         Response response = chain.proceed(request);
