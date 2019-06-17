@@ -79,10 +79,6 @@ public class RxRepUtils {
         return taskId;
     }
 
-    public static IApi getCommonApi() {
-        return AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, IApi.class);
-    }
-
     private static <T> TaskIdConsumer<T> getTaskConsumer(long taskId, Consumer<T> consumer) {
         return new TaskIdConsumer<T>(taskId, consumer);
     }

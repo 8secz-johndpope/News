@@ -85,10 +85,6 @@ public class NetManager {
         return taskId;
     }
 
-    public  IApi getCommonApi() {
-        return AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, IApi.class);
-    }
-
     private <T> NetManager.TaskIdConsumer<T> getTaskConsumer(long taskId, Consumer<T> consumer) {
         return new NetManager.TaskIdConsumer<T>(taskId, consumer);
     }

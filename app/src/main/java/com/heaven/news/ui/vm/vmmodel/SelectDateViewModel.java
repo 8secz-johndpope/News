@@ -51,7 +51,7 @@ public class SelectDateViewModel extends AbstractViewModel {
 
             priceUrl = "https://mobile.shenzhenair.com/develop/szairMobileWS/FetchCalendarPriceServlet?m=getCalendarPrice&dptcity=SZX&arrcity=PEK&dptdate=2019-06-05";
 
-            RxRepUtils.getConfigResult(AppEngine.instance().api().getApi(IApi.class).getCalenarPrice(priceUrl), new Consumer<String>() {
+            RxRepUtils.getConfigResult(AppEngine.instance().api().getCalenarPrice(priceUrl), new Consumer<String>() {
                 @Override
                 public void accept(String jsonstr) throws Exception {
                     if(!TextUtils.isEmpty(jsonstr)) {

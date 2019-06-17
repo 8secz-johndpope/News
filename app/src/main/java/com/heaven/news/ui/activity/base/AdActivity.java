@@ -33,7 +33,7 @@ public class AdActivity extends BaseActivity<AdBinding> {
 
     @Override
     public void initView(View rootView) {
-        AdInfo adInfo = AppEngine.instance().getCacheData(DataSource.DB,Constants.ADINFO);
+        AdInfo adInfo = AppEngine.instance().getDataSource().getCacheEntity(DataSource.DB,Constants.ADINFO);
         if(adInfo == null) {
             toMainPage();
         } else {

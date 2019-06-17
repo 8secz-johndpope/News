@@ -22,6 +22,7 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.IApi;
+import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.base.CityGroup;
 import com.heaven.news.ui.vm.model.base.CityInfo;
 import com.heaven.news.ui.vm.model.base.ConfigData;
@@ -527,7 +528,7 @@ public class ConfigManager {
     private void reqNewCity() {
         queryCityList queryCityList = new queryCityList();
         CityListWebServiceServiceSoapBinding binding = new CityListWebServiceServiceSoapBinding("queryCityList", queryCityList);
-        RxRepUtils.getResultInThred(RxRepUtils.getCommonApi().searchNewCity(binding), response -> {
+        RxRepUtils.getResultInThred(AppEngine.instance().api().searchNewCity(binding), response -> {
             if (response.code == 0 && response.data != null && response.data._CITY_LIST_VO != null && response.data._CITY_LIST_VO._CITY_LIST_VO != null) {
                 List<cityListVO> newCitys = response.data._CITY_LIST_VO._CITY_LIST_VO;
                 if (newCitys.size() > 0) {
