@@ -120,7 +120,6 @@ public class NetManager {
 
     public void disMassLoading() {
         if(loading != null) {
-            cancelTask(loading.getTaskId());
             loading.dismiss();
         }
     }

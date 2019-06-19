@@ -3,14 +3,18 @@ package com.heaven.news.ui.view.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.heaven.news.R;
+
+import java.util.Objects;
 
 import io.reactivex.disposables.Disposable;
 
@@ -23,14 +27,12 @@ import io.reactivex.disposables.Disposable;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class NetReqDialog extends Dialog {
-    private long taskId;
     private ImageView waitingIcon;
     public ImageView cancel;
     private TextView noticeText;
 
     public NetReqDialog(Context context, Disposable disposable) {
-        super(context, R.style.Theme_Dialog);
-        this.taskId = taskId;
+        super(context, R.style.customerDialog);
         View view = LayoutInflater.from(context).inflate(R.layout.net_req_dialog, null);
         waitingIcon = view.findViewById(R.id.waiting_icon);
         cancel = view.findViewById(R.id.cancel);
@@ -44,6 +46,18 @@ public class NetReqDialog extends Dialog {
                 disposable.dispose();
             }
         });
+        hideSystemUI(view);
+    }
+
+    //盖在状态栏上
+    public void hideSystemUI(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            );
+        }
     }
 
     public void setNoticeText(String noticeText) {
@@ -54,7 +68,4 @@ public class NetReqDialog extends Dialog {
         cancel.setVisibility(View.GONE);
     }
 
-    public long getTaskId() {
-        return taskId;
-    }
 }
