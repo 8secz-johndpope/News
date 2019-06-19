@@ -30,8 +30,4 @@ public interface CoreComponent {
     void inject(AbstractViewModel viewModel);
 
     void inject(AppEngine appEngine);
-
-    void inject(ConfigManager configManager);
-
-    void inject(DataCoreManager dataCoreManager);
 }

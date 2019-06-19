@@ -15,7 +15,6 @@ import com.heaven.news.consts.Constants;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 import com.heaven.news.ui.vm.model.base.UserLoginInfo;
 import com.heaven.news.ui.vm.model.base.UserSecret;
-import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.easycardmodel.EasyCardWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.easycardmodel.WALLET_QUERY;
 import com.neusoft.szair.model.easycardmodel.walletInfoQuery;

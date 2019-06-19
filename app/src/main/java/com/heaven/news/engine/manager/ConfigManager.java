@@ -22,8 +22,6 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.IApi;
-import com.heaven.news.engine.App;
-import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.base.CityGroup;
 import com.heaven.news.ui.vm.model.base.CityInfo;
 import com.heaven.news.ui.vm.model.base.ConfigData;
@@ -34,7 +32,6 @@ import com.heaven.news.ui.vm.model.base.TimeStamp;
 import com.heaven.news.ui.vm.model.base.VersionUpdate;
 import com.heaven.news.utils.DateUtil;
 import com.heaven.news.utils.IoUtil;
-import com.heaven.news.utils.RxRepUtils;
 import com.neusoft.szair.model.city.CityListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.city.cityListVO;
 import com.neusoft.szair.model.city.queryCityList;
@@ -51,10 +48,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
@@ -249,7 +242,7 @@ public class ConfigManager {
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
                 notifyConfigDataChange(dataWrapper);
                 if (configData != null && configData.timestamp != null) {
-                    RxRepUtils.cancelTask(reqverTaskId);
+                    mNetManger.cancelTask(reqverTaskId);
                     configSuccess(configData);
                 }
             } else {
