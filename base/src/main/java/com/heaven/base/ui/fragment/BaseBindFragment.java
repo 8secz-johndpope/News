@@ -38,8 +38,8 @@ public abstract class BaseBindFragment<VM extends BaseViewModel, B extends ViewD
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         if(mViewModel != null) {
-            bindModel();
             mViewModel.initModel();
+            bindModel();
         }
         return view;
     }

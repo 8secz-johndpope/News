@@ -27,8 +27,8 @@ public abstract class BaseBindActivity<VM extends BaseViewModel, B extends ViewD
         analyseGenerics();
         super.onCreate(savedInstanceState);
         if(mViewModel != null) {
-            bindModel();
             mViewModel.initModel();
+            bindModel();
         }
     }
 
