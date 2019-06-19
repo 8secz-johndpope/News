@@ -59,7 +59,8 @@ public class MainViewModel extends AbstractViewModel {
     /**
      * 请求首页公告
      */
-    public void requestNotice() {
+    public void requestNotice(Observer<List<noticeInfoListVO>> observer) {
+        noticeListLive.observe(owner,observer);
         queryNoticeList noticelist = new queryNoticeList();
 
         noticelist._PAGE_NO = 0;
@@ -79,25 +80,10 @@ public class MainViewModel extends AbstractViewModel {
 
     /**
      * 航班查询
-     * @param view 查询view
+     * @param req 请求参数
      */
-    public long flightSearch(LifecycleOwner owner,Observer<DataResponse<FlightSearchDomesticResultVO>> observer) {
-        Logger.i("flightSearch------");
+    public long flightSearch(flightSearchDomestic req,Observer<DataResponse<FlightSearchDomesticResultVO>> observer) {
         flightListLive.observe(owner,observer);
-        List<tripInfoVO> flightLIst = new ArrayList<>();
-        tripInfoVO flightVo = new tripInfoVO();
-        flightVo._ORG_CITY = "SZX";
-        flightVo._DST_CITY = "PEK";
-        flightVo._DEPARTURE_DATE = "2019-06-25";
-        flightVo._INDEX = "1";
-        flightLIst.add(flightVo);
-        flightSearchDomestic req = new flightSearchDomestic();
-        req._FLIGHT_SEARCH_CONDITION = new flightSearchDomesticConditionVO();
-        req._FLIGHT_SEARCH_CONDITION._TRIP_INFO_LIST = flightLIst;
-        req._FLIGHT_SEARCH_CONDITION._QUERY_FLAG = "DC";
-        req._FLIGHT_SEARCH_CONDITION._USER_ID = AppEngine.instance().dataCore().getCoreDataWrapper().userId;
-        req._FLIGHT_SEARCH_CONDITION._CRM_MEMBER_ID = AppEngine.instance().dataCore().getCoreDataWrapper().crmId;
-
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
         long startNanos = System.nanoTime();
         long taskId = mNetManager.getResult(mApi.searchFlight(binding), response -> {
@@ -106,12 +92,6 @@ public class MainViewModel extends AbstractViewModel {
             Logger.i("mainmodel_time:proto" + TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
         });
 
-
-//        long startNanos1 = System.nanoTime();
-//        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, FlightApi.class).searchFlightXml(binding), response -> {
-//            long stopNanos1 = System.nanoTime();
-//            Logger.i("mainmodel_time:xml" + TimeUnit.NANOSECONDS.toMillis(stopNanos1 - startNanos1));
-//        });
         return taskId;
     }
 
@@ -172,10 +152,6 @@ public class MainViewModel extends AbstractViewModel {
         if(!TextUtils.isEmpty(easyGoSearch.getSearchKey())) {
 
         }
-    }
-
-    public void observeNoticeList(LifecycleOwner owner, Observer<List<noticeInfoListVO>> observer) {
-        noticeListLive.observe(owner,observer);
     }
 
     public void observeRouteList(LifecycleOwner owner, Observer<List<fullchannelVO>> observer) {

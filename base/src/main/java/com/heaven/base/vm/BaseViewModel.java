@@ -2,6 +2,7 @@ package com.heaven.base.vm;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.databinding.BaseObservable;
@@ -20,6 +21,7 @@ import com.heaven.model.ifilm.BaseModel;
  */
 public abstract class BaseViewModel extends ViewModel implements IViewModel{
    public Application application;
+   public LifecycleOwner owner;
    @Override
    public void inject() {
 

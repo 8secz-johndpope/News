@@ -44,6 +44,9 @@ import com.heaven.news.ui.vm.model.base.ImageInfo;
 import com.heaven.news.ui.vm.model.base.ServiceItem;
 import com.heaven.news.ui.vm.vmmodel.MainViewModel;
 import com.neusoft.szair.model.flightproto.FlightSearchDomesticResultVO;
+import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
+import com.neusoft.szair.model.flightsearch.flightSearchDomesticConditionVO;
+import com.neusoft.szair.model.flightsearch.tripInfoVO;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
 import com.orhanobut.logger.Logger;
 
@@ -187,13 +190,12 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
         mViewBinding.noticeList.addItemDecoration(new RecyclerViewDivider(getContext(),2,R.color.gray_e4));
         mViewBinding.noticeList.setLayoutManager(manager);
         mViewBinding.noticeList.setAdapter(adapter);
-        mViewModel.observeNoticeList(this, noticeInfoListVOS -> {
-            adapter.updateItems(noticeInfoListVOS);
-            mViewBinding.noticeArea.setVisibility(View.VISIBLE);
-        });
         if(mViewModel.noticeList == null) {
             mViewBinding.noticeArea.setVisibility(View.GONE);
-            mViewModel.requestNotice();
+            mViewModel.requestNotice(noticeInfoListVOS -> {
+                adapter.updateItems(noticeInfoListVOS);
+                mViewBinding.noticeArea.setVisibility(View.VISIBLE);
+            });
         } else {
             mViewBinding.noticeArea.setVisibility(View.VISIBLE);
             adapter.updateItems(mViewModel.noticeList);
@@ -233,7 +235,21 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
     }
 
     public void flightSearch(View view) {
-        long taskId = mViewModel.flightSearch(this, response -> {
+        List<tripInfoVO> flightLIst = new ArrayList<>();
+        tripInfoVO flightVo = new tripInfoVO();
+        flightVo._ORG_CITY = "SZX";
+        flightVo._DST_CITY = "PEK";
+        flightVo._DEPARTURE_DATE = "2019-06-25";
+        flightVo._INDEX = "1";
+        flightLIst.add(flightVo);
+        flightSearchDomestic req = new flightSearchDomestic();
+        req._FLIGHT_SEARCH_CONDITION = new flightSearchDomesticConditionVO();
+        req._FLIGHT_SEARCH_CONDITION._TRIP_INFO_LIST = flightLIst;
+        req._FLIGHT_SEARCH_CONDITION._QUERY_FLAG = "DC";
+        req._FLIGHT_SEARCH_CONDITION._USER_ID = AppEngine.instance().dataCore().getCoreDataWrapper().userId;
+        req._FLIGHT_SEARCH_CONDITION._CRM_MEMBER_ID = AppEngine.instance().dataCore().getCoreDataWrapper().crmId;
+
+        long taskId = mViewModel.flightSearch(req, response -> {
             Logger.d(response);
             AppEngine.instance().getNetManager().disMassLoading();
         });
