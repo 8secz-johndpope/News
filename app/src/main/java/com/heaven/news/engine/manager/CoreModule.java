@@ -49,8 +49,8 @@ public class CoreModule {
 
     @Provides
     @Singleton
-    DataCoreManager providerDataCore(DataSource dataSource,NetManager netManager, Context app) {
-        return new DataCoreManager(dataSource,netManager,app);
+    UserManager providerDataCore(DataSource dataSource, NetManager netManager, Context app) {
+        return new UserManager(dataSource,netManager,app);
     }
 
 

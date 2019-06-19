@@ -19,7 +19,7 @@ import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.EasygoBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.manager.DataCoreManager;
+import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.ui.view.RecyclerViewDivider;
 import com.heaven.news.ui.vm.holder.EasyGoServiceHolder;
 import com.heaven.news.ui.vm.model.base.EasyGoService;
@@ -39,7 +39,7 @@ import java.util.List;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class EasyGo extends BaseBindFragment<MainViewModel,EasygoBinding> implements  Observer<DataCoreManager.CoreDataWrapper> {
+public class EasyGo extends BaseBindFragment<MainViewModel,EasygoBinding> implements  Observer<UserManager.CoreDataWrapper> {
     BaseAdapter<ImageInfo> mBannerAdapter;
 
     @Override
@@ -142,8 +142,8 @@ public class EasyGo extends BaseBindFragment<MainViewModel,EasygoBinding> implem
 
 
     @Override
-    public void onChanged(@Nullable DataCoreManager.CoreDataWrapper coreDataWrapper) {
-        if (coreDataWrapper != null && DataCoreManager.HOME == coreDataWrapper.dataType) {
+    public void onChanged(@Nullable UserManager.CoreDataWrapper coreDataWrapper) {
+        if (coreDataWrapper != null && UserManager.HOME == coreDataWrapper.dataType) {
             updateBannerData();
         }
     }

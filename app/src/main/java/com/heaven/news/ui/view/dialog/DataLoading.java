@@ -19,19 +19,19 @@ import java.util.Objects;
 import io.reactivex.disposables.Disposable;
 
 /**
- * FileName: com.heaven.news.ui.view.dialog.NetReqDialog.java
+ * FileName: com.heaven.news.ui.view.dialog.DataLoading.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-06-17 16:27
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class NetReqDialog extends Dialog {
+public class DataLoading extends Dialog {
     private ImageView waitingIcon;
     public ImageView cancel;
     private TextView noticeText;
 
-    public NetReqDialog(Context context, Disposable disposable) {
+    public DataLoading(Context context, Disposable disposable) {
         super(context, R.style.customerDialog);
         View view = LayoutInflater.from(context).inflate(R.layout.net_req_dialog, null);
         waitingIcon = view.findViewById(R.id.waiting_icon);

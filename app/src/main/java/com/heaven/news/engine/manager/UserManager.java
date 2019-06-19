@@ -44,15 +44,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * FileName: com.heaven.news.engine.manager.DataCoreManager.java
+ * FileName: com.heaven.news.engine.manager.UserManager.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-03-21 15:41
  *
  * @version V1.0 核心数据管理类
  */
-public class DataCoreManager {
-    String TAG = DataCoreManager.class.getSimpleName();
+public class UserManager {
+    String TAG = UserManager.class.getSimpleName();
     public static int VERSION = 0;
     public static int HOME = 1;
     public static int LOGIN = 2;
@@ -97,7 +97,7 @@ public class DataCoreManager {
     private String groupCode;                               //大客户编码
     private String userMile;                                //用户可用里程
     private String userCouponCount;                         //优惠券数量
-    DataCoreManager(DataSource dataSource,NetManager netManager, Context context) {
+    UserManager(DataSource dataSource, NetManager netManager, Context context) {
         this.mNetManager = netManager;
         this.dataSource = dataSource;
         this.mApi = dataSource.getNetApi(IApi.class);
@@ -392,7 +392,7 @@ public class DataCoreManager {
     private void prepareLoginCache(String userCount, String pwd) {
         UserLoginInfo loginInfo = dataSource.getCacheEntity(DataSource.DISK, userCount + pwd);
         if (loginInfo != null && loginInfo.userInfo != null) {
-            Logger.i("DataCoreManager--prepareLoginCache" + loginInfo.userInfo.toString());
+            Logger.i("UserManager--prepareLoginCache" + loginInfo.userInfo.toString());
             initLoginData(loginInfo.userInfo);
             notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
         }
@@ -443,11 +443,11 @@ public class DataCoreManager {
 
     public void removeForeverObserve(Observer<CoreDataWrapper> typeObserver) {
         Object object = observers.remove(typeObserver);
-        Logger.i("DataCoreManager----removeForeverObserve--" + object);
+        Logger.i("UserManager----removeForeverObserve--" + object);
     }
 
     private void notifyCoreDataChange(CoreDataWrapper coreDataWrapper) {
-        Logger.i("DataCoreManager----notifyCoreDataChange-" + coreDataWrapper.toString());
+        Logger.i("UserManager----notifyCoreDataChange-" + coreDataWrapper.toString());
         if (observers != null && observers.size() > 0) {
             for (MutableLiveData<CoreDataWrapper> dataTypeLive : observers.values()) {
                 dataTypeLive.postValue(coreDataWrapper);

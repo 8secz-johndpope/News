@@ -10,7 +10,7 @@ import com.heaven.base.ui.fragment.BaseBindFragment;
 import com.heaven.news.R;
 import com.heaven.news.databinding.MineBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.manager.DataCoreManager;
+import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.ui.vm.vmmodel.MainViewModel;
 
 /**
@@ -21,7 +21,7 @@ import com.heaven.news.ui.vm.vmmodel.MainViewModel;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class Mine extends BaseBindFragment<MainViewModel,MineBinding> implements Observer<DataCoreManager.CoreDataWrapper> {
+public class Mine extends BaseBindFragment<MainViewModel,MineBinding> implements Observer<UserManager.CoreDataWrapper> {
 
     @Override
     public void bindModel() {
@@ -37,12 +37,12 @@ public class Mine extends BaseBindFragment<MainViewModel,MineBinding> implements
     public void initView(View rootView) {
         super.initView(rootView);
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
-        DataCoreManager.CoreDataWrapper coreDataWrapper = AppEngine.instance().dataCore().getCoreDataWrapper();
+        UserManager.CoreDataWrapper coreDataWrapper = AppEngine.instance().dataCore().getCoreDataWrapper();
         initUserInfo(coreDataWrapper);
     }
 
 
-    private void initUserInfo(DataCoreManager.CoreDataWrapper coreDataWrapper) {
+    private void initUserInfo(UserManager.CoreDataWrapper coreDataWrapper) {
         if(coreDataWrapper != null) {
             mViewBinding.userName.setText(coreDataWrapper.userName);
             if(coreDataWrapper.sexHeaderRes != 0) {
@@ -77,13 +77,13 @@ public class Mine extends BaseBindFragment<MainViewModel,MineBinding> implements
     }
 
     @Override
-    public void onChanged(@Nullable DataCoreManager.CoreDataWrapper coreDataWrapper) {
+    public void onChanged(@Nullable UserManager.CoreDataWrapper coreDataWrapper) {
         if(coreDataWrapper != null) {
-            if (DataCoreManager.LOGIN == coreDataWrapper.dataType) {
+            if (UserManager.LOGIN == coreDataWrapper.dataType) {
                 initUserInfo(coreDataWrapper);
-            } else if(DataCoreManager.MINE == coreDataWrapper.dataType) {
+            } else if(UserManager.MINE == coreDataWrapper.dataType) {
                 initUserInfo(coreDataWrapper);
-            } else if(DataCoreManager.MILE == coreDataWrapper.dataType) {
+            } else if(UserManager.MILE == coreDataWrapper.dataType) {
                 initUserInfo(coreDataWrapper);
             }
         }

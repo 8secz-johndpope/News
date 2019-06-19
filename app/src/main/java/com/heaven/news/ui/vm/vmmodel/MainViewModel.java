@@ -6,18 +6,15 @@ import android.arch.lifecycle.Observer;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.DataResponse;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.manager.DataCoreManager;
+import com.heaven.news.engine.manager.UserManager;
 import com.neusoft.szair.model.flightproto.FlightSearchDomesticResultVO;
 import com.neusoft.szair.model.flightsearch.FlightSearchWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
-import com.neusoft.szair.model.flightsearch.flightSearchDomesticConditionVO;
-import com.neusoft.szair.model.flightsearch.tripInfoVO;
 import com.neusoft.szair.model.fullchannel.SearchFullchannelWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.fullchannel.fullchannelVO;
 import com.neusoft.szair.model.fullchannel.searchByTrace;
@@ -96,9 +93,9 @@ public class MainViewModel extends AbstractViewModel {
     }
 
     public void searchUserRoute(int pageIndex) {
-        DataCoreManager dataCore = AppEngine.instance().dataCore();
+        UserManager dataCore = AppEngine.instance().dataCore();
         if(dataCore.isLogin()) {
-            DataCoreManager.CoreDataWrapper coreDataWrapper = dataCore.getCoreDataWrapper();
+            UserManager.CoreDataWrapper coreDataWrapper = dataCore.getCoreDataWrapper();
             searchByTrace req = new searchByTrace();
             req._SEARCH_TRACE_CONDITION = new searchByTraceConditionVO();
             req._SEARCH_TRACE_CONDITION._MEMBER_ID = coreDataWrapper.userId;

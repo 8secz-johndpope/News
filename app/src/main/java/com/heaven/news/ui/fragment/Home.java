@@ -1,6 +1,5 @@
 package com.heaven.news.ui.fragment;
 
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,11 +19,10 @@ import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseBindFragment;
 import com.heaven.base.ui.view.widget.banner.XBanner;
 import com.heaven.base.utils.ScreenUtil;
-import com.heaven.data.net.DataResponse;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.manager.DataCoreManager;
+import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.ui.view.RecyclerViewDivider;
 import com.heaven.news.ui.vm.holder.HomeBookGo;
 import com.heaven.news.ui.vm.holder.HomeBookGoBack;
@@ -43,7 +41,6 @@ import com.heaven.news.ui.vm.model.base.ServiceInfo;
 import com.heaven.news.ui.vm.model.base.ImageInfo;
 import com.heaven.news.ui.vm.model.base.ServiceItem;
 import com.heaven.news.ui.vm.vmmodel.MainViewModel;
-import com.neusoft.szair.model.flightproto.FlightSearchDomesticResultVO;
 import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
 import com.neusoft.szair.model.flightsearch.flightSearchDomesticConditionVO;
 import com.neusoft.szair.model.flightsearch.tripInfoVO;
@@ -61,7 +58,7 @@ import java.util.List;
  *
  * @version V1.0 首页
  */
-public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implements Observer<DataCoreManager.CoreDataWrapper> {
+public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implements Observer<UserManager.CoreDataWrapper> {
     BaseAdapter<ServiceInfo> mServiceAdapter;
     BaseMultAdapter recommendAdapter;
     @Override
@@ -283,13 +280,13 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
     }
 
     @Override
-    public void onChanged(@Nullable DataCoreManager.CoreDataWrapper coreDataWrapper) {
+    public void onChanged(@Nullable UserManager.CoreDataWrapper coreDataWrapper) {
         if (coreDataWrapper != null) {
-            if(DataCoreManager.HOME == coreDataWrapper.dataType) {
+            if(UserManager.HOME == coreDataWrapper.dataType) {
                 updateBannerData();
-            } else if(DataCoreManager.LOGIN == coreDataWrapper.dataType) {
+            } else if(UserManager.LOGIN == coreDataWrapper.dataType) {
                 recommendAdapter.notifyItemChanged(2,1);
-            } else if(DataCoreManager.MILE == coreDataWrapper.dataType) {
+            } else if(UserManager.MILE == coreDataWrapper.dataType) {
                 recommendAdapter.notifyItemChanged(2,1);
             }
         }

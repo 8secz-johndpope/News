@@ -18,10 +18,9 @@ import com.heaven.data.dbentity.DownEntity;
 import com.heaven.data.fileworker.DownLoadWorker;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
-import com.heaven.news.api.IApi;
 import com.heaven.news.engine.manager.ConfigManager;
 import com.heaven.news.engine.manager.CoreComponent;
-import com.heaven.news.engine.manager.DataCoreManager;
+import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.engine.manager.NetManager;
 import com.heaven.news.ui.activity.base.MainActivity;
 import com.heaven.news.ui.activity.base.Welcome;
@@ -75,7 +74,7 @@ public final class AppEngine {
     @Inject
     Lazy<DataSource> mDataSource;
     @Inject
-    DataCoreManager mDataCore;
+    UserManager mDataCore;
     /**
      * 后台服务中心
      */
@@ -273,7 +272,7 @@ public final class AppEngine {
     }
 
 
-    public DataCoreManager dataCore() {
+    public UserManager dataCore() {
         return mDataCore;
     }
 

@@ -19,7 +19,7 @@ import com.heaven.base.utils.ScreenUtil;
 import com.heaven.news.R;
 import com.heaven.news.databinding.PhoenixBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.manager.DataCoreManager;
+import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.ui.vm.holder.PhoenixServiceHolder;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
 import com.heaven.news.ui.vm.model.base.ImageInfo;
@@ -38,7 +38,7 @@ import java.util.List;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class Phoenix extends BaseBindFragment<MainViewModel, PhoenixBinding> implements Observer<DataCoreManager.CoreDataWrapper> {
+public class Phoenix extends BaseBindFragment<MainViewModel, PhoenixBinding> implements Observer<UserManager.CoreDataWrapper> {
     BaseAdapter<ImageInfo> mBannerAdapter;
 
     @Override
@@ -55,7 +55,7 @@ public class Phoenix extends BaseBindFragment<MainViewModel, PhoenixBinding> imp
     public void initView(View rootView) {
         super.initView(rootView);
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
-        DataCoreManager.CoreDataWrapper coreDataWrapper = AppEngine.instance().dataCore().getCoreDataWrapper();
+        UserManager.CoreDataWrapper coreDataWrapper = AppEngine.instance().dataCore().getCoreDataWrapper();
         initBaner();
         updateUserInfo(coreDataWrapper);
         initService();
@@ -142,19 +142,19 @@ public class Phoenix extends BaseBindFragment<MainViewModel, PhoenixBinding> imp
     }
 
     @Override
-    public void onChanged(@Nullable DataCoreManager.CoreDataWrapper coreDataWrapper) {
+    public void onChanged(@Nullable UserManager.CoreDataWrapper coreDataWrapper) {
         if (coreDataWrapper != null) {
-            if (DataCoreManager.LOGIN == coreDataWrapper.dataType) {
+            if (UserManager.LOGIN == coreDataWrapper.dataType) {
                 updateUserInfo(coreDataWrapper);
-            } else if (DataCoreManager.MILE == coreDataWrapper.dataType) {
+            } else if (UserManager.MILE == coreDataWrapper.dataType) {
                 updateUserInfo(coreDataWrapper);
-            } else if (DataCoreManager.HOME == coreDataWrapper.dataType) {
+            } else if (UserManager.HOME == coreDataWrapper.dataType) {
                 updateBannerData();
             }
         }
     }
 
-    private void updateUserInfo(DataCoreManager.CoreDataWrapper coreDataWrapper) {
+    private void updateUserInfo(UserManager.CoreDataWrapper coreDataWrapper) {
         if(coreDataWrapper == null) {
             return;
         }

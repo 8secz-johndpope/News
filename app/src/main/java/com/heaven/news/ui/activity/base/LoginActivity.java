@@ -11,7 +11,7 @@ import com.heaven.news.consts.Constants;
 import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.LoginBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.engine.manager.DataCoreManager;
+import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.vm.vmmodel.LoginViewModel;
 
@@ -19,7 +19,7 @@ import com.heaven.news.ui.vm.vmmodel.LoginViewModel;
  * @author heaven
  */
 @Route(path = RouterUrl.ROUTER_URL_LOGIN)
-public class LoginActivity extends BaseToolBarBindActivity<LoginViewModel, LoginBinding> implements Observer<DataCoreManager.CoreDataWrapper> {
+public class LoginActivity extends BaseToolBarBindActivity<LoginViewModel, LoginBinding> implements Observer<UserManager.CoreDataWrapper> {
 
     @Override
     public void initView(View rootView) {
@@ -59,8 +59,8 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginViewModel, Login
     }
 
     @Override
-    public void onChanged(@Nullable DataCoreManager.CoreDataWrapper coreDataWrapper) {
-        if (coreDataWrapper != null && DataCoreManager.LOGIN == coreDataWrapper.dataType) {
+    public void onChanged(@Nullable UserManager.CoreDataWrapper coreDataWrapper) {
+        if (coreDataWrapper != null && UserManager.LOGIN == coreDataWrapper.dataType) {
             AppEngine.instance().getNetManager().disMassLoading();
             if (coreDataWrapper.isSuccess) {
                 if (AppEngine.instance().dataCore().isLogin()) {

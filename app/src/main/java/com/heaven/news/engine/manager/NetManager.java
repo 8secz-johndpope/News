@@ -1,6 +1,5 @@
 package com.heaven.news.engine.manager;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.util.LongSparseArray;
 
@@ -8,8 +7,7 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.DataResponse;
 import com.heaven.data.net.ExceptionHandle;
 import com.heaven.news.api.IApi;
-import com.heaven.news.engine.AppEngine;
-import com.heaven.news.ui.view.dialog.NetReqDialog;
+import com.heaven.news.ui.view.dialog.DataLoading;
 import com.orhanobut.logger.Logger;
 
 import io.reactivex.Flowable;
@@ -103,14 +101,14 @@ public class NetManager {
         }
     }
 
-    private NetReqDialog loading;
+    private DataLoading loading;
 
 
     public void showLoadingDialog(Context context,boolean isCancel,long taskId) {
         if (loading != null) {
             loading.dismiss();
         }
-        loading = new NetReqDialog(context,getTaskById(taskId));
+        loading = new DataLoading(context,getTaskById(taskId));
         if(!isCancel) {
             loading.hideCancel();
         }
