@@ -97,13 +97,15 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
             }
         });
         mViewBinding.swipeTarget.setAdapter(routeAdapter);
-        handler.postDelayed(() -> mViewModel.updatePrice(targetIndexs -> {
-            if(targetIndexs != null) {
-                for(Integer index : targetIndexs) {
-                    routeAdapter.notifyItemChanged(index);
+        handler.post(() -> {
+            mViewModel.updatePrice(targetIndexs -> {
+                if(targetIndexs != null) {
+                    for(Integer index : targetIndexs) {
+                        routeAdapter.notifyItemChanged(index);
+                    }
                 }
-            }
-        },routeAdapter.getDataList(), "", "", ""),200);
+            },routeAdapter.getDataList(), "", "", "");
+        });
     }
 
     @Override
