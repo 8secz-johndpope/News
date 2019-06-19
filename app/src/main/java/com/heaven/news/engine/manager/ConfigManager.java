@@ -234,10 +234,10 @@ public class ConfigManager {
     }
 
     private void requestVersion() {
-        RxRepUtils.getConfigResult(dataSource.getNetApi(IApi.class).getVersion(BuildConfig.CONFIG_URL + "config.json"), versionData -> {
+        RxRepUtils.getResultInThred(dataSource.getNetApi(IApi.class).getVersion(BuildConfig.CONFIG_URL + "config.json"), versionData -> {
             isRequestVersionFinish = true;
-            if (!TextUtils.isEmpty(versionData)) {
-                this.configData = JSON.parseObject(versionData, ConfigData.class);
+            if (!TextUtils.isEmpty(versionData.data)) {
+                this.configData = JSON.parseObject(versionData.data, ConfigData.class);
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
                 notifyConfigDataChange(dataWrapper);
                 if (configData != null && configData.timestamp != null) {
@@ -256,9 +256,9 @@ public class ConfigManager {
     private long reqverTaskId;
 
     private void requestConfig() {
-        reqverTaskId = RxRepUtils.getConfigResult(dataSource.getNetApi(IApi.class).getConfig(BuildConfig.CONFIG_URL + "config.json"), configData -> {
-            if (!TextUtils.isEmpty(configData)) {
-                this.configData = JSON.parseObject(configData, ConfigData.class);
+        reqverTaskId = RxRepUtils.getResultInThred(dataSource.getNetApi(IApi.class).getConfig(BuildConfig.CONFIG_URL + "config.json"), configData -> {
+            if (!TextUtils.isEmpty(configData.data)) {
+                this.configData = JSON.parseObject(configData.data, ConfigData.class);
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
                 notifyConfigDataChange(dataWrapper);
                 configSuccess(this.configData);
@@ -273,11 +273,11 @@ public class ConfigManager {
     }
 
     private void requestCalendarFestival() {
-        reqverTaskId = RxRepUtils.getConfigResult(dataSource.getNetApi(IApi.class).getCalendarFestivalConfig(BuildConfig.CONFIG_URL + "calendar.json"), configData -> {
-            if (!TextUtils.isEmpty(configData)) {
+        reqverTaskId = RxRepUtils.getResultInThred(dataSource.getNetApi(IApi.class).getCalendarFestivalConfig(BuildConfig.CONFIG_URL + "calendar.json"), configData -> {
+            if (!TextUtils.isEmpty(configData.data)) {
                 Type type = new TypeReference<List<FestivalDay>>() {
                 }.getType();
-                calendarFestivals = JSON.parseObject(configData, type);
+                calendarFestivals = JSON.parseObject(configData.data, type);
                 if (calendarFestivals != null && calendarFestivals.size() > 0) {
                     cacheData(CALENDAR_FESTIVAL, calendarFestivals);
                     initCalendar(context);

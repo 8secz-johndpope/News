@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.view.calendar.Calendar;
 import com.heaven.base.ui.view.calendar.Month;
+import com.heaven.data.net.DataResponse;
 import com.heaven.news.api.IApi;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.base.CalendarPriceInfo;
@@ -51,18 +52,15 @@ public class SelectDateViewModel extends AbstractViewModel {
 
             priceUrl = "https://mobile.shenzhenair.com/develop/szairMobileWS/FetchCalendarPriceServlet?m=getCalendarPrice&dptcity=SZX&arrcity=PEK&dptdate=2019-06-05";
 
-            RxRepUtils.getConfigResult(AppEngine.instance().api().getCalenarPrice(priceUrl), new Consumer<String>() {
-                @Override
-                public void accept(String jsonstr) throws Exception {
-                    if(!TextUtils.isEmpty(jsonstr)) {
-                        int index = jsonstr.indexOf("jsoncallback(");
-                        if(index != -1){
-                            jsonstr = jsonstr.replace("jsoncallback(", "").replace(");", "");
-                        }
-                        ArrayList<CalendarPriceInfo> calendarpriceinfolist = (ArrayList<CalendarPriceInfo>) JSONObject.parseArray(jsonstr, CalendarPriceInfo.class);
-                        mergeCalendarPrice(adapter,calendarpriceinfolist );
-                        Logger.i("getCalendarPrice--" + jsonstr);
+            RxRepUtils.getResultInThred(AppEngine.instance().api().getCalenarPrice(priceUrl), dataResponse -> {
+                if(!TextUtils.isEmpty(dataResponse.data)) {
+                    int index = dataResponse.data.indexOf("jsoncallback(");
+                    if(index != -1){
+                        dataResponse.data = dataResponse.data.replace("jsoncallback(", "").replace(");", "");
                     }
+                    ArrayList<CalendarPriceInfo> calendarpriceinfolist = (ArrayList<CalendarPriceInfo>) JSONObject.parseArray(dataResponse.data, CalendarPriceInfo.class);
+                    mergeCalendarPrice(adapter,calendarpriceinfolist );
+                    Logger.i("getCalendarPrice--" + dataResponse.data);
                 }
             });
         }

@@ -8,6 +8,7 @@ import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
+import com.heaven.data.net.DataResponse;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -244,26 +245,18 @@ public class FastJsonnConverterFactory extends Converter.Factory {
 
         @Override
         public T convert(ResponseBody value) throws IOException {
-           byte[] oriByteData = value.bytes();
-            T result;
+            DataResponse response = new DataResponse();
+            byte[] oriByteData = value.bytes();
             try {
-                result = JSON.parseObject(oriByteData
-                        , fastJsonConfig.getCharset()
-                        , type
-                        , fastJsonConfig.getParserConfig()
-                        , fastJsonConfig.getParseProcess()
-                        , JSON.DEFAULT_PARSER_FEATURE
-                        , fastJsonConfig.getFeatures()
-                );
+                response.data = new String(oriByteData);
             } catch (Exception e) {
-                result = (T) new String(oriByteData);
-                Log.i("convert","JSON parse error: " + e.getMessage() + "-----return ori string data---" + result);
-//                throw new IOException("JSON parse error: " + e.getMessage(), e);
+                response.data = new String(oriByteData);
+                Log.i("convert", "JSON parse error: " + e.getMessage() + "-----return ori string data---" + response.data);
             } finally {
                 value.close();
             }
 
-            return result;
+            return (T) response;
         }
     }
 

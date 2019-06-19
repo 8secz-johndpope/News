@@ -395,9 +395,9 @@ public class DataCoreManager {
 
     private int requestHomeCount = 0;
     private void requestHomeConfig() {
-        long taskId = RxRepUtils.getConfigResult(dataSource.getNetApi(IApi.class).getImageConfig(BuildConfig.CONFIG_URL + "carousel.json"), configData -> {
-            if(!TextUtils.isEmpty(configData)) {
-                this.homeConfigData = JSON.parseObject(configData, HomeImageInfo.class);
+        long taskId = RxRepUtils.getResultInThred(dataSource.getNetApi(IApi.class).getImageConfig(BuildConfig.CONFIG_URL + "carousel.json"), configData -> {
+            if(!TextUtils.isEmpty(configData.data)) {
+                this.homeConfigData = JSON.parseObject(configData.data, HomeImageInfo.class);
                 dataSource.cacheData(DataSource.DISK, Constants.HOMECONFIG, homeConfigData);
                 notifyCoreDataChange(getCoreDataWrapper(true, HOME));
             } else {

@@ -59,14 +59,6 @@ public class RxRepUtils {
     }
 
     public static  <T> long getConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
-        long taskId = getTaskId();
-        Disposable disposable = resultFlowable.onErrorReturn(throwable -> (T) "").subscribeOn(Schedulers.io()).subscribe(t -> {
-            if (consumer != null) {
-                consumer.accept(t);
-                cancelTask(taskId);
-            }
-        });
-        reqTasks.put(taskId, disposable);
         return createTask(resultFlowable,consumer,ioThread()).startTask();
     }
 
