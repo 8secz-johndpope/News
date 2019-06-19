@@ -65,6 +65,8 @@ public class DataCoreManager {
     private Map<Observer<CoreDataWrapper>, MutableLiveData<CoreDataWrapper>> observers = new HashMap<>();
 
 
+    private NetManager mNetManager;
+    private IApi mApi;
     private DataSource dataSource;
 
     private CoreDataWrapper coreDataWrapper = new CoreDataWrapper();
@@ -96,8 +98,10 @@ public class DataCoreManager {
     private String groupCode;                               //大客户编码
     private String userMile;                                //用户可用里程
     private String userCouponCount;                         //优惠券数量
-    DataCoreManager(DataSource dataSource, Context context) {
+    DataCoreManager(DataSource dataSource,NetManager netManager, Context context) {
+        this.mNetManager = netManager;
         this.dataSource = dataSource;
+        this.mApi = dataSource.getNetApi(IApi.class);
         dataSource.runWorkThread(this::prepareData);
     }
 
@@ -252,7 +256,7 @@ public class DataCoreManager {
             Logger.i("RequestLogin---" + loginreqvo.toString());
             MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
 
-            Long loginTaskId = RxRepUtils.getResult(dataSource.getNetApi(IApi.class).login(bind), loginResponse -> {
+            Long loginTaskId = mNetManager.getResult(mApi.login(bind), loginResponse -> {
                 if (loginResponse.code == 0 && loginResponse.data != null && loginResponse.data._LOGIN_RESULT != null) {
                     if ("0000".equals(loginResponse.data._LOGIN_RESULT._CODE)) {
                         UserSecret userSecret = new UserSecret(userCount, pwd);
@@ -332,7 +336,7 @@ public class DataCoreManager {
         parameters._QUERY_MILES_CONDITION._CRM_MEMBER_ID = crmId;
         parameters._QUERY_MILES_CONDITION._CRM_LEVEL = phoenixCardLevel;
         CRMFrequentFlyerWebServiceImplServiceSoapBinding bind = new CRMFrequentFlyerWebServiceImplServiceSoapBinding("queryMiles",parameters);
-        RxRepUtils.getResult(dataSource.getNetApi(IApi.class).queryMile(bind), response -> {
+        mNetManager.getResult(mApi.queryMile(bind), response -> {
             if(response.code == 0 && response.data != null && response.data._QUERY_MILES_RESULT != null) {
                 if(response.data._QUERY_MILES_RESULT._FLIGHT_MILES != null) {
                     userMile = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._SURPLUS_MILES;
@@ -354,7 +358,7 @@ public class DataCoreManager {
         queryCoupon._USECOUPON_CNT_CONDITION = reqvo;
         UserCouponSearchWebServiceServiceSoapBinding bind = new UserCouponSearchWebServiceServiceSoapBinding("queryUseCouponCnt",queryCoupon);
 
-        RxRepUtils.getResult(dataSource.getNetApi(IApi.class).queryUserCouponCount(bind), response -> {
+        mNetManager.getResult(mApi.queryUserCouponCount(bind), response -> {
             if(response.code == 0 && response.data != null && response.data._USECOUPON_CNT_RESULT != null && "0".equals(response.data._USECOUPON_CNT_RESULT._OP_RESULT)) {
                 userCouponCount = response.data._USECOUPON_CNT_RESULT._COUNT;
                 coreDataWrapper.couponCount = userCouponCount;
@@ -371,7 +375,7 @@ public class DataCoreManager {
         walletInfoQuery walletInfoQuery = new walletInfoQuery();
         walletInfoQuery._WALLET_QUERY_CONDITION = walletQuery;
         EasyCardWebServiceServiceSoapBinding binding = new EasyCardWebServiceServiceSoapBinding("walletInfoQuery",walletInfoQuery);
-        RxRepUtils.getResult(dataSource.getNetApi(IApi.class).querywalletInfo(binding), response -> {
+        mNetManager.getResult(mApi.querywalletInfo(binding), response -> {
             if(response.code == 0 && response.data != null && response.data._WALLET_QUERY_RESULT != null) {
                 String ecardNum = response.data._WALLET_QUERY_RESULT._EASYCARD_COUNT;
                 coreDataWrapper.ecardNum = "0".equals(ecardNum)? "--" : ecardNum;
@@ -395,7 +399,7 @@ public class DataCoreManager {
 
     private int requestHomeCount = 0;
     private void requestHomeConfig() {
-        long taskId = RxRepUtils.getResultInThred(dataSource.getNetApi(IApi.class).getImageConfig(BuildConfig.CONFIG_URL + "carousel.json"), configData -> {
+        long taskId = mNetManager.getResultInThred(mApi.getImageConfig(BuildConfig.CONFIG_URL + "carousel.json"), configData -> {
             if(!TextUtils.isEmpty(configData.data)) {
                 this.homeConfigData = JSON.parseObject(configData.data, HomeImageInfo.class);
                 dataSource.cacheData(DataSource.DISK, Constants.HOMECONFIG, homeConfigData);

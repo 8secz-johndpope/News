@@ -49,8 +49,8 @@ public class CoreModule {
 
     @Provides
     @Singleton
-    DataCoreManager providerDataCore(DataSource dataSource, Context app) {
-        return new DataCoreManager(dataSource,app);
+    DataCoreManager providerDataCore(DataSource dataSource,NetManager netManager, Context app) {
+        return new DataCoreManager(dataSource,netManager,app);
     }
 
 
@@ -62,13 +62,13 @@ public class CoreModule {
 
     @Provides
     @Singleton
-    ConfigManager configManage(DataSource dataSource,Context app) {
-        return new ConfigManager(dataSource,app);
+    ConfigManager configManage(DataSource dataSource,NetManager netManager,Context app) {
+        return new ConfigManager(dataSource,netManager,app);
     }
 
     @Provides
     @Singleton
-    NetManager netManage(DataSource dataSource,Context app) {
+    NetManager netManager(DataSource dataSource,Context app) {
         return new NetManager(dataSource,app);
     }
 

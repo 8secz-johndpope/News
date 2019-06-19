@@ -22,6 +22,7 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.IApi;
+import com.heaven.news.engine.App;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.base.CityGroup;
 import com.heaven.news.ui.vm.model.base.CityInfo;
@@ -53,6 +54,8 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.inject.Inject;
+
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -76,6 +79,9 @@ public class ConfigManager {
     SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy年MM月");
 
     public boolean isRequestVersionFinish = false;
+
+    private IApi mApi;
+    private NetManager mNetManger;
     private ConfigWrapper configWrapper = new ConfigWrapper();
     private ConfigData configData;
     private Map<Observer<ConfigWrapper>, MutableLiveData<ConfigWrapper>> observers = new HashMap<>();
@@ -96,7 +102,9 @@ public class ConfigManager {
     private List<FestivalDay> calendarFestivals = new ArrayList<>();
     private HashMap<String, FestivalDayGroup> festivalGroupMap = new HashMap<>();
 
-    ConfigManager(DataSource dataSource, Context context) {
+    ConfigManager(DataSource dataSource,NetManager netManager, Context context) {
+        this.mApi = dataSource.getNetApi(IApi.class);
+        this.mNetManger = netManager;
         this.context = context;
         this.dataSource = dataSource;
         requestVersion();
@@ -234,7 +242,7 @@ public class ConfigManager {
     }
 
     private void requestVersion() {
-        RxRepUtils.getResultInThred(dataSource.getNetApi(IApi.class).getVersion(BuildConfig.CONFIG_URL + "config.json"), versionData -> {
+        mNetManger.getResultInThred(mApi.getVersion(BuildConfig.CONFIG_URL + "config.json"), versionData -> {
             isRequestVersionFinish = true;
             if (!TextUtils.isEmpty(versionData.data)) {
                 this.configData = JSON.parseObject(versionData.data, ConfigData.class);
@@ -256,7 +264,7 @@ public class ConfigManager {
     private long reqverTaskId;
 
     private void requestConfig() {
-        reqverTaskId = RxRepUtils.getResultInThred(dataSource.getNetApi(IApi.class).getConfig(BuildConfig.CONFIG_URL + "config.json"), configData -> {
+        reqverTaskId = mNetManger.getResultInThred(mApi.getConfig(BuildConfig.CONFIG_URL + "config.json"), configData -> {
             if (!TextUtils.isEmpty(configData.data)) {
                 this.configData = JSON.parseObject(configData.data, ConfigData.class);
                 ConfigWrapper dataWrapper = getConfigDataWrapper(true, VERSION);
@@ -273,7 +281,7 @@ public class ConfigManager {
     }
 
     private void requestCalendarFestival() {
-        reqverTaskId = RxRepUtils.getResultInThred(dataSource.getNetApi(IApi.class).getCalendarFestivalConfig(BuildConfig.CONFIG_URL + "calendar.json"), configData -> {
+        reqverTaskId = mNetManger.getResultInThred(mApi.getCalendarFestivalConfig(BuildConfig.CONFIG_URL + "calendar.json"), configData -> {
             if (!TextUtils.isEmpty(configData.data)) {
                 Type type = new TypeReference<List<FestivalDay>>() {
                 }.getType();
@@ -519,7 +527,7 @@ public class ConfigManager {
     private void reqNewCity() {
         queryCityList queryCityList = new queryCityList();
         CityListWebServiceServiceSoapBinding binding = new CityListWebServiceServiceSoapBinding("queryCityList", queryCityList);
-        RxRepUtils.getResultInThred(AppEngine.instance().getNetManager().getApi().searchNewCity(binding), response -> {
+        mNetManger.getResultInThred(mApi.searchNewCity(binding), response -> {
             if (response.code == 0 && response.data != null && response.data._CITY_LIST_VO != null && response.data._CITY_LIST_VO._CITY_LIST_VO != null) {
                 List<cityListVO> newCitys = response.data._CITY_LIST_VO._CITY_LIST_VO;
                 if (newCitys.size() > 0) {
