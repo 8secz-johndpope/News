@@ -58,10 +58,6 @@ public class RxRepUtils {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_THREAD;
     }
 
-    public static  <T> long getConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
-        return createTask(resultFlowable,consumer,ioThread()).startTask();
-    }
-
     public static  <T> long getResultInThred(Flowable<T> resultFlowable, Consumer<T> consumer) {
         return createTask(resultFlowable,consumer,ioThread()).startTask();
     }
