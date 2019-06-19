@@ -81,7 +81,7 @@ public class MainViewModel extends AbstractViewModel {
      * 航班查询
      * @param view 查询view
      */
-    public long flightSearch(View view,LifecycleOwner owner,Observer<DataResponse<FlightSearchDomesticResultVO>> observer) {
+    public long flightSearch(LifecycleOwner owner,Observer<DataResponse<FlightSearchDomesticResultVO>> observer) {
         Logger.i("flightSearch------");
         flightListLive.observe(owner,observer);
         List<tripInfoVO> flightLIst = new ArrayList<>();

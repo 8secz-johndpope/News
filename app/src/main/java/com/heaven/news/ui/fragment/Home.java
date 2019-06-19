@@ -233,7 +233,7 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
     }
 
     public void flightSearch(View view) {
-        long taskId = mViewModel.flightSearch(view, this, response -> {
+        long taskId = mViewModel.flightSearch(this, response -> {
             Logger.d(response);
             AppEngine.instance().getNetManager().disMassLoading();
         });
