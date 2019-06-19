@@ -87,8 +87,6 @@ public class SelectDateViewModel extends AbstractViewModel {
                             calendarPriceGroup.updateCalendarPrice(month);
                         }
                         targetList.add(index);
-                    } else {
-                        month.clearPrice();
                     }
                     index++;
                 }

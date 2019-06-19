@@ -1,6 +1,7 @@
 package com.heaven.news.ui.activity.base;
 
 import android.arch.lifecycle.Observer;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -40,6 +41,7 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
         return R.layout.date_select;
     }
 
+    private Handler handler = new Handler();
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
@@ -95,13 +97,13 @@ public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, Dat
             }
         });
         mViewBinding.swipeTarget.setAdapter(routeAdapter);
-        mViewModel.updatePrice(targetIndexs -> {
+        handler.postDelayed(() -> mViewModel.updatePrice(targetIndexs -> {
             if(targetIndexs != null) {
                 for(Integer index : targetIndexs) {
                     routeAdapter.notifyItemChanged(index);
                 }
             }
-        },routeAdapter.getDataList(), "", "", "");
+        },routeAdapter.getDataList(), "", "", ""),200);
     }
 
     @Override

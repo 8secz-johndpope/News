@@ -124,6 +124,9 @@ public class ConfigManager {
             if (currentDate.getYear() != localCurrentDate.year || currentDate.getMonth() != localCurrentDate.month || currentDate.getDay() != localCurrentDate.today) {
                 initCalendar(context);
             }
+            for(Month month : calendars) {
+                month.clearPrice();
+            }
         }
         return calendars;
     }
