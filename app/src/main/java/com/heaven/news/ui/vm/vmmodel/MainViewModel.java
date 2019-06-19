@@ -50,6 +50,7 @@ public class MainViewModel extends AbstractViewModel {
         noticeList = AppEngine.instance().getDataSource().getCacheEntity(DataSource.DISK,Constants.NOTICE);
         easyGoSearch = new EasyGoSearch();
         searchUserRoute(1);
+        mNetManager.showLoadingDialog(false);
     }
 
     /**
@@ -96,10 +97,12 @@ public class MainViewModel extends AbstractViewModel {
 
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
         long startNanos = System.nanoTime();
-        mNetManager.getResult(mApi.searchFlight(binding), response -> {
+        long taskId = mNetManager.getResult(mApi.searchFlight(binding), response -> {
             long stopNanos = System.nanoTime();
             Logger.i("mainmodel_time:proto" + TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
+            mNetManager.disMassLoading();
         });
+        mNetManager.showLoadingDialog(true,taskId);
 //        long startNanos1 = System.nanoTime();
 //        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, FlightApi.class).searchFlightXml(binding), response -> {
 //            long stopNanos1 = System.nanoTime();

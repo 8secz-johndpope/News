@@ -204,6 +204,7 @@ public class MainActivity extends BaseToolBarBindActivity<MainViewModel, MainBin
     public void onChanged(@Nullable DataCoreManager.CoreDataWrapper coreDataWrapper) {
         if(coreDataWrapper != null && DataCoreManager.LOGIN == coreDataWrapper.dataType) {
             updateData();
+            AppEngine.instance().getNetManager().disMassLoading();
         }
     }
 

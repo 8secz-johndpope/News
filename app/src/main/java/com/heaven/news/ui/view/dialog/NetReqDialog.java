@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.heaven.news.R;
 
+import io.reactivex.disposables.Disposable;
+
 /**
  * FileName: com.heaven.news.ui.view.dialog.NetReqDialog.java
  * author: Heaven
@@ -21,22 +23,27 @@ import com.heaven.news.R;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class NetReqDialog extends Dialog {
-    private Context mContext;
+    private long taskId;
     private ImageView waitingIcon;
-    public ImageView dismissBtn;
+    public ImageView cancel;
     private TextView noticeText;
 
-    public NetReqDialog(Context context) {
+    public NetReqDialog(Context context, Disposable disposable) {
         super(context, R.style.Theme_Dialog);
-
+        this.taskId = taskId;
         View view = LayoutInflater.from(context).inflate(R.layout.net_req_dialog, null);
-        waitingIcon = (ImageView) view.findViewById(R.id.waiting_icon);
-        dismissBtn = (ImageView) view.findViewById(R.id.dismissBtn);
-        noticeText = (TextView) view.findViewById(R.id.notice_text);
+        waitingIcon = view.findViewById(R.id.waiting_icon);
+        cancel = view.findViewById(R.id.cancel);
+        noticeText = view.findViewById(R.id.notice_text);
         setContentView(view);
         // 加载动画
-        Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.waiting_anim);
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.waiting_anim);
         waitingIcon.startAnimation(anim);
+        cancel.setOnClickListener(v -> {
+            if(disposable != null) {
+                disposable.dispose();
+            }
+        });
     }
 
     public void setNoticeText(String noticeText) {
@@ -44,6 +51,10 @@ public class NetReqDialog extends Dialog {
     }
 
     public void hideCancel() {
-        dismissBtn.setVisibility(View.GONE);
+        cancel.setVisibility(View.GONE);
+    }
+
+    public long getTaskId() {
+        return taskId;
     }
 }

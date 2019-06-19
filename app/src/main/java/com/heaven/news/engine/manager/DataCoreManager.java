@@ -255,7 +255,7 @@ public class DataCoreManager {
             Logger.i("RequestLogin---" + loginreqvo.toString());
             MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
 
-            Long loginTaskId = mNetManager.getResult(mApi.login(bind), loginResponse -> {
+            long taskId = mNetManager.getResult(mApi.login(bind), loginResponse -> {
                 if (loginResponse.code == 0 && loginResponse.data != null && loginResponse.data._LOGIN_RESULT != null) {
                     if ("0000".equals(loginResponse.data._LOGIN_RESULT._CODE)) {
                         UserSecret userSecret = new UserSecret(userCount, pwd);
