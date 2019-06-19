@@ -16,6 +16,7 @@ public class Month implements Serializable {
     public String title;
     public int year;
     public int month;
+    public int today;
 
     public List<Calendar> days = new ArrayList<>();
 
@@ -26,5 +27,13 @@ public class Month implements Serializable {
 
     public String getFormatDate() {
         return year + "-" + (month < 10 ? "0" + month : month);
+    }
+
+    public void clearPrice() {
+        if(days != null && days.size() > 0) {
+            for(Calendar day : days) {
+                day.price = "";
+            }
+        }
     }
 }

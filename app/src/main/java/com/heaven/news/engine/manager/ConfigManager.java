@@ -121,11 +121,11 @@ public class ConfigManager {
         } else {
             Calendar currentDate = DateUtil.getCurrentDate();
             Month localCurrentDate = calendars.get(0);
-            if (currentDate.getYear() != localCurrentDate.year || currentDate.getMonth() != localCurrentDate.month) {
+            if (currentDate.getYear() != localCurrentDate.year || currentDate.getMonth() != localCurrentDate.month || currentDate.getDay() != localCurrentDate.today) {
                 initCalendar(context);
             }
         }
-        return IoUtil.deepCopyList(calendars);
+        return calendars;
     }
 
     public CityInfo loadAllCity() {
@@ -199,6 +199,7 @@ public class ConfigManager {
         monthWrapper.title = monthFormat.format(date);
         monthWrapper.year = (CalendarUtil.getDate("yyyy", date));
         monthWrapper.month = (CalendarUtil.getDate("MM", date));
+        monthWrapper.today = currentDate.getDay();
         monthWrapper.addDayInMonth(CalendarUtil.initCalendarForMonthView(monthWrapper.year, monthWrapper.month, currentDate, 1));
         calendars.add(monthWrapper);
         Logger.i("initCalendar--" + monthWrapper.title);

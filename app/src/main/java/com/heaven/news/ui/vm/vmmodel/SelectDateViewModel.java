@@ -1,15 +1,20 @@
 package com.heaven.news.ui.vm.vmmodel;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
+import android.support.annotation.UiThread;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.heaven.base.ui.adapter.BaseAdapter;
 import com.heaven.base.ui.view.calendar.Calendar;
 import com.heaven.base.ui.view.calendar.Month;
+import com.heaven.data.net.DataResponse;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.vm.model.base.CalendarPriceInfo;
 import com.heaven.news.ui.vm.model.base.ConfigData;
+import com.neusoft.szair.model.flightproto.FlightSearchDomesticResultVO;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -31,13 +36,13 @@ import io.reactivex.functions.Consumer;
  */
 public class SelectDateViewModel extends AbstractViewModel {
     private HashMap<String, CalendarPriceGroup> priceGroupMap = new HashMap<>();
-
+    public final MutableLiveData<List<Integer>> targetListLive = new MutableLiveData<>();
     @Override
     public void initModel() {
 
     }
 
-    private void getCalendarPrice(BaseAdapter<Month> adapter,String depCity,String orgCity,String date) {
+    private void getCalendarPrice(List<Month> months,String depCity,String orgCity,String date) {
         ConfigData configData = AppEngine.instance().confManager().loadConfigData();
         if(configData != null && !TextUtils.isEmpty(configData.jgrlurl)) {
             String priceUrl = configData.jgrlurl;
@@ -56,7 +61,7 @@ public class SelectDateViewModel extends AbstractViewModel {
                         dataResponse.data = dataResponse.data.replace("jsoncallback(", "").replace(");", "");
                     }
                     ArrayList<CalendarPriceInfo> calendarpriceinfolist = (ArrayList<CalendarPriceInfo>) JSONObject.parseArray(dataResponse.data, CalendarPriceInfo.class);
-                    mergeCalendarPrice(adapter,calendarpriceinfolist );
+                    mergeCalendarPrice(months,calendarpriceinfolist );
                     Logger.i("getCalendarPrice--" + dataResponse.data);
                 }
             });
@@ -65,15 +70,15 @@ public class SelectDateViewModel extends AbstractViewModel {
 
 
     @SuppressLint("CheckResult")
-    private void mergeCalendarPrice(BaseAdapter<Month> adapter,ArrayList<CalendarPriceInfo> priceInfos) {
+    private void mergeCalendarPrice(List<Month> months,ArrayList<CalendarPriceInfo> priceInfos) {
         priceGroupMap.clear();
         if(priceInfos != null && priceInfos.size() > 0) {
             final Disposable subscribe = Flowable.fromIterable(priceInfos).groupBy(CalendarPriceInfo::getFlightDate).subscribe(calendarPriceInfoGroupedFlowable -> {
                 final Disposable subscribe1 = calendarPriceInfoGroupedFlowable.subscribe(new PriceGroupConsume(calendarPriceInfoGroupedFlowable.getKey()));
             });
-            List<Month> months = adapter.getDataList();
             if(months != null && months.size() > 0 && priceGroupMap.size() > 0) {
                 int index = 0;
+                List<Integer> targetList = new ArrayList<>();
                 for(Month month : months) {
                     String key = month.getFormatDate();
                     if(priceGroupMap.containsKey(key)) {
@@ -81,17 +86,23 @@ public class SelectDateViewModel extends AbstractViewModel {
                         if(calendarPriceGroup != null) {
                             calendarPriceGroup.updateCalendarPrice(month);
                         }
-                        adapter.notifyItemChanged(index);
+                        targetList.add(index);
+                    } else {
+                        month.clearPrice();
                     }
                     index++;
+                }
+                if(targetList.size() > 0) {
+                    targetListLive.postValue(targetList);
                 }
             }
 
         }
     }
 
-    public void updatePrice(BaseAdapter<Month> adapter,String depCity,String orgCity,String date) {
-        getCalendarPrice(adapter,"","","");
+    public void updatePrice(Observer<List<Integer>> observer,List<Month> months, String depCity, String orgCity, String date) {
+        targetListLive.observe(owner,observer);
+        getCalendarPrice(months,"","","");
     }
 
     private class CalendarPriceGroup{
