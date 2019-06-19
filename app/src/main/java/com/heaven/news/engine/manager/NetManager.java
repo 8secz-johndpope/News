@@ -6,10 +6,7 @@ import android.support.v4.util.LongSparseArray;
 import com.heaven.data.manager.DataSource;
 import com.heaven.data.net.DataResponse;
 import com.heaven.data.net.ExceptionHandle;
-import com.heaven.news.BuildConfig;
 import com.heaven.news.api.IApi;
-import com.heaven.news.engine.AppEngine;
-import com.heaven.news.utils.RxRepUtils;
 import com.orhanobut.logger.Logger;
 
 import io.reactivex.Flowable;
@@ -29,13 +26,15 @@ import io.reactivex.schedulers.Schedulers;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class NetManager {
-    private IApi api;
+    private IApi mApi;
+    private DataSource dataSource;
     NetManager(DataSource dataSource, Context context) {
-        api = dataSource.getNetApi(IApi.class);
+        this.dataSource = dataSource;
+        this.mApi = dataSource.getNetApi(IApi.class);
     }
 
-    private static long currentTaskId = 1000000000000000L;
-    private static LongSparseArray<Disposable> reqTasks = new LongSparseArray<>();
+    private long currentTaskId = 1000000000000000L;
+    private LongSparseArray<Disposable> reqTasks = new LongSparseArray<>();
 
     private synchronized long getTaskId() {
         currentTaskId += 10;
@@ -43,7 +42,7 @@ public class NetManager {
         return currentTaskId;
     }
 
-    private static final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER
+    private final FlowableTransformer<?, ?> M_IO_MAIN_TRANSFORMER
             = flowable -> flowable
             .onErrorReturn((Function<Throwable, DataResponse>) ExceptionHandle::handleException)
             .subscribeOn(Schedulers.io())
@@ -64,46 +63,38 @@ public class NetManager {
         return (FlowableTransformer<T, T>) M_IO_MAIN_TRANSFORMER_THREAD;
     }
 
-    public  <T> long getConfigResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
-        long taskId = getTaskId();
-        Disposable disposable = resultFlowable.onErrorReturn(throwable -> (T) "").subscribeOn(Schedulers.io()).subscribe(getTaskConsumer(taskId, consumer));
-        reqTasks.put(taskId, disposable);
-        return taskId;
-    }
-
     public  <T> long getResultInThred(Flowable<T> resultFlowable, Consumer<T> consumer) {
-        long taskId = getTaskId();
-        Disposable disposable = resultFlowable.compose(ioThread()).subscribe(getTaskConsumer(taskId, consumer));
-        reqTasks.put(taskId, disposable);
-        return taskId;
+        return createTask(resultFlowable,consumer,ioThread()).startTask();
     }
 
     public  <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
-        long taskId = getTaskId();
-        Disposable disposable = resultFlowable.compose(ioMain()).subscribe(getTaskConsumer(taskId, consumer));
-        reqTasks.put(taskId, disposable);
-        return taskId;
+        return createTask(resultFlowable,consumer,ioMain()).startTask();
     }
 
-    private <T> NetManager.TaskIdConsumer<T> getTaskConsumer(long taskId, Consumer<T> consumer) {
-        return new NetManager.TaskIdConsumer<T>(taskId, consumer);
+    private <T> NetManager.Task<T> createTask(Flowable<T> resultFlowable, Consumer<T> consumer, FlowableTransformer<T, T> transformer) {
+        return new NetManager.Task<>(resultFlowable,consumer,transformer);
     }
 
-    class TaskIdConsumer<T> implements Consumer<T> {
-        long taskid;
-        Consumer<T> resultConsumer;
-
-        TaskIdConsumer(long taskid, Consumer<T> consumer) {
-            this.taskid = taskid;
-            this.resultConsumer = consumer;
+    class Task<T> {
+        Flowable<T> resultFlowable;
+        Consumer<T> consumer;
+        FlowableTransformer<T, T> transformer;
+        Task(Flowable<T> resultFlowable, Consumer<T> consumer,FlowableTransformer<T, T> transformer) {
+            this.resultFlowable = resultFlowable;
+            this.consumer = consumer;
+            this.transformer = transformer;
         }
 
-        @Override
-        public void accept(T t) throws Exception {
-            if (resultConsumer != null) {
-                resultConsumer.accept(t);
-                cancelTask(taskid);
-            }
+        long startTask() {
+            long taskId = getTaskId();
+            Disposable disposable =  resultFlowable.compose(transformer).subscribe(t -> {
+                if (consumer != null) {
+                    consumer.accept(t);
+                    cancelTask(taskId);
+                }
+            });
+            reqTasks.put(taskId, disposable);
+            return taskId;
         }
     }
 
@@ -126,6 +117,6 @@ public class NetManager {
     }
 
     public IApi getApi() {
-        return api;
+        return mApi;
     }
 }

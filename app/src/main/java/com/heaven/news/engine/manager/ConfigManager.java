@@ -519,7 +519,7 @@ public class ConfigManager {
     private void reqNewCity() {
         queryCityList queryCityList = new queryCityList();
         CityListWebServiceServiceSoapBinding binding = new CityListWebServiceServiceSoapBinding("queryCityList", queryCityList);
-        RxRepUtils.getResultInThred(AppEngine.instance().api().searchNewCity(binding), response -> {
+        RxRepUtils.getResultInThred(AppEngine.instance().getNetManager().getApi().searchNewCity(binding), response -> {
             if (response.code == 0 && response.data != null && response.data._CITY_LIST_VO != null && response.data._CITY_LIST_VO._CITY_LIST_VO != null) {
                 List<cityListVO> newCitys = response.data._CITY_LIST_VO._CITY_LIST_VO;
                 if (newCitys.size() > 0) {

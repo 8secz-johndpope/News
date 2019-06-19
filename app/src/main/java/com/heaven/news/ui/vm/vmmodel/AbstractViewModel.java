@@ -1,8 +1,9 @@
 package com.heaven.news.ui.vm.vmmodel;
 
 import com.heaven.base.vm.BaseViewModel;
-import com.heaven.news.engine.manager.Api;
+import com.heaven.news.api.IApi;
 import com.heaven.news.engine.App;
+import com.heaven.news.engine.manager.NetManager;
 
 import javax.inject.Inject;
 
@@ -17,7 +18,10 @@ import javax.inject.Inject;
  */
 public abstract class AbstractViewModel extends BaseViewModel {
     @Inject
-    Api api;
+    IApi mApi;
+
+    @Inject
+    NetManager mNetManager;
 
     @Override
     public void inject() {

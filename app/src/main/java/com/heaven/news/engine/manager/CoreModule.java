@@ -3,6 +3,7 @@ package com.heaven.news.engine.manager;
 import android.content.Context;
 
 import com.heaven.data.net.DataRepo;
+import com.heaven.news.api.IApi;
 import com.heaven.news.engine.App;
 import com.heaven.news.net.convert.ConverterFactory;
 import com.heaven.data.manager.DataSource;
@@ -55,8 +56,8 @@ public class CoreModule {
 
     @Provides
     @Singleton
-    Api providerApi(DataSource dataSource) {
-        return new Api(dataSource);
+    IApi providerApi(DataSource dataSource) {
+        return dataSource.getNetApi(IApi.class);
     }
 
     @Provides

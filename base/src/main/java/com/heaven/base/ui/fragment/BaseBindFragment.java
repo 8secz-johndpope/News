@@ -38,7 +38,6 @@ public abstract class BaseBindFragment<VM extends BaseViewModel, B extends ViewD
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         if(mViewModel != null) {
-            mViewModel.inject();
             bindModel();
             mViewModel.initModel();
         }
@@ -56,7 +55,6 @@ public abstract class BaseBindFragment<VM extends BaseViewModel, B extends ViewD
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        bindModel();
     }
 
     /**
@@ -71,6 +69,7 @@ public abstract class BaseBindFragment<VM extends BaseViewModel, B extends ViewD
                 ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication());
                 mViewModel = (VM) ViewModelProviders.of(this, factory).get(clazz);
                 mViewModel.application = this.getActivity().getApplication();
+                mViewModel.inject();
             }
         }
     }

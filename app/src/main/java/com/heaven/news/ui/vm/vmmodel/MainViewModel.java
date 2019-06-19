@@ -63,7 +63,7 @@ public class MainViewModel extends AbstractViewModel {
         noticelist._PAGE_NO = 0;
         noticelist._PAGE_COUNT = 3;
         NoticeListWebServiceServiceSoapBinding binding = new NoticeListWebServiceServiceSoapBinding("queryNoticeList",noticelist);
-        RxRepUtils.getResult(AppEngine.instance().api().queryNoticeList(binding), dataResponse -> {
+        mNetManager.getResult(mApi.queryNoticeList(binding), dataResponse -> {
             if(dataResponse.code == 0 && dataResponse.data != null) {
                 if(dataResponse.data._NOTICE_INFO_LIST != null && dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST != null) {
                     noticeList = dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST;
@@ -98,7 +98,7 @@ public class MainViewModel extends AbstractViewModel {
 
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
         long startNanos = System.nanoTime();
-        RxRepUtils.getResult(AppEngine.instance().api().searchFlight(binding), response -> {
+        mNetManager.getResult(mApi.searchFlight(binding), response -> {
             long stopNanos = System.nanoTime();
             Logger.i("mainmodel_time:proto" + TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
         });
@@ -148,7 +148,7 @@ public class MainViewModel extends AbstractViewModel {
             }
             SearchFullchannelWebServiceImplServiceSoapBinding binding = new SearchFullchannelWebServiceImplServiceSoapBinding("searchByTrace",req);
 
-            RxRepUtils.getResult(AppEngine.instance().api().searchByTrace(binding), response -> {
+            mNetManager.getResult(mApi.searchByTrace(binding), response -> {
                 if(response.code == 0 && response.data != null && response.data._SEARCH_TRACE_RESULT != null) {
                     routeListLive.setValue(response.data._SEARCH_TRACE_RESULT._FULL_CHANNEL);
                 } else {

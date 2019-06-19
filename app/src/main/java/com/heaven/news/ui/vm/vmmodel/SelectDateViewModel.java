@@ -50,9 +50,9 @@ public class SelectDateViewModel extends AbstractViewModel {
                 priceUrl = priceUrl + "?dptcity=" + depCity + "&arrcity=" + orgCity + "&dptdate=" + date;
             }
 
-            priceUrl = "https://mobile.shenzhenair.com/develop/szairMobileWS/FetchCalendarPriceServlet?m=getCalendarPrice&dptcity=SZX&arrcity=PEK&dptdate=2019-06-05";
+            priceUrl = "https://mobile.shenzhenair.com/develop/szairMobileWS/FetchCalendarPriceServlet?m=getCalendarPrice&dptcity=SZX&arrcity=PEK&dptdate=2019-06-25";
 
-            RxRepUtils.getResultInThred(AppEngine.instance().api().getCalenarPrice(priceUrl), dataResponse -> {
+            mNetManager.getResultInThred(mApi.getCalenarPrice(priceUrl), dataResponse -> {
                 if(!TextUtils.isEmpty(dataResponse.data)) {
                     int index = dataResponse.data.indexOf("jsoncallback(");
                     if(index != -1){

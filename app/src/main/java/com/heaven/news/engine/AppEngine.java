@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
-import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.base.ui.SpUtil;
@@ -20,7 +19,6 @@ import com.heaven.data.fileworker.DownLoadWorker;
 import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.api.IApi;
-import com.heaven.news.engine.manager.Api;
 import com.heaven.news.engine.manager.ConfigManager;
 import com.heaven.news.engine.manager.CoreComponent;
 import com.heaven.news.engine.manager.DataCoreManager;
@@ -37,9 +35,6 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.tauth.Tencent;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.Stack;
@@ -81,9 +76,6 @@ public final class AppEngine {
     Lazy<DataSource> mDataSource;
     @Inject
     DataCoreManager mDataCore;
-    @Inject
-    Lazy<Api> mApi;
-
     /**
      * 后台服务中心
      */
@@ -289,11 +281,7 @@ public final class AppEngine {
         return mConfigManager;
     }
 
-    public IApi api() {
-        return mNetManager.getApi();
-    }
-
-    public NetManager getmNetManager() {
+    public NetManager getNetManager() {
         return mNetManager;
     }
 
