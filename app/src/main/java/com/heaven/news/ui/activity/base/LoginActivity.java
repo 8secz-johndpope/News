@@ -53,12 +53,15 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginViewModel, Login
         if(TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {
             return;
         }
-        AppEngine.instance().dataCore().login(count,passwords);
+        long taskId = AppEngine.instance().dataCore().login(count,passwords);
+        AppEngine.instance().getNetManager().showLoadingDialog(this,true,taskId);
+
     }
 
     @Override
     public void onChanged(@Nullable DataCoreManager.CoreDataWrapper coreDataWrapper) {
         if (coreDataWrapper != null && DataCoreManager.LOGIN == coreDataWrapper.dataType) {
+            AppEngine.instance().getNetManager().disMassLoading();
             if (coreDataWrapper.isSuccess) {
                 if (AppEngine.instance().dataCore().isLogin()) {
                     AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN, true);
