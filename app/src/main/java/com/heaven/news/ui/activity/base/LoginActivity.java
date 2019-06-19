@@ -2,6 +2,7 @@ package com.heaven.news.ui.activity.base;
 
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -42,6 +43,17 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginViewModel, Login
         mViewBinding.setLoginHandlers(this);
         mViewBinding.setViewModel(mViewModel);
         mViewBinding.setUserInfo(mViewModel.userInfo);
+    }
+
+    //    @Permission(value = Manifest.permission.READ_CONTACTS)
+//    @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    public void login(View view) {
+        String count = mViewModel.userInfo.count;
+        String passwords = mViewModel.userInfo.password;
+        if(TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {
+            return;
+        }
+        AppEngine.instance().dataCore().login(count,Constants.getPassword(passwords));
     }
 
     @Override
