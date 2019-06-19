@@ -110,7 +110,7 @@ public class DataCoreManager {
         homeConfigData = dataSource.getCacheEntity(DataSource.DISK, Constants.HOMECONFIG);
     }
 
-    public void initLoginData(queryRespVO userInfo) {
+    private void initLoginData(queryRespVO userInfo) {
         if (userInfo != null) {
             hasLogin = true;
             userAllInfo = userInfo;
