@@ -67,41 +67,34 @@ public class RxRepUtils {
             }
         });
         reqTasks.put(taskId, disposable);
-        return taskId;
+        return createTask(resultFlowable,consumer,ioThread()).startTask();
     }
 
     public static  <T> long getResultInThred(Flowable<T> resultFlowable, Consumer<T> consumer) {
-        long taskId = getTaskId();
-        Disposable disposable = resultFlowable.compose(ioThread()).subscribe(t -> {
-            if (consumer != null) {
-                consumer.accept(t);
-                cancelTask(taskId);
-            }
-        });
-        reqTasks.put(taskId, disposable);
-        return taskId;
+        return createTask(resultFlowable,consumer,ioThread()).startTask();
     }
 
     public static  <T> long getResult(Flowable<T> resultFlowable, Consumer<T> consumer) {
-        return createTask(resultFlowable,consumer).startTask();
+        return createTask(resultFlowable,consumer,ioMain()).startTask();
     }
 
-    private static <T> Task<T> createTask(Flowable<T> resultFlowable, Consumer<T> consumer) {
-        return new Task<T>(resultFlowable,consumer);
+    private static <T> Task<T> createTask(Flowable<T> resultFlowable, Consumer<T> consumer,FlowableTransformer<T, T> transformer) {
+        return new Task<>(resultFlowable,consumer,transformer);
     }
 
     static class Task<T> {
         Flowable<T> resultFlowable;
         Consumer<T> consumer;
-
-        Task(Flowable<T> resultFlowable, Consumer<T> consumer) {
+        FlowableTransformer<T, T> transformer;
+        Task(Flowable<T> resultFlowable, Consumer<T> consumer,FlowableTransformer<T, T> transformer) {
             this.resultFlowable = resultFlowable;
             this.consumer = consumer;
+            this.transformer = transformer;
         }
 
         long startTask() {
             long taskId = getTaskId();
-            Disposable disposable =  resultFlowable.compose(ioMain()).subscribe(t -> {
+            Disposable disposable =  resultFlowable.compose(transformer).subscribe(t -> {
                 if (consumer != null) {
                     consumer.accept(t);
                     cancelTask(taskId);
