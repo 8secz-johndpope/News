@@ -459,7 +459,7 @@ public class ConfigManager {
     }
 
 
-    private void initHotCity(List<String> hotCitys) {
+    private synchronized void initHotCity(List<String> hotCitys) {
         citysHot.clear();
         for (String sanCode : hotCitys) {
             cityListVO hotCity = getCityBySanCode(sanCode);
