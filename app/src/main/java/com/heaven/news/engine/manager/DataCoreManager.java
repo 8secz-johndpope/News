@@ -275,6 +275,7 @@ public class DataCoreManager {
                 } else {
                     notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
                 }
+                mNetManager.disMassLoading();
             });
         }
     }

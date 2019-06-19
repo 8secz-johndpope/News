@@ -1,5 +1,6 @@
 package com.heaven.news.ui.fragment;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseBindFragment;
 import com.heaven.base.ui.view.widget.banner.XBanner;
 import com.heaven.base.utils.ScreenUtil;
+import com.heaven.data.net.DataResponse;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
@@ -41,7 +43,9 @@ import com.heaven.news.ui.vm.model.base.ServiceInfo;
 import com.heaven.news.ui.vm.model.base.ImageInfo;
 import com.heaven.news.ui.vm.model.base.ServiceItem;
 import com.heaven.news.ui.vm.vmmodel.MainViewModel;
+import com.neusoft.szair.model.flightproto.FlightSearchDomesticResultVO;
 import com.neusoft.szair.model.noticelist.noticeInfoListVO;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +80,7 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
     @Override
     public void bindModel() {
         mViewBinding.setMainViewModel(mViewModel);
+        mViewBinding.setHomeFragment(this);
     }
 
     private void initTopBanner() {
@@ -225,6 +230,15 @@ public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implement
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    public void flightSearch(View view) {
+        long taskId = mViewModel.flightSearch(view, this, response -> {
+            Logger.d(response);
+            AppEngine.instance().getNetManager().disMassLoading();
+        });
+        AppEngine.instance().getNetManager().showLoadingDialog(getContext(),true,taskId);
+
     }
 
     private void updateBannerData() {

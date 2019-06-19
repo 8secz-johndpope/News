@@ -9,9 +9,11 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.heaven.data.manager.DataSource;
+import com.heaven.data.net.DataResponse;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.DataCoreManager;
+import com.neusoft.szair.model.flightproto.FlightSearchDomesticResultVO;
 import com.neusoft.szair.model.flightsearch.FlightSearchWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
 import com.neusoft.szair.model.flightsearch.flightSearchDomesticConditionVO;
@@ -44,13 +46,14 @@ public class MainViewModel extends AbstractViewModel {
     public EasyGoSearch easyGoSearch;
     private final MutableLiveData<List<noticeInfoListVO>> noticeListLive = new MutableLiveData<>();
     private final MutableLiveData<List<fullchannelVO>> routeListLive = new MutableLiveData<>();
+    public final MutableLiveData<DataResponse<FlightSearchDomesticResultVO>> flightListLive = new MutableLiveData<>();
+
 
     @Override
     public void initModel() {
         noticeList = AppEngine.instance().getDataSource().getCacheEntity(DataSource.DISK,Constants.NOTICE);
         easyGoSearch = new EasyGoSearch();
         searchUserRoute(1);
-        mNetManager.showLoadingDialog(false);
     }
 
     /**
@@ -78,9 +81,9 @@ public class MainViewModel extends AbstractViewModel {
      * 航班查询
      * @param view 查询view
      */
-    public void flightSearch(View view) {
+    public long flightSearch(View view,LifecycleOwner owner,Observer<DataResponse<FlightSearchDomesticResultVO>> observer) {
         Logger.i("flightSearch------");
-
+        flightListLive.observe(owner,observer);
         List<tripInfoVO> flightLIst = new ArrayList<>();
         tripInfoVO flightVo = new tripInfoVO();
         flightVo._ORG_CITY = "SZX";
@@ -98,16 +101,18 @@ public class MainViewModel extends AbstractViewModel {
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
         long startNanos = System.nanoTime();
         long taskId = mNetManager.getResult(mApi.searchFlight(binding), response -> {
+            flightListLive.setValue(response);
             long stopNanos = System.nanoTime();
             Logger.i("mainmodel_time:proto" + TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
-            mNetManager.disMassLoading();
         });
-        mNetManager.showLoadingDialog(true,taskId);
+
+
 //        long startNanos1 = System.nanoTime();
 //        RxRepUtils.instance().getResult(AppEngine.instance().api().getApi(BuildConfig.ROOT_URL, FlightApi.class).searchFlightXml(binding), response -> {
 //            long stopNanos1 = System.nanoTime();
 //            Logger.i("mainmodel_time:xml" + TimeUnit.NANOSECONDS.toMillis(stopNanos1 - startNanos1));
 //        });
+        return taskId;
     }
 
     public void searchUserRoute(int pageIndex) {

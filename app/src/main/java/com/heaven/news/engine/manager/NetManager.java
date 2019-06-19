@@ -105,27 +105,18 @@ public class NetManager {
 
     private NetReqDialog loading;
 
-    public void showLoadingDialog(boolean isCancel) {
+
+    public void showLoadingDialog(Context context,boolean isCancel,long taskId) {
         if (loading != null) {
             loading.dismiss();
         }
-        loading = new NetReqDialog(AppEngine.instance().getCurActivity(),null);
+        loading = new NetReqDialog(context,getTaskById(taskId));
         if(!isCancel) {
             loading.hideCancel();
         }
         loading.show();
     }
 
-    public void showLoadingDialog(boolean isCancel,long taskId) {
-        if (loading != null) {
-            loading.dismiss();
-        }
-        loading = new NetReqDialog(AppEngine.instance().getCurActivity(),getTaskById(taskId));
-        if(!isCancel) {
-            loading.hideCancel();
-        }
-        loading.show();
-    }
 
     public void disMassLoading() {
         if(loading != null) {
