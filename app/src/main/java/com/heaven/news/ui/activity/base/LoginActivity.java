@@ -53,7 +53,7 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginViewModel, Login
         if(TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {
             return;
         }
-        AppEngine.instance().dataCore().login(count,Constants.getPassword(passwords));
+        AppEngine.instance().dataCore().login(count,passwords);
     }
 
     @Override

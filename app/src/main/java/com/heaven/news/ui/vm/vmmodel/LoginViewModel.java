@@ -6,6 +6,7 @@ import android.databinding.Observable;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.heaven.data.manager.DataSource;
 import com.heaven.news.BR;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
@@ -28,7 +29,8 @@ public class LoginViewModel extends AbstractViewModel {
 
     @Override
     public void initModel() {
-        userInfo = new UserInfo();
+        UserInfo userSecret = AppEngine.instance().getDataSource().getCacheEntity(DataSource.DISK, Constants.USERINFO);
+        userInfo = userSecret != null? userSecret : new UserInfo();
         userInfo.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {

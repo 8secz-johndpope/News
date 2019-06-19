@@ -4,6 +4,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.heaven.news.BR;
+import com.heaven.news.consts.Constants;
+import com.neusoft.szair.model.memberbase.queryRespVO;
 import com.orhanobut.logger.Logger;
 
 import java.io.Serializable;
@@ -18,8 +20,23 @@ import java.io.Serializable;
  * @version V1.0 TODO <描述当前版本功能>
  */
 public class UserInfo extends BaseObservable implements Serializable {
+    private static final long serialVersionUID = 7719902835531801103L;
+    public String key;
+    public String userId;
     public  String count;
     public  String password;
+    public String secretPwd;
+    public queryRespVO userInfo;
+
+    public UserInfo(){
+
+    }
+
+    public UserInfo(String count, String password) {
+        this.count = count;
+        this.password = password;
+        this.secretPwd = Constants.getPassword(password);
+    }
 
     @Bindable
     public String getCount() {

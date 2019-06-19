@@ -13,8 +13,8 @@ import com.heaven.news.R;
 import com.heaven.news.api.IApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.ui.vm.model.base.HomeImageInfo;
+import com.heaven.news.ui.vm.model.base.UserInfo;
 import com.heaven.news.ui.vm.model.base.UserLoginInfo;
-import com.heaven.news.ui.vm.model.base.UserSecret;
 import com.neusoft.szair.model.easycardmodel.EasyCardWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.easycardmodel.WALLET_QUERY;
 import com.neusoft.szair.model.easycardmodel.walletInfoQuery;
@@ -229,9 +229,9 @@ public class DataCoreManager {
     public void autoLogin() {
         boolean isAutoLogin = dataSource.getSharePreBoolean(Constants.ISAUTOLOGIN);
         if (isAutoLogin) {
-            UserSecret userSecret = dataSource.getCacheEntity(DataSource.DISK, Constants.USERINFO);
-            if (userSecret != null && !TextUtils.isEmpty(userSecret.userCount) && !TextUtils.isEmpty(userSecret.pwd)) {
-                login(userSecret.userCount, userSecret.pwd);
+            UserInfo userSecret = dataSource.getCacheEntity(DataSource.DISK, Constants.USERINFO);
+            if (userSecret != null && !TextUtils.isEmpty(userSecret.count) && !TextUtils.isEmpty(userSecret.password)) {
+                login(userSecret.count, userSecret.password);
             }
         }
     }
@@ -243,7 +243,7 @@ public class DataCoreManager {
             loginNew login = new loginNew();
             loginReqVO loginreqvo = new loginReqVO();
             loginreqvo._USER_NAME = userCount;
-            loginreqvo._PASSWORD = pwd;
+            loginreqvo._PASSWORD = Constants.getPassword(pwd);;
 
             loginreqvo._APP_ID = SOAPConstants.APP_ID;
             loginreqvo._APP_IP = SOAPConstants.APP_IP;
@@ -258,14 +258,15 @@ public class DataCoreManager {
             long taskId = mNetManager.getResult(mApi.login(bind), loginResponse -> {
                 if (loginResponse.code == 0 && loginResponse.data != null && loginResponse.data._LOGIN_RESULT != null) {
                     if ("0000".equals(loginResponse.data._LOGIN_RESULT._CODE)) {
-                        UserSecret userSecret = new UserSecret(userCount, pwd);
-                        UserLoginInfo userLoginInfo = new UserLoginInfo(userCount, pwd);
-                        userLoginInfo.userInfo = loginResponse.data._LOGIN_RESULT;
+                        UserInfo userInfo = new UserInfo(userCount,pwd);
+                        userInfo.userInfo = loginResponse.data._LOGIN_RESULT;
+                        if(loginResponse.data._LOGIN_RESULT._VIP != null  && loginResponse.data._LOGIN_RESULT._VIP._VIPDETAILS != null) {
+                            userInfo.userId = loginResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._USER_ID;
+                        }
                         initLoginData(loginResponse.data._LOGIN_RESULT);
                         resetCoreDataWrapper();
                         notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
-                        dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userSecret);
-                        dataSource.cacheData(DataSource.DISK, userLoginInfo.key, userLoginInfo);
+                        dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userInfo);
                         requestMileData();
                         requestUserCouponNum();
                         requestWalletInfo();
