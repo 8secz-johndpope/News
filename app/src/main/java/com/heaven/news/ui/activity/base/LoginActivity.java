@@ -13,13 +13,13 @@ import com.heaven.news.databinding.LoginBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
-import com.heaven.news.ui.vm.vmmodel.LoginViewModel;
+import com.heaven.news.ui.model.vm.LoginVm;
 
 /**
  * @author heaven
  */
 @Route(path = RouterUrl.ROUTER_URL_LOGIN)
-public class LoginActivity extends BaseToolBarBindActivity<LoginViewModel, LoginBinding> implements Observer<UserManager.CoreDataWrapper> {
+public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding> implements Observer<UserManager.CoreDataWrapper> {
 
     @Override
     public void initView(View rootView) {

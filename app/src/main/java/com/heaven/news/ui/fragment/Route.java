@@ -18,8 +18,8 @@ import com.heaven.news.databinding.RouteBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.ui.decoration.RouteTimeDecorationn;
-import com.heaven.news.ui.vm.holder.RouteItemHolder;
-import com.heaven.news.ui.vm.vmmodel.MainViewModel;
+import com.heaven.news.ui.model.holder.RouteItemHolder;
+import com.heaven.news.ui.model.vm.MainVm;
 import com.neusoft.szair.model.fullchannel.fullchannelVO;
 
 /**
@@ -30,7 +30,7 @@ import com.neusoft.szair.model.fullchannel.fullchannelVO;
  *
  * @version V1.0 行程
  */
-public class Route extends BaseBindFragment<MainViewModel, RouteBinding> implements OnRefreshListener, OnLoadMoreListener, Observer<UserManager.CoreDataWrapper> {
+public class Route extends BaseBindFragment<MainVm, RouteBinding> implements OnRefreshListener, OnLoadMoreListener, Observer<UserManager.CoreDataWrapper> {
     BaseAdapter<fullchannelVO> routeAdapter;
 
     Handler handler = new Handler();

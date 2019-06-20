@@ -12,7 +12,7 @@ import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.GuideBinding;
 import com.heaven.news.ui.adapter.CardTransformer;
 import com.heaven.news.ui.adapter.GuidePageAdapter;
-import com.heaven.news.ui.vm.vmmodel.GuideNewModel;
+import com.heaven.news.ui.model.vm.GuideNewVm;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @version V1.0 新用户首次进入的引导页
  */
 @Route(path = RouterUrl.ROUTER_URL_GUIDE)
-public class GuideActivity extends BaseBindActivity<GuideNewModel, GuideBinding> {
+public class GuideActivity extends BaseBindActivity<GuideNewVm, GuideBinding> {
     @Override
     public int initLayoutResId() {
         return R.layout.guide;

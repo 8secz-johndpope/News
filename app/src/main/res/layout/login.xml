@@ -6,11 +6,11 @@
     <data>
         <variable
             name="viewModel"
-            type="com.heaven.news.ui.vm.vmmodel.LoginViewModel" />
+            type="com.heaven.news.ui.model.vm.LoginVm" />
 
         <variable
             name="userInfo"
-            type="com.heaven.news.ui.vm.model.base.UserInfo" />
+            type="com.heaven.news.ui.model.bean.base.UserInfo" />
 
         <variable
             name="loginHandlers"

@@ -5,11 +5,11 @@
     <data>
         <variable
             name="viewModel"
-            type="com.heaven.news.ui.vm.vmmodel.MainViewModel" />
+            type="com.heaven.news.ui.model.vm.MainVm" />
 
         <variable
             name="search"
-            type="com.heaven.news.ui.vm.vmmodel.MainViewModel.EasyGoSearch" />
+            type="com.heaven.news.ui.model.vm.MainVm.EasyGoSearch" />
 
     </data>
 

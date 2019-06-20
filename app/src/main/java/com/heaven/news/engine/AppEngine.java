@@ -25,7 +25,7 @@ import com.heaven.news.engine.manager.NetManager;
 import com.heaven.news.ui.activity.base.MainActivity;
 import com.heaven.news.ui.activity.base.Welcome;
 import com.heaven.news.utils.CrashHandler;
-import com.heaven.news.ui.vm.model.base.UserLoginInfo;
+import com.heaven.news.ui.model.bean.base.UserLoginInfo;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;

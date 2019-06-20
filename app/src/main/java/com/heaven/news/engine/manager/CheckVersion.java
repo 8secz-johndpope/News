@@ -4,8 +4,8 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.AppInfo;
-import com.heaven.news.ui.vm.model.base.VersionUpdate;
-import com.heaven.news.ui.vm.model.base.Version;
+import com.heaven.news.ui.model.bean.base.VersionUpdate;
+import com.heaven.news.ui.model.bean.base.Version;
 
 /**
  * FileName: com.heaven.news.engine.manager.CheckVersion.java

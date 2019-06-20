@@ -2,7 +2,7 @@ package com.heaven.news.engine.manager;
 
 import com.heaven.news.engine.App;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.ui.vm.vmmodel.AbstractViewModel;
+import com.heaven.news.ui.model.vm.AbstractVm;
 
 import javax.inject.Singleton;
 
@@ -27,7 +27,7 @@ public interface CoreComponent {
         CoreComponent build();
     }
 
-    void inject(AbstractViewModel viewModel);
+    void inject(AbstractVm viewModel);
 
     void inject(AppEngine appEngine);
 }

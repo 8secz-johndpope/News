@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.heaven.news.ui.vm.vmmodel.MainViewModel" />
+            type="com.heaven.news.ui.model.vm.MainVm" />
 
         <variable
             name="LoginHandlers"

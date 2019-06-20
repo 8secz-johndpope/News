@@ -24,23 +24,23 @@ import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.ui.view.RecyclerViewDivider;
-import com.heaven.news.ui.vm.holder.HomeBookGo;
-import com.heaven.news.ui.vm.holder.HomeBookGoBack;
-import com.heaven.news.ui.vm.holder.HomeBookMult;
-import com.heaven.news.ui.vm.holder.HomeHotHolder;
-import com.heaven.news.ui.vm.holder.HomeHotTitleHoler;
-import com.heaven.news.ui.vm.holder.HomeNoticeHolder;
+import com.heaven.news.ui.model.holder.HomeBookGo;
+import com.heaven.news.ui.model.holder.HomeBookGoBack;
+import com.heaven.news.ui.model.holder.HomeBookMult;
+import com.heaven.news.ui.model.holder.HomeHotHolder;
+import com.heaven.news.ui.model.holder.HomeHotTitleHoler;
+import com.heaven.news.ui.model.holder.HomeNoticeHolder;
 import com.heaven.news.ui.decoration.ItemDecoration;
-import com.heaven.news.ui.vm.model.base.BookData;
-import com.heaven.news.ui.vm.model.base.HomeHotTitle;
-import com.heaven.news.ui.vm.holder.HomeRecHolder;
-import com.heaven.news.ui.vm.holder.HomeServiceHolder;
-import com.heaven.news.ui.vm.model.base.HomeService;
-import com.heaven.news.ui.vm.model.base.HomeImageInfo;
-import com.heaven.news.ui.vm.model.base.ServiceInfo;
-import com.heaven.news.ui.vm.model.base.ImageInfo;
-import com.heaven.news.ui.vm.model.base.ServiceItem;
-import com.heaven.news.ui.vm.vmmodel.MainViewModel;
+import com.heaven.news.ui.model.bean.base.BookData;
+import com.heaven.news.ui.model.bean.base.HomeHotTitle;
+import com.heaven.news.ui.model.holder.HomeRecHolder;
+import com.heaven.news.ui.model.holder.HomeServiceHolder;
+import com.heaven.news.ui.model.bean.base.HomeService;
+import com.heaven.news.ui.model.bean.base.HomeImageInfo;
+import com.heaven.news.ui.model.bean.base.ServiceInfo;
+import com.heaven.news.ui.model.bean.base.ImageInfo;
+import com.heaven.news.ui.model.bean.base.ServiceItem;
+import com.heaven.news.ui.model.vm.MainVm;
 import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
 import com.neusoft.szair.model.flightsearch.flightSearchDomesticConditionVO;
 import com.neusoft.szair.model.flightsearch.tripInfoVO;
@@ -58,7 +58,7 @@ import java.util.List;
  *
  * @version V1.0 首页
  */
-public class Home extends BaseBindFragment<MainViewModel, HomeBinding> implements Observer<UserManager.CoreDataWrapper> {
+public class Home extends BaseBindFragment<MainVm, HomeBinding> implements Observer<UserManager.CoreDataWrapper> {
     BaseAdapter<ServiceInfo> mServiceAdapter;
     BaseMultAdapter recommendAdapter;
     @Override

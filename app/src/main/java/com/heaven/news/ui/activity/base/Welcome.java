@@ -13,8 +13,8 @@ import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.ConfigManager;
 import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
-import com.heaven.news.ui.vm.model.base.VersionUpdate;
-import com.heaven.news.ui.vm.vmmodel.WelecomModel;
+import com.heaven.news.ui.model.bean.base.VersionUpdate;
+import com.heaven.news.ui.model.vm.WelecomVm;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -26,7 +26,7 @@ import com.orhanobut.logger.Logger;
  * @author heaven
  * @version V1.0 欢迎页
  */
-public class Welcome extends BaseToolBarBindActivity<WelecomModel, WelcomeBinding> implements Observer<ConfigManager.ConfigWrapper> {
+public class Welcome extends BaseToolBarBindActivity<WelecomVm, WelcomeBinding> implements Observer<ConfigManager.ConfigWrapper> {
 
     @Override
     public int iniTitleBarResId() {

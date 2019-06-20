@@ -21,12 +21,12 @@ import com.heaven.news.databinding.EasygoBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.ui.view.RecyclerViewDivider;
-import com.heaven.news.ui.vm.holder.EasyGoServiceHolder;
-import com.heaven.news.ui.vm.model.base.EasyGoService;
-import com.heaven.news.ui.vm.model.base.HomeImageInfo;
-import com.heaven.news.ui.vm.model.base.ImageInfo;
-import com.heaven.news.ui.vm.model.base.ServiceInfo;
-import com.heaven.news.ui.vm.vmmodel.MainViewModel;
+import com.heaven.news.ui.model.holder.EasyGoServiceHolder;
+import com.heaven.news.ui.model.bean.base.EasyGoService;
+import com.heaven.news.ui.model.bean.base.HomeImageInfo;
+import com.heaven.news.ui.model.bean.base.ImageInfo;
+import com.heaven.news.ui.model.bean.base.ServiceInfo;
+import com.heaven.news.ui.model.vm.MainVm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ import java.util.List;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class EasyGo extends BaseBindFragment<MainViewModel,EasygoBinding> implements  Observer<UserManager.CoreDataWrapper> {
+public class EasyGo extends BaseBindFragment<MainVm,EasygoBinding> implements  Observer<UserManager.CoreDataWrapper> {
     BaseAdapter<ImageInfo> mBannerAdapter;
 
     @Override

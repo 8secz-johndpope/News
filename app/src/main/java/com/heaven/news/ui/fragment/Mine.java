@@ -11,7 +11,7 @@ import com.heaven.news.R;
 import com.heaven.news.databinding.MineBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
-import com.heaven.news.ui.vm.vmmodel.MainViewModel;
+import com.heaven.news.ui.model.vm.MainVm;
 
 /**
  * FileName: com.heaven.news.ui.fragment.Home.java
@@ -21,7 +21,7 @@ import com.heaven.news.ui.vm.vmmodel.MainViewModel;
  *
  * @version V1.0 TODO <描述当前版本功能>
  */
-public class Mine extends BaseBindFragment<MainViewModel,MineBinding> implements Observer<UserManager.CoreDataWrapper> {
+public class Mine extends BaseBindFragment<MainVm,MineBinding> implements Observer<UserManager.CoreDataWrapper> {
 
     @Override
     public void bindModel() {

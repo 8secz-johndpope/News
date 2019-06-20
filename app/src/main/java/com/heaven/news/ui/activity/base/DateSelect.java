@@ -1,8 +1,6 @@
 package com.heaven.news.ui.activity.base;
 
-import android.arch.lifecycle.Observer;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -19,8 +17,8 @@ import com.heaven.news.databinding.DateSelectBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.decoration.StickySectionDecoration;
-import com.heaven.news.ui.vm.holder.CalendarMonthItemHolder;
-import com.heaven.news.ui.vm.vmmodel.SelectDateViewModel;
+import com.heaven.news.ui.model.holder.CalendarMonthItemHolder;
+import com.heaven.news.ui.model.vm.SelectDateVm;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -35,7 +33,7 @@ import java.util.List;
  * @version V1.0 TODO <描述当前版本功能>
  */
 @Route(path = RouterUrl.ROUTER_URL_DATE)
-public class DateSelect extends BaseToolBarBindActivity<SelectDateViewModel, DateSelectBinding> implements OnRefreshListener, OnLoadMoreListener {
+public class DateSelect extends BaseToolBarBindActivity<SelectDateVm, DateSelectBinding> implements OnRefreshListener, OnLoadMoreListener {
     @Override
     public int initLayoutResId() {
         return R.layout.date_select;

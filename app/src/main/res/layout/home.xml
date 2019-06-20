@@ -7,7 +7,7 @@
 
         <variable
             name="mainViewModel"
-            type="com.heaven.news.ui.vm.vmmodel.MainViewModel" />
+            type="com.heaven.news.ui.model.vm.MainVm" />
 
         <variable
             name="homeFragment"

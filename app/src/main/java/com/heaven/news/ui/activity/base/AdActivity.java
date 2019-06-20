@@ -13,7 +13,7 @@ import com.heaven.news.consts.Constants;
 import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.AdBinding;
 import com.heaven.news.engine.AppEngine;
-import com.heaven.news.ui.vm.model.base.AdInfo;
+import com.heaven.news.ui.model.bean.base.AdInfo;
 
 /**
  * FileName: com.heaven.news.ui.activity.base.AdActivity.java

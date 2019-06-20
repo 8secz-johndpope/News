@@ -3,9 +3,7 @@ package com.heaven.news.ui.activity.base;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -19,18 +17,14 @@ import com.heaven.news.databinding.SelectCityBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.decoration.StickySectionDecoration;
-import com.heaven.news.ui.vm.holder.CityGroupItemHolder;
-import com.heaven.news.ui.vm.holder.CityIndexItemHolder;
-import com.heaven.news.ui.vm.holder.CityItemHolder;
-import com.heaven.news.ui.vm.model.base.CityGroup;
-import com.heaven.news.ui.vm.model.base.CityInfo;
-import com.heaven.news.ui.vm.vmmodel.SelectCityViewModel;
+import com.heaven.news.ui.model.holder.CityGroupItemHolder;
+import com.heaven.news.ui.model.holder.CityIndexItemHolder;
+import com.heaven.news.ui.model.bean.base.CityGroup;
+import com.heaven.news.ui.model.bean.base.CityInfo;
+import com.heaven.news.ui.model.vm.SelectCityVm;
 import com.neusoft.szair.model.city.cityListVO;
 import com.orhanobut.logger.Logger;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -43,7 +37,7 @@ import java.util.List;
  * @version V1.0 TODO <描述当前版本功能>
  */
 @Route(path = RouterUrl.ROUTER_URL_CITY)
-public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityViewModel, SelectCityBinding> implements OnRefreshListener, OnLoadMoreListener {
+public class SelectCityActivity extends BaseToolBarBindActivity<SelectCityVm, SelectCityBinding> implements OnRefreshListener, OnLoadMoreListener {
     Handler handler = new Handler();
 
     @Override

@@ -27,7 +27,7 @@ import com.heaven.news.ui.fragment.Home;
 import com.heaven.news.ui.fragment.Mine;
 import com.heaven.news.ui.fragment.Phoenix;
 import com.heaven.news.ui.fragment.Route;
-import com.heaven.news.ui.vm.vmmodel.MainViewModel;
+import com.heaven.news.ui.model.vm.MainVm;
 import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -47,7 +47,7 @@ import io.reactivex.disposables.Disposable;
  * @version V1.0 TODO <描述当前版本功能>
  */
 @com.alibaba.android.arouter.facade.annotation.Route(path= RouterUrl.ROUTER_URL_MAIN)
-public class MainActivity extends BaseToolBarBindActivity<MainViewModel, MainBinding> implements Observer<UserManager.CoreDataWrapper>,ViewPager.OnPageChangeListener, View.OnClickListener {
+public class MainActivity extends BaseToolBarBindActivity<MainVm, MainBinding> implements Observer<UserManager.CoreDataWrapper>,ViewPager.OnPageChangeListener, View.OnClickListener {
     private List<Fragment> mainList = new ArrayList<>();
 
     @Override
