@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_15dp"
         android:layout_centerVertical="true"
-        android:text="切换语言"
         android:textColor="@color/black"
         />
 

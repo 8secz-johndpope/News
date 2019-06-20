@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.heaven.base.ui.adapter.BaseAdapter;
+import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.news.R;
 import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.SettingBinding;
@@ -53,6 +54,17 @@ public class SettingActivity extends BaseToolBarBindActivity<SettingVm, SettingB
         BaseAdapter<SettingItem> routeAdapter = new BaseAdapter<>(this,settings.settingItems);
         mViewBinding.settingList.setAdapter(routeAdapter);
         routeAdapter.register(new SettingItemHolder(SettingItem.class, R.layout.setting_item));
+        routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<SettingItem>() {
+            @Override
+            public void onItemClick(View view, BaseViewHolder holder, SettingItem t) {
+
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, BaseViewHolder holder, SettingItem t) {
+                return false;
+            }
+        });
     }
 
 }

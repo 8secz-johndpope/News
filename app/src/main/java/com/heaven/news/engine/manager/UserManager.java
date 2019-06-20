@@ -12,6 +12,7 @@ import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.IApi;
 import com.heaven.news.consts.Constants;
+import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.model.bean.base.HomeImageInfo;
 import com.heaven.news.ui.model.bean.base.UserInfo;
 import com.heaven.news.ui.model.bean.base.UserLoginInfo;
@@ -271,6 +272,7 @@ public class UserManager {
                         requestMileData();
                         requestUserCouponNum();
                         requestWalletInfo();
+                        AppEngine.instance().confManager().reqSetingState();
                     } else {
                         notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
                     }

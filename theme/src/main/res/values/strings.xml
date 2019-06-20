@@ -108,6 +108,12 @@
 
     <string name="loading_ad">实时优惠资讯，\n关注“深圳航空”微信公众号</string>
 
+    <string name="setting_switch_language">切换语言</string>
+    <string name="setting_bar_notify">通知栏提醒</string>
+    <string name="setting_switch_sound">声音</string>
+    <string name="setting_switch_push_message">消息推送</string>
+    <string name="setting_version">版本信息</string>
+
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>
 

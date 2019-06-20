@@ -22,6 +22,7 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.IApi;
+import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.model.bean.base.SettingItem;
 import com.heaven.news.ui.model.bean.base.CityGroup;
 import com.heaven.news.ui.model.bean.base.CityInfo;
@@ -37,6 +38,10 @@ import com.heaven.news.utils.IoUtil;
 import com.neusoft.szair.model.city.CityListWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.city.cityListVO;
 import com.neusoft.szair.model.city.queryCityList;
+import com.neusoft.szair.model.setting.AppSettingWebServiceImplServiceSoapBinding;
+import com.neusoft.szair.model.setting.appSettingReqVO;
+import com.neusoft.szair.model.setting.operateSetting;
+import com.neusoft.szair.model.soap.SOAPConstants;
 import com.orhanobut.logger.Logger;
 
 import java.io.InputStream;
@@ -109,6 +114,7 @@ public class ConfigManager {
         dataSource.runWorkThread(this::initLocalCity);
         dataSource.runWorkThread(() -> initCalendar(context));
         dataSource.runWorkThread(() -> loadLocalService(context));
+
     }
 
 
@@ -248,6 +254,7 @@ public class ConfigManager {
             InputStream allServiceIn = context.getResources().openRawResource(R.raw.setting);
             Reader readerAll = new InputStreamReader(allServiceIn);
             settingServie = gson.fromJson(readerAll, SettingService.class);
+            reqSetingState();
         }
         return settingServie;
     }
@@ -545,6 +552,37 @@ public class ConfigManager {
                     try {
                         groupCityBy(newCitys);
                     } finally {
+                    }
+                }
+            }
+        });
+    }
+
+    public void reqSetingState() {
+        operateSetting operatesetting = new operateSetting();
+        appSettingReqVO reqParm = new appSettingReqVO();
+        operatesetting._APP_SETTING_PARAM = reqParm;
+        reqParm._OPERATE = "0";
+        reqParm._APP_ID = SOAPConstants.APP_ID;
+        reqParm._APP_IP = SOAPConstants.APP_IP;
+        if(AppEngine.instance().dataCore().isLogin()) {
+            reqParm._UUID = AppEngine.instance().dataCore().getCoreDataWrapper().userId;
+        }
+        AppSettingWebServiceImplServiceSoapBinding binding = new AppSettingWebServiceImplServiceSoapBinding("operateSetting",operatesetting);
+        mNetManger.getResultInThred(mApi.querySettingSwitchState(binding),response ->{
+            if (response.code == 0 && response.data != null && response.data._APP_SETTING_RESULT != null) {
+                boolean msgState = "1".equals(response.data._APP_SETTING_RESULT._MSG_RECORD);
+                boolean barState = "1".equals(response.data._APP_SETTING_RESULT._NOTICE_BAR);
+                boolean soundState = "1".equals(response.data._APP_SETTING_RESULT._SOUND);
+                if(settingServie != null && settingServie.settingItems != null) {
+                    for(SettingItem item : settingServie.settingItems) {
+                        if(SettingItem.SWITCH_BAR_NOTIFY == item.type) {
+                            item.isOpen = barState;
+                        } else if(SettingItem.SWITCH_SOUND == item.type) {
+                            item.isOpen = soundState;
+                        } else if(SettingItem.SWITCH_PUSH_MESSAGE == item.type) {
+                            item.isOpen = msgState;
+                        }
                     }
                 }
             }

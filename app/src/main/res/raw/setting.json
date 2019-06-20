@@ -3,27 +3,27 @@
     {
       "type": 0,
       "isOpen": false,
-      "name": "@string/flight_check_in"
+      "name": "@string/setting_switch_language"
     },
     {
       "type": 1,
       "isOpen": false,
-      "name": "@string/flight_check_in"
+      "name": "@string/setting_bar_notify"
     },
     {
       "type": 2,
       "isOpen": false,
-      "name": "@string/flight_check_in"
+      "name": "@string/setting_switch_sound"
     },
     {
       "type": 3,
       "isOpen": false,
-      "name": "@string/flight_check_in"
+      "name": "@string/setting_switch_push_message"
     },
     {
       "type": 4,
       "isOpen": false,
-      "name": "@string/flight_check_in"
+      "name": "@string/setting_version"
     }
   ]
 }
