@@ -22,12 +22,14 @@ import com.heaven.data.manager.DataSource;
 import com.heaven.news.BuildConfig;
 import com.heaven.news.R;
 import com.heaven.news.api.IApi;
+import com.heaven.news.ui.model.bean.base.SettingItem;
 import com.heaven.news.ui.model.bean.base.CityGroup;
 import com.heaven.news.ui.model.bean.base.CityInfo;
 import com.heaven.news.ui.model.bean.base.ConfigData;
 import com.heaven.news.ui.model.bean.base.EasyGoService;
 import com.heaven.news.ui.model.bean.base.HomeService;
 import com.heaven.news.ui.model.bean.base.PhoenixService;
+import com.heaven.news.ui.model.bean.base.SettingService;
 import com.heaven.news.ui.model.bean.base.TimeStamp;
 import com.heaven.news.ui.model.bean.base.VersionUpdate;
 import com.heaven.news.utils.DateUtil;
@@ -84,6 +86,7 @@ public class ConfigManager {
     private HomeService homeService;//首页服务
     private EasyGoService easyGoService;//易行服务
     private PhoenixService phoenixService;//凤凰知音服务
+    private SettingService settingServie;//设置服务
     private cityListVO currentCity;
     private CityInfo cityInfo = new CityInfo();
     private HashMap<String, CityGroup> cityGroupChMap = new HashMap<>();
@@ -113,6 +116,7 @@ public class ConfigManager {
         loadHomeService(context);
         loadEasyGoService(context);
         loadPhoenixService(context);
+        loadSettingData(context);
     }
 
     public List<Month> loadMonth() {
@@ -236,6 +240,16 @@ public class ConfigManager {
             phoenixService = gson.fromJson(readerAll, PhoenixService.class);
         }
         return phoenixService;
+    }
+
+    public SettingService loadSettingData(Context context) {
+        if(settingServie == null) {
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+            InputStream allServiceIn = context.getResources().openRawResource(R.raw.setting);
+            Reader readerAll = new InputStreamReader(allServiceIn);
+            settingServie = gson.fromJson(readerAll, SettingService.class);
+        }
+        return settingServie;
     }
 
     private void requestVersion() {

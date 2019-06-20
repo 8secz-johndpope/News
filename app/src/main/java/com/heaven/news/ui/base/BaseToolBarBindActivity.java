@@ -11,10 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.base.ui.activity.BaseBindActivity;
 import com.heaven.base.ui.view.SystemBarTintManager;
 import com.heaven.base.vm.BaseViewModel;
 import com.heaven.news.R;
+import com.heaven.news.consts.RouterUrl;
 
 import java.util.ArrayList;
 
@@ -95,7 +97,7 @@ public abstract class BaseToolBarBindActivity<VM extends BaseViewModel, B extend
     }
 
     private void gotoSetting() {
-
+        ARouter.getInstance().build(RouterUrl.ROUTER_URL_SETTING).navigation();
     }
 
     private void gotoMessage() {

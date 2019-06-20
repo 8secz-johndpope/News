@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/_15dp"
+    android:paddingRight="@dimen/_15dp"
+    android:paddingTop="@dimen/_8dp"
+    android:paddingBottom="@dimen/_8dp"
+    >
+
+    <TextView
+        android:id="@+id/setting_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="切换语言"
+        android:textColor="@color/black"
+        />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/setting_item_name"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        >
+
+        <CheckBox
+            android:id="@+id/switch_button"
+            style="@style/MessageCheckBoxTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:checked="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/go_next"
+            android:layout_centerVertical="true"
+            android:src="@drawable/go_arrow_gray"/>
+
+
+    </RelativeLayout>
+</RelativeLayout>
