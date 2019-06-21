@@ -3,7 +3,9 @@ package com.heaven.news.ui.activity.base;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.heaven.news.R;
@@ -26,11 +28,7 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
         super.initView(rootView);
         showBackTitleBarTitle(R.string.welcom_login);
         AppEngine.instance().dataCore().registerDataTypeObaserver(this, this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        initTab();
     }
 
     @Override
@@ -43,6 +41,19 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
         mViewBinding.setLoginHandlers(this);
         mViewBinding.setViewModel(mViewModel);
         mViewBinding.setUserInfo(mViewModel.userInfo);
+    }
+
+
+    private void initTab() {
+        final String[] topBarList = getResources().getStringArray(R.array.login_item_name);
+        if(topBarList.length > 0) {
+            for(String tabName : topBarList) {
+                View barItem = LayoutInflater.from(this).inflate(R.layout.login_tab_item, null);
+                TextView barName = barItem.findViewById(R.id.bottom_bar_name);
+                barName.setText(tabName);
+                mViewBinding.loginTab.addTab(mViewBinding.loginTab.newTab().setCustomView(barItem));
+            }
+        }
     }
 
     //    @Permission(value = Manifest.permission.READ_CONTACTS)
