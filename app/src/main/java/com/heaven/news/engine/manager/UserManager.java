@@ -14,6 +14,7 @@ import com.heaven.news.api.IApi;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.ui.model.bean.base.HomeImageInfo;
+import com.heaven.news.ui.model.bean.base.SettingService;
 import com.heaven.news.ui.model.bean.base.UserInfo;
 import com.heaven.news.ui.model.bean.base.UserLoginInfo;
 import com.neusoft.szair.model.easycardmodel.EasyCardWebServiceServiceSoapBinding;
@@ -99,6 +100,7 @@ public class UserManager {
     private String userMile;                                //用户可用里程
     private String userCouponCount;                         //优惠券数量
     UserManager(DataSource dataSource, NetManager netManager, Context context) {
+        this.context = context;
         this.mNetManager = netManager;
         this.dataSource = dataSource;
         this.mApi = dataSource.getNetApi(IApi.class);
@@ -510,6 +512,35 @@ public class UserManager {
         public String walletLeftMoney = "--";
         public String couponCount = "--";
 
+        void logOut() {
+            isSuccess = true;
+            dataType = -1;
+            userAllInfo = null;
+
+            userName = "--";
+            userNameCh = "";
+            userNameEn = "";
+            sexHeaderRes = R.mipmap.icon_header_null;
+            idNumber = "";
+            userId = "";
+            crmId = "";
+            phoenixNumber = "";
+            idNumberList = null;                 //用户证件数组
+            phoenixIdList = null;                 //凤凰知音证件列表
+            cardLevel = "";
+            cardLevelRes = 0;
+            cardLevelImgRes = 0;
+            ffpIdentify = "";
+            ffpIdentifyRes = 0;
+            userMile = "--";
+            expiredMiles = "--";
+            nextExpiredMiles = "--";
+            ecardNum = "--";
+            walletLeftMoney = "--";
+            couponCount = "--";
+            notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
+        }
+
         @Override
         public String toString() {
             return "CoreDataWrapper{" +
@@ -530,6 +561,22 @@ public class UserManager {
                     ", walletLeftMoney='" + walletLeftMoney + '\'' +
                     ", couponCount='" + couponCount + '\'' +
                     '}';
+        }
+    }
+
+    public void logOut() {
+        hasLogin = false;
+        UserInfo userSecret = dataSource.getCacheEntity(DataSource.DISK, Constants.USERINFO);
+        if(userSecret != null) {
+            userSecret.logOut();
+            dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userSecret);
+        }
+
+        AppEngine.instance().confManager().logOut();
+        dataSource.setSharePreBoolean(Constants.ISAUTOLOGIN, false);
+
+        if(coreDataWrapper != null) {
+            coreDataWrapper.logOut();
         }
     }
 }

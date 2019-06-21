@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
+
+    <data>
+        <variable
+            name="settingVm"
+            type="com.heaven.news.ui.model.vm.SettingVm"/>
+    </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,10 +26,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15dp"
             android:background="@color/white"
-            android:id="@+id/logout"
             android:gravity="center"
             android:padding="@dimen/_15dp"
             android:text="退出登录"
+            android:onClick="@{() -> settingVm.logOut()}"
             android:textColor="@color/black"
             />
     </LinearLayout>

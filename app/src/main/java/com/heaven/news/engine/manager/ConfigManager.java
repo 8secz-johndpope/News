@@ -750,4 +750,18 @@ public class ConfigManager {
             }
         }
     }
+
+    public void logOut() {
+        if(settingServie != null && settingServie.settingItems != null && settingServie.settingItems.size() > 0) {
+            for(SettingItem item : settingServie.settingItems) {
+                if(SettingItem.SWITCH_BAR_NOTIFY == item.type) {
+                    item.isOpen = false;
+                } else if(SettingItem.SWITCH_SOUND == item.type) {
+                    item.isOpen = false;
+                } else if(SettingItem.SWITCH_PUSH_MESSAGE == item.type) {
+                    item.isOpen = false;
+                }
+            }
+        }
+    }
 }

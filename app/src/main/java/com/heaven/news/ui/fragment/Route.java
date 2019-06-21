@@ -112,6 +112,9 @@ public class Route extends BaseBindFragment<MainVm, RouteBinding> implements OnR
             if (mViewBinding != null) {
                 mViewBinding.swipeToLoadLayout.setRefreshing(false);
                 mViewBinding.swipeToLoadLayout.setLoadingMore(false);
+                if(routeAdapter != null) {
+                    routeAdapter.clearData();
+                }
             }
         }
     }

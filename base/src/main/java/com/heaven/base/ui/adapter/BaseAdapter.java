@@ -260,6 +260,7 @@ public class BaseAdapter<E> extends RecyclerView.Adapter<BaseViewHolder> {
      */
     public void clearData() {
         dataItems.clear();
+        notifyDataSetChanged();
     }
 
     public class DiffCallBack extends DiffUtil.Callback {

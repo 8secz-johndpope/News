@@ -23,12 +23,12 @@ public class UserInfo extends BaseObservable implements Serializable {
     private static final long serialVersionUID = 7719902835531801103L;
     public String key;
     public String userId;
-    public  String count;
-    public  String password;
+    public String count;
+    public String password;
     public String secretPwd;
     public queryRespVO userInfo;
 
-    public UserInfo(){
+    public UserInfo() {
 
     }
 
@@ -60,6 +60,14 @@ public class UserInfo extends BaseObservable implements Serializable {
         this.password = password;
         notifyPropertyChanged(BR.password);
         Logger.i("set userinfowrapper count--" + password);
+    }
+
+    public void logOut() {
+        key = "";
+        userId = "";
+        password = "";
+        secretPwd = "";
+        userInfo = null;
     }
 
     @Override

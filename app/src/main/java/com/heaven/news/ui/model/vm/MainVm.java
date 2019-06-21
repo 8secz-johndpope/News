@@ -139,6 +139,8 @@ public class MainVm extends AbstractVm {
                 }
             });
 
+        } else {
+            routeListLive.setValue(null);
         }
     }
 

@@ -30,6 +30,7 @@ import java.util.List;
  */
 @Route(path = RouterUrl.ROUTER_URL_SETTING)
 public class SettingActivity extends BaseToolBarBindActivity<SettingVm, SettingBinding> {
+    BaseAdapter<SettingItem> routeAdapter;
     @Override
     public int initLayoutResId() {
         return R.layout.setting;
@@ -37,7 +38,7 @@ public class SettingActivity extends BaseToolBarBindActivity<SettingVm, SettingB
 
     @Override
     public void bindModel() {
-
+        mViewBinding.setSettingVm(mViewModel);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class SettingActivity extends BaseToolBarBindActivity<SettingVm, SettingB
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mViewBinding.settingList.setLayoutManager(layoutManager);
         mViewBinding.settingList.addItemDecoration(new VerticalDecoration(this,1));
-        BaseAdapter<SettingItem> routeAdapter = new BaseAdapter<>(this,settings.settingItems);
+        routeAdapter = new BaseAdapter<>(this,settings.settingItems);
         mViewBinding.settingList.setAdapter(routeAdapter);
         routeAdapter.register(new SettingItemHolder(SettingItem.class, R.layout.setting_item));
         routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<SettingItem>() {
@@ -67,4 +68,13 @@ public class SettingActivity extends BaseToolBarBindActivity<SettingVm, SettingB
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!AppEngine.instance().dataCore().isLogin()) {
+            if(routeAdapter != null) {
+                routeAdapter.notifyDataSetChanged();
+            }
+        }
+    }
 }
