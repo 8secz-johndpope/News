@@ -10,9 +10,12 @@ import android.text.util.Linkify;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.CheckBox;
 import android.widget.Checkable;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -273,6 +276,14 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         View view = getView(viewId);
         if (view != null) {
             view.setOnClickListener(listener);
+        }
+        return this;
+    }
+
+    public BaseViewHolder setOnCheckListener(int viewId, CompoundButton.OnCheckedChangeListener listener) {
+        View view = getView(viewId);
+        if (view instanceof CheckBox) {
+            ((CheckBox)view).setOnCheckedChangeListener(listener);
         }
         return this;
     }

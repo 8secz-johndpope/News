@@ -558,7 +558,7 @@ public class ConfigManager {
         });
     }
 
-    public void reqSetingState() {
+    void reqSetingState() {
         operateSetting operatesetting = new operateSetting();
         appSettingReqVO reqParm = new appSettingReqVO();
         operatesetting._APP_SETTING_PARAM = reqParm;

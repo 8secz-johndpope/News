@@ -1,5 +1,7 @@
 package com.heaven.news.ui.activity.setting;
 
+import android.arch.lifecycle.Observer;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -57,8 +59,20 @@ public class SettingActivity extends BaseToolBarBindActivity<SettingVm, SettingB
         routeAdapter.register(new SettingItemHolder(SettingItem.class, R.layout.setting_item));
         routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<SettingItem>() {
             @Override
-            public void onItemClick(View view, BaseViewHolder holder, SettingItem t) {
+            public void onItemClick(View view, BaseViewHolder holder, SettingItem item) {
+                if(SettingItem.SWITCH_LANGUAGE == item.type || SettingItem.VERSION == item.type ) {
+                    if(SettingItem.SWITCH_LANGUAGE == item.type) {
 
+                    } else {
+
+                    }
+                } else {
+                    view.setEnabled(false);
+                    mViewModel.reqSetingState(item.type, item.isOpen? "1" : "0", result -> {
+                        item.isOpen = result;
+                        routeAdapter.notifyItemChanged(holder.getItemPosition(),1);
+                    });
+                }
             }
 
             @Override

@@ -2,6 +2,7 @@ package com.heaven.news.ui.model.holder;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
@@ -25,15 +26,20 @@ public class SettingItemHolder extends BaseMultItem<SettingItem> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull SettingItem settingItem) {
-        holder.setText(R.id.setting_item_name, ScreenUtil.getStringResId(holder.context,settingItem.name));
-        if(SettingItem.SWITCH_LANGUAGE == settingItem.type || SettingItem.VERSION == settingItem.type) {
-            holder.setVisible(R.id.switch_button,false);
+        holder.setText(R.id.setting_item_name, ScreenUtil.getStringResId(holder.context, settingItem.name));
+        if (SettingItem.SWITCH_LANGUAGE == settingItem.type || SettingItem.VERSION == settingItem.type) {
+            holder.setVisible(R.id.switch_button, false);
         } else {
-            holder.setChecked(R.id.switch_button,settingItem.isOpen);
-            holder.setVisible(R.id.go_next,false);
-            holder.setOnClickListener(R.id.switch_button, v -> {
-                if(holder.onItemClickListener != null) {
-                    holder.onItemClickListener.onItemClick(v,holder,settingItem);
+            holder.setEnable(R.id.switch_button, true);
+            holder.setChecked(R.id.switch_button, settingItem.isOpen);
+            holder.setVisible(R.id.go_next, false);
+            holder.setOnClickListener(R.id.switch_button, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.onItemClickListener != null) {
+                        settingItem.isOpen = !settingItem.isOpen;
+                        holder.onItemClickListener.onItemClick(v, holder, settingItem);
+                    }
                 }
             });
         }
@@ -41,6 +47,11 @@ public class SettingItemHolder extends BaseMultItem<SettingItem> {
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, @NonNull SettingItem settingItem, Object payload) {
-
+        if (SettingItem.SWITCH_LANGUAGE == settingItem.type || SettingItem.VERSION == settingItem.type) {
+            holder.setVisible(R.id.switch_button, false);
+        } else {
+            holder.setEnable(R.id.switch_button, true);
+            holder.setChecked(R.id.switch_button, settingItem.isOpen);
+        }
     }
 }
