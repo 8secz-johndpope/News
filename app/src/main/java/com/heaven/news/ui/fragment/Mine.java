@@ -50,6 +50,8 @@ public class Mine extends BaseBindFragment<MainVm,MineBinding> implements Observ
             }
             if(coreDataWrapper.ffpIdentifyRes != 0) {
                 mViewBinding.identifyType.setImageResource(coreDataWrapper.ffpIdentifyRes);
+            } else {
+                mViewBinding.identifyType.setImageResource(R.color.transparent);
             }
 
             if(coreDataWrapper.cardLevelRes != 0) {
