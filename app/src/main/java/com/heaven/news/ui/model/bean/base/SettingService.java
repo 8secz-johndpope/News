@@ -12,4 +12,5 @@ import java.util.List;
  */
 public class SettingService {
     public List<SettingItem> settingItems;
+    public List<SettingItem> settingItemsUnlogin;
 }

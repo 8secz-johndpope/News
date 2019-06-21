@@ -33,6 +33,8 @@ import java.util.List;
 @Route(path = RouterUrl.ROUTER_URL_SETTING)
 public class SettingActivity extends BaseToolBarBindActivity<SettingVm, SettingBinding> {
     BaseAdapter<SettingItem> routeAdapter;
+    SettingService settings;
+
     @Override
     public int initLayoutResId() {
         return R.layout.setting;
@@ -50,27 +52,27 @@ public class SettingActivity extends BaseToolBarBindActivity<SettingVm, SettingB
     }
 
     private void initSettingList() {
-        SettingService settings = AppEngine.instance().confManager().loadSettingData(this);
+        settings = AppEngine.instance().confManager().loadSettingData(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mViewBinding.settingList.setLayoutManager(layoutManager);
-        mViewBinding.settingList.addItemDecoration(new VerticalDecoration(this,1));
-        routeAdapter = new BaseAdapter<>(this,settings.settingItems);
+        mViewBinding.settingList.addItemDecoration(new VerticalDecoration(this, 1));
+        routeAdapter = new BaseAdapter<>(this);
         mViewBinding.settingList.setAdapter(routeAdapter);
         routeAdapter.register(new SettingItemHolder(SettingItem.class, R.layout.setting_item));
         routeAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<SettingItem>() {
             @Override
             public void onItemClick(View view, BaseViewHolder holder, SettingItem item) {
-                if(SettingItem.SWITCH_LANGUAGE == item.type || SettingItem.VERSION == item.type ) {
-                    if(SettingItem.SWITCH_LANGUAGE == item.type) {
+                if (SettingItem.SWITCH_LANGUAGE == item.type || SettingItem.VERSION == item.type) {
+                    if (SettingItem.SWITCH_LANGUAGE == item.type) {
 
                     } else {
 
                     }
                 } else {
                     view.setEnabled(false);
-                    mViewModel.reqSetingState(item.type, item.isOpen? "1" : "0", result -> {
+                    mViewModel.reqSetingState(item.type, item.isOpen ? "1" : "0", result -> {
                         item.isOpen = result;
-                        routeAdapter.notifyItemChanged(holder.getItemPosition(),1);
+                        routeAdapter.notifyItemChanged(holder.getItemPosition(), 1);
                     });
                 }
             }
@@ -85,10 +87,19 @@ public class SettingActivity extends BaseToolBarBindActivity<SettingVm, SettingB
     @Override
     protected void onResume() {
         super.onResume();
-        if(!AppEngine.instance().dataCore().isLogin()) {
-            if(routeAdapter != null) {
-                routeAdapter.notifyDataSetChanged();
+        List<SettingItem> settingItems = null;
+        if (!AppEngine.instance().dataCore().isLogin()) {
+            if (settings != null && settings.settingItemsUnlogin != null) {
+                settingItems = settings.settingItemsUnlogin;
             }
+        } else {
+            if (settings != null && settings.settingItems != null) {
+                settingItems = settings.settingItems;
+            }
+        }
+
+        if(routeAdapter != null && settingItems != null) {
+            routeAdapter.updateItems(settingItems);
         }
     }
 }

@@ -30,16 +30,14 @@ public class SettingItemHolder extends BaseMultItem<SettingItem> {
         if (SettingItem.SWITCH_LANGUAGE == settingItem.type || SettingItem.VERSION == settingItem.type) {
             holder.setVisible(R.id.switch_button, false);
         } else {
+            holder.setVisible(R.id.switch_button, true);
             holder.setEnable(R.id.switch_button, true);
             holder.setChecked(R.id.switch_button, settingItem.isOpen);
             holder.setVisible(R.id.go_next, false);
-            holder.setOnClickListener(R.id.switch_button, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (holder.onItemClickListener != null) {
-                        settingItem.isOpen = !settingItem.isOpen;
-                        holder.onItemClickListener.onItemClick(v, holder, settingItem);
-                    }
+            holder.setOnClickListener(R.id.switch_button, v -> {
+                if (holder.onItemClickListener != null) {
+                    settingItem.isOpen = !settingItem.isOpen;
+                    holder.onItemClickListener.onItemClick(v, holder, settingItem);
                 }
             });
         }

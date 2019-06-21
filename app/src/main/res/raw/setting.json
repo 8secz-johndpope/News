@@ -25,5 +25,17 @@
       "isOpen": false,
       "name": "@string/setting_version"
     }
+  ],
+  "settingItemsUnlogin": [
+    {
+      "type": 0,
+      "isOpen": false,
+      "name": "@string/setting_switch_language"
+    },
+    {
+      "type": 4,
+      "isOpen": false,
+      "name": "@string/setting_version"
+    }
   ]
 }
