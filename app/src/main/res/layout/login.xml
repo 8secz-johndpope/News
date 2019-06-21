@@ -27,10 +27,13 @@
             style="@style/MyCustomTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorGravity="bottom"
-            app:tabPaddingBottom="-4dp"
-            app:tabIndicatorHeight="@dimen/_0dp"
             />
+
+        <View
+            style="@style/driver_line_e4e4e4"/>
+
+
+
 
         <TextView
             android:id="@+id/tv_title"
