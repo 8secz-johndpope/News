@@ -74,6 +74,12 @@ public class MainActivity extends BaseToolBarBindActivity<MainVm, MainBinding> i
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
+        if(AppEngine.instance().dataCore().isLogining()) {
+            mViewModel.mNetManager.showLoadingDialog(this,true,AppEngine.instance().dataCore().loginTaskId);
+        } else {
+            mViewModel.mNetManager.disMassLoading();
+        }
+
         final RxPermissions rxPermissions = new RxPermissions(this);
         final Disposable subscribe = rxPermissions
                 .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -203,7 +209,7 @@ public class MainActivity extends BaseToolBarBindActivity<MainVm, MainBinding> i
     public void onChanged(@Nullable UserManager.CoreDataWrapper coreDataWrapper) {
         if(coreDataWrapper != null && UserManager.LOGIN == coreDataWrapper.dataType) {
             updateData();
-            AppEngine.instance().getNetManager().disMassLoading();
+            mViewModel.mNetManager.disMassLoading();
         }
     }
 

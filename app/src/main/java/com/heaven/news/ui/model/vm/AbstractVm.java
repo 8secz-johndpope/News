@@ -21,7 +21,7 @@ public abstract class AbstractVm extends BaseViewModel {
     IApi mApi;
 
     @Inject
-    NetManager mNetManager;
+    public NetManager mNetManager;
 
     @Override
     public void inject() {

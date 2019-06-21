@@ -65,6 +65,8 @@ public class UserManager {
 
     private Map<Observer<CoreDataWrapper>, MutableLiveData<CoreDataWrapper>> observers = new HashMap<>();
 
+    private boolean isLogining;
+    public long loginTaskId;
 
     private NetManager mNetManager;
     private IApi mApi;
@@ -240,10 +242,9 @@ public class UserManager {
     }
 
     public long login(String userCount, String pwd) {
-        long taskId = 0;
         if (!TextUtils.isEmpty(userCount) && !TextUtils.isEmpty(pwd)) {
 //            prepareLoginCache(userCount, pwd);
-
+            isLogining = true;
             loginNew login = new loginNew();
             loginReqVO loginreqvo = new loginReqVO();
             loginreqvo._USER_NAME = userCount;
@@ -259,7 +260,7 @@ public class UserManager {
             Logger.i("RequestLogin---" + loginreqvo.toString());
             MemberLoginWebServiceImplServiceSoapBinding bind = new MemberLoginWebServiceImplServiceSoapBinding("loginNew", login);//非短信验证码登陆，用户新接口
 
-            taskId = mNetManager.getResult(mApi.login(bind), loginResponse -> {
+            loginTaskId = mNetManager.getResult(mApi.login(bind), loginResponse -> {
                 if (loginResponse.code == 0 && loginResponse.data != null && loginResponse.data._LOGIN_RESULT != null) {
                     if ("0000".equals(loginResponse.data._LOGIN_RESULT._CODE)) {
                         UserInfo userInfo = new UserInfo(userCount,pwd);
@@ -281,10 +282,10 @@ public class UserManager {
                 } else {
                     notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
                 }
-                mNetManager.disMassLoading();
+                isLogining = false;
             });
         }
-        return taskId;
+        return loginTaskId;
     }
 
     private void resetCoreDataWrapper() {
@@ -578,5 +579,9 @@ public class UserManager {
         if(coreDataWrapper != null) {
             coreDataWrapper.logOut();
         }
+    }
+
+    public boolean isLogining() {
+        return isLogining;
     }
 }
