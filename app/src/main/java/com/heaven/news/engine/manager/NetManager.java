@@ -30,6 +30,13 @@ public class NetManager {
     private IApi mApi;
     private DataSource dataSource;
 
+    private OnCancleTaskListener cancleTaskListener = new OnCancleTaskListener() {
+        @Override
+        public void onCancel(long taskId) {
+            cancelTask(taskId);
+        }
+    };
+
     NetManager(DataSource dataSource, Context context) {
         this.dataSource = dataSource;
         this.mApi = dataSource.getNetApi(IApi.class);
@@ -108,7 +115,7 @@ public class NetManager {
         if (loading != null) {
             loading.dismiss();
         }
-        loading = new DataLoading(context,getTaskById(taskId));
+        loading = new DataLoading(context,taskId,cancleTaskListener);
         if(!isCancel) {
             loading.hideCancel();
         }
@@ -148,6 +155,10 @@ public class NetManager {
             disposable = reqTasks.get(taskId);
         }
         return disposable;
+    }
+
+   public interface OnCancleTaskListener{
+        void onCancel(long taskId);
     }
 
     public IApi getApi() {

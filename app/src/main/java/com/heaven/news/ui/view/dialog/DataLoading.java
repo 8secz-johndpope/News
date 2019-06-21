@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.heaven.news.R;
+import com.heaven.news.engine.manager.NetManager;
 
 import java.util.Objects;
 
@@ -31,7 +32,9 @@ public class DataLoading extends Dialog {
     public ImageView cancel;
     private TextView noticeText;
 
-    public DataLoading(Context context, Disposable disposable) {
+
+
+    public DataLoading(Context context, long taskId, NetManager.OnCancleTaskListener cancleTaskListener ) {
         super(context, R.style.customerDialog);
         View view = LayoutInflater.from(context).inflate(R.layout.net_req_dialog, null);
         waitingIcon = view.findViewById(R.id.waiting_icon);
@@ -42,8 +45,8 @@ public class DataLoading extends Dialog {
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.waiting_anim);
         waitingIcon.startAnimation(anim);
         cancel.setOnClickListener(v -> {
-            if(disposable != null) {
-                disposable.dispose();
+            if(cancleTaskListener != null) {
+                cancleTaskListener.onCancel(taskId);
             }
             dismiss();
         });
