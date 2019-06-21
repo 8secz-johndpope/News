@@ -45,6 +45,7 @@ public class DataLoading extends Dialog {
             if(disposable != null) {
                 disposable.dispose();
             }
+            dismiss();
         });
         hideSystemUI(view);
     }

@@ -54,14 +54,14 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
             return;
         }
         long taskId = AppEngine.instance().dataCore().login(count,passwords);
-        AppEngine.instance().getNetManager().showLoadingDialog(this,true,taskId);
+        mViewModel.mNetManager.showLoadingDialog(this,true,taskId);
 
     }
 
     @Override
     public void onChanged(@Nullable UserManager.CoreDataWrapper coreDataWrapper) {
         if (coreDataWrapper != null && UserManager.LOGIN == coreDataWrapper.dataType) {
-            AppEngine.instance().getNetManager().disMassLoading();
+            mViewModel.mNetManager.disMassLoading();
             if (coreDataWrapper.isSuccess) {
                 if (AppEngine.instance().dataCore().isLogin()) {
                     AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN, true);

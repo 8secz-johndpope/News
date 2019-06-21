@@ -19,7 +19,7 @@
             android:id="@+id/waiting_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/net_data_loading"/>
+            android:src="@drawable/net_data_loading"/>
 
         <TextView
             android:id="@+id/notice_text"
@@ -44,7 +44,7 @@
         android:layout_below="@+id/loading_layout"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/_3dp"
-        android:src="@mipmap/loading_cancel"
-        android:visibility="gone"/>
+        android:src="@drawable/loading_cancel"
+        android:visibility="visible"/>
 
 </RelativeLayout>
