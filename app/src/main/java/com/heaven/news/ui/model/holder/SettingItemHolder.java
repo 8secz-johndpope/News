@@ -29,11 +29,12 @@ public class SettingItemHolder extends BaseMultItem<SettingItem> {
         holder.setText(R.id.setting_item_name, ScreenUtil.getStringResId(holder.context, settingItem.name));
         if (SettingItem.SWITCH_LANGUAGE == settingItem.type || SettingItem.VERSION == settingItem.type) {
             holder.setVisible(R.id.switch_button, false);
+            holder.setVisible(R.id.go_next, true);
         } else {
             holder.setVisible(R.id.switch_button, true);
+            holder.setVisible(R.id.go_next, false);
             holder.setEnable(R.id.switch_button, true);
             holder.setChecked(R.id.switch_button, settingItem.isOpen);
-            holder.setVisible(R.id.go_next, false);
             holder.setOnClickListener(R.id.switch_button, v -> {
                 if (holder.onItemClickListener != null) {
                     settingItem.isOpen = !settingItem.isOpen;
