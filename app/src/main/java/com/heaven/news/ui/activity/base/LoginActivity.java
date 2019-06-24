@@ -83,6 +83,7 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
             mViewBinding.nameIcon.setImageResource(R.drawable.login_phone);
             mViewBinding.passwordIcon.setImageResource(R.drawable.login_code);
             mViewBinding.loginForgetPassword.setVisibility(View.GONE);
+            mViewBinding.sendCode.setVisibility(View.VISIBLE);
             mViewBinding.cancelTip.setOnClickListener(v -> {
                 mViewBinding.cancelTip.setVisibility(View.GONE);
                 hasCancelTip = true;
@@ -101,6 +102,7 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
             mViewBinding.nameIcon.setImageResource(R.drawable.login_count);
             mViewBinding.passwordIcon.setImageResource(R.drawable.login_password);
             mViewBinding.loginForgetPassword.setVisibility(View.VISIBLE);
+            mViewBinding.sendCode.setVisibility(View.GONE);
             mViewBinding.cancelTip.setOnClickListener(v -> {
                 mViewBinding.cancelTip.setVisibility(View.GONE);
                 hasCancelTip = true;
