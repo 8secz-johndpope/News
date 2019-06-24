@@ -78,29 +78,6 @@ public class UserManager {
 
     private boolean hasLogin;
 
-    private String userId;                                  //用户id
-    private String crmId;                                   //凤凰知音id
-    private String userName;
-    private String userNameCh;
-    private String userNameEn;
-    private String userSex;
-    private String idNumber;                                //证件号码
-    private phoneVo phone;                                  //用户手机号
-    private addressVo address;                              //用户地址
-    private emailVo mail;                                   //用户邮件
-    private ArrayList<String> idNumberList;                 //用户证件数组
-    private boolean isIdentify;                              //是否认证
-    private String identifyType;                            //认证类型
-    private String ffpIdentify;                             //银联认证标识
-    private boolean isRegistPhoenix;                        //凤凰知音是否注册
-    private String phoenixNumber;                            //凤凰知音卡号
-    private String phoenixCardLevel;                        //凤凰知音卡级别
-    private ArrayList<String> phoenixIdList;                 //凤凰知音证件列表
-    private String userCrmCardNumber;                       //常旅客卡号
-    private String groupFlag;                               //大客户标示
-    private String groupCode;                               //大客户编码
-    private String userMile;                                //用户可用里程
-    private String userCouponCount;                         //优惠券数量
     UserManager(DataSource dataSource, NetManager netManager, Context context) {
         this.context = context;
         this.mNetManager = netManager;
@@ -119,20 +96,20 @@ public class UserManager {
         if (userInfo != null) {
             hasLogin = true;
             userAllInfo = userInfo;
-            userCrmCardNumber = userInfo._CRM_CARD_NUMBER;
+            coreDataWrapper.userCrmCardNumber = userInfo._CRM_CARD_NUMBER;
 
             if ("1".equals(userInfo._CRM_FREQUENT_FLYER_FLAG)) {
-                isRegistPhoenix = true;
+                coreDataWrapper.isRegistPhoenix = true;
             }
-            groupFlag = userInfo._GROUP_FLAG;
+            coreDataWrapper.groupFlag = userInfo._GROUP_FLAG;
             if (userInfo._GROUP_INFO != null) {
-                groupCode = userInfo._GROUP_INFO._CUS_BIG_CODE;
+                coreDataWrapper.groupCode = userInfo._GROUP_INFO._CUS_BIG_CODE;
             }
             if (userInfo._VIP != null) {
                 if (userInfo._VIP._VIPDETAILS != null) {
-                    userId = userInfo._VIP._VIPDETAILS._USER_ID;
-                    crmId = userInfo._VIP._VIPDETAILS._CLKCRM_ID;
-                    ffpIdentify = userInfo._VIP._VIPDETAILS._FFP_IDENTIFY;
+                    coreDataWrapper.userId = userInfo._VIP._VIPDETAILS._USER_ID;
+                    coreDataWrapper.crmId = userInfo._VIP._VIPDETAILS._CLKCRM_ID;
+                    coreDataWrapper.ffpIdentify = userInfo._VIP._VIPDETAILS._FFP_IDENTIFY;
                     initUserName(userInfo._VIP._VIPDETAILS);
                     if (userInfo._VIP._VIP_DOCUMENTS != null) {
                         userIdNumber(userInfo._VIP._VIP_DOCUMENTS);
@@ -140,9 +117,9 @@ public class UserManager {
                 }
             }
 
-            phone = userInfo._PHONE;
-            address = userInfo._ADDRESS;
-            mail = userInfo._EMAIL;
+            coreDataWrapper.phone = userInfo._PHONE;
+            coreDataWrapper.address = userInfo._ADDRESS;
+            coreDataWrapper.mail = userInfo._EMAIL;
 
             phoenixInfo(userInfo._MEMBER, userInfo._CREDENTIAL_LIST);
         }
@@ -153,26 +130,26 @@ public class UserManager {
             if (TextUtils.isEmpty(userVipDetails._SURNAME_CN)
                     && TextUtils.isEmpty(userVipDetails._FIRSTNAME_CN)) {
                 if (TextUtils.isEmpty(userVipDetails._SURNAME_EN) && !TextUtils.isEmpty(userVipDetails._FIRSTNAME_EN)) {
-                    userName = userVipDetails._FIRSTNAME_EN;
+                    coreDataWrapper.userName = userVipDetails._FIRSTNAME_EN;
                 } else if (TextUtils.isEmpty(userVipDetails._FIRSTNAME_EN) && !TextUtils.isEmpty(userVipDetails._SURNAME_EN)) {
-                    userName = userVipDetails._SURNAME_EN;
+                    coreDataWrapper.userName = userVipDetails._SURNAME_EN;
                 } else if (!TextUtils.isEmpty(userVipDetails._FIRSTNAME_EN) && !TextUtils.isEmpty(userVipDetails._SURNAME_EN)) {
-                    userName = userVipDetails._SURNAME_EN + "/" + userVipDetails._FIRSTNAME_EN;
+                    coreDataWrapper.userName = userVipDetails._SURNAME_EN + "/" + userVipDetails._FIRSTNAME_EN;
                 } else {
-                    userName = userVipDetails._LOGIN_MOBILE;
+                    coreDataWrapper.userName = userVipDetails._LOGIN_MOBILE;
                 }
             } else {
                 if (TextUtils.isEmpty(userVipDetails._SURNAME_CN)) {
-                    userName = userVipDetails._FIRSTNAME_CN;
+                    coreDataWrapper.userName = userVipDetails._FIRSTNAME_CN;
                 } else if (TextUtils.isEmpty(userVipDetails._FIRSTNAME_CN)) {
-                    userName = userVipDetails._SURNAME_CN;
+                    coreDataWrapper.userName = userVipDetails._SURNAME_CN;
                 } else {
-                    userName = userVipDetails._SURNAME_CN + userVipDetails._FIRSTNAME_CN;
+                    coreDataWrapper.userName = userVipDetails._SURNAME_CN + userVipDetails._FIRSTNAME_CN;
                 }
             }
-            userSex = userVipDetails._SEX;
+            coreDataWrapper.userSex = userVipDetails._SEX;
             if (!TextUtils.isEmpty(userVipDetails._IDENTIFY_TYPE)) {
-                identifyType = userVipDetails._IDENTIFY_TYPE;
+                coreDataWrapper.identifyType = userVipDetails._IDENTIFY_TYPE;
             }
             setNameChEn(userVipDetails);
         }
@@ -182,50 +159,50 @@ public class UserManager {
         if (userVipDetails != null) {
             if (!TextUtils.isEmpty(userVipDetails._SURNAME_CN)
                     && !TextUtils.isEmpty(userVipDetails._FIRSTNAME_CN)) {
-                userNameCh  = userVipDetails._SURNAME_CN + userVipDetails._FIRSTNAME_CN;
+                coreDataWrapper.userNameCh  = userVipDetails._SURNAME_CN + userVipDetails._FIRSTNAME_CN;
 
             } else if (!TextUtils.isEmpty(userVipDetails._SURNAME_CN)
                     && TextUtils.isEmpty(userVipDetails._FIRSTNAME_CN)) {
-                userNameCh = userVipDetails._SURNAME_CN;
+                coreDataWrapper.userNameCh = userVipDetails._SURNAME_CN;
 
             } else if (TextUtils.isEmpty(userVipDetails._SURNAME_CN)
                     && !TextUtils.isEmpty(userVipDetails._FIRSTNAME_CN)) {
-                userNameCh = userVipDetails._FIRSTNAME_CN;
+                coreDataWrapper.userNameCh = userVipDetails._FIRSTNAME_CN;
             }
 
             if (TextUtils.isEmpty(userVipDetails._SURNAME_EN) && !TextUtils.isEmpty(userVipDetails._FIRSTNAME_EN)) {
-                userNameEn = userVipDetails._FIRSTNAME_EN;
+                coreDataWrapper.userNameEn = userVipDetails._FIRSTNAME_EN;
             } else if (TextUtils.isEmpty(userVipDetails._FIRSTNAME_EN) && !TextUtils.isEmpty(userVipDetails._SURNAME_EN)) {
-                userNameEn = userVipDetails._SURNAME_EN;
+                coreDataWrapper.userNameEn = userVipDetails._SURNAME_EN;
             } else if (!TextUtils.isEmpty(userVipDetails._FIRSTNAME_EN) && !TextUtils.isEmpty(userVipDetails._SURNAME_EN)) {
-                userNameEn = userVipDetails._SURNAME_EN + "/" + userVipDetails._FIRSTNAME_EN;
+                coreDataWrapper.userNameEn = userVipDetails._SURNAME_EN + "/" + userVipDetails._FIRSTNAME_EN;
             }
         }
     }
 
     private void userIdNumber(List<vipDocument> userIdInfoList) {
         if (userIdInfoList != null && userIdInfoList.size() > 0) {
-            idNumber = userIdInfoList.get(0)._DOCUMENTNO;
-            idNumberList = new ArrayList<>();
+            coreDataWrapper.idNumber = userIdInfoList.get(0)._DOCUMENTNO;
+            coreDataWrapper.idNumberList = new ArrayList<>();
             for (vipDocument idInfo : userIdInfoList) {
                 if ("NI".equals(idInfo._DOCUMENTTYPE)) {
-                    idNumber = idInfo._DOCUMENTNO;
+                    coreDataWrapper.idNumber = idInfo._DOCUMENTNO;
                 }
-                idNumberList.add(idInfo._DOCUMENTNO);
+                coreDataWrapper.idNumberList.add(idInfo._DOCUMENTNO);
             }
         }
     }
 
     private void phoenixInfo(memberInfoVo phoenixInfo, List<credentialVo> phonenixIdList) {
         if (phoenixInfo != null) {
-            phoenixCardLevel = phoenixInfo._PRIMARY_TIER_NAME;
-            phoenixNumber = phoenixInfo._MEMBER_NUMBER;
+            coreDataWrapper.phoenixCardLevel = phoenixInfo._PRIMARY_TIER_NAME;
+            coreDataWrapper.phoenixNumber = phoenixInfo._MEMBER_NUMBER;
         }
 
         if (phonenixIdList != null && phonenixIdList.size() > 0) {
-            phoenixIdList = new ArrayList<>();
+            coreDataWrapper.phoenixIdList = new ArrayList<>();
             for (credentialVo idInfo : phonenixIdList) {
-                phoenixIdList.add(idInfo._CREDENTIAL_NUM);
+                coreDataWrapper.phoenixIdList.add(idInfo._CREDENTIAL_NUM);
             }
         }
     }
@@ -289,46 +266,34 @@ public class UserManager {
     }
 
     private void resetCoreDataWrapper() {
-        coreDataWrapper.userName = userName;
-        coreDataWrapper.userNameCh = userNameCh;
-        coreDataWrapper.userNameEn = userNameEn;
-        coreDataWrapper.idNumber = idNumber;
-        coreDataWrapper.userId = userId;
-        coreDataWrapper.cardLevel = phoenixCardLevel;
-        coreDataWrapper.ffpIdentify = ffpIdentify;
-        coreDataWrapper.phoenixNumber = phoenixNumber;
-        coreDataWrapper.crmId = crmId;
-        coreDataWrapper.idNumberList = idNumberList;
-        coreDataWrapper.phoenixIdList = phoenixIdList;
-
-        if ("Gold".equalsIgnoreCase(phoenixCardLevel)) {
+        if ("Gold".equalsIgnoreCase(coreDataWrapper.phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_golden_card;
             coreDataWrapper.cardLevelRes = R.string.card_level_gold;
-        } else if ("Lifetime Platinum".equalsIgnoreCase(phoenixCardLevel)) {
+        } else if ("Lifetime Platinum".equalsIgnoreCase(coreDataWrapper.phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_lifetime_card;
             coreDataWrapper.cardLevelRes = R.string.card_level_lifetime_platinum;
-        } else if ("Normal".equalsIgnoreCase(phoenixCardLevel)) {
+        } else if ("Normal".equalsIgnoreCase(coreDataWrapper.phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_blue_card;
             coreDataWrapper.cardLevelRes = R.string.card_level_normal;
-        } else if ("Platinum".equalsIgnoreCase(phoenixCardLevel)) {
+        } else if ("Platinum".equalsIgnoreCase(coreDataWrapper.phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_black_card;
             coreDataWrapper.cardLevelRes = R.string.card_level_platinum;
-        } else if ("Silver".equalsIgnoreCase(phoenixCardLevel)) {
+        } else if ("Silver".equalsIgnoreCase(coreDataWrapper.phoenixCardLevel)) {
             coreDataWrapper.cardLevelImgRes = R.mipmap.icon_silve_card;
             coreDataWrapper.cardLevelRes = R.string.card_level_silver;
         } else {
             coreDataWrapper.cardLevelRes = R.string.card_level_normal;
         }
 
-        if ("F".equals(userSex)) {
+        if ("F".equals(coreDataWrapper.userSex)) {
             coreDataWrapper.sexHeaderRes = R.mipmap.icon_header_femal;
-        } else if ("M".equals(userSex)) {
+        } else if ("M".equals(coreDataWrapper.userSex)) {
             coreDataWrapper.sexHeaderRes = R.mipmap.icon_header_man;
         } else {
             coreDataWrapper.sexHeaderRes = R.mipmap.icon_header_null;
         }
 
-        if("1".equals(ffpIdentify)) {
+        if("1".equals(coreDataWrapper.ffpIdentify)) {
             coreDataWrapper.ffpIdentifyRes = R.mipmap.bank_identify;
         }
     }
@@ -340,15 +305,14 @@ public class UserManager {
     public void requestMileData() {
         queryMiles parameters = new queryMiles();
         parameters._QUERY_MILES_CONDITION = new queryMilesConditionVO();
-        parameters._QUERY_MILES_CONDITION._USER_ID = userId;
-        parameters._QUERY_MILES_CONDITION._CRM_MEMBER_ID = crmId;
-        parameters._QUERY_MILES_CONDITION._CRM_LEVEL = phoenixCardLevel;
+        parameters._QUERY_MILES_CONDITION._USER_ID = coreDataWrapper.userId;
+        parameters._QUERY_MILES_CONDITION._CRM_MEMBER_ID = coreDataWrapper.crmId;
+        parameters._QUERY_MILES_CONDITION._CRM_LEVEL = coreDataWrapper.phoenixCardLevel;
         CRMFrequentFlyerWebServiceImplServiceSoapBinding bind = new CRMFrequentFlyerWebServiceImplServiceSoapBinding("queryMiles",parameters);
         mNetManager.getResult(mApi.queryMile(bind), response -> {
             if(response.code == 0 && response.data != null && response.data._QUERY_MILES_RESULT != null) {
                 if(response.data._QUERY_MILES_RESULT._FLIGHT_MILES != null) {
-                    userMile = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._SURPLUS_MILES;
-                    coreDataWrapper.userMile = userMile;
+                    coreDataWrapper.userMile = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._SURPLUS_MILES;
                     coreDataWrapper.expiredMiles = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._EXPIRED_MILES;
                     coreDataWrapper.nextExpiredMiles = response.data._QUERY_MILES_RESULT._FLIGHT_MILES._NEXT_EXPIRED_MILES;
                     resetCoreDataWrapper();
@@ -360,7 +324,7 @@ public class UserManager {
 
     public void requestUserCouponNum() {
         userCouponSearchConditionVO reqvo = new userCouponSearchConditionVO();
-        reqvo._USER_ID = userId;
+        reqvo._USER_ID = coreDataWrapper.userId;
 
         queryUseCouponCnt queryCoupon = new queryUseCouponCnt();
         queryCoupon._USECOUPON_CNT_CONDITION = reqvo;
@@ -368,8 +332,7 @@ public class UserManager {
 
         mNetManager.getResult(mApi.queryUserCouponCount(bind), response -> {
             if(response.code == 0 && response.data != null && response.data._USECOUPON_CNT_RESULT != null && "0".equals(response.data._USECOUPON_CNT_RESULT._OP_RESULT)) {
-                userCouponCount = response.data._USECOUPON_CNT_RESULT._COUNT;
-                coreDataWrapper.couponCount = userCouponCount;
+                coreDataWrapper.couponCount = response.data._USECOUPON_CNT_RESULT._COUNT;
                 notifyCoreDataChange(getCoreDataWrapper(true,MINE));
             }
         });
@@ -377,7 +340,7 @@ public class UserManager {
 
     public void requestWalletInfo() {
         WALLET_QUERY walletQuery = new WALLET_QUERY();
-        walletQuery._USER_ID = userId;
+        walletQuery._USER_ID = coreDataWrapper.userId;
         walletQuery._BANKCARD_TYPE = "0";
 
         walletInfoQuery walletInfoQuery = new walletInfoQuery();
@@ -430,7 +393,7 @@ public class UserManager {
     }
 
     public String getUserName() {
-        return userName;
+        return coreDataWrapper.userName;
     }
 
     public HomeImageInfo getHomeConfigData() {
@@ -494,6 +457,7 @@ public class UserManager {
         public String userName = "--";
         public String userNameCh;
         public String userNameEn;
+        private String userSex;                                 //性别
         public int    sexHeaderRes = R.mipmap.icon_header_null;
         public String idNumber;
         public String userId;
@@ -512,7 +476,15 @@ public class UserManager {
         public String ecardNum = "--";
         public String walletLeftMoney = "--";
         public String couponCount = "--";
-
+        public String userCrmCardNumber;                       //常旅客卡号
+        public boolean isRegistPhoenix;                        //凤凰知音是否注册
+        public String groupFlag;                               //大客户标示
+        public String groupCode;                               //大客户编码
+        public phoneVo phone;                                  //用户手机号
+        public addressVo address;                              //用户地址
+        public emailVo mail;                                   //用户邮件
+        public String identifyType;                            //认证类型
+        public String phoenixCardLevel;                        //凤凰知音卡级别
         void logOut() {
             isSuccess = true;
             dataType = -1;
