@@ -85,6 +85,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/_15dp"
                 android:layout_marginRight="@dimen/_15dp"
+                android:id="@+id/count"
                 android:textSize="@dimen/_15sp"
                 android:background="@null"
                 android:hint="@string/login_phone_hint"
