@@ -71,6 +71,8 @@
     <string name="login_phone_code_hint">请输入6位验证码</string>
     <string name="login_password_tip">温馨提示：未绑定凤凰知音的用户请使用手机动态码登录</string>
     <string name="login_forget_password">忘记密码</string>
+    <string name="login_phoenix_password_hint">凤凰知音账户密码</string>
+    <string name="login_phoenix_count_hint">凤凰知音会员卡号/手机号/身份证号码/邮箱</string>
     <!--凤凰知音-->
     <string name="phoenix_award_ticket">奖励客票</string>
     <string name="phoenix_shop">知音商城</string>

@@ -77,6 +77,8 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
     boolean hasCancelTip;
     private void updateLoginType(int type) {
         if(type == 0) {
+            mViewBinding.count.setHint(R.string.login_phone_hint);
+            mViewBinding.password.setHint(R.string.login_phone_code_hint);
             mViewBinding.cancelTip.setVisibility(View.GONE);
             mViewBinding.nameIcon.setImageResource(R.drawable.login_phone);
             mViewBinding.passwordIcon.setImageResource(R.drawable.login_code);
@@ -91,6 +93,8 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
             } else {
                 mViewBinding.cancelTip.setVisibility(View.VISIBLE);
             }
+            mViewBinding.count.setHint(R.string.login_phoenix_count_hint);
+            mViewBinding.password.setHint(R.string.login_phoenix_password_hint);
             mViewBinding.count.clearFocus();
             mViewBinding.cancelTip.requestFocus();
             mViewBinding.cancelTip.setFocusableInTouchMode(true);
