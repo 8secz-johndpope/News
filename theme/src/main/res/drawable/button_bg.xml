@@ -5,7 +5,7 @@
         <shape android:shape="rectangle">
             <solid android:color="@color/color_ee2934" />
 
-            <corners android:radius="25dp" />
+            <corners android:radius="5dp" />
 
             <padding android:bottom="5dp" android:left="20dp" android:right="20dp" android:top="5dp" />
         </shape>
@@ -15,7 +15,7 @@
         <shape android:shape="rectangle">
             <solid android:color="@color/color_ee2934" />
 
-            <corners android:radius="25dp" />
+            <corners android:radius="5dp" />
 
             <padding android:bottom="5dp" android:left="20dp" android:right="20dp" android:top="5dp" />
         </shape>
@@ -23,8 +23,8 @@
 
     <item android:state_enabled="false" android:state_pressed="false">
         <shape android:shape="rectangle">
-            <solid android:color="@color/color_999999" />
-            <corners android:radius="25dp" />
+            <solid android:color="@color/btn_invalid" />
+            <corners android:radius="5dp" />
             <padding android:bottom="5dp" android:left="20dp" android:right="20dp" android:top="5dp" />
         </shape>
     </item>

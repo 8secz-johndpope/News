@@ -67,8 +67,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/_15dp"
+                android:layout_marginRight="@dimen/_15dp"
                 android:background="@null"
-                android:hint="Username"
+                android:hint="@string/login_phone_hint"
                 android:text="@={userInfo.count}"
                 app:layout_constraintBottom_toBottomOf="@+id/name_icon"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +94,7 @@
                 android:layout_marginLeft="@dimen/_15dp"
                 android:layout_marginTop="@dimen/_15dp"
                 android:layout_marginBottom="@dimen/_15dp"
-                android:src="@drawable/login_password"
+                android:src="@drawable/login_code"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider_line1"/>
 
@@ -101,16 +102,32 @@
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:id="@+id/password"
                 android:layout_marginLeft="@dimen/_15dp"
                 android:background="@null"
-                android:hint="Password"
+                android:hint="@string/login_phone_code_hint"
                 android:inputType=""
                 android:text="@={userInfo.password}"
                 app:layout_constraintBottom_toBottomOf="@+id/password_icon"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/send_code"
                 app:layout_constraintStart_toEndOf="@+id/barrier"
                 app:layout_constraintTop_toTopOf="@+id/password_icon"
+                app:layout_goneMarginRight="@dimen/_15dp"
 
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/send_code"
+                android:layout_marginRight="@dimen/_15dp"
+                app:layout_constraintStart_toEndOf="@+id/password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/password"
+                app:layout_constraintBottom_toBottomOf="@+id/password"
+                android:text="@string/phone_code"
+                android:textColor="@color/color_596ff"
+                android:visibility="visible"
                 />
 
             <View
@@ -132,25 +149,37 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <CheckBox
+            android:id="@+id/privacy_notice_checkbox"
+            style="@style/radio_bg"
+            android:layout_marginLeft="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_15dp"
+            android:layout_marginRight="@dimen/_15dp"
+            android:text="@string/privacy_notice_text"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/_12sp" />
+
+
         <TextView
-            android:id="@+id/sign"
+            android:id="@+id/login_button"
+            style="@style/button_style"
+            android:layout_marginLeft="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_15dp"
+            android:layout_marginRight="@dimen/_15dp"
+            android:onClick="@{loginHandlers::login}"
+            android:text="@string/login" />
+
+        <TextView
+            android:id="@+id/go_regist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="63dp"
             android:layout_gravity="center_horizontal"
             android:padding="20dp"
-            android:text="去注册"
-            android:textColor="@color/amber100"
+            android:text="@string/login_regist_tip"
+            android:textColor="@color/black"
             />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="@dimen/fab_margin"
-            android:onClick="@{loginHandlers::login}"
-            android:src="@drawable/ic_done"
-            />
     </LinearLayout>
 
 </layout>

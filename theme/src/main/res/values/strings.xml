@@ -61,7 +61,14 @@
 
     <string name="search_service">搜索相关服务</string>
     <string name="easy_go_search_hint">请输入证件号或票号</string>
+    <string name="phone_code">获取验证码</string>
+    <string name="privacy_notice_text">我已阅读并知悉《隐私通知》</string>
+    <string name="login">登录</string>
 
+    <string name="login_regist_tip">还不是凤凰知音会员？马上注册</string>
+    <string name="login_regist_now">马上注册</string>
+    <string name="login_phone_hint">11位国内手机号码</string>
+    <string name="login_phone_code_hint">请输入6位验证码</string>
     <!--凤凰知音-->
     <string name="phoenix_award_ticket">奖励客票</string>
     <string name="phoenix_shop">知音商城</string>
