@@ -245,14 +245,8 @@ public class UserManager {
                         if(loginResponse.data._LOGIN_RESULT._VIP != null  && loginResponse.data._LOGIN_RESULT._VIP._VIPDETAILS != null) {
                             userInfo.userId = loginResponse.data._LOGIN_RESULT._VIP._VIPDETAILS._USER_ID;
                         }
-                        initLoginData(loginResponse.data._LOGIN_RESULT);
-                        resetCoreDataWrapper();
-                        notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
+                        initUserCoreData(loginResponse.data._LOGIN_RESULT);
                         dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userInfo);
-                        requestMileData();
-                        requestUserCouponNum();
-                        requestWalletInfo();
-                        AppEngine.instance().confManager().reqSetingState();
                     } else {
                         notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
                     }
@@ -263,6 +257,16 @@ public class UserManager {
             });
         }
         return loginTaskId;
+    }
+
+    private void initUserCoreData(queryRespVO userInfo) {
+        initLoginData(userInfo);
+        resetCoreDataWrapper();
+        notifyCoreDataChange(getCoreDataWrapper(true, LOGIN));
+        requestMileData();
+        requestUserCouponNum();
+        requestWalletInfo();
+        AppEngine.instance().confManager().reqSetingState();
     }
 
     private void resetCoreDataWrapper() {
