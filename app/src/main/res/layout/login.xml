@@ -4,106 +4,153 @@
     >
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.heaven.news.ui.model.vm.LoginVm" />
+            type="com.heaven.news.ui.model.vm.LoginVm"/>
 
         <variable
             name="userInfo"
-            type="com.heaven.news.ui.model.bean.base.UserInfo" />
+            type="com.heaven.news.ui.model.bean.base.UserInfo"/>
 
         <variable
             name="loginHandlers"
-            type="com.heaven.news.ui.activity.base.LoginActivity" />
+            type="com.heaven.news.ui.activity.base.LoginActivity"/>
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/login_tab"
-            style="@style/MyCustomTabLayout"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:background="@color/white"
+            >
 
-        <View
-            style="@style/driver_line_e4e4e4"/>
+            <android.support.design.widget.TabLayout
+                android:id="@+id/login_tab"
+                style="@style/MyCustomTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <View
+                android:id="@+id/divider_line"
+                style="@style/driver_line_e4e4e4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_tab"
+                />
 
 
+            <ImageView
+                android:id="@+id/name_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_15dp"
+                android:src="@drawable/login_phone"
+                app:layout_constraintBottom_toTopOf="@+id/divider_line1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_line"
+                />
 
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_15dp"
+                android:background="@null"
+                android:hint="Username"
+                android:text="@={userInfo.count}"
+                app:layout_constraintBottom_toBottomOf="@+id/name_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/barrier"
+                app:layout_constraintTop_toTopOf="@+id/name_icon"
+                />
+
+            <View
+                android:id="@+id/divider_line1"
+                android:layout_width="@dimen/_0dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/_15dp"
+                android:background="@color/gray_e4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name_icon"/>
+
+            <ImageView
+                android:id="@+id/password_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15dp"
+                android:layout_marginTop="@dimen/_15dp"
+                android:layout_marginBottom="@dimen/_15dp"
+                android:src="@drawable/login_password"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_line1"/>
+
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15dp"
+                android:background="@null"
+                android:hint="Password"
+                android:inputType=""
+                android:text="@={userInfo.password}"
+                app:layout_constraintBottom_toBottomOf="@+id/password_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/barrier"
+                app:layout_constraintTop_toTopOf="@+id/password_icon"
+
+                />
+
+            <View
+                android:layout_width="@dimen/_0dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/_15dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password_icon"/>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="right"
+                app:constraint_referenced_ids="name_icon,password_icon"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="登录"
-            android:textColor="#fff"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/user_name"
+            android:id="@+id/sign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:padding="20dp"
-            android:textColor="@color/black"
-            android:textSize="30sp" />
+            android:text="去注册"
+            android:textColor="@color/amber100"
+            />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Username"
-                    android:text="@={userInfo.count}"
-                    />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Password"
-                    android:text="@={userInfo.password}"
-                    android:inputType=""/>
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:id="@+id/sign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:padding="20dp"
-                android:text="去注册"
-                android:textColor="@color/amber100" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:layout_margin="@dimen/fab_margin"
-                android:src="@drawable/ic_done"
-                android:onClick="@{loginHandlers::login}"
-                />
-        </LinearLayout>
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/fab_margin"
+            android:onClick="@{loginHandlers::login}"
+            android:src="@drawable/ic_done"
+            />
     </LinearLayout>
+
 </layout>
