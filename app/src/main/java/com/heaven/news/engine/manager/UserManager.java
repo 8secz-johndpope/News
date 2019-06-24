@@ -25,8 +25,10 @@ import com.neusoft.szair.model.member.addressVo;
 import com.neusoft.szair.model.member.credentialVo;
 import com.neusoft.szair.model.member.queryMiles;
 import com.neusoft.szair.model.member.queryMilesConditionVO;
+import com.neusoft.szair.model.memberbase.MemberBaseWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.MemberLoginWebServiceImplServiceSoapBinding;
 import com.neusoft.szair.model.memberbase.emailVo;
+import com.neusoft.szair.model.memberbase.loginMobileNew;
 import com.neusoft.szair.model.memberbase.loginNew;
 import com.neusoft.szair.model.memberbase.loginReqVO;
 import com.neusoft.szair.model.memberbase.memberInfoVo;
@@ -256,6 +258,47 @@ public class UserManager {
                 isLogining = false;
             });
         }
+        return loginTaskId;
+    }
+
+
+    public long loginByVerifyCode(String phoneNum,String code) {
+
+        loginReqVO loginreqvo = new loginReqVO();
+        loginreqvo._LOGIN_NAME = phoneNum;
+        loginreqvo._CAPTCHA_LOGIN = "1";
+        loginreqvo._PHONE_CAPTCHA = code;
+
+        loginreqvo._REGISTWAY = "MOBILE";
+
+        loginreqvo._APP_ID = SOAPConstants.APP_ID;
+        loginreqvo._APP_IP = SOAPConstants.APP_IP;
+        loginreqvo._DEVICE_TYPE = SOAPConstants.DEVICE_TYPE;
+
+        loginreqvo._DEVICE_TOKEN = "";
+
+        loginMobileNew login = new loginMobileNew();
+        login._LOGIN_PARAM = loginreqvo;
+        MemberBaseWebServiceImplServiceSoapBinding bind = new MemberBaseWebServiceImplServiceSoapBinding("loginMobileNew",login);
+        loginTaskId = mNetManager.getResultInThred(mApi.loginMobile(bind),response -> {
+            if(response.code == 0 && response.data != null && response.data._LOGIN_RESULT != null) {
+                if ("0000".equals(response.data._LOGIN_RESULT._CODE) || "6060".equals(response.data._LOGIN_RESULT._CODE)) {
+                    if (response.data._LOGIN_RESULT._VIP != null && response.data._LOGIN_RESULT._VIP._VIPDETAILS != null) {
+                        String phone = response.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_MOBILE;
+                        if (phone.startsWith("+86")) {
+                            response.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_MOBILE = phone.substring(3).trim();
+                        }
+                        initUserCoreData(response.data._LOGIN_RESULT);
+                    }
+                }  else if ("6070".equals(response.data._LOGIN_RESULT._CODE)) {
+                    initUserCoreData(response.data._LOGIN_RESULT);
+                } else {
+                    notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
+                }
+            }else {
+                notifyCoreDataChange(getCoreDataWrapper(false, LOGIN));
+            }
+        });
         return loginTaskId;
     }
 

@@ -24,6 +24,8 @@ import com.heaven.news.ui.model.vm.LoginVm;
 @Route(path = RouterUrl.ROUTER_URL_LOGIN)
 public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding> implements Observer<UserManager.CoreDataWrapper> {
 
+    int currentTab = 0;
+
     @Override
     public void initView(View rootView) {
         super.initView(rootView);
@@ -76,6 +78,7 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
 
     boolean hasCancelTip;
     private void updateLoginType(int type) {
+        currentTab = type;
         if(type == 0) {
             mViewBinding.count.setHint(R.string.login_phone_hint);
             mViewBinding.password.setHint(R.string.login_phone_code_hint);
@@ -118,8 +121,13 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
         if(TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {
             return;
         }
-        long taskId = AppEngine.instance().dataCore().login(count,passwords);
-        mViewModel.mNetManager.showLoadingDialog(this,true,taskId);
+        if(currentTab == 0) {
+            long taskId = AppEngine.instance().dataCore().loginByVerifyCode(count,passwords);
+            mViewModel.mNetManager.showLoadingDialog(this,true,taskId);
+        } else {
+            long taskId = AppEngine.instance().dataCore().login(count,passwords);
+            mViewModel.mNetManager.showLoadingDialog(this,true,taskId);
+        }
 
     }
 
