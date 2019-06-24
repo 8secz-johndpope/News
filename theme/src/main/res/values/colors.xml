@@ -13,6 +13,7 @@
     <color name="color_596ff">#0596FF</color>
     <color name="half_transparent">#4d000000</color>
     <color name="btn_invalid">#EDA6AA</color>
+    <color name="colors_ffe1c2">#FFE1C2</color>
 
     <color name="app_main_color">#ff8600</color>
     <color name="app_bg">#f2f2f2</color><!-- app应用统一的页面背景灰色 -->

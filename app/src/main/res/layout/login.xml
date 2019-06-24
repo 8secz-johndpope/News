@@ -23,7 +23,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-
+        <TextView
+            android:id="@+id/cancel_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colors_ffe1c2"
+            android:drawableRight="@drawable/tip_close"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:padding="@dimen/_10dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@string/login_password_tip"
+            android:textColor="@color/color_ee2934"
+            android:textSize="@dimen/_12sp"
+            android:visibility="gone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -69,6 +85,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/_15dp"
                 android:layout_marginRight="@dimen/_15dp"
+                android:textSize="@dimen/_15sp"
                 android:background="@null"
                 android:hint="@string/login_phone_hint"
                 android:text="@={userInfo.count}"
@@ -106,6 +123,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/password"
                 android:layout_marginLeft="@dimen/_15dp"
+                android:textSize="@dimen/_15sp"
                 android:background="@null"
                 android:hint="@string/login_phone_code_hint"
                 android:inputType=""
@@ -121,6 +139,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/_15sp"
                 android:id="@+id/send_code"
                 android:layout_marginRight="@dimen/_15dp"
                 app:layout_constraintStart_toEndOf="@+id/password"
@@ -170,6 +189,18 @@
             android:layout_marginRight="@dimen/_15dp"
             android:onClick="@{loginHandlers::login}"
             android:text="@string/login" />
+
+        <TextView
+            android:id="@+id/login_forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingTop="@dimen/_15dp"
+            android:paddingRight="@dimen/_15dp"
+            android:text="@string/login_forget_password"
+            android:textColor="@color/color_596ff"
+            android:textSize="@dimen/_15sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/go_regist"

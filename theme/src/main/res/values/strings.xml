@@ -69,6 +69,8 @@
     <string name="login_regist_now">马上注册</string>
     <string name="login_phone_hint">11位国内手机号码</string>
     <string name="login_phone_code_hint">请输入6位验证码</string>
+    <string name="login_password_tip">温馨提示：未绑定凤凰知音的用户请使用手机动态码登录</string>
+    <string name="login_forget_password">忘记密码</string>
     <!--凤凰知音-->
     <string name="phoenix_award_ticket">奖励客票</string>
     <string name="phoenix_shop">知音商城</string>
