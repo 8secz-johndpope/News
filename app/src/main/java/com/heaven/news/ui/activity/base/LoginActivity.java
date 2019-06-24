@@ -2,6 +2,7 @@ package com.heaven.news.ui.activity.base;
 
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,43 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
                 barName.setText(tabName);
                 mViewBinding.loginTab.addTab(mViewBinding.loginTab.newTab().setCustomView(barItem));
             }
+            mViewBinding.loginTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    updateLoginType(tab.getPosition());
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                    updateLoginType(tab.getPosition());
+
+                }
+            });
+        }
+    }
+
+    private void updateLoginType(int type) {
+        if(type == 0) {
+            mViewBinding.cancelTip.setVisibility(View.GONE);
+            mViewBinding.nameIcon.setImageResource(R.drawable.login_phone);
+            mViewBinding.passwordIcon.setImageResource(R.drawable.login_code);
+            mViewBinding.loginForgetPassword.setVisibility(View.GONE);
+        } else {
+            mViewBinding.cancelTip.setVisibility(View.VISIBLE);
+            mViewBinding.nameIcon.setImageResource(R.drawable.login_count);
+            mViewBinding.passwordIcon.setImageResource(R.drawable.login_password);
+            mViewBinding.loginForgetPassword.setVisibility(View.VISIBLE);
+            mViewBinding.cancelTip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mViewBinding.cancelTip.setVisibility(View.GONE);
+                }
+            });
         }
     }
 

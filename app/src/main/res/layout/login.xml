@@ -23,23 +23,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-        <TextView
-            android:id="@+id/cancel_tip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colors_ffe1c2"
-            android:drawableRight="@drawable/tip_close"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:padding="@dimen/_10dp"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="@string/login_password_tip"
-            android:textColor="@color/color_ee2934"
-            android:textSize="@dimen/_12sp"
-            android:visibility="gone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -64,7 +47,24 @@
                 app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/login_tab"
                 />
-
+            <TextView
+                android:id="@+id/cancel_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/login_tab"
+                android:background="@color/colors_ffe1c2"
+                android:drawableRight="@drawable/tip_close"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:padding="@dimen/_10dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="@string/login_password_tip"
+                android:textColor="@color/color_ee2934"
+                android:textSize="@dimen/_12sp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/name_icon"
@@ -76,7 +76,7 @@
                 android:src="@drawable/login_phone"
                 app:layout_constraintBottom_toTopOf="@+id/divider_line1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider_line"
+                app:layout_constraintTop_toBottomOf="@+id/cancel_tip"
                 />
 
 
