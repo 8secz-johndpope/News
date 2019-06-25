@@ -94,6 +94,10 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
             mViewBinding.password.setText("");
             mViewBinding.count.setText(mViewModel.userInfo.phone);
             mViewBinding.count.setHint(R.string.login_phone_hint);
+            if(!TextUtils.isEmpty(mViewModel.userInfo.phone)) {
+                mViewBinding.count.clearFocus();
+                mViewBinding.password.requestFocus();
+            }
             mViewBinding.password.setHint(R.string.login_phone_code_hint);
             mViewBinding.cancelTip.setVisibility(View.GONE);
             mViewBinding.nameIcon.setImageResource(R.drawable.login_phone);
@@ -113,6 +117,10 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
             mViewBinding.count.setText(mViewModel.userInfo.count);
             mViewBinding.password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD|InputType.TYPE_CLASS_TEXT);
             mViewBinding.password.setText("");
+            if(!TextUtils.isEmpty(mViewModel.userInfo.count)) {
+                mViewBinding.count.clearFocus();
+                mViewBinding.password.requestFocus();
+            }
             mViewBinding.count.setHint(R.string.login_phoenix_count_hint);
             mViewBinding.password.setHint(R.string.login_phoenix_password_hint);
             mViewBinding.count.clearFocus();
