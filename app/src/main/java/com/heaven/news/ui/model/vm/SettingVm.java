@@ -2,7 +2,6 @@ package com.heaven.news.ui.model.vm;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
-import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.heaven.news.consts.RouterUrl;
@@ -48,7 +47,7 @@ public class SettingVm extends AbstractVm {
             reqParm._UUID = AppEngine.instance().dataCore().getCoreDataWrapper().userId;
         }
         AppSettingWebServiceImplServiceSoapBinding binding = new AppSettingWebServiceImplServiceSoapBinding("operateSetting",operatesetting);
-        mNetManager.getResultInThred(mApi.querySettingSwitchState(binding),response ->{
+        netManager.getResultInThred(api.querySettingSwitchState(binding), response ->{
             if (response.code == 0 && response.data != null && response.data._APP_SETTING_RESULT != null) {
                 boolean msgState = "1".equals(response.data._APP_SETTING_RESULT._MSG_RECORD);
                 boolean barState = "1".equals(response.data._APP_SETTING_RESULT._NOTICE_BAR);

@@ -75,9 +75,9 @@ public class MainActivity extends BaseToolBarBindActivity<MainVm, MainBinding> i
     public void initView(View rootView) {
         super.initView(rootView);
         if(AppEngine.instance().dataCore().isLogining()) {
-            mViewModel.mNetManager.showLoadingDialog(this,true,AppEngine.instance().dataCore().loginTaskId);
+            mViewModel.netManager.showLoadingDialog(this,true,AppEngine.instance().dataCore().loginTaskId);
         } else {
-            mViewModel.mNetManager.disMassLoading();
+            mViewModel.netManager.disMassLoading();
         }
 
         final RxPermissions rxPermissions = new RxPermissions(this);
@@ -209,7 +209,7 @@ public class MainActivity extends BaseToolBarBindActivity<MainVm, MainBinding> i
     public void onChanged(@Nullable UserManager.CoreDataWrapper coreDataWrapper) {
         if(coreDataWrapper != null && UserManager.LOGIN == coreDataWrapper.dataType) {
             updateData();
-            mViewModel.mNetManager.disMassLoading();
+            mViewModel.netManager.disMassLoading();
         }
     }
 

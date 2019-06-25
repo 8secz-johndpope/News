@@ -50,7 +50,7 @@ public class SelectDateVm extends AbstractVm {
 
             priceUrl = "https://mobile.shenzhenair.com/develop/szairMobileWS/FetchCalendarPriceServlet?m=getCalendarPrice&dptcity=SZX&arrcity=PEK&dptdate=2019-06-25";
 
-            mNetManager.getResultInThred(mApi.getCalenarPrice(priceUrl), dataResponse -> {
+            netManager.getResultInThred(api.getCalenarPrice(priceUrl), dataResponse -> {
                 if(!TextUtils.isEmpty(dataResponse.data)) {
                     int index = dataResponse.data.indexOf("jsoncallback(");
                     if(index != -1){

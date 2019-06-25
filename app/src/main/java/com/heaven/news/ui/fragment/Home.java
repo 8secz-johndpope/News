@@ -2,6 +2,7 @@ package com.heaven.news.ui.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.heaven.base.ui.adapter.BaseMultAdapter;
 import com.heaven.base.ui.fragment.BaseBindFragment;
 import com.heaven.base.ui.view.widget.banner.XBanner;
 import com.heaven.base.utils.ScreenUtil;
+import com.heaven.data.net.DataResponse;
 import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
@@ -191,15 +193,10 @@ public class Home extends BaseBindFragment<MainVm, HomeBinding> implements Obser
         mViewBinding.noticeList.setAdapter(adapter);
         if (mViewModel.noticeList == null) {
             mViewBinding.noticeArea.setVisibility(View.GONE);
-//            mViewModel.requestNotice(noticeInfoListVOS -> {
-//                adapter.updateItems(noticeInfoListVOS);
-//                mViewBinding.noticeArea.setVisibility(View.VISIBLE);
-//            });
-
-            mViewModel.requestNoticeTest(new ResCallBack<List<noticeInfoListVO>>(this) {
+            mViewModel.requestNotice(new ResCallBack<List<noticeInfoListVO>>(this) {
                 @Override
-                public void onChanged(@Nullable List<noticeInfoListVO> noticeInfoListVOS) {
-                    adapter.updateItems(noticeInfoListVOS);
+                public void onChanged(DataResponse<List<noticeInfoListVO>> response) {
+                    adapter.updateItems(response.data);
                     mViewBinding.noticeArea.setVisibility(View.VISIBLE);
                 }
             });

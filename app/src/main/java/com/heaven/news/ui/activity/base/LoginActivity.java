@@ -123,10 +123,10 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
         }
         if(currentTab == 0) {
             long taskId = AppEngine.instance().dataCore().loginByVerifyCode(count,passwords);
-            mViewModel.mNetManager.showLoadingDialog(this,true,taskId);
+            mViewModel.netManager.showLoadingDialog(this,true,taskId);
         } else {
             long taskId = AppEngine.instance().dataCore().login(count,passwords);
-            mViewModel.mNetManager.showLoadingDialog(this,true,taskId);
+            mViewModel.netManager.showLoadingDialog(this,true,taskId);
         }
 
     }
@@ -134,7 +134,7 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
     @Override
     public void onChanged(@Nullable UserManager.CoreDataWrapper coreDataWrapper) {
         if (coreDataWrapper != null && UserManager.LOGIN == coreDataWrapper.dataType) {
-            mViewModel.mNetManager.disMassLoading();
+            mViewModel.netManager.disMassLoading();
             if (coreDataWrapper.isSuccess) {
                 if (AppEngine.instance().dataCore().isLogin()) {
                     AppEngine.instance().getDataSource().setSharePreBoolean(Constants.ISAUTOLOGIN, true);

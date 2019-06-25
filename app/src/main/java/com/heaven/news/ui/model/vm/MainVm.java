@@ -57,38 +57,17 @@ public class MainVm extends AbstractVm {
     /**
      * 请求首页公告
      */
-    public void requestNotice(Observer<List<noticeInfoListVO>> observer) {
-        noticeListLive.observe(owner,observer);
+    public void requestNotice(ResCallBack<List<noticeInfoListVO>> observer) {
         queryNoticeList noticelist = new queryNoticeList();
 
         noticelist._PAGE_NO = 0;
         noticelist._PAGE_COUNT = 3;
         NoticeListWebServiceServiceSoapBinding binding = new NoticeListWebServiceServiceSoapBinding("queryNoticeList",noticelist);
-        mNetManager.getResult(mApi.queryNoticeList(binding), dataResponse -> {
+        netManager.getResult(api.queryNoticeList(binding), dataResponse -> {
             if(dataResponse.code == 0 && dataResponse.data != null) {
                 if(dataResponse.data._NOTICE_INFO_LIST != null && dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST != null) {
                     noticeList = dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST;
-                    noticeListLive.setValue(noticeList);
-                    AppEngine.instance().getDataSource().cacheData(DataSource.DISK, Constants.NOTICE,noticeList);
-                }
-            }
-        });
-    }
-
-    /**
-     * 请求首页公告
-     */
-    public void requestNoticeTest(ResCallBack<List<noticeInfoListVO>> observer) {
-        queryNoticeList noticelist = new queryNoticeList();
-
-        noticelist._PAGE_NO = 0;
-        noticelist._PAGE_COUNT = 3;
-        NoticeListWebServiceServiceSoapBinding binding = new NoticeListWebServiceServiceSoapBinding("queryNoticeList",noticelist);
-        mNetManager.getResult(mApi.queryNoticeList(binding), dataResponse -> {
-            if(dataResponse.code == 0 && dataResponse.data != null) {
-                if(dataResponse.data._NOTICE_INFO_LIST != null && dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST != null) {
-                    noticeList = dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST;
-                    observer.updatSetValue(noticeList);
+                    observer.updateSuccessSetValue(noticeList);
                     AppEngine.instance().getDataSource().cacheData(DataSource.DISK, Constants.NOTICE,noticeList);
                 }
             }
@@ -104,7 +83,7 @@ public class MainVm extends AbstractVm {
         flightListLive.observe(owner,observer);
         FlightSearchWebServiceServiceSoapBinding binding = new FlightSearchWebServiceServiceSoapBinding("flightSearchDomestic",req);
         long startNanos = System.nanoTime();
-        long taskId = mNetManager.getResult(mApi.searchFlight(binding), response -> {
+        long taskId = netManager.getResult(api.searchFlight(binding), response -> {
             flightListLive.setValue(response);
             long stopNanos = System.nanoTime();
             Logger.i("mainmodel_time:proto" + TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos));
@@ -152,7 +131,7 @@ public class MainVm extends AbstractVm {
             }
             SearchFullchannelWebServiceImplServiceSoapBinding binding = new SearchFullchannelWebServiceImplServiceSoapBinding("searchByTrace",req);
 
-            mNetManager.getResult(mApi.searchByTrace(binding), response -> {
+            netManager.getResult(api.searchByTrace(binding), response -> {
                 if(response.code == 0 && response.data != null && response.data._SEARCH_TRACE_RESULT != null) {
                     routeListLive.setValue(response.data._SEARCH_TRACE_RESULT._FULL_CHANNEL);
                 } else {

@@ -18,10 +18,10 @@ import javax.inject.Inject;
  */
 public abstract class AbstractVm extends BaseViewModel {
     @Inject
-    IApi mApi;
+    IApi api;
 
     @Inject
-    public NetManager mNetManager;
+    public NetManager netManager;
 
     @Override
     public void inject() {

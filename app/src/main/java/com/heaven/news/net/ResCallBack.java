@@ -6,7 +6,9 @@ import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 
 import com.heaven.data.net.DataResponse;
+import com.neusoft.szair.model.noticelist.queryNoticeListResponse;
 
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -15,23 +17,40 @@ import io.reactivex.functions.Consumer;
  * email: heavenisme@aliyun.com
  * date: 2019-06-25 12:03
  *
+ * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
-public abstract class ResCallBack<T> extends LiveData<T> implements Observer<T> {
-
-    private LifecycleOwner owner;
-
-    public ResCallBack(LifecycleOwner owner) {
-        this.owner = owner;
+public abstract class ResCallBack<T> extends LiveData<DataResponse<T>> implements Observer<DataResponse<T>> {
+    protected ResCallBack(LifecycleOwner owner) {
         observe(owner,this);
     }
 
-    public void updatePostValue(T value) {
-        postValue(value);
+    public void updateSuccessPostValue(T value) {
+        DataResponse<T>  result = new DataResponse<>();
+        result.data = value;
+        postValue(result);
     }
 
-    public void updatSetValue(T value) {
-        setValue(value);
+    public void updateErrorPostValue(int code,String errorMsg) {
+        DataResponse<T>  result = new DataResponse<>();
+        result.code = code;
+        result.reason = errorMsg;
+        postValue(result);
     }
 
+    public void updateSuccessSetValue(T value) {
+        DataResponse<T>  result = new DataResponse<>();
+        result.data = value;
+        postValue(result);
+    }
+
+    public void updateErrorSetValue(int code,String errorMsg) {
+        DataResponse<T>  result = new DataResponse<>();
+        result.code = code;
+        result.reason = errorMsg;
+        postValue(result);
+    }
+
+    @Override
+    public abstract void onChanged(@NonNull DataResponse<T> tDataResponse);
 }
