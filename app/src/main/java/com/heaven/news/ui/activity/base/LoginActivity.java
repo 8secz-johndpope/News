@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.heaven.data.net.DataResponse;
 import com.heaven.news.R;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.LoginBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
+import com.heaven.news.net.BaseResCallBack;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.model.bean.base.UserInfo;
 import com.heaven.news.ui.model.vm.LoginVm;
@@ -46,8 +48,8 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
         mViewBinding.setLoginHandlers(this);
         mViewBinding.setViewModel(mViewModel);
         mViewBinding.setUserInfo(mViewModel.userInfo);
-        if(mViewModel.userInfo != null) {
-            if(mViewModel.userInfo.loginType == UserInfo.LOGIN_COUNT) {
+        if (mViewModel.userInfo != null) {
+            if (mViewModel.userInfo.loginType == UserInfo.LOGIN_COUNT) {
                 mViewBinding.loginTab.getTabAt(1).select();
             } else {
                 mViewBinding.loginTab.getTabAt(0).select();
@@ -59,8 +61,8 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
 
     private void initTab() {
         final String[] topBarList = getResources().getStringArray(R.array.login_item_name);
-        if(topBarList.length > 0) {
-            for(String tabName : topBarList) {
+        if (topBarList.length > 0) {
+            for (String tabName : topBarList) {
                 View barItem = LayoutInflater.from(this).inflate(R.layout.login_tab_item, null);
                 TextView barName = barItem.findViewById(R.id.bottom_bar_name);
                 barName.setText(tabName);
@@ -87,16 +89,19 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
     }
 
     boolean hasCancelTip;
+
     private void updateLoginType(int type) {
         currentTab = type;
-        if(type == 0) {
+        if (type == 0) {
             mViewBinding.password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_NUMBER_VARIATION_NORMAL);
             mViewBinding.password.setText("");
             mViewBinding.count.setText(mViewModel.userInfo.phone);
             mViewBinding.count.setHint(R.string.login_phone_hint);
-            if(!TextUtils.isEmpty(mViewModel.userInfo.phone)) {
+            if (!TextUtils.isEmpty(mViewModel.userInfo.phone)) {
                 mViewBinding.count.clearFocus();
                 mViewBinding.password.requestFocus();
+            } else {
+                mViewBinding.count.requestFocus();
             }
             mViewBinding.password.setHint(R.string.login_phone_code_hint);
             mViewBinding.cancelTip.setVisibility(View.GONE);
@@ -109,17 +114,19 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
                 hasCancelTip = true;
             });
         } else {
-            if(hasCancelTip) {
+            if (hasCancelTip) {
                 mViewBinding.cancelTip.setVisibility(View.GONE);
             } else {
                 mViewBinding.cancelTip.setVisibility(View.VISIBLE);
             }
             mViewBinding.count.setText(mViewModel.userInfo.count);
-            mViewBinding.password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD|InputType.TYPE_CLASS_TEXT);
+            mViewBinding.password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
             mViewBinding.password.setText("");
-            if(!TextUtils.isEmpty(mViewModel.userInfo.count)) {
+            if (!TextUtils.isEmpty(mViewModel.userInfo.count)) {
                 mViewBinding.count.clearFocus();
                 mViewBinding.password.requestFocus();
+            } else {
+                mViewBinding.count.requestFocus();
             }
             mViewBinding.count.setHint(R.string.login_phoenix_count_hint);
             mViewBinding.password.setHint(R.string.login_phoenix_password_hint);
@@ -142,17 +149,33 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
     public void login(View view) {
         String count = mViewBinding.count.getText().toString().trim();
         String passwords = mViewBinding.password.getText().toString().trim();
-        if(TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {
+        if (TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {
             return;
         }
-        if(currentTab == 0) {
-            long taskId = AppEngine.instance().dataCore().loginByVerifyCode(count,passwords);
-            mViewModel.netManager.showLoadingDialog(this,true,taskId);
+        if (currentTab == 0) {
+            long taskId = AppEngine.instance().dataCore().loginByVerifyCode(count, passwords);
+            mViewModel.netManager.showLoadingDialog(this, true, taskId);
         } else {
-            long taskId = AppEngine.instance().dataCore().login(count,passwords);
-            mViewModel.netManager.showLoadingDialog(this,true,taskId);
+            long taskId = AppEngine.instance().dataCore().login(count, passwords);
+            mViewModel.netManager.showLoadingDialog(this, true, taskId);
         }
 
+    }
+
+    public void requestVerifyCode(View view) {
+        String phoneNum = mViewBinding.count.getText().toString().trim();
+        if (!TextUtils.isEmpty(phoneNum)) {
+            long taskId = mViewModel.requestVerifyCode(phoneNum, new BaseResCallBack<Boolean>(this) {
+                @Override
+                public void onChanged(DataResponse<Boolean> response) {
+                    if (response.code == 0) {
+
+                    } else {
+
+                    }
+                }
+            });
+        }
     }
 
     @Override

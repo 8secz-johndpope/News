@@ -140,6 +140,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_15sp"
                 android:id="@+id/send_code"
+                android:onClick="@{loginHandlers::requestVerifyCode}"
                 android:layout_marginRight="@dimen/_15dp"
                 app:layout_constraintStart_toEndOf="@+id/password"
                 app:layout_constraintEnd_toEndOf="parent"
