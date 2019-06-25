@@ -90,7 +90,7 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
     private void updateLoginType(int type) {
         currentTab = type;
         if(type == 0) {
-            mViewBinding.password.setInputType(InputType.TYPE_CLASS_NUMBER);
+            mViewBinding.password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_NUMBER_VARIATION_NORMAL);
             mViewBinding.password.setText("");
             mViewBinding.count.setText(mViewModel.userInfo.phone);
             mViewBinding.count.setHint(R.string.login_phone_hint);
@@ -111,7 +111,7 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
                 mViewBinding.cancelTip.setVisibility(View.VISIBLE);
             }
             mViewBinding.count.setText(mViewModel.userInfo.count);
-            mViewBinding.password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            mViewBinding.password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD|InputType.TYPE_CLASS_TEXT);
             mViewBinding.password.setText("");
             mViewBinding.count.setHint(R.string.login_phoenix_count_hint);
             mViewBinding.password.setHint(R.string.login_phoenix_password_hint);
