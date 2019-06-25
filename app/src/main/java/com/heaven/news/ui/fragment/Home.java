@@ -2,7 +2,6 @@ package com.heaven.news.ui.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +24,7 @@ import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
-import com.heaven.news.net.ResCallBack;
+import com.heaven.news.net.BaseResCallBack;
 import com.heaven.news.ui.view.RecyclerViewDivider;
 import com.heaven.news.ui.model.holder.HomeBookGo;
 import com.heaven.news.ui.model.holder.HomeBookGoBack;
@@ -193,7 +192,7 @@ public class Home extends BaseBindFragment<MainVm, HomeBinding> implements Obser
         mViewBinding.noticeList.setAdapter(adapter);
         if (mViewModel.noticeList == null) {
             mViewBinding.noticeArea.setVisibility(View.GONE);
-            mViewModel.requestNotice(new ResCallBack<List<noticeInfoListVO>>(this) {
+            mViewModel.requestNotice(new BaseResCallBack<List<noticeInfoListVO>>(this) {
                 @Override
                 public void onChanged(DataResponse<List<noticeInfoListVO>> response) {
                     adapter.updateItems(response.data);

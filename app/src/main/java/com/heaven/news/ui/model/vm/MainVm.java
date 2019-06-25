@@ -12,7 +12,7 @@ import com.heaven.data.net.DataResponse;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
-import com.heaven.news.net.ResCallBack;
+import com.heaven.news.net.BaseResCallBack;
 import com.neusoft.szair.model.flightproto.FlightSearchDomesticResultVO;
 import com.neusoft.szair.model.flightsearch.FlightSearchWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
@@ -57,7 +57,7 @@ public class MainVm extends AbstractVm {
     /**
      * 请求首页公告
      */
-    public void requestNotice(ResCallBack<List<noticeInfoListVO>> observer) {
+    public void requestNotice(BaseResCallBack<List<noticeInfoListVO>> observer) {
         queryNoticeList noticelist = new queryNoticeList();
 
         noticelist._PAGE_NO = 0;

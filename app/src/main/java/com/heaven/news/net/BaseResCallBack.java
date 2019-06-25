@@ -12,7 +12,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
 /**
- * FileName: com.heaven.news.net.ResCallBack.java
+ * FileName: com.heaven.news.net.BaseResCallBack.java
  * author: Heaven
  * email: heavenisme@aliyun.com
  * date: 2019-06-25 12:03
@@ -20,8 +20,8 @@ import io.reactivex.functions.Consumer;
  * @author heaven
  * @version V1.0 TODO <描述当前版本功能>
  */
-public abstract class ResCallBack<T> extends LiveData<DataResponse<T>> implements Observer<DataResponse<T>> {
-    protected ResCallBack(LifecycleOwner owner) {
+public abstract class BaseResCallBack<T> extends LiveData<DataResponse<T>> implements Observer<DataResponse<T>> {
+    protected BaseResCallBack(LifecycleOwner owner) {
         observe(owner,this);
     }
 
