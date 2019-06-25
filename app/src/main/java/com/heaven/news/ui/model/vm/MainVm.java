@@ -12,6 +12,7 @@ import com.heaven.data.net.DataResponse;
 import com.heaven.news.consts.Constants;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
+import com.heaven.news.net.ResCallBack;
 import com.neusoft.szair.model.flightproto.FlightSearchDomesticResultVO;
 import com.neusoft.szair.model.flightsearch.FlightSearchWebServiceServiceSoapBinding;
 import com.neusoft.szair.model.flightsearch.flightSearchDomestic;
@@ -68,6 +69,26 @@ public class MainVm extends AbstractVm {
                 if(dataResponse.data._NOTICE_INFO_LIST != null && dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST != null) {
                     noticeList = dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST;
                     noticeListLive.setValue(noticeList);
+                    AppEngine.instance().getDataSource().cacheData(DataSource.DISK, Constants.NOTICE,noticeList);
+                }
+            }
+        });
+    }
+
+    /**
+     * 请求首页公告
+     */
+    public void requestNoticeTest(ResCallBack<List<noticeInfoListVO>> observer) {
+        queryNoticeList noticelist = new queryNoticeList();
+
+        noticelist._PAGE_NO = 0;
+        noticelist._PAGE_COUNT = 3;
+        NoticeListWebServiceServiceSoapBinding binding = new NoticeListWebServiceServiceSoapBinding("queryNoticeList",noticelist);
+        mNetManager.getResult(mApi.queryNoticeList(binding), dataResponse -> {
+            if(dataResponse.code == 0 && dataResponse.data != null) {
+                if(dataResponse.data._NOTICE_INFO_LIST != null && dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST != null) {
+                    noticeList = dataResponse.data._NOTICE_INFO_LIST._NOTICE_INFO_LIST;
+                    observer.updatSetValue(noticeList);
                     AppEngine.instance().getDataSource().cacheData(DataSource.DISK, Constants.NOTICE,noticeList);
                 }
             }

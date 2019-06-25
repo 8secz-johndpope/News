@@ -23,6 +23,7 @@ import com.heaven.news.R;
 import com.heaven.news.databinding.HomeBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
+import com.heaven.news.net.ResCallBack;
 import com.heaven.news.ui.view.RecyclerViewDivider;
 import com.heaven.news.ui.model.holder.HomeBookGo;
 import com.heaven.news.ui.model.holder.HomeBookGoBack;
@@ -61,6 +62,7 @@ import java.util.List;
 public class Home extends BaseBindFragment<MainVm, HomeBinding> implements Observer<UserManager.CoreDataWrapper> {
     BaseAdapter<ServiceInfo> mServiceAdapter;
     BaseMultAdapter recommendAdapter;
+
     @Override
     public int initLayoutResId() {
         return R.layout.home;
@@ -99,7 +101,7 @@ public class Home extends BaseBindFragment<MainVm, HomeBinding> implements Obser
         mViewBinding.banner.loadImage((banner, model, view, position) -> {
             ImageView imageView = view.findViewById(R.id.banner_image);
             ImageInfo iamgeInfo;
-            if(model instanceof ImageInfo) {
+            if (model instanceof ImageInfo) {
                 iamgeInfo = (ImageInfo) model;
             } else {
                 return;
@@ -120,17 +122,17 @@ public class Home extends BaseBindFragment<MainVm, HomeBinding> implements Obser
     private void initBookTab() {
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         final String[] bottomBarList = getResources().getStringArray(R.array.book_type);
-        BookData go = new BookData(1,mViewModel);
-        BookData goBack = new BookData(2,mViewModel);
-        BookData mult = new BookData(3,mViewModel);
-        ArrayList<BookData>  bookList = new ArrayList<>();
+        BookData go = new BookData(1, mViewModel);
+        BookData goBack = new BookData(2, mViewModel);
+        BookData mult = new BookData(3, mViewModel);
+        ArrayList<BookData> bookList = new ArrayList<>();
         bookList.add(go);
         bookList.add(goBack);
         bookList.add(mult);
-        BaseAdapter<BookData> adapter = new BaseAdapter<>(getContext(),bookList);
-        adapter.register(new HomeBookGo(BookData.class,R.layout.book_go));
-        adapter.register(new HomeBookGoBack(BookData.class,R.layout.book_go_back));
-        adapter.register(new HomeBookMult(BookData.class,R.layout.book_mult));
+        BaseAdapter<BookData> adapter = new BaseAdapter<>(getContext(), bookList);
+        adapter.register(new HomeBookGo(BookData.class, R.layout.book_go));
+        adapter.register(new HomeBookGoBack(BookData.class, R.layout.book_go_back));
+        adapter.register(new HomeBookMult(BookData.class, R.layout.book_mult));
         mViewBinding.bookArea.viewpager.setLayoutManager(layout);
         mViewBinding.bookArea.viewpager.setAdapter(adapter);
         mViewBinding.bookArea.bookTab.setScrollPosition(0, 0f, true);
@@ -140,8 +142,8 @@ public class Home extends BaseBindFragment<MainVm, HomeBinding> implements Obser
         });
 //        TabBindRecyclerUtil.bind(bookPager,tabLayout);
 
-        if(bottomBarList.length > 0) {
-            for(String tabName : bottomBarList) {
+        if (bottomBarList.length > 0) {
+            for (String tabName : bottomBarList) {
                 View barItem = LayoutInflater.from(getContext()).inflate(R.layout.bottom_tab_item, null);
                 TextView barName = barItem.findViewById(R.id.bottom_bar_name);
                 barName.setText(tabName);
@@ -183,15 +185,23 @@ public class Home extends BaseBindFragment<MainVm, HomeBinding> implements Obser
     private void initHomeNotice() {
         BaseAdapter<noticeInfoListVO> adapter = new BaseAdapter<>(getContext());
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        adapter.register(new HomeNoticeHolder(noticeInfoListVO.class,R.layout.home_notice_item));
-        mViewBinding.noticeList.addItemDecoration(new RecyclerViewDivider(getContext(),2,R.color.gray_e4));
+        adapter.register(new HomeNoticeHolder(noticeInfoListVO.class, R.layout.home_notice_item));
+        mViewBinding.noticeList.addItemDecoration(new RecyclerViewDivider(getContext(), 2, R.color.gray_e4));
         mViewBinding.noticeList.setLayoutManager(manager);
         mViewBinding.noticeList.setAdapter(adapter);
-        if(mViewModel.noticeList == null) {
+        if (mViewModel.noticeList == null) {
             mViewBinding.noticeArea.setVisibility(View.GONE);
-            mViewModel.requestNotice(noticeInfoListVOS -> {
-                adapter.updateItems(noticeInfoListVOS);
-                mViewBinding.noticeArea.setVisibility(View.VISIBLE);
+//            mViewModel.requestNotice(noticeInfoListVOS -> {
+//                adapter.updateItems(noticeInfoListVOS);
+//                mViewBinding.noticeArea.setVisibility(View.VISIBLE);
+//            });
+
+            mViewModel.requestNoticeTest(new ResCallBack<List<noticeInfoListVO>>(this) {
+                @Override
+                public void onChanged(@Nullable List<noticeInfoListVO> noticeInfoListVOS) {
+                    adapter.updateItems(noticeInfoListVOS);
+                    mViewBinding.noticeArea.setVisibility(View.VISIBLE);
+                }
             });
         } else {
             mViewBinding.noticeArea.setVisibility(View.VISIBLE);
@@ -250,7 +260,7 @@ public class Home extends BaseBindFragment<MainVm, HomeBinding> implements Obser
             Logger.d(response);
             AppEngine.instance().getNetManager().disMassLoading();
         });
-        AppEngine.instance().getNetManager().showLoadingDialog(getContext(),true,taskId);
+        AppEngine.instance().getNetManager().showLoadingDialog(getContext(), true, taskId);
 
     }
 
@@ -263,7 +273,7 @@ public class Home extends BaseBindFragment<MainVm, HomeBinding> implements Obser
                     bannerList = homeImageInfo.top;
                 }
             }
-            if(bannerList.size() == 0) {
+            if (bannerList.size() == 0) {
                 bannerList.add(new ImageInfo());
             }
             //刷新数据之后，需要重新设置是否支持自动轮播
@@ -282,12 +292,12 @@ public class Home extends BaseBindFragment<MainVm, HomeBinding> implements Obser
     @Override
     public void onChanged(@Nullable UserManager.CoreDataWrapper coreDataWrapper) {
         if (coreDataWrapper != null) {
-            if(UserManager.HOME == coreDataWrapper.dataType) {
+            if (UserManager.HOME == coreDataWrapper.dataType) {
                 updateBannerData();
-            } else if(UserManager.LOGIN == coreDataWrapper.dataType) {
-                recommendAdapter.notifyItemChanged(2,1);
-            } else if(UserManager.MILE == coreDataWrapper.dataType) {
-                recommendAdapter.notifyItemChanged(2,1);
+            } else if (UserManager.LOGIN == coreDataWrapper.dataType) {
+                recommendAdapter.notifyItemChanged(2, 1);
+            } else if (UserManager.MILE == coreDataWrapper.dataType) {
+                recommendAdapter.notifyItemChanged(2, 1);
             }
         }
     }
