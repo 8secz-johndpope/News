@@ -123,10 +123,10 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
         }
         if(currentTab == 0) {
             long taskId = AppEngine.instance().dataCore().loginByVerifyCode(count,passwords);
-            mViewModel.netManager.showLoadingDialog(this,true,taskId);
+            mViewModel.netManager.showLoadingDialog(getApplication(),true,taskId);
         } else {
             long taskId = AppEngine.instance().dataCore().login(count,passwords);
-            mViewModel.netManager.showLoadingDialog(this,true,taskId);
+            mViewModel.netManager.showLoadingDialog(getApplication(),true,taskId);
         }
 
     }
