@@ -214,7 +214,7 @@ public class UserManager {
         boolean isAutoLogin = dataSource.getSharePreBoolean(Constants.ISAUTOLOGIN);
         if (isAutoLogin) {
             UserInfo userSecret = dataSource.getCacheEntity(DataSource.DISK, Constants.USERINFO);
-            if (userSecret != null && !TextUtils.isEmpty(userSecret.count) && !TextUtils.isEmpty(userSecret.password)) {
+            if (userSecret != null && userSecret.loginType == UserInfo.LOGIN_COUNT && !TextUtils.isEmpty(userSecret.count) && !TextUtils.isEmpty(userSecret.password)) {
                 login(userSecret.count, userSecret.password);
             }
         }
@@ -288,7 +288,12 @@ public class UserManager {
                         if (phone.startsWith("+86")) {
                             response.data._LOGIN_RESULT._VIP._VIPDETAILS._LOGIN_MOBILE = phone.substring(3).trim();
                         }
+                        UserInfo userInfo = new UserInfo("","");
+                        userInfo.phone = phoneNum;
+                        userInfo.loginType = UserInfo.LOGIN_PHONE;
+                        userInfo.userInfo = response.data._LOGIN_RESULT;
                         initUserCoreData(response.data._LOGIN_RESULT);
+                        dataSource.cacheData(DataSource.DISK, Constants.USERINFO, userInfo);
                     }
                 }  else if ("6070".equals(response.data._LOGIN_RESULT._CODE)) {
                     initUserCoreData(response.data._LOGIN_RESULT);

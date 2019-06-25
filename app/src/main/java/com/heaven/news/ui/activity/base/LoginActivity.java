@@ -3,6 +3,7 @@ package com.heaven.news.ui.activity.base;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.heaven.news.databinding.LoginBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
+import com.heaven.news.ui.model.bean.base.UserInfo;
 import com.heaven.news.ui.model.vm.LoginVm;
 
 /**
@@ -44,6 +46,14 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
         mViewBinding.setLoginHandlers(this);
         mViewBinding.setViewModel(mViewModel);
         mViewBinding.setUserInfo(mViewModel.userInfo);
+        if(mViewModel.userInfo != null) {
+            if(mViewModel.userInfo.loginType == UserInfo.LOGIN_COUNT) {
+                mViewBinding.loginTab.getTabAt(1).select();
+            } else {
+                mViewBinding.loginTab.getTabAt(0).select();
+            }
+        }
+
     }
 
 
@@ -80,6 +90,9 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
     private void updateLoginType(int type) {
         currentTab = type;
         if(type == 0) {
+            mViewBinding.password.setInputType(InputType.TYPE_CLASS_NUMBER);
+            mViewBinding.password.setText("");
+            mViewBinding.count.setText(mViewModel.userInfo.phone);
             mViewBinding.count.setHint(R.string.login_phone_hint);
             mViewBinding.password.setHint(R.string.login_phone_code_hint);
             mViewBinding.cancelTip.setVisibility(View.GONE);
@@ -97,6 +110,9 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
             } else {
                 mViewBinding.cancelTip.setVisibility(View.VISIBLE);
             }
+            mViewBinding.count.setText(mViewModel.userInfo.count);
+            mViewBinding.password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            mViewBinding.password.setText("");
             mViewBinding.count.setHint(R.string.login_phoenix_count_hint);
             mViewBinding.password.setHint(R.string.login_phoenix_password_hint);
             mViewBinding.count.clearFocus();
@@ -116,17 +132,17 @@ public class LoginActivity extends BaseToolBarBindActivity<LoginVm, LoginBinding
     //    @Permission(value = Manifest.permission.READ_CONTACTS)
 //    @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void login(View view) {
-        String count = mViewModel.userInfo.count;
-        String passwords = mViewModel.userInfo.password;
+        String count = mViewBinding.count.getText().toString().trim();
+        String passwords = mViewBinding.password.getText().toString().trim();
         if(TextUtils.isEmpty(count) || TextUtils.isEmpty(passwords)) {
             return;
         }
         if(currentTab == 0) {
             long taskId = AppEngine.instance().dataCore().loginByVerifyCode(count,passwords);
-            mViewModel.netManager.showLoadingDialog(getApplication(),true,taskId);
+            mViewModel.netManager.showLoadingDialog(this,true,taskId);
         } else {
             long taskId = AppEngine.instance().dataCore().login(count,passwords);
-            mViewModel.netManager.showLoadingDialog(getApplication(),true,taskId);
+            mViewModel.netManager.showLoadingDialog(this,true,taskId);
         }
 
     }

@@ -21,9 +21,14 @@ import java.io.Serializable;
  */
 public class UserInfo extends BaseObservable implements Serializable {
     private static final long serialVersionUID = 7719902835531801103L;
+    public static int LOGIN_COUNT = 0;
+    public static int LOGIN_PHONE = 1;
+
+    public int loginType = LOGIN_COUNT;
     public String key;
     public String userId;
     public String count;
+    public String phone;
     public String password;
     public String secretPwd;
     public queryRespVO userInfo;
