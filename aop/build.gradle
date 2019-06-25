@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+apply plugin: 'android-aspectjx'
+//apply plugin: 'com.novoda.bintray-release'
+android {
+    compileSdkVersion build_info.target_sdk
+
+
+    defaultConfig {
+        minSdkVersion               build_info.min_sdk
+        targetSdkVersion            build_info.target_sdk
+        versionCode                 app.versionCode
+        versionName                 app.versionName
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'  // Some libraries have issues with this
+        disable 'OldTargetApi'
+        // Due to Robolectric that modifies the manifest when running tests
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api netDep.rxAndroid
+    api domainDep.rxJava
+}

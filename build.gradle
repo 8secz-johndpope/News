@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.0'
         classpath build_info.realm
+        classpath build_info.aspectjrtplugin
 //        classpath build_info.bintray
         //格式为-->group:module:version
 //        classpath build_info.heaven
