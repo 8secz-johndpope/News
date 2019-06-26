@@ -47,6 +47,7 @@ dependencies {
     api netDep.rxAndroid
     api netDep.retrofit
     api netDep.logger
+//    api domainDep.rxJava
 //    api netDep.loggingInterceptor
 //    api netDep.protostuffcore
 //    api netDep.protostuffruntime

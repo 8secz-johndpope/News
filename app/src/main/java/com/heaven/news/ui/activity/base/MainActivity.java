@@ -20,6 +20,7 @@ import com.heaven.news.consts.RouterUrl;
 import com.heaven.news.databinding.MainBinding;
 import com.heaven.news.engine.AppEngine;
 import com.heaven.news.engine.manager.UserManager;
+import com.heaven.news.tools.permissions.RxPermissions;
 import com.heaven.news.ui.adapter.FragmentPagerAdapter;
 import com.heaven.news.ui.base.BaseToolBarBindActivity;
 import com.heaven.news.ui.fragment.EasyGo;
@@ -29,7 +30,6 @@ import com.heaven.news.ui.fragment.Phoenix;
 import com.heaven.news.ui.fragment.Route;
 import com.heaven.news.ui.model.vm.MainVm;
 import com.orhanobut.logger.Logger;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.Arrays;

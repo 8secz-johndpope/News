@@ -55,7 +55,6 @@ versions.aroutercompiler = '1.2.2'
 /*********************otherversion*******************/
 versions.rxJavaVersion = '2.2.0'
 versions.rxAndroidVersion = '2.0.2'
-versions.rxpermissions2Version = '0.8.2'
 versions.retrofitVersion = '2.5.0'
 versions.okHttpVersion = '3.14.0'
 versions.protostuffcoreVersion = '1.6.0'
@@ -142,7 +141,6 @@ netDep.okHttp = "com.squareup.okhttp3:okhttp:$versions.okHttpVersion"
 netDep.gson = "com.google.code.gson:gson:$versions.gsonVersion"
 netDep.rxJavaAdapter = "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofitVersion"
 netDep.rxAndroid = "io.reactivex.rxjava2:rxandroid:$versions.rxAndroidVersion"
-netDep.rxpermissions2 = "com.tbruyelle.rxpermissions2:rxpermissions:${versions.rxpermissions2Version}@aar"
 netDep.javaxInject = "javax.inject:javax.inject:$versions.javaxInjectVersion"
 netDep.androidAnnotations = "com.android.support:support-annotations:$versions.viewExtraVersion"
 netDep.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofitVersion"

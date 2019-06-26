@@ -40,5 +40,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api netDep.rxAndroid
-    api domainDep.rxJava
+//    api domainDep.rxJava
 }

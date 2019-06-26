@@ -21,14 +21,16 @@ import com.heaven.base.ui.adapter.anim.ScaleInAnimation;
 import com.heaven.base.ui.adapter.viewholder.BaseMultItem;
 import com.heaven.base.ui.adapter.viewholder.BaseViewHolder;
 import com.heaven.base.ui.adapter.viewholder.MultTypeManager;
-import com.heaven.data.util.RxDataSchedulers;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.FlowableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * FileName: com.heaven.base.ui.adapter.BaseMultAdapter.java
@@ -39,6 +41,15 @@ import io.reactivex.disposables.Disposable;
  * @version V1.0 多类型适配器
  */
 public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+    private  final FlowableTransformer<?, ?> mIoMainTransformer
+            = flowable -> flowable
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread());
+
+    @SuppressWarnings("unchecked")
+    private  <T> FlowableTransformer<T, T> io_main() {
+        return (FlowableTransformer<T, T>) mIoMainTransformer;
+    }
     private List<?> dataItems;
     private List<?> diffNewDataItems = new ArrayList<>();
     private MultTypeManager multTypeManager = new MultTypeManager();
@@ -197,7 +208,7 @@ public class BaseMultAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public void diffUpdate(List<?> diffNewDataItems) {
         this.diffNewDataItems = diffNewDataItems;
         Disposable disposable = Flowable.just(DiffUtil.calculateDiff(diffCallBack, true))
-                .compose(RxDataSchedulers.io_main())
+                .compose(io_main())
                 .subscribe(diffResult -> {
                     diffResult.dispatchUpdatesTo(this);
                     dataItems = diffNewDataItems;
