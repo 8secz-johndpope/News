@@ -54,7 +54,7 @@ versions.aroutercompiler = '1.2.2'
 
 /*********************otherversion*******************/
 versions.rxJavaVersion = '2.2.0'
-versions.rxAndroidVersion = '2.0.2'
+versions.rxAndroidVersion = '2.1.0'
 versions.retrofitVersion = '2.5.0'
 versions.okHttpVersion = '3.14.0'
 versions.protostuffcoreVersion = '1.6.0'
